@@ -74,6 +74,13 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
 
   await runWebpack([syncCoreConfig, asyncConfig])
 
+  // subPackageIndie 自包含:把刚产出的同步核 taro-shared-sync.js 拷进每个 mainPackageRoot。
+  // subPackageIndie 会把 app.js 等 runtime chunks 搬进 mainPackageRoot 目录,app.js 头部的
+  // require("./taro-shared-sync") 是"同级"引用——同步核也必须在同目录才对。根级那份保留
+  // (ENTRY / F6 native-components 仍从根级 require)。mainPackageRoots 由 MiniPlugin.apply
+  // 反向挂在 combination 上;非 subPackageIndie 场景该列表为空,此步跳过。
+  copySyncCoreIntoMainPackageRoots(outputDir, combination.subPackageIndiePlugin?.getAllMainPackageRoots?.() || [])
+
   // 生成 shared-async 占位入口：index.js 同步 require 真实 chunk（async-provider.js），
   // 微信 require.async 只能加载 app.json 注册过的分包页面入口。
   const asyncDir = path.join(outputDir, SHARED_ASYNC_ROOT)
@@ -88,6 +95,37 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
 
   // dist 自带运行时：把 shared-async 注册进本项目 dist/app.json + 配 preloadRule，使 dist 可直接被开发者工具打开。
   registerAsyncSubPackage(outputDir, fileType.config || '.json')
+}
+
+/**
+ * subPackageIndie 自包含:把 outputDir 根的 taro-shared-sync.js(及其 .LICENSE.txt)拷进每个
+ * mainPackageRoot 目录,使其与被 subPackageIndie 搬进去的 app.js 同级(app.js 头部 require 的是
+ * "./taro-shared-sync",天然同级)。mainPackageRoots 为空时(非 subPackageIndie)直接跳过。
+ *
+ * 拷贝后清理根级冗余:subPackageIndie 的 optimizeAssets 已删掉根级 app.js(SubPackageIndiePlugin
+ * 接管了根级 ENTRY),故根级 taro-shared-sync.js 不再有消费者(ENTRY app.js 没了;native-components
+ * 是互斥的另一种构建,不会有 mainPackageRoot)。此时删根级那份,与 taro-blended-project@main 的
+ * 产物结构对齐(businessRoot 根不含同步核)。保守判断:仅当根级确无 app.js 时才删,避免误伤。
+ */
+function copySyncCoreIntoMainPackageRoots (outputDir: string, mainPackageRoots: string[]) {
+  if (!mainPackageRoots.length) return
+  const syncCoreFile = `${SHARED_SYNC_CORE_NAME}.js`
+  const src = path.join(outputDir, syncCoreFile)
+  if (!fs.existsSync(src)) return
+  const licenseFile = `${syncCoreFile}.LICENSE.txt`
+  const licenseSrc = path.join(outputDir, licenseFile)
+  const hasLicense = fs.existsSync(licenseSrc)
+  for (const root of mainPackageRoots) {
+    const destDir = path.join(outputDir, root)
+    if (!fs.existsSync(destDir)) continue
+    fs.copySync(src, path.join(destDir, syncCoreFile), { overwrite: true })
+    if (hasLicense) fs.copySync(licenseSrc, path.join(destDir, licenseFile), { overwrite: true })
+  }
+  // 根级冗余清理:根级 app.js 已被 subPackageIndie 删除 → 根级同步核无消费者,删之对齐 main。
+  if (!fs.existsSync(path.join(outputDir, 'app.js'))) {
+    fs.removeSync(src)
+    if (hasLicense) fs.removeSync(licenseSrc)
+  }
 }
 
 /**

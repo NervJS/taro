@@ -1,10 +1,10 @@
 import path from 'node:path'
 
 import { fs, META_TYPE, printLog, processTypeEnum, promoteRelativePath, resolveMainFilePath, taroJsComponents } from '@tarojs/helper'
-import { urlToRequest } from 'loader-utils'
 
+import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
 import { componentConfig } from '../utils/component'
-import { addRequireToSource } from '../utils/webpack'
+import { addRequireToSource, buildRootStyleImport } from '../utils/webpack'
 import {
   baseCompName,
   customWrapperName,
@@ -277,7 +277,7 @@ export default class SubPackageIndiePlugin {
         if (indieMatch.isMainPackageRoot) {
           return {
             ...context,
-            importStatement: `@import ${JSON.stringify(urlToRequest('./app' + this.options.fileType.style))};\n`,
+            importStatement: this.buildMainRootAppStyleImport(page.name, indieMatch.root),
             shouldSkip: false,
             isMainPackageRoot: true,
           }
@@ -294,7 +294,7 @@ export default class SubPackageIndiePlugin {
       if (indieMatch.isMainPackageRoot) {
         return {
           ...context,
-          importStatement: `@import ${JSON.stringify(urlToRequest('./app' + this.options.fileType.style))};\n`,
+          importStatement: this.buildMainRootAppStyleImport(page.name, indieMatch.root),
           shouldSkip: false,
           isMainPackageRoot: true,
         }
@@ -302,6 +302,41 @@ export default class SubPackageIndiePlugin {
 
       return context
     })
+  }
+
+  /**
+   * mainPackageRoot 页面/组件 wxss 里 @import app 样式的语句。
+   * app 样式(app.wxss)随 runtime chunks 落在**归一化后**的 mainPackageRoot(normalizeIndieRoot 会砍掉
+   * 末尾 /index),而页面 wxss 落在 `${page.name}/<basename>.wxss`——两者深度可能不同(如 page
+   * pages/order/index/index 与 root pages/order,页面深一级)。故不能硬编码 './app',要按页面 wxss 目录
+   * 到 `${root}/app` 重算,算法与 MiniPlugin 默认样式注入(path.dirname(pageStyle) → app 样式)一致。
+   */
+  buildMainRootAppStyleImport (pageName: string, root: string): string {
+    const styleExt = this.options.fileType.style
+    return buildRootStyleImport(`${pageName}${styleExt}`, `${root}/app${styleExt}`)
+  }
+
+  /**
+   * 生成注入 app.js 的 __taroRegisterRecursiveComponent(供各 root 的 comp.js 调用注册递归基础组件)。
+   * 递归组件配置由 @tarojs/runtime 的 createRecursiveComponentConfig 提供。
+   * - vanilla:@tarojs/runtime 打进本包 webpack 模块,registrar 遍历 __webpack_require__.c/.m 找到它。
+   * - 方案二共享运行时:@tarojs/runtime 被 external 到共享全局(wx.__TARO_RT_ASYNC_V*__),**不在**
+   *   webpack 模块里,原遍历必然失败 → throw。故 sharedRuntime 下在遍历前先查共享全局。
+   *   严格 gate:非 sharedRuntime 产出与原字符串逐字节一致,vanilla 零回归。
+   */
+  buildRecursiveComponentRegistrarExpr (): string {
+    const sharedRuntime = !!this.options.combination.config.sharedRuntime
+    // 共享全局查找片段:sharedRuntime 时在 webpack 模块遍历之前先试共享全局的 @tarojs/runtime。
+    // globalObject(wx/my/swan…)与全局 key 均取自单一来源,拼进运行时字符串。
+    let sharedLookup = ''
+    if (sharedRuntime) {
+      const globalObject = this.options.combination.config.output?.globalObject || 'wx'
+      const g = `${globalObject}[${JSON.stringify(SHARED_GLOBAL_ASYNC)}]`
+      sharedLookup =
+        `var g=typeof ${globalObject}!=="undefined"?${g}:undefined;` +
+        `if(g&&g["@tarojs/runtime"]&&typeof g["@tarojs/runtime"].createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=g["@tarojs/runtime"].createRecursiveComponentConfig;}`
+    }
+    return `(typeof globalThis.__taroRegisterRecursiveComponent==="function"||(globalThis.__taroRegisterRecursiveComponent=function(componentName,forceCustomWrapper){let createRecursiveComponentConfig;${sharedLookup}if(typeof createRecursiveComponentConfig!=="function"){const cache=__webpack_require__.c||{};for(const key in cache){const exports=cache[key]&&cache[key].exports;if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){const modules=__webpack_require__.m||{};for(const moduleId in modules){const moduleFactory=modules[moduleId];if(!moduleFactory||typeof moduleFactory!=="function")continue;const source=String(moduleFactory);if(source.indexOf("createRecursiveComponentConfig")===-1)continue;const exports=__webpack_require__(moduleId);if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){throw new Error("Cannot find createRecursiveComponentConfig in webpack modules");}Component(createRecursiveComponentConfig(componentName,forceCustomWrapper));}))`
   }
 
   getRootRelativePath (fromPath: string, root: string, targetPath: string) {
@@ -1272,7 +1307,7 @@ registerRecursiveComponent(${args.join(', ')})
     if (appJsContent) {
       const { RawSource } = compiler.webpack.sources
       const originalSource = String((appJsContent as any).source?.() || String(appJsContent))
-      const registrarExpr = `(typeof globalThis.__taroRegisterRecursiveComponent==="function"||(globalThis.__taroRegisterRecursiveComponent=function(componentName,forceCustomWrapper){const cache=__webpack_require__.c||{};let createRecursiveComponentConfig;for(const key in cache){const exports=cache[key]&&cache[key].exports;if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}if(typeof createRecursiveComponentConfig!=="function"){const modules=__webpack_require__.m||{};for(const moduleId in modules){const moduleFactory=modules[moduleId];if(!moduleFactory||typeof moduleFactory!=="function")continue;const source=String(moduleFactory);if(source.indexOf("createRecursiveComponentConfig")===-1)continue;const exports=__webpack_require__(moduleId);if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){throw new Error("Cannot find createRecursiveComponentConfig in webpack modules");}Component(createRecursiveComponentConfig(componentName,forceCustomWrapper));}))`
+      const registrarExpr = this.buildRecursiveComponentRegistrarExpr()
       let patchedSource = originalSource
 
       if (/,\s*exports\.taroApp\s*=/.test(patchedSource)) {
@@ -1292,6 +1327,10 @@ registerRecursiveComponent(${args.join(', ')})
             ? patchedAppJsContent
             : compilation.assets[jsFile]
 
+          // 方案二共享运行时:app.js 头部的 require("./taro-shared-sync")(TaroInjectSyncCorePlugin
+          // 按根级 chunk-id 'app' 注入,天然是"同级"形态)保持不动。同步核文件本身会由
+          // buildSharedRuntime 在子构建产出后拷进 ${mainPackageRoot}/,与此处的 app.js 同级
+          // (subPackageIndie "每个 root 自包含" 原则),故这个同级 require 直接正确,无需重算。
           compilation.assets[`${mainPackageRoot}/${jsFile}`] = jsContent
         }
 
@@ -1312,3 +1351,5 @@ registerRecursiveComponent(${args.join(', ')})
     })
   }
 }
+
+
