@@ -286,18 +286,28 @@ export default class Project extends Creator {
       { name: 'React Native', value: 'rn' }
     ]
 
-    if (!isArray(conf.platforms)) {
-      prompts.push({
-        type: 'checkbox',
-        name: 'platforms',
-        message: '请选择需要支持的平台？',
-        choices: platformChoices,
-        default: ['weapp', 'h5'],
-        validate (input: string[]) {
-          return input.length > 0 || '请至少选择一个平台！'
-        }
-      })
+    if (isArray(conf.platforms)) {
+      const supportedPlatforms = new Set(platformChoices.map(choice => choice.value))
+      const invalidPlatforms = conf.platforms.filter(
+        platform => !supportedPlatforms.has(platform)
+      )
+
+      if (conf.platforms.length === 0 || invalidPlatforms.length > 0) {
+        throw new Error(`无效的平台配置: ${invalidPlatforms.join(', ') || '未选择平台'}`)
+      }
+      return
     }
+
+    prompts.push({
+      type: 'checkbox',
+      name: 'platforms',
+      message: '请选择需要支持的平台？',
+      choices: platformChoices,
+      default: ['weapp', 'h5'],
+      validate (input: string[]) {
+        return input.length > 0 || '请至少选择一个平台！'
+      }
+    })
   }
 
   askCompiler: AskMethods = function (conf, prompts) {
