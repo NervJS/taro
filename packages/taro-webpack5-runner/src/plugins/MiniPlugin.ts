@@ -236,7 +236,13 @@ export default class TaroMiniPlugin {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
 
-    this.applySubPackageIndiePlugin()
+    if (this.options.newBlended) {
+      this.subPackageIndiePlugin = new SubPackageIndiePlugin(this)
+      this.subPackageIndiePlugin.apply()
+      // 反向挂到 combination,供主构建结束后的 buildSharedRuntime 读取 mainPackageRoots
+      // (把同步核 taro-shared-sync.js 拷进每个 mainPackageRoot,实现 subPackageIndie 自包含)。
+      this.options.combination.subPackageIndiePlugin = this.subPackageIndiePlugin
+    }
 
     const {
       commonChunks,

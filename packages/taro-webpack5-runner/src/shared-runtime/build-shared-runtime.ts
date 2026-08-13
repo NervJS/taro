@@ -211,6 +211,13 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   // 反向挂在 combination 上；非 subPackageIndie 场景该列表为空，此步跳过。
   copySyncCoreIntoMainPackageRoots(outputDir, combination.subPackageIndiePlugin?.getAllMainPackageRoots?.() || [])
 
+  // subPackageIndie 自包含:把刚产出的同步核 taro-shared-sync.js 拷进每个 mainPackageRoot。
+  // subPackageIndie 会把 app.js 等 runtime chunks 搬进 mainPackageRoot 目录,app.js 头部的
+  // require("./taro-shared-sync") 是"同级"引用——同步核也必须在同目录才对。根级那份保留
+  // (ENTRY / F6 native-components 仍从根级 require)。mainPackageRoots 由 MiniPlugin.apply
+  // 反向挂在 combination 上;非 subPackageIndie 场景该列表为空,此步跳过。
+  copySyncCoreIntoMainPackageRoots(outputDir, combination.subPackageIndiePlugin?.getAllMainPackageRoots?.() || [])
+
   // 生成 shared-async 占位入口：index.js 同步 require 真实 chunk（async-provider.js），
   // 微信 require.async 只能加载 app.json 注册过的分包页面入口。
   const asyncDir = path.join(outputDir, SHARED_ASYNC_ROOT)

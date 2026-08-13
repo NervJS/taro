@@ -11,12 +11,16 @@ import { MiniBaseConfig } from './MiniBaseConfig'
 import { MiniWebpackModule } from './MiniWebpackModule'
 import { MiniWebpackPlugin } from './MiniWebpackPlugin'
 
+import type SubPackageIndiePlugin from '../plugins/SubPackageIndiePlugin'
 import type { IFileType, IMiniBuildConfig } from '../utils/types'
 
 export class MiniCombination extends Combination<IMiniBuildConfig> {
   buildNativePlugin: BuildNativePlugin
   fileType: IFileType
   isBuildPlugin = false
+  // subPackageIndie(--new-blended)场景下,MiniPlugin.apply 把 SubPackageIndiePlugin 实例反向挂这里,
+  // 供主构建结束后的 buildSharedRuntime 读取 mainPackageRoots(把同步核拷进每个 mainPackageRoot 实现自包含)。
+  subPackageIndiePlugin?: SubPackageIndiePlugin
   optimizeMainPackage: { enable?: boolean | undefined, exclude?: any[] | undefined } = {
     enable: true
   }
