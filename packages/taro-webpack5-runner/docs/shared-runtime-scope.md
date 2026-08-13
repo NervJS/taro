@@ -42,9 +42,31 @@ taro build native-components --type weapp --shared-runtime --shared-runtime-mode
 > 独立分包冷启动跳过主包、且**运行时隔离**——访问不到主包/其他分包的资源。即使 native-comp 的 chunk 顶部注入了同步核,同步核要 `require.async('shared-async-v1/index')` 去拉异步核,而 `shared-async-v1` 是主包区域的普通分包 → 独立分包内拉不到 → 崩。
 > 这与 pages 模式的独立分包问题同源,但 **CLI 拦不住**:`--shared-runtime` 的独立分包 fail-fast(见下方"❌ 不适用 · 4")检查的是**当前构建项目**的 `app.config.subPackages[].independent`,而 native-comp 编译产物没有 app.json、不声明业务分包;组件被放进哪种分包完全是**宿主接入方的布局决策**,构建期无从得知。故此约束只能靠接入约定保证:宿主用 `usingComponents` 引用共享 native-comp 的页面,不得位于独立分包内。
 
+### 3. subPackageIndie(`--new-blended` 自包含分包)
+
+Taro 自有的 `AppConfig.subPackageIndie`(4.1.x 起,`--new-blended` 混合模式下解决"微信禁止跨分包 `<import>`/`require()`"的编译期特性,**与微信原生 `independent: true` 无关**)与 `--shared-runtime` **可共存**。
+
+**机制**:subPackageIndie 会把 runtime chunks(含 `app.js`、`app.wxss`)拷到 `mainPackageRoot`(经 `normalizeIndieRoot` 归一化——末尾 `/index` 会被砍掉:`page.name` 形如"目录/文件名",如 `pages/index/index` 归一化为页面**目录** `pages/index`),并删掉 outputDir 根级的 `app.js`。归一化后 chunks 与页面文件**同级共存**于 `dist/<归一化 root>/`(如 `dist/pages/index/{app.js, runtime.js, vendors.js, base.wxml, index.js, index.wxml, index.wxss}`),与 `sub1/` 等 subPackageRoots **平级**——与 `taro-blended-project@main` 的 `pages/order/pages/{index,sub1,...}` 结构同构。
+
+shared-runtime 与 subPackageIndie 组合时,有三处需要适配:
+
+1. **同步核 `taro-shared-sync.js` 随 app.js 进 mainPackageRoot**。`TaroInjectSyncCorePlugin` 按根级 chunk-id `app` 注入 `require("./taro-shared-sync")`(同级形态)。subPackageIndie 把 app.js 搬进 `mainPackageRoot/` 后,同步核也必须同目录才能让这个"同级 require"成立——这正符合 subPackageIndie"每个 root 自包含、零跨 root 引用"的设计初衷。实现:`build-shared-runtime.ts` 的 `copySyncCoreIntoMainPackageRoots` 在同步核子构建产出后,把 `outputDir/taro-shared-sync.js`(+ `.LICENSE.txt`)拷进每个 mainPackageRoot;**并删掉 outputDir 根级那份**(subPackageIndie 已删根级 app.js → 根级同步核无消费者,对齐 main 分支"businessRoot 根不含同步核")。删除双保险:仅当 `mainPackageRoots` 非空**且**根级 `app.js` 已不存在时才删,不误伤 basic/order(根级有 app.js)/native(有 native-comp PAGE chunk 消费根级同步核)。app.js 里的 require 字符串**保持原样不重算**(同级 `./taro-shared-sync` 天然正确)。
+2. **页面 wxss 里 `@import` app 样式**(`modifyStyleImport` hook 注入)。这是 subPackageIndie **固有 bug**(vanilla 无 shared-runtime 也复现),原实现硬编码 `./app.wxss`,但页面 wxss 与 app.wxss 的相对深度取决于目录结构。修复:`buildMainRootAppStyleImport` 按页面 wxss 目录到 `${归一化 root}/app.wxss` 重算(复用 `utils/webpack.buildRootStyleImport`,与 MiniPlugin 默认样式注入同款 `path.posix.relative(dirname(pageStyle), ...)` 算法)。此修复不 gate 在 sharedRuntime,vanilla subPackageIndie 一并受益。Example indie 变体实测:页面与 app.wxss 同级 → `@import "./app.wxss"`(通用重算的同级分支);若页面比 app 样式深,则产出 `../` 前缀。
+3. **递归组件 registrar 找 `createRecursiveComponentConfig`**(subPackageRoots 的 `comp.js` 调 `__taroRegisterRecursiveComponent`,该函数遍历本包 webpack 模块找 `@tarojs/runtime` 的 `createRecursiveComponentConfig`)。shared-runtime 下 `@tarojs/runtime` 被 external 到共享全局、**不在** webpack 模块里,遍历必然失败 → `throw`。修复:`buildRecursiveComponentRegistrarExpr` 在 sharedRuntime 下,于遍历前先查共享全局 `<globalObject>.__TARO_RT_ASYNC_V*__['@tarojs/runtime'].createRecursiveComponentConfig`;非 sharedRuntime 字节不变。与目录结构无关,是 shared-runtime × 递归组件的独立冲突(注:`mainPackageRoot` 用 `disableRecursiveComponent: true` 可让主根不生成递归组件,绕开主根这一路径,但 subPackageRoots 仍会触发,故此修复必需)。
+
+**数据管道**:`buildSharedRuntime(combination)` 在主构建结束后跑,需要 mainPackageRoots 列表。`MiniPlugin.apply` 把 `subPackageIndiePlugin` 实例反向挂到 `combination.subPackageIndiePlugin`,`buildSharedRuntime` 读 `combination.subPackageIndiePlugin?.getAllMainPackageRoots?.()` 即可;非 subPackageIndie 场景该列表为空,拷贝/删除步骤整体跳过。
+
+**边界**:
+- `subPackageRoots`(非 mainPackageRoot 的子分包)**不含 runtime chunks / 同步核**(会被 mainPackageRoot 组件异步加载),无 app.js/app.wxss 路径需重算;但其 `comp.js` 仍走递归组件 registrar(修复 3 覆盖)。
+- 多 mainPackageRoot:同步核每 root 各拷一份(~104KB/份),与 subPackageIndie 现有 app.js/runtime.js/vendors.js 每 root 一份的设计取向一致。拷贝源就是根级刚产出的同一份,版本天然一致。
+- **shared-async 子包**始终只在 outputDir 根一份,不随 subPackageIndie 搬运;`require.async('shared-async-v1/index')` 是同步核自身构建时烧定的路径,与 app.js/同步核位置无关,不受影响。
+- **未探索**:subPackageIndie 与 `native-components`(F6)同时启用的交叉(两者都改 chunk 落点,且 native-comp 消费根级同步核——若与 subPackageIndie 并存,根级删除逻辑需重新评估)——本次只覆盖 pages 模式下 mainPackageRoot;真用到该组合再排查。
+- **Example 验证变体**:`TARO_APP_ID=indie`(`build:split:indie`),源码 `src-indie/`(`pages/index/index.jsx` 主入口页 + `pages/sub1/index.jsx` 子组件,与 main 分支 `pages/index`+`pages/sub1` 平级模式同构),产物搬入宿主 `pages/shared-indie/`,宿主 entry 页第三个按钮进入(URL `/pages/shared-indie/pages/index/index`)。宿主 businessRoot(`pages/shared-indie/`)下只有 `app.json`/`base.wxml`/`project.config.json` + `pages/` 文件夹(**无根级同步核**);runtime chunks + 同步核在 `pages/shared-indie/pages/index/`(与 main 分支 `pages/order/pages/index/` 层级一致)。
+
 ## ❌ 不适用场景(CLI 编译期直接拒)
 
 ### 1. 小程序插件(--plugin)模式
+
 
 ```bash
 taro build --plugin weapp --shared-runtime  # ← 会 fail-fast
