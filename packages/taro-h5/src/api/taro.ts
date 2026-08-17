@@ -79,14 +79,14 @@ const initPxTransform = function ({
   config.unitPrecision = unitPrecision
 }
 
-const pxTransform = function (size = 0) {
+const pxTransform = function (size = 0, designWid?: number) {
   const config = getConfig.call(this)
   const baseFontSize = config.baseFontSize || defaultBaseFontSize
   const deviceRatio = config.deviceRatio || defaultDesignRatio
-  const designWidth = ((input = 0) => isFunction(config.designWidth)
+  const designWidth = designWid || ((input = 0) => isFunction(config.designWidth)
     ? config.designWidth(input)
     : config.designWidth)(size)
-  if (!(designWidth in config.deviceRatio)) {
+  if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
   const targetUnit = config.targetUnit || defaultTargetUnit

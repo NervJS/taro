@@ -1,0 +1,7 @@
+{
+  "pages": ["pages/index/index"],
+  "subPackageIndie": {
+    "mainPackageRoot": "pages/index/index",
+    "subPackageRoots": ["pages/sub1/index", "pages/sub2/index"]
+  }
+}

@@ -4,6 +4,33 @@ import webpack from 'webpack'
 
 import { componentConfig, componentNameSet, elementNameSet } from '../utils/component'
 
+type ImportBindingKind = 'named' | 'namespace' | 'default'
+type ExportBindingKind = 'reexport' | 'local'
+
+export interface ImportBindingMeta {
+  kind: ImportBindingKind
+  source: string
+  imported?: string
+}
+
+export interface ExportBindingMeta {
+  kind: ExportBindingKind
+  source?: string
+  imported?: string
+  local?: string
+}
+
+export type UsedComponentRefMeta =
+  | {
+    kind: 'identifier'
+    name: string
+  }
+  | {
+    kind: 'member'
+    object: string
+    property: string
+  }
+
 export class TaroBaseNormalModule extends webpack.NormalModule {
   elementNameSet: Set<string>
 
@@ -11,18 +38,34 @@ export class TaroBaseNormalModule extends webpack.NormalModule {
 
   collectProps: { [name: string]: string }
 
+  importedBindings: Record<string, ImportBindingMeta>
+
+  exportBindings: Record<string, ExportBindingMeta>
+
+  exportAllSources: string[]
+
+  usedComponentRefs: UsedComponentRefMeta[]
+
   constructor (data) {
     super(data)
 
     this.collectProps = {}
     this.elementNameSet = new Set()
     this.componentNameSet = new Set()
+    this.importedBindings = {}
+    this.exportBindings = {}
+    this.exportAllSources = []
+    this.usedComponentRefs = []
   }
 
   clear () {
     this.collectProps = {}
     this.elementNameSet.clear()
     this.componentNameSet.clear()
+    this.importedBindings = {}
+    this.exportBindings = {}
+    this.exportAllSources = []
+    this.usedComponentRefs = []
   }
 
   serialize (context) {
@@ -31,6 +74,10 @@ export class TaroBaseNormalModule extends webpack.NormalModule {
     write(this.collectProps)
     write(this.elementNameSet)
     write(this.componentNameSet)
+    write(this.importedBindings)
+    write(this.exportBindings)
+    write(this.exportAllSources)
+    write(this.usedComponentRefs)
 
     super.serialize(context)
   }
@@ -41,6 +88,10 @@ export class TaroBaseNormalModule extends webpack.NormalModule {
     this.collectProps = read()
     this.elementNameSet = read()
     this.componentNameSet = read()
+    this.importedBindings = read()
+    this.exportBindings = read()
+    this.exportAllSources = read()
+    this.usedComponentRefs = read()
 
     if (!isEmpty(this.collectProps)) {
       for (const key in this.collectProps) {

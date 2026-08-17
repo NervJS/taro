@@ -28,9 +28,7 @@ export const useFlowItemPositioner = () => {
 
   return {
     resize: useMemoizedFn(() => {
-      if (!isWeb()) {
-        nodeModel.pub(NodeEvents.Resize)
-      }
+      nodeModel.pub(NodeEvents.Resize)
     }),
     top: top$,
     scrollTop: scrollTop$,
@@ -52,41 +50,48 @@ export function FlowItemContainer({
   const itemStyle: CSSProperties = useMemo(() => {
     const baseStyle: CSSProperties = {
       width: '100%',
-      minHeight: node.section.defaultSize,
-    }
-    if (!layouted$) {
-      return baseStyle
-    }
-    Reflect.deleteProperty(baseStyle, 'minHeight')
-    return {
-      ...baseStyle,
-      height: height$,
-      transition: 'transform 20ms cubic-bezier(0.075, 0.82, 0.165, 1)',
-      willChange: 'transform',
       position: 'absolute',
       top: 0,
       left: 0,
       transform: `translate3d(0px, ${top$}px, 0px)`,
     }
+    if (!layouted$) {
+      return {
+        ...baseStyle,
+        minHeight: node.section.defaultSize,
+      }
+    }
+    return {
+      ...baseStyle,
+      height: height$,
+    }
   }, [top$, layouted$, height$])
+
+  const setInnerMeasureRef = useMemoizedFn((el: HTMLElement | null) => {
+    const innerRef = refFlowItem as React.MutableRefObject<HTMLElement | undefined>
+    innerRef.current = el ?? undefined
+    node.attachMeasureElement(el)
+  })
 
   useEffect(() => {
     let observer: ResizeObserver
-    if (isWeb() && typeof ResizeObserver !== 'undefined') {
+    const el = refFlowItem.current
+    if (isWeb() && typeof ResizeObserver !== 'undefined' && el) {
       observer = new ResizeObserver(() => {
         node.pub(NodeEvents.Resize)
       })
-      observer.observe(refFlowItem.current!)
+      observer.observe(el)
     }
     return () => {
       if (observer) {
         observer.disconnect()
       }
+      node.attachMeasureElement(null)
     }
   }, [node])
 
   useLayoutEffect(() => {
-    node.measure()
+    node.measure().catch(() => {})
   }, [node])
 
   return createElement(
@@ -94,7 +99,7 @@ export function FlowItemContainer({
     { style: itemStyle, key: node.id },
     createElement(
       View,
-      { id: node.id, ref: refFlowItem },
+      { id: node.id, ref: setInnerMeasureRef as any },
       createElement(FlowItemContext.Provider, { value: { node } }, children)
     )
   )

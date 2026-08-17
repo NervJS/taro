@@ -1,9 +1,10 @@
-import { debounce } from '../../utils'
+import { cancelAnimationFrame, requestAnimationFrame } from '@tarojs/runtime'
+
 import { Size } from './interface'
-import { Node } from './node'
+import { Node, NodeEvents } from './node'
 import { Root, RootEvents } from './root'
 import { StatefulEventBus } from './stateful-event-bus'
-import { createImperativePromise, getMatrixPosition, isSameRenderRange } from './utils'
+import { createImperativePromise, getMatrixPosition, isSameRenderRange, isWeb } from './utils'
 
 export interface SectionProps {
   /** 分组的唯一标识 */
@@ -58,7 +59,17 @@ export class Section extends StatefulEventBus<SectionState> {
   count = 0
   rowGap = 0
   columnGap = 0
+  /** 自动列数:开启后由 reflow 驱动列数变化,忽略 props.column(见 WaterFlow useResize) */
+  autoColumn = false
+  /** autoColumn 生效时列数变化的只读通知(仅业务观测,不参与控制) */
+  onColumnChange?: (column: number) => void
   layoutedSignal = createImperativePromise()
+
+  /** pushNodesStructuralOnly 后待 finalize；由 WaterFlow 的 useLayoutEffect 收尾，避免在父 render 中更新子 state */
+  private _pendingPushFinalize = false
+
+  /** 同帧内多次 Resize 合并为一次 rAF 刷新 */
+  private _resizeCoalesceRafId: number | null = null
 
   constructor(public root: Root, props: SectionProps) {
     const { id, col, order, count, rowGap, columnGap } = props
@@ -95,6 +106,8 @@ export class Section extends StatefulEventBus<SectionState> {
       this.updateNodes()
       this.setStateIn('renderRange', this.getNodeRenderRange())
       this.setStateIn('layouted', true)
+      this.updateBehindSectionsPosition()
+      this.root.updateScrollHeight(true)
       this.layoutedSignal.resolve()
       if (this.root.sections.every((section) => section.getState().layouted)) {
         this.root.pub(RootEvents.AllSectionsLayouted)
@@ -116,14 +129,20 @@ export class Section extends StatefulEventBus<SectionState> {
      */
     this.sub<{ node: Node, newSize: Size, originalSize: Size }>(
       SectionEvents.Resize,
-      debounce(() => {
-        this.setStateIn('height', this.maxColumnHeight)
-        this.updateBehindSectionsPosition()
-        if (this.isInRange) {
-          this.setStateIn('renderRange', this.getNodeRenderRange())
+      () => {
+        if (this._resizeCoalesceRafId != null) {
+          cancelAnimationFrame(this._resizeCoalesceRafId)
         }
-        this.root.pub(RootEvents.Resize)
-      })
+        this._resizeCoalesceRafId = requestAnimationFrame(() => {
+          this._resizeCoalesceRafId = null
+          this.setStateIn('height', this.maxColumnHeight)
+          this.updateBehindSectionsPosition()
+          if (this.isInRange) {
+            this.setStateIn('renderRange', this.getNodeRenderRange())
+          }
+          this.root.pub(RootEvents.Resize)
+        })
+      }
     )
   }
 
@@ -173,6 +192,11 @@ export class Section extends StatefulEventBus<SectionState> {
     }
   }
 
+  /** 是否存在尚未完成首次 measure 的节点（仍为 defaultSize 占位） */
+  private hasUnmeasuredNodes (): boolean {
+    return [...this.nodes.values()].some((node) => !node.getState().layouted)
+  }
+
   /**
    * 更新当前分组之后的分组的位置信息
    */
@@ -184,10 +208,11 @@ export class Section extends StatefulEventBus<SectionState> {
     for (; start < this.root.sections.length; start++) {
       const currentSection = this.root.sections[start - 1]
       const nextSection = this.root.sections[start]
-      nextSection.setStateIn(
-        'scrollTop',
-        currentSection.getState().scrollTop + currentSection.getState().height + this.rowGap
-      )
+      // 使用 maxColumnHeight 替代 getState().height，避免 pushNodes 后 state 未同步导致 footer 错位
+      const effectiveHeight = currentSection.maxColumnHeight
+      const gap = currentSection.rowGap ?? 0
+      const newScrollTop = currentSection.getState().scrollTop + effectiveHeight + gap
+      nextSection.setStateIn('scrollTop', newScrollTop)
       nextSection.updateNodes()
     }
   }
@@ -227,10 +252,13 @@ export class Section extends StatefulEventBus<SectionState> {
   }
 
   /**
-   * 计算当前分组的 scrollTop，即该分组之前的所有分组的最大列高度之和
+   * 计算当前分组的 scrollTop，即该分组之前的所有分组的最大列高度 + rowGap 之和
    */
   private calcScrollTop() {
-    return this.root.sections.slice(0, this.order).reduce((acc, section) => acc + section.maxColumnHeight, 0)
+    return this.root.sections.slice(0, this.order).reduce(
+      (acc, section) => acc + section.maxColumnHeight + (section.rowGap ?? 0),
+      0
+    )
   }
 
   /**
@@ -260,17 +288,30 @@ export class Section extends StatefulEventBus<SectionState> {
         result[i][1] = -1
       }
 
-      const cacheCount = this.root.cacheCount
-      const scrollDirection = this.root.getState().scrollDirection
-      const backwardDistance = scrollDirection === 'backward' ? cacheCount : 0
-      const forwardDistance = scrollDirection === 'forward' ? cacheCount : 0
+      const backwardDistance = this.root.nodeCacheBackward
+      const forwardDistance = this.root.nodeCacheForward
       const overscanBackward = result[i][0] - backwardDistance
       const overscanForward = result[i][1] + forwardDistance
       result[i][0] = overscanBackward < 0 ? 0 : overscanBackward
       result[i][1] = overscanForward > column.length ? column.length - 1 : overscanForward
+
+      // 列尾连续未测量节点纳入渲染区间，保证追加数据后能挂载并完成 measure
+      let tailUnmeasuredStart = column.length
+      for (let j = column.length - 1; j >= 0; j--) {
+        if (!column[j].getState().layouted) {
+          tailUnmeasuredStart = j
+        } else {
+          break
+        }
+      }
+      if (tailUnmeasuredStart < column.length) {
+        result[i][0] = Math.min(result[i][0], tailUnmeasuredStart)
+        result[i][1] = Math.max(result[i][1], column.length - 1)
+      }
     }
 
-    return isSameRenderRange(result, this.getState().renderRange) ? this.getState().renderRange : result
+    const prevRange = this.getState().renderRange
+    return isSameRenderRange(result, prevRange) ? prevRange : result
   }
 
   public pushNode(nodeIndex: number, col: number) {
@@ -285,14 +326,80 @@ export class Section extends StatefulEventBus<SectionState> {
     this.root.registerNode(node)
   }
 
-  public pushNodes(count: number) {
+  /** 仅扩展 columnMap / 注册 Node，不 setState；与 finalizePushNodesStateIfNeeded 配对 */
+  public pushNodesStructuralOnly (count: number) {
     const { count: originalCount, col } = this
     for (let i = originalCount; i < originalCount + count; i++) {
       this.pushNode(i, col)
     }
     this.count += count
     this.root.lowerThresholdScrollTop = Infinity
+    this._pendingPushFinalize = true
+  }
+
+  /** 在 commit 后同步 height、节点位置与 scrollHeight（见 WaterFlow useLayoutEffect） */
+  public finalizePushNodesStateIfNeeded () {
+    if (!this._pendingPushFinalize) return
+    this._pendingPushFinalize = false
+    // 同步 section state.height，避免与 maxColumnHeight 不一致导致 footer 错位
+    this.setStateIn('height', this.maxColumnHeight)
     this.updateNodes()
+    if (!this.hasUnmeasuredNodes()) {
+      this.updateBehindSectionsPosition()
+    }
+    // 立即更新 scrollHeight，避免防抖导致容器高度滞后引发往上抖动
+    this.root.updateScrollHeight(true)
+    if (this.isInRange) {
+      this.setStateIn('renderRange', this.getNodeRenderRange())
+    }
+    // 扩展 Root 的 section 切片，保证多 FlowSection 时当前分组始终在渲染树内
+    const [rStart, rEnd] = this.root.getState().renderRange
+    const newStart = Math.min(rStart, this.order)
+    const newEnd = Math.max(rEnd, this.order)
+    if (newStart !== rStart || newEnd !== rEnd) {
+      this.root.setStateIn('renderRange', [newStart, newEnd])
+    }
+    this.root.resetLowerReachEdgeAfterContentChange()
+  }
+
+  public pushNodes (count: number) {
+    this.pushNodesStructuralOnly(count)
+    this.finalizePushNodesStateIfNeeded()
+  }
+
+  /**
+   * 列数运行时变化时原地重排(autoColumn 专用)。
+   * 保留每个节点已测高度,仅按新列数重算 col/order 并重建 columnMap,纯同步执行。
+   * 步序对齐 AllNodesLayouted/finalizePushNodesStateIfNeeded:updateNodes 写入新坐标后,
+   * height 必须先于 renderRange 落 state —— getNodeRenderRange 内 isInRange 读 this.getState().height,
+   * 若仍是旧列数的高度,分组恰好卡在可视区边界时会误判导致整组瞬间不渲染(需等下次 scroll 才能纠正)。
+   */
+  public reflow(nextCol: number) {
+    if (nextCol === this.col) return
+    this.col = nextCol
+    // 全量重建 columnMap,保证连续多次 reflow 幂等。
+    // 遍历 this.nodes.values()(迭代序即 childIndex 升序,register 按创建序 set),
+    // 用 getMatrixPosition(childIndex, nextCol) 重算 col/order 并镜像 register 的 columnMap[col][order] 赋值。
+    const nextColumnMap: Node[][] = Array.from({ length: nextCol }, () => [])
+    for (const node of this.nodes.values()) {
+      const { row, col } = getMatrixPosition(node.childIndex, nextCol)
+      node.col = col
+      node.order = row
+      nextColumnMap[col][row] = node
+    }
+    this.columnMap = nextColumnMap
+    this.updateNodes()
+    this.setStateIn('height', this.maxColumnHeight)
+    this.setStateIn('renderRange', this.getNodeRenderRange())
     this.updateBehindSectionsPosition()
+    this.root.pub(RootEvents.Resize)
+    this.root.setStateIn('renderRange', this.root.getSectionRenderRange())
+    // weapp 无 ResizeObserver(flow-item.ts 仅 isWeb 分支),列宽变化后靠既有自愈链重测重排;
+    // H5 由 ResizeObserver 自动兜住。见 plan 已知风险 4。
+    if (!isWeb()) {
+      for (const node of this.nodes.values()) {
+        node.pub(NodeEvents.Resize)
+      }
+    }
   }
 }

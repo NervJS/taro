@@ -34,7 +34,10 @@ export default class TaroSingleEntryPlugin {
         const { entry, name, context, miniType, options } = this
 
         const dep = TaroSingleEntryPlugin.createDependency(entry, name, miniType, options)
-        compilation.addEntry(context, dep, name, callback)
+        compilation.addEntry(context, dep, {
+          name,
+          ...options
+        }, callback)
       }
     )
   }

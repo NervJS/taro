@@ -1,16 +1,20 @@
 /* eslint-disable no-labels */
+import { cancelAnimationFrame, requestAnimationFrame } from '@tarojs/runtime'
 import { nextTick } from '@tarojs/taro'
 
-import { getRectSizeSync } from '../../utils'
+import { getRectSizeSync, weappScope } from '../../utils'
 import { Node } from './node'
 import { Section } from './section'
 import { StatefulEventBus } from './stateful-event-bus'
-import { getSysInfo, isSameRenderRange } from './utils'
+import { getSysInfo, isH5, isSameRenderRange, isWeapp } from './utils'
 
 import type { BaseProps, ScrollDirection, Size, WaterFlowProps } from './interface'
 
 export type RootProps = Pick<WaterFlowProps, 'cacheCount' | 'lowerThresholdCount' | 'upperThresholdCount'> &
-Required<Pick<BaseProps, 'id'>>
+Required<Pick<BaseProps, 'id'>> & {
+  /** scrollElement 模式下为 true，不测量自有容器；此时需布局全部 section 以展开完整高度 */
+  skipContainerMeasure?: boolean
+}
 
 const { windowHeight, windowWidth } = getSysInfo()
 
@@ -66,9 +70,19 @@ export class Root extends StatefulEventBus<RootState, Events> {
    */
   sections: Section[] = []
   /**
-   * 设置预加载的 Item 条数。
+   * 设置预加载的 Item 条数（与 props.cacheCount 一致，收敛目标）。
    */
   cacheCount = 1
+
+  /**
+   * Node 层向上（列索引减小方向）预缓存条数，可与 cacheCount 不同（快速滑动单边放大）。
+   */
+  nodeCacheBackward = 1
+
+  /**
+   * Node 层向下（列索引增大方向）预缓存条数。
+   */
+  nodeCacheForward = 1
 
   upperThresholdCount = 0
 
@@ -84,8 +98,18 @@ export class Root extends StatefulEventBus<RootState, Events> {
    */
   lowerThresholdScrollTop = Infinity
 
+  /** scrollElement 模式下为 true，需布局全部 section 以展开完整高度供父容器滚动 */
+  skipContainerMeasure = false
+
+  /** 当前是否处于触顶区域；初始为 true（起始在顶部），只有从 false→true 时才触发事件 */
+  private _inUpperZone = true
+  /** 当前是否处于触底区域；初始为 false */
+  private _inLowerZone = false
+  /** scrollHeight 更新防抖（raf），减轻 pushNodes 后测量前后的高度跳变 */
+  private _scrollHeightRafId: number | null = null
+
   constructor(props: RootProps) {
-    const { id, cacheCount, lowerThresholdCount, upperThresholdCount } = props
+    const { id, cacheCount, lowerThresholdCount, upperThresholdCount, skipContainerMeasure } = props
     super({
       isScrolling: false,
       scrollOffset: 0,
@@ -102,47 +126,72 @@ export class Root extends StatefulEventBus<RootState, Events> {
       cacheCount,
       lowerThresholdCount,
       upperThresholdCount,
+      skipContainerMeasure: !!skipContainerMeasure,
     })
+    this.nodeCacheBackward = cacheCount
+    this.nodeCacheForward = cacheCount
     this.setupSubscriptions()
-    getRectSizeSync(`#${id}`, 100).then(({ width = windowWidth, height = windowHeight }) => {
-      this.setStateIn('containerSize', {
-        width,
-        height,
-      })
-    })
     this.renderInitialLayout()
+  }
+
+  /**
+   * 挂载后由 WaterFlow 调用：用当前根容器 DOM（与 #id 同节点或 ScrollView 外壳）测量 containerSize。
+   */
+  public async measureContainerSize (measureEl: HTMLElement | null) {
+    if (this.skipContainerMeasure) return
+    const { windowWidth, windowHeight } = getSysInfo()
+    let width = windowWidth
+    let height = windowHeight
+    if (isH5 && measureEl && typeof (measureEl as HTMLElement).getBoundingClientRect === 'function') {
+      const r = (measureEl as HTMLElement).getBoundingClientRect()
+      width = r.width
+      height = r.height
+    } else if (isWeapp && measureEl) {
+      const scope = weappScope({ current: measureEl as any })
+      const res = await getRectSizeSync(`#${this.id}`, 100, 5, scope)
+      width = res.width ?? width
+      height = res.height ?? height
+    } else {
+      const res = await getRectSizeSync(`#${this.id}`, 100, 5)
+      width = res.width ?? width
+      height = res.height ?? height
+    }
+    if (
+      typeof width === 'number' &&
+      typeof height === 'number' &&
+      Number.isFinite(width) &&
+      Number.isFinite(height) &&
+      width > 0 &&
+      height > 0
+    ) {
+      this.setStateIn('containerSize', { width, height })
+    }
   }
 
   /**
    * 设置订阅事件
    */
   private setupSubscriptions() {
-    /**
-     * 滚动过程中计算渲染的分组区间
-     * 滚动过程中分组的最大高度会发生更新，可以在这时计算滚动高度
-     */
-    this.sub('scrollOffset', () => {
-      this.setStateIn('renderRange', this.getSectionRenderRange())
-      this.handleReachThreshold()
-      if (this.getState().scrollDirection === 'forward') {
-        this.updateScrollHeight()
-      }
-    })
-
+    /** 滚动：先更新触底阈值，再判触顶/触底并更新分组与总高度，避免同一帧内沿用无效阈值。 */
     this.sub('scrollOffset', () => {
       const sectionSize = this.sections.length
       const lastSection = this.sections[sectionSize - 1]
-      // 最后一个分组的每一列最后一行都已经完成了布局计算，那么这个时候的总高度应该是准确的
-      if (lastSection.columnMap.every((column) => column[column.length - 1].getState().layouted)) {
+      if (lastSection?.columnMap.every((column) => column[column.length - 1]?.getState().layouted)) {
         this.setLowerThresholdScrollTop()
       }
+      this.setStateIn('renderRange', this.getSectionRenderRange())
+      this.handleReachThreshold()
+      this.updateScrollHeight()
     })
 
     this.sub(RootEvents.AllSectionsLayouted, () => {
+      this.updateScrollHeight()
       this.setUpperThresholdScrollTop()
+      this.setLowerThresholdScrollTop()
     })
 
     this.sub(RootEvents.Resize, () => {
+      this.updateScrollHeight()
       this.setUpperThresholdScrollTop()
       this.setLowerThresholdScrollTop()
     })
@@ -169,8 +218,12 @@ export class Root extends StatefulEventBus<RootState, Events> {
       const section = this.sections[i]
       section.layoutedSignal.promise.then(() => {
         this.setStateIn('renderRange', [0, i + 1 > sectionSize ? sectionSize - 1 : i + 1])
-        // 容器可视区域已经填满了，没必要再继续
-        if (section.getState().scrollTop > this.getState().containerSize.height) {
+        // skipContainerMeasure（nestedScroll 模式）：需布局全部 section，使 scrollHeight 展开供父容器滚动
+        // default 模式：容器可视区域已填满则提前终止，减少首屏渲染
+        if (
+          !this.skipContainerMeasure &&
+          section.getState().scrollTop > this.getState().containerSize.height
+        ) {
           this.pub(RootEvents.InitialRenderCompleted, section)
           return
         }
@@ -241,8 +294,14 @@ export class Root extends StatefulEventBus<RootState, Events> {
    * 当距底部还有 lowerThresholdCount 个 FlowItem 时的 scrollTop 值
    */
   private setLowerThresholdScrollTop() {
-    if (this.lowerThresholdCount === 0) {
-      this.lowerThresholdScrollTop = this.getState().scrollHeight - this.getState().containerSize.height
+    // 与 setUpperThresholdScrollTop 一致：0 或 undefined 时用「内容底 - 容器高」作为触底阈值
+    if (!this.lowerThresholdCount) {
+      // 必须用 sectionRange 实时计算，避免依赖可能未更新的 scrollHeight 状态
+      const range = this.sectionRange
+      const totalHeight = range.length > 0 ? range[range.length - 1][1] : 0
+      // 触底判定：scrollOffset + containerSize.height >= lowerThresholdScrollTop
+      // 须存内容底边 totalHeight(H)。若误存 H-h，则顶部时 h 与 H-h 比较，当 2h>=H 会恒判为在触底区，误触 onScrollToLower。
+      this.lowerThresholdScrollTop = totalHeight
       return 0
     }
     const sectionSize = this.sections.length
@@ -295,24 +354,25 @@ export class Root extends StatefulEventBus<RootState, Events> {
   /**
    * 处理滚动到阈值的情况
    * 检测当前滚动位置是否达到了上下阈值，并触发相应的事件
+   * scrollElement 模式：scrollOffset 为内容内偏移（scrollTop - startOffset），upper/lowerThresholdScrollTop 基于本组件内容计算，触顶/触底以本 WaterFlow 内容为基准
    */
   private handleReachThreshold() {
-    const { upperThresholdScrollTop } = this
-    const { scrollOffset, scrollDirection, containerSize } = this.getState()
-    if (
-      scrollDirection === 'backward' &&
-      this.upperThresholdScrollTop !== -Infinity &&
-      scrollOffset <= upperThresholdScrollTop
-    ) {
-      this.pub(RootEvents.ReachUpperThreshold)
-    }
-    if (
-      scrollDirection === 'forward' &&
-      this.lowerThresholdCount !== Infinity &&
-      scrollOffset + containerSize.height >= this.lowerThresholdScrollTop
-    ) {
-      this.pub(RootEvents.ReachLowerThreshold)
-    }
+    const { scrollOffset, containerSize } = this.getState()
+    const inUpper = this.upperThresholdScrollTop !== -Infinity && scrollOffset <= this.upperThresholdScrollTop
+    const inLower = this.lowerThresholdScrollTop !== Infinity && scrollOffset + containerSize.height >= this.lowerThresholdScrollTop
+    if (inUpper && !this._inUpperZone) this.pub(RootEvents.ReachUpperThreshold)
+    if (inLower && !this._inLowerZone) this.pub(RootEvents.ReachLowerThreshold)
+    this._inUpperZone = inUpper
+    this._inLowerZone = inLower
+  }
+
+  /**
+   * 列表追加并完成 finalize 后调用：重置触底边沿状态（_inLowerZone），
+   * 使用户仍在底部时下一次滚动能再次触发 onScrollToLower，而不必先上滑再下滑。
+   * 不在此处同步调用 handleReachThreshold，避免仍在底部时立刻连发触底（与误触区分）。
+   */
+  public resetLowerReachEdgeAfterContentChange () {
+    this._inLowerZone = false
   }
 
   /**
@@ -342,17 +402,38 @@ export class Root extends StatefulEventBus<RootState, Events> {
     const range = Array.from({ length }, () => [0, this.sections[0].maxColumnHeight])
     for (let i = 1; i < length; i++) {
       const previous = range[i - 1]
-      range[i] = [previous[1], previous[1] + this.sections[i].maxColumnHeight]
+      const prevSection = this.sections[i - 1]
+      const gap = prevSection.rowGap ?? 0
+      range[i] = [previous[1] + gap, previous[1] + gap + this.sections[i].maxColumnHeight]
     }
 
     return range
   }
 
   /**
-   * 计算滚动高度
+   * 更新总滚动高度（各 Section 累计）。
+   * @param immediate true 时跳过 raf 防抖（如 finalizePushNodesStateIfNeeded），避免高度滞后引起跳动
    */
-  public updateScrollHeight() {
-    this.setStateIn('scrollHeight', this.sectionRange[this.sectionRange.length - 1][1])
+  public updateScrollHeight(immediate = false) {
+    const flush = () => {
+      const next = this.sectionRange[this.sectionRange.length - 1]?.[1] ?? 0
+      this.setStateIn('scrollHeight', next)
+    }
+    if (immediate) {
+      if (this._scrollHeightRafId != null) {
+        cancelAnimationFrame(this._scrollHeightRafId)
+        this._scrollHeightRafId = null
+      }
+      flush()
+      return
+    }
+    if (this._scrollHeightRafId != null) {
+      cancelAnimationFrame(this._scrollHeightRafId)
+    }
+    this._scrollHeightRafId = requestAnimationFrame(() => {
+      this._scrollHeightRafId = null
+      flush()
+    })
   }
 
   /**
@@ -386,6 +467,24 @@ export class Root extends StatefulEventBus<RootState, Events> {
   }
 
   /**
+   * 设置 Node 层上下方向预缓存条数，并刷新可见分组内的列渲染区间。
+   */
+  public setNodeCacheRange (backward: number, forward: number) {
+    const b = Math.max(0, Math.floor(backward))
+    const f = Math.max(0, Math.floor(forward))
+    if (this.nodeCacheBackward === b && this.nodeCacheForward === f) {
+      return
+    }
+    this.nodeCacheBackward = b
+    this.nodeCacheForward = f
+    for (const section of this.sections) {
+      if (section.isInRange) {
+        section.setStateIn('renderRange', section.getNodeRenderRange())
+      }
+    }
+  }
+
+  /**
    * 获取分组渲染区间
    */
   public getSectionRenderRange() {
@@ -407,10 +506,10 @@ export class Root extends StatefulEventBus<RootState, Events> {
       result[1] = this.sections.length - 1
     }
 
-    const scrollDirection = this.getState().scrollDirection
     const [backwardCache, forwardCache] = this.calcCacheSection(result)
-    const backwardDistance = scrollDirection === 'backward' ? backwardCache : 0
-    const forwardDistance = scrollDirection === 'forward' ? forwardCache : 0
+    // 双向预缓存，避免反向滚动时出现空白（原逻辑仅在滚动方向缓存，反向时未预渲染）
+    const backwardDistance = backwardCache
+    const forwardDistance = forwardCache
 
     const overscanBackward = result[0] - backwardDistance
     const overscanForward = result[1] + forwardDistance
@@ -419,7 +518,8 @@ export class Root extends StatefulEventBus<RootState, Events> {
 
     result[1] = overscanForward > this.sections.length ? this.sections.length - 1 : overscanForward
 
-    return isSameRenderRange(result, this.getState().renderRange) ? this.getState().renderRange : result
+    const prevRange = this.getState().renderRange
+    return isSameRenderRange(result, prevRange) ? prevRange : result
   }
 
   /**

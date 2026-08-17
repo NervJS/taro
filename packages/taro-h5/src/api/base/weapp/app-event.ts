@@ -74,7 +74,13 @@ export const onThemeChange: typeof Taro.onThemeChange = callback => {
     if (isNil(themeMatchMedia)) {
       themeMatchMedia = window.matchMedia('(prefers-color-scheme: light)')
     }
-    themeMatchMedia!.addEventListener('change', themeChangeListener)
+    // 兼容 iOS 13 等旧环境中 MediaQueryList 未继承 EventTarget，仅有 addListener；极端环境可能两者皆无则不再添加
+    const mql = themeMatchMedia!
+    if (typeof mql.addEventListener === 'function') {
+      mql.addEventListener('change', themeChangeListener)
+    } else if (typeof (mql as any).addListener === 'function') {
+      (mql as any).addListener(themeChangeListener)
+    }
   }
 }
 
@@ -120,11 +126,13 @@ export const offUnhandledRejection: typeof Taro.offUnhandledRejection = callback
 
 export const offThemeChange: typeof Taro.offThemeChange = callback => {
   themeChangeCallbackManager.remove(callback)
-  if (themeChangeCallbackManager.count() === 0) {
-    if (isNil(themeMatchMedia)) {
-      themeMatchMedia = window.matchMedia('(prefers-color-scheme: light)')
+  if (themeChangeCallbackManager.count() === 0 && themeMatchMedia) {
+    // 兼容 iOS 13 等旧环境中 MediaQueryList 未继承 EventTarget，仅有 removeListener；两者皆无时仅置空避免报错
+    if (typeof themeMatchMedia.removeEventListener === 'function') {
+      themeMatchMedia.removeEventListener('change', themeChangeListener)
+    } else if (typeof (themeMatchMedia as any).removeListener === 'function') {
+      (themeMatchMedia as any).removeListener(themeChangeListener)
     }
-    themeMatchMedia!.removeEventListener('change', themeChangeListener)
     themeMatchMedia = null
   }
 }

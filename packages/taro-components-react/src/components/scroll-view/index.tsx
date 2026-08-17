@@ -3,8 +3,9 @@ import './style/index.scss'
 import { isFunction } from '@tarojs/shared'
 import classNames from 'classnames'
 
+import { ScrollElementContext } from '../../contexts/ScrollElementContext'
 import { createForwardRefComponent, throttle } from '../../utils'
-import { useEffect, useRef } from '../../utils/hooks'
+import { useEffect, useRef, useState } from '../../utils/hooks'
 
 import type React from 'react'
 
@@ -32,11 +33,18 @@ function easeOutScroll (from = 0, to = 0, callback) {
   step()
 }
 
-function scrollIntoView (id = '', isHorizontal = false, animated = true, scrollIntoViewAlignment?: ScrollLogicalPosition) {
+/** 未开启的滚动轴使用 nearest 避免原生 scrollIntoView 沿该轴滚动整页 */
+function scrollIntoView (
+  id = '',
+  animated = true,
+  scrollX = false,
+  scrollY = false,
+  scrollIntoViewAlignment?: ScrollLogicalPosition
+) {
   document.querySelector(`#${id}`)?.scrollIntoView({
     behavior: animated ? 'smooth' : 'auto',
-    block: !isHorizontal ? (scrollIntoViewAlignment || 'center') : 'center',
-    inline: isHorizontal ? (scrollIntoViewAlignment || 'start') : 'start'
+    block: scrollY ? (scrollIntoViewAlignment || 'center') : 'nearest',
+    inline: scrollX ? (scrollIntoViewAlignment || 'start') : 'nearest'
   })
 }
 
@@ -84,7 +92,12 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onTouchEnd?: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   showScrollbar?: boolean // 新增参数，默认true
   enhanced?: boolean // 新增参数，默认false
+  /** 嵌套滚动：内容在滚动容器中的起始偏移（固定头部等场景） */
+  startOffset?: number
 }
+
+/** H5 等环境下 scrollTop 为整数，与带亚像素的受控值比较时允许该误差，避免反复 set scrollTop 与 scrollIntoView 打架 */
+const CONTROLLED_SCROLL_EPSILON = 0.5
 
 function ScrollView (props: IProps) {
   const _scrollTop = useRef<any>(null)
@@ -93,12 +106,27 @@ function ScrollView (props: IProps) {
   const scrollEndTimerRef = useRef<NodeJS.Timeout | null>(null)
   const isScrollingRef = useRef<boolean>(false)
   const isInitializedRef = useRef<boolean>(false)
+  /** 与 props.scrollIntoView 比对，同 id 时只走受控 scrollTop，避免与上次锚点反复互顶 */
+  const lastAppliedScrollIntoViewIdRef = useRef<string | null>(null)
+  const [containerHeight, setContainerHeight] = useState(0)
   const onTouchMove = (e) => {
     e.stopPropagation()
   }
 
+  const applyControlledScrollTopLeft = (p: IProps) => {
+    const isAnimation = !!p.scrollWithAnimation
+    const eps = CONTROLLED_SCROLL_EPSILON
+    if (p.scrollY && typeof p.scrollTop === 'number' &&
+        (_scrollTop.current === null || Math.abs(p.scrollTop - _scrollTop.current) >= eps)) {
+      setTimeout(() => scrollVertical(container, _scrollTop, p.scrollTop, isAnimation), 10)
+    }
+    if (p.scrollX && typeof p.scrollLeft === 'number' &&
+        (_scrollLeft.current === null || Math.abs(p.scrollLeft - _scrollLeft.current) >= eps)) {
+      setTimeout(() => scrollHorizontal(container, _scrollLeft, p.scrollLeft, isAnimation), 10)
+    }
+  }
+
   const handleScroll = (props: IProps, isInit = false) => {
-    // scrollIntoView
     if (
       props.scrollIntoView &&
       typeof props.scrollIntoView === 'string' &&
@@ -106,22 +134,29 @@ function ScrollView (props: IProps) {
       document.querySelector &&
       document.querySelector(`#${props.scrollIntoView}`)
     ) {
-      const isHorizontal = props.scrollX && !props.scrollY
       if (isInit) {
-        setTimeout(() => scrollIntoView(props.scrollIntoView, props.scrollWithAnimation, isHorizontal, props.scrollIntoViewAlignment), 500)
+        setTimeout(
+          () =>
+            scrollIntoView(
+              props.scrollIntoView,
+              props.scrollWithAnimation,
+              !!props.scrollX,
+              !!props.scrollY,
+              props.scrollIntoViewAlignment
+            ),
+          500
+        )
       } else {
-        scrollIntoView(props.scrollIntoView, props.scrollWithAnimation, isHorizontal, props.scrollIntoViewAlignment)
+        scrollIntoView(
+          props.scrollIntoView,
+          props.scrollWithAnimation,
+          !!props.scrollX,
+          !!props.scrollY,
+          props.scrollIntoViewAlignment
+        )
       }
     } else {
-      const isAnimation = !!props.scrollWithAnimation
-      // Y 轴滚动
-      if (props.scrollY && typeof props.scrollTop === 'number' && props.scrollTop !== _scrollTop.current) {
-        setTimeout(() => scrollVertical(container, _scrollTop, props.scrollTop, isAnimation), 10)
-      }
-      // X 轴滚动
-      if (props.scrollX && typeof props.scrollLeft === 'number' && props.scrollLeft !== _scrollLeft.current) {
-        setTimeout(() => scrollHorizontal(container, _scrollLeft, props.scrollLeft, isAnimation), 10)
-      }
+      applyControlledScrollTopLeft(props)
     }
   }
 
@@ -130,12 +165,45 @@ function ScrollView (props: IProps) {
     isInitializedRef.current = true
   }, [])
 
-  // 监听 scrollTop、scrollLeft、scrollIntoView 的变化（排除初始化）
+  // scrollTop / scrollLeft / scrollIntoView 受控同步（跳过 mount 时的 init effect）
   useEffect(() => {
-    if (isInitializedRef.current && container.current) {
-      handleScroll(props, false)
+    if (!isInitializedRef.current || !container.current) return
+
+    const sitv = props.scrollIntoView
+    const sitvOk = Boolean(
+      sitv &&
+      typeof sitv === 'string' &&
+      document &&
+      document.querySelector &&
+      document.querySelector(`#${sitv}`)
+    )
+
+    if (sitvOk) {
+      if (sitv !== lastAppliedScrollIntoViewIdRef.current) {
+        scrollIntoView(
+          sitv,
+          props.scrollWithAnimation,
+          !!props.scrollX,
+          !!props.scrollY,
+          props.scrollIntoViewAlignment
+        )
+        lastAppliedScrollIntoViewIdRef.current = typeof sitv === 'string' ? sitv : null
+      } else {
+        applyControlledScrollTopLeft(props)
+      }
+    } else {
+      lastAppliedScrollIntoViewIdRef.current = null
+      applyControlledScrollTopLeft(props)
     }
-  }, [props.scrollTop, props.scrollLeft, props.scrollIntoView])
+  }, [
+    props.scrollTop,
+    props.scrollLeft,
+    props.scrollIntoView,
+    props.scrollIntoViewAlignment,
+    props.scrollWithAnimation,
+    props.scrollX,
+    props.scrollY
+  ])
 
   const {
     className,
@@ -245,23 +313,48 @@ function ScrollView (props: IProps) {
     }
   }, [])
 
+  // ScrollElementContext：嵌套滚动时向子组件提供 scrollRef、containerHeight、startOffset
+  useEffect(() => {
+    const el = container.current
+    if (!el) return
+    const update = () => {
+      if (container.current) {
+        setContainerHeight(container.current.clientHeight)
+      }
+    }
+    update()
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(update) : null
+    if (ro) {
+      ro.observe(el)
+      return () => ro.disconnect()
+    }
+  }, [])
+
+  const scrollElementContextValue = {
+    scrollRef: container,
+    containerHeight,
+    startOffset: props.startOffset ?? 0,
+  }
+
   return (
-    <div
-      ref={e => {
-        if (e) {
-          container.current = e
-          if (props.forwardedRef) props.forwardedRef.current = e
-        }
-      }}
-      style={style}
-      className={cls}
-      onScroll={_onScroll}
-      onTouchMove={_onTouchMove}
-      onTouchStart={_onTouchStart}
-      onTouchEnd={_onTouchEnd}
-    >
-      {props.children}
-    </div>
+    <ScrollElementContext.Provider value={scrollElementContextValue}>
+      <div
+        ref={e => {
+          if (e) {
+            container.current = e
+            if (props.forwardedRef) props.forwardedRef.current = e
+          }
+        }}
+        style={style}
+        className={cls}
+        onScroll={_onScroll}
+        onTouchMove={_onTouchMove}
+        onTouchStart={_onTouchStart}
+        onTouchEnd={_onTouchEnd}
+      >
+        {props.children}
+      </div>
+    </ScrollElementContext.Provider>
   )
 }
 
