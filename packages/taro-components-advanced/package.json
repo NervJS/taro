@@ -24,6 +24,7 @@
   "keywords": [],
   "dependencies": {
     "@tarojs/components": "workspace:*",
+    "@tarojs/components-react": "workspace:*",
     "classnames": "^2.2.5",
     "csstype": "^3.1.1",
     "memoize-one": "^6.0.0",

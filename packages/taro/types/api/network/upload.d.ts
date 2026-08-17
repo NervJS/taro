@@ -15,6 +15,21 @@ declare module '../../index' {
       formData?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒 */
       timeout?: number
+      /** 是否开启 profile。开启后可在接口回调的 res.profile 中查看性能调试信息
+       * @default true
+       * @supported weapp
+       */
+      enableProfile?: boolean
+      /** 是否开启 http2
+       * @default false
+       * @supported weapp
+       */
+      enableHttp2?: boolean
+      /** 是否开启 Quic/h3 协议
+       * @default false
+       * @supported weapp
+       */
+      enableQuic?: boolean
       /** 上传的文件名
        * @supported h5
        */
@@ -52,6 +67,11 @@ declare module '../../index' {
        * @weapp 非官方文档标注属性
        */
       cookies?: string[]
+      /** 网络请求过程中一些调试信息
+       * @supported weapp
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/performance/network.html
+       */
+      profile?: TaroGeneral.IAnyObject
     }
   }
 

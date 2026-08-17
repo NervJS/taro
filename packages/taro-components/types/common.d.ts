@@ -1,7 +1,30 @@
 import { CSSProperties, LegacyRef, ReactNode } from 'react'
 import { COMPILE_MODE_SUB_RENDER_FN } from '@tarojs/shared'
 
-export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent> {
+export interface A11yProps {
+  /** 定义元素的角色 */
+  ariaRole?: string
+  /** 为元素提供一个可访问名称 */
+  ariaLabel?: string
+  /** 当前 view 及其子 view 是否屏幕无障碍隐藏 */
+  ariaHidden?: boolean
+  /** 标识当前是否被选中 */
+  ariaChecked?: boolean
+  /** 指示元素是否处于选中状态 */
+  ariaSelected?: boolean
+  /** 为元素的 role 提供额外说明 */
+  ariaRoledescription?: string
+  /** 设置数值控件的最大值 */
+  ariaValuemax?: string
+  /** 设置数值控件的最小值 */
+  ariaValuemin?: string
+  /** 设置数值控件的当前值 */
+  ariaValuenow?: string
+  /** 设置将覆盖 ariaValuemax、ariaValuemin 和 ariaValuenow 的值 */
+  ariaValuetext?: string
+}
+
+export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> = ITouchEvent> extends EventProps<TouchEvent>, A11yProps {
   /** 组件的唯一标示, 保持整个页面唯一 */
   id?: string
   /** 同 `class`，在 React/Preact 里一般使用 `className` 作为 `class` 的代称 */

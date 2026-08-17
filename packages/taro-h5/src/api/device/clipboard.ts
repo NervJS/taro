@@ -26,7 +26,8 @@ document.addEventListener('copy', () => {
 /**
  * 设置系统剪贴板的内容
  */
-export const setClipboardData: typeof Taro.setClipboardData = async ({ data, success, fail, complete }) => {
+export const setClipboardData: typeof Taro.setClipboardData = async ({ data, options, success, fail, complete }) => {
+  const hideDefaultMessage = options?.hideDefaultMessage ?? false
   const handle = new MethodHandler({ name: 'setClipboardData', success, fail, complete })
   try {
     setStorageSync(CLIPBOARD_STORAGE_NAME, data)
@@ -50,11 +51,13 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, suc
     } else {
       throw new Error('Unsupported Function: \'document.execCommand\'.')
     }
-    showToast({
-      title: '内容已复制',
-      icon: 'none',
-      duration: 1500
-    })
+    if (!hideDefaultMessage) {
+      showToast({
+        title: '内容已复制',
+        icon: 'none',
+        duration: 1500
+      })
+    }
     return handle.success()
   } catch (e) {
     return handle.fail({ errMsg: e.message })

@@ -2,13 +2,19 @@ img[src=""] {
   opacity: 0;
 }
 
-taro-image-core {
+/* :where() 使默认尺寸与 disable 覆盖的特异性为 0，避免压过业务侧单个 class（如 CSS Module） */
+:where(taro-image-core) {
   display: inline-block;
   overflow: hidden;
   position: relative;
   width: 320px;
   height: 240px;
   font-size: 0;
+}
+
+:where(taro-image-core.taro-img__disable-default-size) {
+  width: auto;
+  height: auto;
 }
 
 .taro-img {
@@ -31,20 +37,9 @@ taro-image-core {
     }
 
     &-aspectfill {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-
-      &--width {
-        min-width: 100%;
-        height: 100%;
-      }
-
-      &--height {
-        width: 100%;
-        min-height: 100%;
-      }
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     &-widthfix {

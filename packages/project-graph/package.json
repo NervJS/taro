@@ -1,0 +1,61 @@
+{
+  "name": "@tarojs/project-graph",
+  "version": "4.1.12-beta.71",
+  "description": "Taro project structure graph — unified, queryable project facts layer",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "taro-graph": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp.d.ts",
+      "default": "./dist/mcp.js"
+    },
+    "./taro-plugin": {
+      "types": "./dist/taro-plugin.d.ts",
+      "default": "./taro-plugin.js"
+    }
+  },
+  "scripts": {
+    "prod": "pnpm run build",
+    "clean": "rimraf dist",
+    "prebuild": "pnpm run clean",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "prepack": "pnpm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:ci": "jest --ci -i --silent"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "files": [
+    "index.js",
+    "taro-plugin.js",
+    "dist"
+  ],
+  "keywords": [
+    "taro",
+    "project-graph"
+  ],
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "engines": {
+    "node": ">= 18"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "dependencies": {
+    "@tarojs/helper": "workspace:*",
+    "typescript": "~5.4.5"
+  }
+}

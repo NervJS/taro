@@ -1,0 +1,5 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": { "list": "../sub1/index", "detail": "../sub2/index", "comp": "./comp" },
+  "componentPlaceholder": { "list": "view", "detail": "view" }
+}

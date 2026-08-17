@@ -1,0 +1,24 @@
+{
+  "pages": ["pages/index/index"],
+  "subPackages": [
+    {
+      "root": "pages/order/pages/index",
+      "pages": ["index"]
+    },
+    {
+      "root": "pages/order/pages/sub1",
+      "pages": []
+    },
+    {
+      "root": "pages/order/pages/sub2",
+      "pages": []
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "SubPackageIndie 测试",
+    "navigationBarTextStyle": "black"
+  },
+  "lazyCodeLoading": "requiredComponents"
+}

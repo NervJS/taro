@@ -11,6 +11,14 @@ rustflags = ["-C", "link-args=-Wl,--warn-unresolved-symbols"]
 [target.'cfg(target_os = "windows")']
 rustflags = ["-C", "link-args=/FORCE"]
 
+# Allow undefined symbols when building SWC WASM plugins for wasm32-wasip1.
+# These symbols (e.g. __emit_diagnostics, __set_transform_result) are host-provided
+# functions imported at runtime by the SWC plugin runner. Rust 1.96.0 tightened
+# the LLD linker's default behavior for wasm32-wasip1, so we must explicitly permit
+# them here so they become WASM import entries instead of link errors.
+[target.wasm32-wasip1]
+rustflags = ["-C", "link-args=--allow-undefined"]
+
 [target.x86_64-pc-windows-msvc]
 rustflags = ["-C", "target-feature=+crt-static"]
 [target.i686-pc-windows-msvc]
