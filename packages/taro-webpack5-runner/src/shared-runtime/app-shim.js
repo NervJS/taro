@@ -158,9 +158,9 @@ function guardPlaceholder (target, label, whitelist, realFlag) {
         warned[key] = true
         console.warn(
           '[taro-shared] ' + label + '.' + String(key) + ' 尚未就位：' +
-          '方案二(split)下命令式 API 在异步核加载完成前（尤其模块顶层）被调用，本次返回空操作、不生效。' +
+          '共享运行时下命令式 API 在运行时核加载完成前（尤其模块顶层）被调用，本次返回空操作、不生效。' +
           '请挪到组件函数体内 / useReady / useEffect / 事件回调，或改用异步版 API；' +
-          '也可在宿主用 preloadRule 预下载 shared-async 分包以缩小窗口。'
+          '也可在宿主用 preloadRule 预下载运行时分包以缩小窗口。'
         )
       }
       return makeChainableNoop() // 返回链式安全空操作：Taro.getSystemInfoSync().x 不崩
@@ -183,7 +183,29 @@ function install (shared, Current) {
   LIFECYCLES.forEach(function (name) {
     placeholderApp[name] = function () {
       var args = arguments; var self = this
-      whenReal(function (real) { if (typeof real[name] === 'function') real[name].apply(self, args) })
+      whenReal(function (real) {
+        if (typeof real[name] !== 'function') return
+        // blended/newBlended 模式下 taro-loader 生成的是无参 `app.onLaunch()`（见本文件头文档
+        // 与 taro-loader/src/app.ts）。vanilla 下它在任何页面 onLoad 之前同步执行，其真身 ONLAUNCH
+        // 内部无条件 `setRouterParams(undefined)` 设的空路由（{params:undefined}）必然被后续页面
+        // onLoad 的 setCurrentRouter 用真实参数覆盖，无害。但共享运行时把这次调用推迟进 queue，
+        // 与页面 mount 一起等异步核就位后 flush，且 onLaunch 排在 mount 前 → 变成"页面 onLoad 已
+        // 用真实参数设好 Current.router → onLaunch 重放用 undefined 覆盖回空 → 才 mount 渲染，
+        // useRouter() 读到 {params:undefined} → Object.keys(undefined) 崩"。
+        // 修复：仅 onLaunch 且本次确实无参（精确匹配该过场调用，不碰任何传参场景）时，重放前后
+        // 比对 Current.router——若重放把已存在的真实路由污染成 params===undefined，则还原。
+        if (name === 'onLaunch' && args.length === 0 && Current) {
+          var routerBefore = Current.router
+          real[name].apply(self, args)
+          var routerAfter = Current.router
+          if (routerBefore && routerBefore.params !== undefined &&
+              routerAfter && routerAfter.params === undefined) {
+            Current.router = routerBefore
+          }
+          return
+        }
+        real[name].apply(self, args)
+      })
     }
   })
   placeholderApp.mount = function (c, id, cb) { whenReal(function (r) { r.mount(c, id, cb) }) }

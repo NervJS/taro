@@ -233,8 +233,8 @@ export function warnTopLevelImperativeApi (sourceDir: string): number {
       return `  ${rel}:${h.line}  ${h.api}  →  ${h.code}`
     })
     console.warn(
-      '\n[taro-shared][split] 检测到【模块顶层】同步调用 Taro 命令式 API，' +
-      '异步核加载完成前调用会告警/静默失效。请挪到组件函数体内 / useReady / useEffect / 事件回调，' +
+      '\n[taro-shared][shared-runtime] 检测到【模块顶层】同步调用 Taro 命令式 API，' +
+      '运行时核加载完成前调用会告警/静默失效。请挪到组件函数体内 / useReady / useEffect / 事件回调，' +
       '或改用异步版 API：\n' + lines.join('\n') + '\n'
     )
     return allHits.length
