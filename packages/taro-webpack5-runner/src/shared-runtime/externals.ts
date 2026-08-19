@@ -1,5 +1,7 @@
 import { REG_TARO_SCOPED_PACKAGE, taroJsComponents } from '@tarojs/helper'
 
+import { REG_POST, SYNC_CORE_REGISTERED_RUNTIMES } from './constants'
+
 /**
  * 共享运行时（方案二 split）需 external 到共享全局的 React 全家桶。
  * 这四个包 React 单例敏感、版本错配会真出错，必须共享同一实例：
@@ -46,4 +48,47 @@ export function shouldShareExternal (request?: string, extraPackages: string[] =
   // 接入方声明的额外共享包（CLI 不认识具体包名，由 config.mini.sharedRuntimeExtraPackages 传入）
   if (extraPackages.some((p: string) => request === p || request.startsWith(`${p}/`))) return true
   return REG_TARO_SCOPED_PACKAGE.test(request) || REG_SHARED_REACT.test(request)
+}
+
+/**
+ * 计算「被主构建 external 到共享全局、却没有任何运行时核注册」的漏网 runtime。
+ *
+ * 背景：平台插件（@tarojs/plugin-html / plugin-inject / plugin-http / *-devtools 等）通过
+ * `platform.runtimePath.push(...)` 往 runtimePath 追加自己的 side-effect runtime（如 plugin-html
+ * 的 `hooks.tap('modifyHydrateData')` 把 <i> 等 HTML 标签 nodeName 映射成 view/text）。taro-loader
+ * 把 runtimePath 每项生成 `import '<path>'` 注入业务 app.js。共享运行时下这些 @tarojs/* 被
+ * shouldShareExternal 无差别 external 成读全局，但同步核/异步核只注册了固定清单（见
+ * SYNC_CORE_REGISTERED_RUNTIMES + async-provider），漏掉这些插件 runtime → 业务包读到 undefined
+ * → hook 从未注册 → 出现 `Template tmpl_0_i not found` 等运行时症状。
+ *
+ * 本函数挑出这批漏网模块，交给 build-shared-runtime 作为同步核的额外入口一并打包执行，使其
+ * hooks.tap 在同步核内（与模板消费方同一 @tarojs/shared 单例）就位。不硬编码任何插件名。
+ *
+ * @param runtimePath   combination.config.runtimePath（插件追加后的完整值，string | string[]）
+ * @param extraPackages config.mini.sharedRuntimeExtraPackages（已被异步核显式接管，需排除）
+ * @param syncExtraPackages config.mini.sharedRuntimeSyncExtraPackages（已被同步核显式接管，需排除）
+ */
+export function computeMissingRuntimes (
+  runtimePath?: string | string[],
+  extraPackages: string[] = [],
+  syncExtraPackages: string[] = []
+): string[] {
+  const list = (Array.isArray(runtimePath) ? runtimePath : [runtimePath])
+    .filter((p): p is string => typeof p === 'string' && p.length > 0)
+    // 剥离 taro-loader 的 post: 前缀（其语义是业务 app.js import 排序，与同步核内执行序无关）
+    .map((p) => p.replace(REG_POST, ''))
+  const registered = new Set<string>(SYNC_CORE_REGISTERED_RUNTIMES)
+  const claimed = new Set<string>([...extraPackages, ...syncExtraPackages])
+  const seen = new Set<string>()
+  const result: string[] = []
+  for (const p of list) {
+    if (seen.has(p)) continue
+    seen.add(p)
+    // 只挑「会被主构建 external 的 @tarojs/*」（=运行时核需负责提供的），排除平台 runtime（已注册）
+    // 与已被 extra/syncExtra 显式接管的，剩下的即漏网。
+    if (shouldShareExternal(p, [...extraPackages, ...syncExtraPackages]) && !registered.has(p) && !claimed.has(p)) {
+      result.push(p)
+    }
+  }
+  return result
 }
