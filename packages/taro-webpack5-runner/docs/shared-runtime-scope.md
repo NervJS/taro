@@ -131,18 +131,18 @@ native-components 包**没有 app.js**,从不调 `createReactApp`。因此:
 
 - 所有业务包与共享运行时必须用**相同 Taro monorepo 版本**编译。异步核 provider 会做协议版本校验(`__rtVersion`),不一致直接 throw。
 - react 全家桶(react/react-dom/react-reconciler/scheduler + @tarojs/react)版本由业务项目 node_modules 决定,产物 `runtime-manifest.json` 记录实际版本供排查。
-- `sharedRuntimeExtraPackages`(如私有 jdapi runtime)版本也记入 manifest 的 `extraPackageVersions` 字段——但**仅记录供人工排查,不做编译期硬 gate**(这些包版本差异未必出错,硬 gate 易误报;只有 react 全家桶 + 协议号做硬校验)。多业务包声明不同版本的同一 extra 包时不会自动拦截,需人工比对 manifest。
+- `sharedRuntimeExtraPackages`(如某私有 runtime 插件)版本也记入 manifest 的 `extraPackageVersions` 字段——但**仅记录供人工排查,不做编译期硬 gate**(这些包版本差异未必出错,硬 gate 易误报;只有 react 全家桶 + 协议号做硬校验)。多业务包声明不同版本的同一 extra 包时不会自动拦截,需人工比对 manifest。
 - `sharedRuntimeSyncExtraPackages`(见下节)版本同样记入 manifest 的 `syncExtraPackageVersions` 字段,策略相同。
 
 ### extraPackages:同步核 vs 异步核选型(`sharedRuntimeSyncExtraPackages` vs `sharedRuntimeExtraPackages`)
 
-**背景**:异步核加载是异步的(`entry.sync.js` 的 `require(asyncRequest).then(__activateAsync)`,`.then` 回调晚于业务 app.js 顶层同步执行、也晚于首屏页面 `onLoad` 同步触发的 `window.trigger(CONTEXT_ACTIONS.INIT)` 事件广播)。若业务方运行时依赖"在首屏 INIT 广播之前必须注册好 `window.on(INIT)` 监听器"的初始化(例如 `@jdtaro/plugin-inject-jdapi` 在 INIT 回调里根据屏幕短边算 rem 根字号,写进 `<page-meta root-font-size>`),放进 `sharedRuntimeExtraPackages` 会**冷启动错过首屏 INIT**——热更新时因异步核已在内存、监听器早已注册,不复现;冷启动首屏永远错过。
+**背景**:异步核加载是异步的(`entry.sync.js` 的 `require(asyncRequest).then(__activateAsync)`,`.then` 回调晚于业务 app.js 顶层同步执行、也晚于首屏页面 `onLoad` 同步触发的 `window.trigger(CONTEXT_ACTIONS.INIT)` 事件广播)。若业务方运行时依赖"在首屏 INIT 广播之前必须注册好 `window.on(INIT)` 监听器"的初始化(例如某私有插件在 INIT 回调里根据屏幕短边算 rem 根字号,写进 `<page-meta root-font-size>`),放进 `sharedRuntimeExtraPackages` 会**冷启动错过首屏 INIT**——热更新时因异步核已在内存、监听器早已注册,不复现;冷启动首屏永远错过。
 
 **判定原则**:
-- **用 `sharedRuntimeSyncExtraPackages`(同步核)**:该包顶层副作用必须在首屏 `window.on(CONTEXT_ACTIONS.INIT)` 广播、或业务 app.js 顶层其它同步调用之前完成——如根字号 INIT 回调注册、`hooks.tap` 注册某个必须首屏就位的处理器、往全局挂必须首屏可读的状态等。**代价**:每业务包各自打包一份,不共享(损失方案二"多业务包共享"的核心价值);同步核体积会增加,应严格控制这份清单的最小化,只放"必须首屏就位"的极小内容(如 jdapi 根字号相关约 3~8KB)。
+- **用 `sharedRuntimeSyncExtraPackages`(同步核)**:该包顶层副作用必须在首屏 `window.on(CONTEXT_ACTIONS.INIT)` 广播、或业务 app.js 顶层其它同步调用之前完成——如根字号 INIT 回调注册、`hooks.tap` 注册某个必须首屏就位的处理器、往全局挂必须首屏可读的状态等。**代价**:每业务包各自打包一份,不共享(损失方案二"多业务包共享"的核心价值);同步核体积会增加,应严格控制这份清单的最小化,只放"必须首屏就位"的极小内容(如根字号相关约 3~8KB)。
 - **用 `sharedRuntimeExtraPackages`(异步核)**:命令式 API 定义、异步初始化、页面级 API、任何不参与首屏时序的功能。**收益**:多业务包共享同一份,不重复打包。
 
-**实操建议**:业务方(或其私有插件维护者)通常需要**新增一个"薄入口文件"**,把时机敏感的最小副作用拆出来单独暴露(如 jdapi 若想适配共享运行时,可新增 `runtime-mini-sync-critical` 子入口,内容只有根字号 INIT 回调注册那几行,包体积小到可控);业务 config 里 `sharedRuntimeSyncExtraPackages` 指向这个薄入口,原 `runtime-mini` 继续放 `sharedRuntimeExtraPackages`。
+**实操建议**:业务方(或其私有插件维护者)通常需要**新增一个"薄入口文件"**,把时机敏感的最小副作用拆出来单独暴露(如某私有插件若想适配共享运行时,可新增 `runtime-mini-sync-critical` 子入口,内容只有根字号 INIT 回调注册那几行,包体积小到可控);业务 config 里 `sharedRuntimeSyncExtraPackages` 指向这个薄入口,原 `runtime-mini` 继续放 `sharedRuntimeExtraPackages`。
 
 **为何不能靠 taro 主仓兜底(如异步核激活后补发一次 INIT)**:`taroWindowProvider` 的 INIT 处理器会连带触发 `_location.trigger(INIT)`/`_history` 重建上下文,补发有副作用(重复注册、重置状态等),且 `Events` 基类不支持"注册时立即用最后一次事件数据触发一次"的语义。让业务方按需拆分同步/异步职责,是侵入面最小、副作用最可控的方案。
 

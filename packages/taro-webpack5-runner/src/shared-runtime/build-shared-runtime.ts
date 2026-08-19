@@ -29,11 +29,11 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   // 共享运行时模板子构建的 DefinePlugin 常量：按 config 重建 runtime 分支常量（保 DOM 分支与主构建一致），
   // 叠加运行时模板所需的宏。
   const defineConstants = {
-    // 接入方通过插件/webpackChain 注入主构建的自定义 DefinePlugin 常量（如私有 jdapi 插件的
-    // process.env.ENABLE_LENGTH_SCALE_ROOT_FONT）。extraPackages 的 runtime 打进异步核，其行为
+    // 接入方通过插件/webpackChain 注入主构建的自定义 DefinePlugin 常量（如某私有插件的
+    // process.env.SOME_RUNTIME_FLAG）。extraPackages 的 runtime 打进异步核，其行为
     // 常被这些编译期 define 控制；异步核是独立子构建，不继承主构建的 DefinePlugin，若不透传，
     // buildDefineConstants 里兜底的 'process.env':'({})' 会把它们吞成 undefined（如
-    // "true"===({}).ENABLE_LENGTH_SCALE_ROOT_FONT → false），导致对应运行时特性静默失效。
+    // "true"===({}).SOME_RUNTIME_FLAG → false），导致对应运行时特性静默失效。
     // 放在最前：Taro 核心 runtime 常量与模板宏在后覆盖，避免业务 define 意外改写核心分支。
     ...collectUserDefineConstants(combination),
     ...buildDefineConstants(config),
@@ -152,7 +152,7 @@ function copySyncCoreIntoMainPackageRoots (outputDir: string, mainPackageRoots: 
  * 记录 react 全家桶（React 单例敏感、版本错配会真出错）精确版本 + 运行时协议版本号。
  * 定位：仅产物元数据，供宿主/人工排查；运行时跨包错配由同步核/异步核的 __rtVersion 校验兜底。
  *
- * extraPackages（config.mini.sharedRuntimeExtraPackages，如私有 jdapi runtime）的版本也一并记录：
+ * extraPackages（config.mini.sharedRuntimeExtraPackages，如某私有插件的 runtime）的版本也一并记录：
  * 它们随异步核打包共享,多业务包若声明不同版本会静默漂移（不像 react 全家桶有 __rtVersion 硬 gate）。
  * 这里只做**记录**供人工排查——不做编译期 gate（这些包的版本差异未必出错,硬 gate 易误报,与
  * react 全家桶的处理策略一致:只 react 全家桶做硬校验）。
@@ -164,7 +164,7 @@ function writeRuntimeManifest (asyncDir: string, userNodeModules: string, extraP
     const v = readPackageVersion(userNodeModules, pkg)
     if (v) versions[pkg] = v
   })
-  // extraPackages 可能带子路径（如 '@jdtaro/plugin-inject-jdapi/runtime-mini'），
+  // extraPackages 可能带子路径（如 '@scope/my-shared-plugin/runtime-mini'），
   // 版本要从包根 package.json 读——取 scope/包名部分（前 1 或 2 段）作为 readPackageVersion 的 key。
   const collectVersions = (pkgs: string[]) => {
     const out: Record<string, string> = {}
@@ -269,8 +269,8 @@ function getAsyncRequest (config: any): string {
 /**
  * 从主构建 webpack chain 收集接入方注入的自定义 DefinePlugin 常量，透传给异步核子构建。
  *
- * 场景：私有插件（如 @jdtaro/plugin-inject-jdapi）通过 webpackChain 独立 new DefinePlugin 注入
- * `process.env.ENABLE_LENGTH_SCALE_ROOT_FONT` 等编译期开关，控制其 runtime 行为。这些插件的
+ * 场景：某私有插件通过 webpackChain 独立 new DefinePlugin 注入
+ * `process.env.SOME_RUNTIME_FLAG` 等编译期开关，控制其 runtime 行为。这些插件的
  * runtime 被 sharedRuntimeExtraPackages 打进异步核，但异步核是独立子构建、不继承主构建的
  * DefinePlugin，若不透传，这些 `process.env.X` 会被兜底的 'process.env':'({})' 吞成 undefined，
  * 导致对应特性静默失效（本次真机现象：根字号开关失效 → root-font-size 空 → 字体变小）。
@@ -323,7 +323,7 @@ function buildDefineConstants (config: any): Record<string, any> {
     ENABLE_CLONE_NODE: runtime.enableCloneNode ?? false,
     ENABLE_CONTAINS: runtime.enableContains ?? false,
     ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
-    // 兜底：额外共享包（如 jdapi）可能用未知的 process.env.X 或裸 process，
+    // 兜底：额外共享包可能用未知的 process.env.X 或裸 process，
     // 小程序无 process 全局 → 未显式定义的都替换掉，避免 "process is not defined"。
     // webpack DefinePlugin 精确键（上面的 process.env.NODE_ENV 等）优先于 'process.env' 前缀键。
     'process.env': '({})',

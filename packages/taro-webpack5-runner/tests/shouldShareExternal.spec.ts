@@ -40,10 +40,10 @@ describe('shouldShareExternal（方案二 split externals 判定）', () => {
   })
 
   it('extraPackages 声明的包应被 external（含子路径）', () => {
-    const extra = ['@jdtaro/plugin-inject-jdapi/runtime-mini']
-    expect(shouldShareExternal('@jdtaro/plugin-inject-jdapi/runtime-mini', extra)).toBe(true)
-    expect(shouldShareExternal('@jdtaro/plugin-inject-jdapi/runtime-mini/sub', extra)).toBe(true)
-    expect(shouldShareExternal('@jdtaro/plugin-inject-jdapi/runtime-mini', [])).toBe(false)
+    const extra = ['@scope/my-shared-plugin/runtime-mini']
+    expect(shouldShareExternal('@scope/my-shared-plugin/runtime-mini', extra)).toBe(true)
+    expect(shouldShareExternal('@scope/my-shared-plugin/runtime-mini/sub', extra)).toBe(true)
+    expect(shouldShareExternal('@scope/my-shared-plugin/runtime-mini', [])).toBe(false)
   })
 
   it('空 / undefined 请求应排除', () => {
