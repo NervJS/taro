@@ -4,7 +4,7 @@ import { fs } from '@tarojs/helper'
 import webpack from 'webpack'
 
 import { RUNTIME_GLOBAL_VERSION, SHARED_ASYNC_PROVIDER_NAME, SHARED_ASYNC_ROOT, SHARED_GLOBAL_ASYNC, SHARED_SYNC_CORE_NAME } from './constants'
-import { SYNC_REACT_MEMBERS } from './externals'
+import { computeMissingRuntimes, SYNC_REACT_MEMBERS } from './externals'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
 
@@ -53,6 +53,13 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   const extraPackages: string[] = config.sharedRuntimeExtraPackages || []
   const syncExtraPackages: string[] = config.sharedRuntimeSyncExtraPackages || []
 
+  // 平台插件（plugin-html/plugin-inject/plugin-http/*-devtools 等）通过 platform.runtimePath 注入的
+  // side-effect runtime 也是 @tarojs/*，被主构建 external 成读共享全局，但运行时核只注册固定清单，
+  // 会漏掉它们 → 业务包读到 undefined → 其 hooks.tap 从未执行（如 plugin-html 的 <i> 标签映射失效，
+  // 报 `Template tmpl_0_i not found`）。这里从 runtimePath 挑出漏网项，一并作为同步核额外入口打包执行，
+  // 使其副作用在同步核内（与模板消费方同一 @tarojs/shared 单例）就位。对业务透明，无需手动声明。
+  const missingRuntimes = computeMissingRuntimes(config.runtimePath, extraPackages, syncExtraPackages)
+
   // entry 用数组多入口:extras 先执行副作用,最后核心 entry.
   // 数组多入口 webpack 会按 __webpack_exec__ 序列依次执行,extras 顶层副作用(mergeReconciler
   // 等)必然先于核心 entry 完成——mock-exec 已实测证实(用 Node vm 跑产物 + mock @tarojs/shared,
@@ -82,8 +89,9 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   })
 
   // sync-core：放 outputDir 根。SyncExtraPackages 走同步核入口(时机敏感副作用).
+  // missingRuntimes 前置：它们是平台级 side-effect runtime，tap 幂等无顺序依赖，前置更符合语义.
   // require.async(shared-async-v1/index) 由 externalsType='promise' 编译得到。
-  const syncCoreConfig: any = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '', syncExtraPackages)
+  const syncCoreConfig: any = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '', [...missingRuntimes, ...syncExtraPackages])
   syncCoreConfig.externalsType = 'promise'
   syncCoreConfig.externals = { [asyncRequest]: `require.async(${JSON.stringify(asyncRequest)})` }
 
