@@ -29,6 +29,13 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   // 共享运行时模板子构建的 DefinePlugin 常量：按 config 重建 runtime 分支常量（保 DOM 分支与主构建一致），
   // 叠加运行时模板所需的宏。
   const defineConstants = {
+    // 接入方通过插件/webpackChain 注入主构建的自定义 DefinePlugin 常量（如私有 jdapi 插件的
+    // process.env.ENABLE_LENGTH_SCALE_ROOT_FONT）。extraPackages 的 runtime 打进异步核，其行为
+    // 常被这些编译期 define 控制；异步核是独立子构建，不继承主构建的 DefinePlugin，若不透传，
+    // buildDefineConstants 里兜底的 'process.env':'({})' 会把它们吞成 undefined（如
+    // "true"===({}).ENABLE_LENGTH_SCALE_ROOT_FONT → false），导致对应运行时特性静默失效。
+    // 放在最前：Taro 核心 runtime 常量与模板宏在后覆盖，避免业务 define 意外改写核心分支。
+    ...collectUserDefineConstants(combination),
     ...buildDefineConstants(config),
     // 运行时模板（entry.sync.js / async-provider.js）引用的宏，单一来源为 constants.ts + globalObject 配置：
     // 注意：__TARO_GLOBAL_OBJECT__ 是**标识符**（不 JSON.stringify），其它是**字符串常量**（JSON.stringify）。
@@ -38,16 +45,28 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
     __TARO_RUNTIME_VERSION__: JSON.stringify(RUNTIME_GLOBAL_VERSION),
   }
 
-  // 接入方声明的额外共享包（CLI 不认识具体包名）。webpack entry 用数组：额外包按序先执行
-  // （其 mergeReconciler 等副作用先跑），再执行核心 entry（内部 require @tarojs/taro 触发 initNativeApi）。
+  // 接入方声明的额外共享包（CLI 不认识具体包名），按加载时机分两类:
+  //   - sharedRuntimeExtraPackages: 随异步核加载,多业务包共享(不参与首屏时序的 API 定义/异步初始化)
+  //   - sharedRuntimeSyncExtraPackages: 随同步核加载,每业务包各带一份(必须在首屏 window INIT
+  //     广播之前注册监听器/写全局状态等——异步核 .then 晚于首屏 onLoad,时机敏感副作用放这里)
+  // 两者都会被 shouldShareExternal 识别为共享 external,不进业务包主 bundle,只是执行时机不同.
   const extraPackages: string[] = config.sharedRuntimeExtraPackages || []
+  const syncExtraPackages: string[] = config.sharedRuntimeSyncExtraPackages || []
 
-  const base = (name: string, entry: string, emitTo: string, withExtras = true) => ({
+  // entry 用数组多入口:extras 先执行副作用,最后核心 entry.
+  // 数组多入口 webpack 会按 __webpack_exec__ 序列依次执行,extras 顶层副作用(mergeReconciler
+  // 等)必然先于核心 entry 完成——mock-exec 已实测证实(用 Node vm 跑产物 + mock @tarojs/shared,
+  // 验证 hostConfig 被 tap、initNativeApi hook 就位).
+  const buildEntry = (coreEntryFile: string, extras: string[]) => {
+    const core = path.join(shimDir, coreEntryFile)
+    return extras.length ? [...extras, core] : core
+  }
+
+  const base = (name: string, entry: string, emitTo: string, extras: string[]) => ({
     name,
     mode: 'production' as const,
     target: ['web', 'es5'] as any,
-    // extraPackages 拼进异步子包（与 @tarojs/api 同处），其副作用在子包加载时执行。只在异步核带，避免打两份。
-    entry: withExtras ? [...extraPackages, path.join(shimDir, entry)] : path.join(shimDir, entry),
+    entry: buildEntry(entry, extras),
     output: {
       path: path.join(outputDir, emitTo),
       filename: `${name}.js`,
@@ -62,14 +81,14 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
     resolve: { modules: [userNodeModules, 'node_modules'] },
   })
 
-  // sync-core：放 outputDir 根；withExtras=false —— 额外包随异步子包，与 @tarojs/api 一致。
+  // sync-core：放 outputDir 根。SyncExtraPackages 走同步核入口(时机敏感副作用).
   // require.async(shared-async-v1/index) 由 externalsType='promise' 编译得到。
-  const syncCoreConfig: any = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '', false)
+  const syncCoreConfig: any = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '', syncExtraPackages)
   syncCoreConfig.externalsType = 'promise'
   syncCoreConfig.externals = { [asyncRequest]: `require.async(${JSON.stringify(asyncRequest)})` }
 
-  // async-provider：放 shared-async-v1/；withExtras=true —— extraPackages 拼进异步子包 entry。
-  const asyncConfig: any = base(SHARED_ASYNC_PROVIDER_NAME, 'async-provider.js', SHARED_ASYNC_ROOT, true)
+  // async-provider：放 shared-async-v1/。extraPackages(异步)以数组多入口在核心 entry 前先执行副作用.
+  const asyncConfig: any = base(SHARED_ASYNC_PROVIDER_NAME, 'async-provider.js', SHARED_ASYNC_ROOT, extraPackages)
   asyncConfig.externals = reverseExternals(globalObject)
 
   await runWebpack([syncCoreConfig, asyncConfig])
@@ -91,7 +110,7 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
 
   // 产物元数据 manifest：记录本次共享运行时用到的 react 全家桶精确版本 + 运行时协议版本。
   // 供宿主/接入方排查版本一致性（多业务包 + 宿主 provider 的 react 单例必须版本一致）。
-  writeRuntimeManifest(asyncDir, userNodeModules, extraPackages)
+  writeRuntimeManifest(asyncDir, userNodeModules, extraPackages, syncExtraPackages)
 
   // dist 自带运行时：把 shared-async 注册进本项目 dist/app.json + 配 preloadRule，使 dist 可直接被开发者工具打开。
   registerAsyncSubPackage(outputDir, fileType.config || '.json')
@@ -138,7 +157,7 @@ function copySyncCoreIntoMainPackageRoots (outputDir: string, mainPackageRoots: 
  * 这里只做**记录**供人工排查——不做编译期 gate（这些包的版本差异未必出错,硬 gate 易误报,与
  * react 全家桶的处理策略一致:只 react 全家桶做硬校验）。
  */
-function writeRuntimeManifest (asyncDir: string, userNodeModules: string, extraPackages: string[] = []) {
+function writeRuntimeManifest (asyncDir: string, userNodeModules: string, extraPackages: string[] = [], syncExtraPackages: string[] = []) {
   const REACT_FAMILY = ['react', 'react-dom', 'react-reconciler', 'scheduler', '@tarojs/react']
   const versions: Record<string, string> = {}
   REACT_FAMILY.forEach((pkg) => {
@@ -147,18 +166,24 @@ function writeRuntimeManifest (asyncDir: string, userNodeModules: string, extraP
   })
   // extraPackages 可能带子路径（如 '@jdtaro/plugin-inject-jdapi/runtime-mini'），
   // 版本要从包根 package.json 读——取 scope/包名部分（前 1 或 2 段）作为 readPackageVersion 的 key。
-  const extraVersions: Record<string, string> = {}
-  extraPackages.forEach((pkg) => {
-    const pkgRoot = pkg.startsWith('@') ? pkg.split('/').slice(0, 2).join('/') : pkg.split('/')[0]
-    const v = readPackageVersion(userNodeModules, pkgRoot)
-    if (v) extraVersions[pkgRoot] = v
-  })
+  const collectVersions = (pkgs: string[]) => {
+    const out: Record<string, string> = {}
+    pkgs.forEach((pkg) => {
+      const pkgRoot = pkg.startsWith('@') ? pkg.split('/').slice(0, 2).join('/') : pkg.split('/')[0]
+      const v = readPackageVersion(userNodeModules, pkgRoot)
+      if (v) out[pkgRoot] = v
+    })
+    return out
+  }
+  const extraVersions = collectVersions(extraPackages)
+  const syncExtraVersions = collectVersions(syncExtraPackages)
   const manifest = {
     runtimeProtocolVersion: RUNTIME_GLOBAL_VERSION,
     global: SHARED_GLOBAL_ASYNC,
     subPackage: SHARED_ASYNC_ROOT,
     reactFamilyVersions: versions,
     extraPackageVersions: extraVersions,
+    syncExtraPackageVersions: syncExtraVersions,
   }
   fs.writeFileSync(path.join(asyncDir, 'runtime-manifest.json'), JSON.stringify(manifest, null, 2) + '\n')
 }
@@ -239,6 +264,41 @@ function getAsyncRequest (config: any): string {
   if (typeof custom === 'string' && custom) return custom
   // 默认值：相对路径（业务被拷进宿主子包后由接入方按实际布局配置覆盖）
   return `${SHARED_ASYNC_ROOT}/index`
+}
+
+/**
+ * 从主构建 webpack chain 收集接入方注入的自定义 DefinePlugin 常量，透传给异步核子构建。
+ *
+ * 场景：私有插件（如 @jdtaro/plugin-inject-jdapi）通过 webpackChain 独立 new DefinePlugin 注入
+ * `process.env.ENABLE_LENGTH_SCALE_ROOT_FONT` 等编译期开关，控制其 runtime 行为。这些插件的
+ * runtime 被 sharedRuntimeExtraPackages 打进异步核，但异步核是独立子构建、不继承主构建的
+ * DefinePlugin，若不透传，这些 `process.env.X` 会被兜底的 'process.env':'({})' 吞成 undefined，
+ * 导致对应特性静默失效（本次真机现象：根字号开关失效 → root-font-size 空 → 字体变小）。
+ *
+ * 仅收集**具名精确键**（如 'process.env.X'、裸标识符），显式跳过 'process' / 'process.env' 这类
+ * 前缀/裸键——它们由 buildDefineConstants 的兜底策略统一处理，不能被业务值覆盖。调用时机在主构建
+ * 结束后（chain 已 finalize，所有插件含业务 DefinePlugin 都已装配），从 combination.chain 遍历。
+ */
+function collectUserDefineConstants (combination: MiniCombination): Record<string, any> {
+  const result: Record<string, any> = {}
+  const chain: any = (combination as any).chain
+  const store = chain?.plugins?.store
+  if (!store || typeof store.forEach !== 'function') return result
+  store.forEach((plugin: any) => {
+    try {
+      if (plugin?.get?.('plugin') !== webpack.DefinePlugin) return
+      const defs = (plugin.get('args') || [])[0]
+      if (!defs || typeof defs !== 'object') return
+      Object.keys(defs).forEach((key) => {
+        // 跳过前缀/裸键，交给兜底；其余具名键透传（后续 buildDefineConstants 会覆盖同名核心键）
+        if (key === 'process' || key === 'process.env') return
+        result[key] = defs[key]
+      })
+    } catch {
+      /* 单个插件读取失败不影响整体，跳过 */
+    }
+  })
+  return result
 }
 
 /** 主构建 DefinePlugin 不可得时，按 config 重建 runtime 分支常量 */
