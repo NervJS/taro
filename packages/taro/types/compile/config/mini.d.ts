@@ -107,6 +107,16 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
    */
   sharedRuntimeExtraPackages?: string[]
 
+  /**
+   * 共享运行时（方案二 split）：需要在**同步核**阶段就执行副作用的额外共享包名列表。
+   * 与 `sharedRuntimeExtraPackages` 平行——后者随异步核加载（`.then` 回调，晚于首屏 onLoad），
+   * 前者随业务 app.js 顶层同步 `require` 立即执行。适用于必须先于首屏 window `INIT`
+   * 事件广播就注册监听器/设置全局状态的场景（如 rem 根字号计算的 `window.on(CONTEXT_ACTIONS.INIT)`
+   * 注册）。代价：每个业务包各自打包一份（不共享），故此清单应仅放**必须首屏就位**的极小内容。
+   * 仅在 `--shared-runtime --shared-runtime-mode split` 编译时生效。
+   */
+  sharedRuntimeSyncExtraPackages?: string[]
+
   /** 使用的编译工具。可选值：webpack5、vite */
   compiler?: Compiler<T>
 
