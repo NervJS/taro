@@ -28,3 +28,27 @@ export const SHARED_ASYNC_ROOT = `shared-async-v${RUNTIME_GLOBAL_VERSION}`
 
 /** 异步核 provider 产物文件名（不含 .js），emit 到 SHARED_ASYNC_ROOT 下。 */
 export const SHARED_ASYNC_PROVIDER_NAME = 'async-provider'
+
+/**
+ * taro-loader 的 runtimePath `post:` 前缀（镜像 taro-loader/src/constants.ts 的 REG_POST）。
+ * 这里单独定义而非 import：taro-loader 是编译期 loader 包，跨已编译包 import 常量不稳妥，
+ * 且此正则极简、语义固定，就地镜像一份即可。改动时两处保持一致。
+ */
+export const REG_POST = /^post:/
+
+/**
+ * 同步核 entry.sync.js 已静态 require 并 share() 到共享全局的「runtime 类」模块清单。
+ * computeMissingRuntimes 用它做差集：platform.runtimePath 里已在此清单的（如平台 runtime）
+ * 无需再作为额外入口重复打进同步核。
+ *
+ * ⚠️ 改动 entry.sync.js 里 require 的平台/运行时模块清单时必须同步此常量
+ * （tests/shouldShareExternal.spec.ts 有一致性守护单测防漂移）。
+ * 注：react 全家桶虽也在 entry.sync.js 同步 require，但它们不属于 platform.runtimePath
+ * （runtimePath 只承载 @tarojs/* 平台与插件 runtime），不会进 computeMissingRuntimes 的输入，
+ * 故不必列入此清单。
+ */
+export const SYNC_CORE_REGISTERED_RUNTIMES: readonly string[] = [
+  '@tarojs/runtime',
+  '@tarojs/shared',
+  '@tarojs/plugin-platform-weapp/dist/runtime',
+]
