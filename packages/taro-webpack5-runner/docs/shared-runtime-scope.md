@@ -146,6 +146,18 @@ native-components 包**没有 app.js**,从不调 `createReactApp`。因此:
 
 **为何不能靠 taro 主仓兜底(如异步核激活后补发一次 INIT)**:`taroWindowProvider` 的 INIT 处理器会连带触发 `_location.trigger(INIT)`/`_history` 重建上下文,补发有副作用(重复注册、重置状态等),且 `Events` 基类不支持"注册时立即用最后一次事件数据触发一次"的语义。让业务方按需拆分同步/异步职责,是侵入面最小、副作用最可控的方案。
 
+### 平台插件注入的 runtime(自动纳入同步核,无需手动声明)
+
+**这是 CLI 自动处理的,与上面业务手动声明的 `sharedRuntime(Sync)ExtraPackages` 不同,业务方无需关心。**
+
+**背景**:平台插件(`@tarojs/plugin-html`、`@tarojs/plugin-inject`、`@tarojs/plugin-http`、`@tarojs/plugin-react-devtools`、`@tarojs/plugin-vue-devtools` 等)通过 `injectRuntimePath()` 往 `platform.runtimePath` 追加自己的 side-effect runtime(如 plugin-html 的 `hooks.tap('modifyHydrateData')` 把 HTML 内联标签 `<i>`/`<span>` 等 nodeName 映射成 `view`/`text`)。`taro-loader` 把 runtimePath 每项生成 `import '<path>'` 注入业务 app.js。
+
+**曾经的缺口**:这些 runtime 也是 `@tarojs/*`,被 `shouldShareExternal` 无差别 external 成读共享全局(`wx.__TARO_RT_ASYNC_V1__[...]`),但运行时核(同步核 `entry.sync.js` + 异步核 `async-provider.js`)只注册了固定清单(见 `SYNC_CORE_REGISTERED_RUNTIMES` + async-provider),**漏掉这些插件 runtime → 业务包读到 `undefined` → 其 `hooks.tap` 从未执行**。典型症状:plugin-html 的 `<i>` 映射失效,base.wxml 的 `xs.a` 按 `tmpl_${level}_${nodeName}` 拼出 `tmpl_0_i` 找模板,报 `Template tmpl_0_i not found`(`<i>` 本就不生成模板,靠运行时映射掉)。
+
+**现在的处理**:`build-shared-runtime` 读 `combination.config.runtimePath`,用 `computeMissingRuntimes()`(见 `externals.ts`)挑出"被 external 却无人注册"的 `@tarojs/*` 插件 runtime——排除已被同步核 `SYNC_CORE_REGISTERED_RUNTIMES` 注册的平台 runtime、以及已被 `sharedRuntime(Sync)ExtraPackages` 显式接管的——作为**同步核额外入口**一并打包执行。这些 runtime 打进同步核后,其 `import { hooks } from '@tarojs/shared'` resolve 到同步核 bundle 的同一 `@tarojs/shared` 单例(同步核子构建除 asyncRequest 外不 external `@tarojs/shared`),`hooks.tap` 与模板消费方落在同一 hooks 上,就位生效。
+
+**注意**:`SYNC_CORE_REGISTERED_RUNTIMES`(`constants.ts`)必须与 `entry.sync.js` 实际 `require` 的平台/运行时清单保持一致——它是 `computeMissingRuntimes` 做差集的依据,漂移会导致"已注册的被重复打包"或"未注册的仍漏掉"。有一致性守护单测(`tests/react-members-consistency.spec.ts`)防漂移。当前仅列了 weapp 平台 runtime,故非 weapp 平台的平台 runtime 会被误纳入 missing——但方案二本就仅 weapp 真机验证(见下"不适用/已知边界"),不构成新增边界。
+
 ### dev/watch 模式重复构建共享运行时子核
 
 `buildSharedRuntime()` 挂在构建完成回调上,`--watch` 模式下**每次增量重编译都会重跑一遍完整生产模式子构建**(sync-core + async-provider 两个独立 webpack config)。不影响正确性(产物一致),但拖慢 watch 循环。当前无"输入未变则跳过"缓存判断——归为已知性能边界,开发期可接受。
