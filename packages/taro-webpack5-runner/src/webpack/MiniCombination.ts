@@ -44,6 +44,7 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
       isBuildPlugin = false,
       sharedRuntime = false,
       sharedRuntimeExtraPackages = [],
+      sharedRuntimeSyncExtraPackages = [],
       /** hooks */
       modifyComponentConfig,
       optimizeMainPackage
@@ -83,9 +84,12 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
 
     // 共享运行时（方案二 split）：把 Taro/React 运行时 external 到全局，产物里不再含这些包，
     // 由运行时核（同步核 + 异步核）在加载时挂到 wx.__TARO_RT_ASYNC_V1__ 供业务包读取。
+    // sharedRuntimeSyncExtraPackages 与 sharedRuntimeExtraPackages 都是"共享 external"清单
+    // (external 判定与执行时机无关,时机差异只体现在异步核 vs 同步核 entry 归属),故合并.
+    const allExtraPackages = [...sharedRuntimeExtraPackages, ...sharedRuntimeSyncExtraPackages]
     const sharedExternals: any[] = sharedRuntime
       ? [({ request }, cb) => {
-        if (shouldShareExternal(request, sharedRuntimeExtraPackages)) {
+        if (shouldShareExternal(request, allExtraPackages)) {
           // external 目标读平台全局对象（不硬编码 wx.），为多平台留口
           return cb(null, `${globalObject}.${SHARED_GLOBAL_ASYNC}[${JSON.stringify(request)}]`)
         }
