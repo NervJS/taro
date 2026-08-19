@@ -286,7 +286,11 @@ function collectUserDefineConstants (combination: MiniCombination): Record<strin
   if (!store || typeof store.forEach !== 'function') return result
   store.forEach((plugin: any) => {
     try {
-      if (plugin?.get?.('plugin') !== webpack.DefinePlugin) return
+      // 识别 DefinePlugin:优先引用相等(同一 webpack 实例时成立);兜底按构造器名——
+      // 极端场景下业务插件自行 require('webpack') 解析到未被 pnpm 去重的另一实例时,
+      // 引用相等会失败,靠 .name === 'DefinePlugin' 仍能命中,避免静默漏收其 define 常量。
+      const ctor = plugin?.get?.('plugin')
+      if (ctor !== webpack.DefinePlugin && ctor?.name !== 'DefinePlugin') return
       const defs = (plugin.get('args') || [])[0]
       if (!defs || typeof defs !== 'object') return
       Object.keys(defs).forEach((key) => {
