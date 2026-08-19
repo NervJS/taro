@@ -267,3 +267,88 @@ describe('F6 native-comp 占位 createNativeComponentConfig（真机崩溃回归
     expect(buildCount).toBe(1) // 只建一次
   })
 })
+
+describe('blended 无参 onLaunch 重放不污染已就位路由（useRouter().params 崩溃回归）', () => {
+  // 真机崩溃根因:blended/newBlended 模式 taro-loader 生成无参 `app.onLaunch()`。共享运行时把它
+  // 推迟进 queue，与页面 mount 一起等异步核就位后 flush，且 onLaunch 排在 mount 前。若页面 onLoad
+  // 已用真实参数经 setCurrentRouter 设好 Current.router，onLaunch 重放的真身 ONLAUNCH 内部无条件
+  // setRouterParams(undefined) 会把它覆盖成 {params:undefined} → 之后 mount 渲染 useRouter() 读到
+  // 空态 → Object.keys(undefined) 崩。修复:无参 onLaunch 重放若把已存在真实路由污染成
+  // params===undefined，则还原。
+  //
+  // 真身 ONLAUNCH 的可观察副作用即 setRouterParams(options)：options 为 undefined 时
+  // Current.router = { params: undefined }。下面 mock 真身 onLaunch 复刻这一行为。
+  // __activateReal(realFramework) 的入参是 framework（含 createReactApp），realApp 是其返回值。
+  // queue 里的 onLaunch 转发拿到的 real 即该 realApp。真身 ONLAUNCH 的可观察副作用是
+  // setRouterParams(options)：options 为 undefined 时 Current.router = { params: undefined }。
+  // 下面 mock 的 realApp.onLaunch 复刻这一行为。
+  function makeRealFramework (Current: any) {
+    return {
+      createReactApp () {
+        return {
+          __isReal: true,
+          onLaunch (options?: any) { Current.router = { params: options?.query } },
+          mount () {},
+          unmount () {},
+        }
+      },
+    }
+  }
+
+  it('页面已设真实路由后，无参 onLaunch 重放不覆盖（还原为真实值）', () => {
+    const shared: any = {}
+    const Current: any = { app: null, router: null }
+    install(shared, Current)
+
+    const fw = shared['@tarojs/plugin-framework-react/dist/runtime']
+    fw.createReactApp({ tag: 'App' }, null, null, {})
+
+    // 占位阶段：业务 app.js 顶层无参调 onLaunch()（进 queue，未执行）
+    Current.app.onLaunch()
+    // 页面 onLoad 先跑：setCurrentRouter 用真实参数设置路由
+    Current.router = { params: { id: '123', __type: 'detail' }, path: '/pages/index/index' }
+
+    // 异步核就位：flush queue（重放无参 onLaunch → 真身 setRouterParams(undefined)）
+    shared.__activateReal(makeRealFramework(Current))
+
+    // 关键：真实路由未被污染
+    expect(Current.router.params).toEqual({ id: '123', __type: 'detail' })
+    expect(Current.router.params).not.toBeUndefined()
+  })
+
+  it('页面尚未设路由（初始 null）时，无参 onLaunch 重放不还原（与 vanilla 语义一致）', () => {
+    const shared: any = {}
+    const Current: any = { app: null, router: null }
+    install(shared, Current)
+
+    const fw = shared['@tarojs/plugin-framework-react/dist/runtime']
+    fw.createReactApp({ tag: 'App' }, null, null, {})
+
+    // 占位阶段无参 onLaunch，且页面还没跑（router 仍是初始 null）
+    Current.app.onLaunch()
+    shared.__activateReal(makeRealFramework(Current))
+
+    // routerBefore 是 null（params 非"真实值"），不触发还原：保留真身设置结果，
+    // 后续页面 onLoad 会用 setCurrentRouter 覆盖，语义与 vanilla 一致，无副作用。
+    expect(Current.router).toEqual({ params: undefined })
+  })
+
+  it('有参 onLaunch 调用不受收窄逻辑影响（正常传参场景照常覆盖）', () => {
+    const shared: any = {}
+    const Current: any = { app: null, router: null }
+    install(shared, Current)
+
+    const fw = shared['@tarojs/plugin-framework-react/dist/runtime']
+    fw.createReactApp({ tag: 'App' }, null, null, {})
+
+    // 页面已设路由
+    Current.router = { params: { old: '1' } }
+    // 带参 onLaunch（args.length>0，不匹配收窄条件）：应照常走真身
+    Current.app.onLaunch({ query: { fresh: '2' } })
+    shared.__activateReal(makeRealFramework(Current))
+
+    // 带参场景：真身 setRouterParams({query:{fresh:'2'}}) 正常生效
+    expect(Current.router.params).toEqual({ fresh: '2' })
+  })
+})
+
