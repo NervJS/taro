@@ -180,7 +180,7 @@ export default class CLI {
             isBuildNativeComp: _[1] === 'native-components',
             // Note: 新的混合编译模式，支持把组件单独编译为原生组件
             newBlended: Boolean(args['new-blended']),
-            // Note: 共享运行时（方案二 split）：把 Taro/React 运行时 external 到全局，不打进业务包
+            // Note: 共享运行时（split 模式）：把 Taro/React 运行时 external 到全局，不打进业务包
             sharedRuntime: Boolean(args['shared-runtime']),
             // Note: 共享运行时模式，当前仅支持 split。校验在 build 命令内做 fail-fast
             sharedRuntimeMode: args['shared-runtime-mode'],

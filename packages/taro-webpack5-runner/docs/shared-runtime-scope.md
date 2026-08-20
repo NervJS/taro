@@ -1,6 +1,6 @@
-# 共享运行时(方案二 split)适用范围
+# 共享运行时（split 模式）适用范围
 
-本文档明确 `--shared-runtime --shared-runtime-mode split` 的适用与不适用场景。方案二 CLI 在 `taro-cli/src/presets/commands/build.ts` 里对不适用场景做了 fail-fast 拒绝,不会静默产出会崩的产物。
+本文档明确 `--shared-runtime --shared-runtime-mode split` 的适用与不适用场景。共享运行时 CLI 在 `taro-cli/src/presets/commands/build.ts` 里对不适用场景做了 fail-fast 拒绝,不会静默产出会崩的产物。
 
 ## ✅ 适用场景
 
@@ -27,7 +27,7 @@ taro build --type weapp --new-blended --shared-runtime --shared-runtime-mode spl
 taro build native-components --type weapp --shared-runtime --shared-runtime-mode split
 ```
 
-**收益**:多个独立编译的 native-components 包接入同一方案二宿主时,共享一份异步核,不再每包各带 ~200KB 运行时;与主业务包共存时 react 全家桶共用同一实例(避免双实例)。
+**收益**:多个独立编译的 native-components 包接入同一共享运行时宿主时,共享一份异步核,不再每包各带 ~200KB 运行时;与主业务包共存时 react 全家桶共用同一实例(避免双实例)。
 
 **机制**(与 pages 模式对称):
 - 每个 native-component(miniType=PAGE)chunk 顶部由 `TaroInjectSyncCorePlugin`(injectOnPage=true)注入 `require('taro-shared-sync')`,同步核先于组件 `Component(...)` 注册就位。
@@ -36,7 +36,7 @@ taro build native-components --type weapp --shared-runtime --shared-runtime-mode
 - container id 用 `app_${pkgId}` 隔离(与 pages 的 `config.appId=pkgId` 同源),避免多包 React root 挂到同一 DOM node 互相覆盖。
 - 时序兜底:host 页面在异步核就绪前渲染 native-comp 时,组件 attached 排队到 `shared.__nativeCompQueue`,异步核 activate 后 flush;组件在就绪前销毁则按 compId 出队,避免僵尸挂载。
 
-**前提**:native-components 产物**必须在方案二共享运行时宿主内使用**(宿主需提供 `wx.__TARO_RT_ASYNC_V1__` 全局)。若要发给非方案二宿主,去掉 `--shared-runtime` 走 vanilla 自足产物。
+**前提**:native-components 产物**必须在共享运行时宿主内使用**(宿主需提供 `wx.__TARO_RT_ASYNC_V1__` 全局)。若要发给非共享运行时宿主,去掉 `--shared-runtime` 走 vanilla 自足产物。
 
 > **⚠️ 接入约定:共享 native-component 不能放进宿主的 independent(独立)分包。**
 > 独立分包冷启动跳过主包、且**运行时隔离**——访问不到主包/其他分包的资源。即使 native-comp 的 chunk 顶部注入了同步核,同步核要 `require.async('shared-async-v1/index')` 去拉异步核,而 `shared-async-v1` 是主包区域的普通分包 → 独立分包内拉不到 → 崩。
@@ -72,7 +72,7 @@ shared-runtime 与 subPackageIndie 组合时,有三处需要适配:
 taro build --plugin weapp --shared-runtime  # ← 会 fail-fast
 ```
 
-**为何不适用**:小程序插件在宿主中运行时无共享 JS 全局对象访问权;方案二依赖跨包 `wx.__TARO_RT_ASYNC_V*__` 全局共享,插件模式无法达成。
+**为何不适用**:小程序插件在宿主中运行时无共享 JS 全局对象访问权;共享运行时依赖跨包 `wx.__TARO_RT_ASYNC_V*__` 全局共享,插件模式无法达成。
 
 ### 2. 非小程序端(h5 / rn / harmony)
 
@@ -80,7 +80,7 @@ taro build --plugin weapp --shared-runtime  # ← 会 fail-fast
 taro build --type h5 --shared-runtime  # ← 会 fail-fast
 ```
 
-**为何不适用**:h5/rn/harmony 走独立编译栈,不经过 `MiniCombination`/`externals` 层,方案二 flag 传入会静默失效——CLI 直接拒绝以避免开发者误用。
+**为何不适用**:h5/rn/harmony 走独立编译栈,不经过 `MiniCombination`/`externals` 层,共享运行时 flag 传入会静默失效——CLI 直接拒绝以避免开发者误用。
 
 ### 3. 非 react 框架(vue3 / solid / preact)
 
@@ -110,7 +110,7 @@ app.config 里业务分包声明 `independent: true` + `--shared-runtime` ← �
 - 若异步核尚未激活:后到者调 `fw.createReactApp(App_B, ...)` 覆盖 `shared.__appBootstrap`,异步核激活时 `__activateReal` 用最后一包的 App 建 realAppObj。
 - 若异步核已激活:后到者调用直接进 framework 真身 createReactApp,内部按原生语义覆盖 `Current.app`。
 
-**为何选 last-writer**:非共享运行时下,每个业务包各带独立 `@tarojs/runtime` 副本,`Current` 是模块级常量,两包各自一份、完全隔离——不存在"覆盖 vs 首包"这个问题。方案二把多包塞进一份 `Current` 后,应选与单份 runtime **原生语义连续**的策略。last-writer 让"最后加载的包成为当前活跃 App",符合 Taro API 一贯行为与业务"就近激活"直觉。
+**为何选 last-writer**:非共享运行时下,每个业务包各带独立 `@tarojs/runtime` 副本,`Current` 是模块级常量,两包各自一份、完全隔离——不存在"覆盖 vs 首包"这个问题。共享运行时把多包塞进一份 `Current` 后,应选与单份 runtime **原生语义连续**的策略。last-writer 让"最后加载的包成为当前活跃 App",符合 Taro API 一贯行为与业务"就近激活"直觉。
 
 **含义**:多包在同一时刻共用一个 App 生命周期(以最后加载者为准)。若两包各自需要独立 App 副作用(独立 `onLaunch`/`onShow`),当前架构不支持——需后续扩展多 App 表 + 按包路由分派。
 
@@ -121,7 +121,7 @@ app.config 里业务分包声明 `independent: true` + `--shared-runtime` ← �
 native-components 包**没有 app.js**,从不调 `createReactApp`。因此:
 
 - 同步核 `__activateReal` 因无 `__appBootstrap` 早退,**`Current.app` 保持 app-shim 装的占位对象**(`{ __isTaroPlaceholder: true, ... }`);若宿主同时有页面业务包(basic/order),`Current.app` 则是最后加载页面包的 App(last-writer)。
-- native-comp 的真正渲染与组件生命周期由 **`shared.__nativeComponentApps[pkgId]`**(Entry 实例)驱动,**刻意不写 `Current.app`**——否则多包共存时会覆盖页面包的 App(即 F5 修的那个洞)。
+- native-comp 的真正渲染与组件生命周期由 **`shared.__nativeComponentApps[pkgId]`**(Entry 实例)驱动,**刻意不写 `Current.app`**——否则多包共存时会覆盖页面包的 App(即多包 App 隔离修复的那个问题)。
 
 **含义**:在 native-comp 内 `getCurrentInstance().app` 拿到的是占位或页面包 App,**不是**本组件的 Entry。这对 native-comp 无害——它不驱动 App 生命周期;真正依赖的 `Current.page` / `Current.router` 均正常(useReady/useLoad、路由参数都对)。
 
@@ -139,7 +139,7 @@ native-components 包**没有 app.js**,从不调 `createReactApp`。因此:
 **背景**:异步核加载是异步的(`entry.sync.js` 的 `require(asyncRequest).then(__activateAsync)`,`.then` 回调晚于业务 app.js 顶层同步执行、也晚于首屏页面 `onLoad` 同步触发的 `window.trigger(CONTEXT_ACTIONS.INIT)` 事件广播)。若业务方运行时依赖"在首屏 INIT 广播之前必须注册好 `window.on(INIT)` 监听器"的初始化(例如某私有插件在 INIT 回调里根据屏幕短边算 rem 根字号,写进 `<page-meta root-font-size>`),放进 `sharedRuntimeExtraPackages` 会**冷启动错过首屏 INIT**——热更新时因异步核已在内存、监听器早已注册,不复现;冷启动首屏永远错过。
 
 **判定原则**:
-- **用 `sharedRuntimeSyncExtraPackages`(同步核)**:该包顶层副作用必须在首屏 `window.on(CONTEXT_ACTIONS.INIT)` 广播、或业务 app.js 顶层其它同步调用之前完成——如根字号 INIT 回调注册、`hooks.tap` 注册某个必须首屏就位的处理器、往全局挂必须首屏可读的状态等。**代价**:每业务包各自打包一份,不共享(损失方案二"多业务包共享"的核心价值);同步核体积会增加,应严格控制这份清单的最小化,只放"必须首屏就位"的极小内容(如根字号相关约 3~8KB)。
+- **用 `sharedRuntimeSyncExtraPackages`(同步核)**:该包顶层副作用必须在首屏 `window.on(CONTEXT_ACTIONS.INIT)` 广播、或业务 app.js 顶层其它同步调用之前完成——如根字号 INIT 回调注册、`hooks.tap` 注册某个必须首屏就位的处理器、往全局挂必须首屏可读的状态等。**代价**:每业务包各自打包一份,不共享(损失共享运行时"多业务包共享"的核心价值);同步核体积会增加,应严格控制这份清单的最小化,只放"必须首屏就位"的极小内容(如根字号相关约 3~8KB)。
 - **用 `sharedRuntimeExtraPackages`(异步核)**:命令式 API 定义、异步初始化、页面级 API、任何不参与首屏时序的功能。**收益**:多业务包共享同一份,不重复打包。
 
 **实操建议**:业务方(或其私有插件维护者)通常需要**新增一个"薄入口文件"**,把时机敏感的最小副作用拆出来单独暴露(如某私有插件若想适配共享运行时,可新增 `runtime-mini-sync-critical` 子入口,内容只有根字号 INIT 回调注册那几行,包体积小到可控);业务 config 里 `sharedRuntimeSyncExtraPackages` 指向这个薄入口,原 `runtime-mini` 继续放 `sharedRuntimeExtraPackages`。
@@ -156,7 +156,7 @@ native-components 包**没有 app.js**,从不调 `createReactApp`。因此:
 
 **现在的处理**:`build-shared-runtime` 读 `combination.config.runtimePath`,用 `computeMissingRuntimes()`(见 `externals.ts`)挑出"被 external 却无人注册"的 `@tarojs/*` 插件 runtime——排除已被同步核 `SYNC_CORE_REGISTERED_RUNTIMES` 注册的平台 runtime、以及已被 `sharedRuntime(Sync)ExtraPackages` 显式接管的——作为**同步核额外入口**一并打包执行。这些 runtime 打进同步核后,其 `import { hooks } from '@tarojs/shared'` resolve 到同步核 bundle 的同一 `@tarojs/shared` 单例(同步核子构建除 asyncRequest 外不 external `@tarojs/shared`),`hooks.tap` 与模板消费方落在同一 hooks 上,就位生效。
 
-**注意**:`SYNC_CORE_REGISTERED_RUNTIMES`(`constants.ts`)必须与 `entry.sync.js` 实际 `require` 的平台/运行时清单保持一致——它是 `computeMissingRuntimes` 做差集的依据,漂移会导致"已注册的被重复打包"或"未注册的仍漏掉"。有一致性守护单测(`tests/react-members-consistency.spec.ts`)防漂移。当前仅列了 weapp 平台 runtime,故非 weapp 平台的平台 runtime 会被误纳入 missing——但方案二本就仅 weapp 真机验证(见下"不适用/已知边界"),不构成新增边界。
+**注意**:`SYNC_CORE_REGISTERED_RUNTIMES`(`constants.ts`)必须与 `entry.sync.js` 实际 `require` 的平台/运行时清单保持一致——它是 `computeMissingRuntimes` 做差集的依据,漂移会导致"已注册的被重复打包"或"未注册的仍漏掉"。有一致性守护单测(`tests/react-members-consistency.spec.ts`)防漂移。当前仅列了 weapp 平台 runtime,故非 weapp 平台的平台 runtime 会被误纳入 missing——但共享运行时本就仅 weapp 真机验证(见下"不适用/已知边界"),不构成新增边界。
 
 ### dev/watch 模式重复构建共享运行时子核
 

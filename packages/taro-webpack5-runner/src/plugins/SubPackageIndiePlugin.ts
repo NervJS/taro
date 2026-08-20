@@ -320,7 +320,7 @@ export default class SubPackageIndiePlugin {
    * 生成注入 app.js 的 __taroRegisterRecursiveComponent(供各 root 的 comp.js 调用注册递归基础组件)。
    * 递归组件配置由 @tarojs/runtime 的 createRecursiveComponentConfig 提供。
    * - vanilla:@tarojs/runtime 打进本包 webpack 模块,registrar 遍历 __webpack_require__.c/.m 找到它。
-   * - 方案二共享运行时:@tarojs/runtime 被 external 到共享全局(wx.__TARO_RT_ASYNC_V*__),**不在**
+   * - 共享运行时:@tarojs/runtime 被 external 到共享全局(wx.__TARO_RT_ASYNC_V*__),**不在**
    *   webpack 模块里,原遍历必然失败 → throw。故 sharedRuntime 下在遍历前先查共享全局。
    *   严格 gate:非 sharedRuntime 产出与原字符串逐字节一致,vanilla 零回归。
    */
@@ -1327,7 +1327,7 @@ registerRecursiveComponent(${args.join(', ')})
             ? patchedAppJsContent
             : compilation.assets[jsFile]
 
-          // 方案二共享运行时:app.js 头部的 require("./taro-shared-sync")(TaroInjectSyncCorePlugin
+          // 共享运行时:app.js 头部的 require("./taro-shared-sync")(TaroInjectSyncCorePlugin
           // 按根级 chunk-id 'app' 注入,天然是"同级"形态)保持不动。同步核文件本身会由
           // buildSharedRuntime 在子构建产出后拷进 ${mainPackageRoot}/,与此处的 app.js 同级
           // (subPackageIndie "每个 root 自包含" 原则),故这个同级 require 直接正确,无需重算。
