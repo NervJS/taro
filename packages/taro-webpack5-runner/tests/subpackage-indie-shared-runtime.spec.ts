@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { buildRootStyleImport, rewriteRootRequirePath } from '../src/utils/webpack'
 
-// H:subPackageIndie 与共享运行时兼容——app.js 搬到 ${mainPackageRoot}/app.js(更深目录)后,
+// subPackageIndie 与共享运行时兼容——app.js 搬到 ${mainPackageRoot}/app.js(更深目录)后,
 // TaroInjectSyncCorePlugin 注入的 require("./taro-shared-sync")(按根级 chunk-id 'app' 算)相对路径失效,
 // 需按目标深度重算。rewriteRootRequirePath 是纯路径逻辑,fromId 语义同 addRequireToSource:
 // fromId 是"文件路径"(chunk-id),promoteRelativePath 会消掉 basename 那一层多出的 ..。
@@ -12,7 +12,7 @@ const SYNC = 'taro-shared-sync'
 // 模拟 TaroInjectSyncCorePlugin 注入后的 app.js 原始形态(根级)
 const APP_JS = 'require("./taro-shared-sync");\n(wx["webpackJsonp"]=wx["webpackJsonp"]||[]).push([[0],{}]);'
 
-describe('H:rewriteRootRequirePath —— subPackageIndie 共享运行时同步核 require 路径重写', () => {
+describe('rewriteRootRequirePath —— subPackageIndie 共享运行时同步核 require 路径重写', () => {
   it('mainPackageRoot 深度 3(官方示例 pages/order/index)→ 产物 pages/order/index/app.js → ../../../taro-shared-sync', () => {
     // 调用方传 `${root}/app` 作为 fromId(产物 chunk-id 等价物)
     const out = rewriteRootRequirePath(APP_JS, 'pages/order/index/app', SYNC)
@@ -61,7 +61,7 @@ describe('H:rewriteRootRequirePath —— subPackageIndie 共享运行时同步�
 
 // subPackageIndie 把 app 样式随 runtime chunks 落在归一化 mainPackageRoot(normalizeIndieRoot 砍 /index),
 // 页面 wxss @import app 样式需按页面 wxss 目录到 app 样式产物重算相对路径(修复固有 bug:硬编码 ./app)。
-describe('H:buildRootStyleImport —— subPackageIndie mainPackageRoot 页面 @import app 样式路径', () => {
+describe('buildRootStyleImport —— subPackageIndie mainPackageRoot 页面 @import app 样式路径', () => {
   it('页面比 app 样式深一级(pages/order/index/index.wxss → pages/order/app.wxss)→ ../app.wxss', () => {
     // 官方示例结构:mainPackageRoot=pages/order/index 归一化为 pages/order,页面产物在 pages/order/index/index.wxss
     const stmt = buildRootStyleImport('pages/order/index/index.wxss', 'pages/order/app.wxss')
