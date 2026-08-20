@@ -9,7 +9,7 @@ import { computeMissingRuntimes, SYNC_REACT_MEMBERS } from './externals'
 import type { MiniCombination } from '../webpack/MiniCombination'
 
 /**
- * 主构建成功后，额外跑独立 webpack 子构建产出共享运行时（方案二 split）：
+ * 主构建成功后，额外跑独立 webpack 子构建产出共享运行时（split 模式）：
  *   - sync-core（taro-shared-sync.js）：随业务包，emit 到 outputDir 根，同步 require。
  *   - async-provider：放异步子包 shared-async-v1/，全局共享一份。
  *
@@ -248,7 +248,7 @@ function addPreloadRule (appConfig: any) {
 }
 
 /**
- * async-provider 的反向 external：凡同步核已提供的包都读方案二全局，不打副本，避免双实例。
+ * async-provider 的反向 external：凡同步核已提供的包都读共享运行时全局，不打副本，避免双实例。
  * react 全家桶部分（含开发模式 jsx-dev-runtime）与 entry.sync.js 同步注册的清单保持一致——
  * 单一真理源为 externals.ts 的 SYNC_REACT_MEMBERS，改动只需改那一处。
  */

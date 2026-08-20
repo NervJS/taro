@@ -101,14 +101,14 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   runtime?: Runtime
 
   /**
-   * 共享运行时（方案二 split）：额外纳入共享的运行时包名列表。
+   * 共享运行时（split 模式）：额外纳入共享的运行时包名列表。
    * 用于把业务自研的运行时 API 也一并 external 到共享运行时全局，随异步核共享一份。
    * 仅在使用 `--shared-runtime --shared-runtime-mode split` 编译时生效。
    */
   sharedRuntimeExtraPackages?: string[]
 
   /**
-   * 共享运行时（方案二 split）：需要在**同步核**阶段就执行副作用的额外共享包名列表。
+   * 共享运行时（split 模式）：需要在**同步核**阶段就执行副作用的额外共享包名列表。
    * 与 `sharedRuntimeExtraPackages` 平行——后者随异步核加载（`.then` 回调，晚于首屏 onLoad），
    * 前者随业务 app.js 顶层同步 `require` 立即执行。适用于必须先于首屏 window `INIT`
    * 事件广播就注册监听器/设置全局状态的场景（如 rem 根字号计算的 `window.on(CONTEXT_ACTIONS.INIT)`

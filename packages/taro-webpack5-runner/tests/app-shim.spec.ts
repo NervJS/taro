@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { guardPlaceholder, install, makeChainableNoop } from '../src/shared-runtime/app-shim'
 
-describe('makeChainableNoop（P3：未就位命令式 API 链式调用不崩）', () => {
+describe('makeChainableNoop（未就位命令式 API 链式调用不崩）', () => {
   it('可被当函数调用', () => {
     const noop = makeChainableNoop()
     expect(() => noop()).not.toThrow()

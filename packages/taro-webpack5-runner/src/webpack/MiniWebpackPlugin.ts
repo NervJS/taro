@@ -46,7 +46,7 @@ export class MiniWebpackPlugin {
       }])
     }
 
-    // 共享运行时（方案二 split）：给 app 入口头部注入 require('taro-shared-sync')，
+    // 共享运行时（split 模式）：给 app 入口头部注入 require('taro-shared-sync')，
     // 使同步核先于页面注册执行（填共享全局 + 装占位 shim + 触发异步核加载）。
     // F6 native-components 场景:BuildNativePlugin 删了 ENTRY dep,没有 app.js;
     // 每个 native-component 是 META_TYPE.PAGE,需在 PAGE chunk 顶部也注入同步核 require。

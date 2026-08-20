@@ -12,7 +12,7 @@ export default function (this: webpack.LoaderContext<any>, source: string, map?:
   const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = loaderMeta
   const config = getPageConfig(loaderConfig, this.resourcePath)
   config.isNewBlended = isNewBlended
-  // F6 共享运行时 native-components 场景:注入 pkgId + 全局键名 + isNativeShared 标志。
+  // 共享运行时 native-components 场景:注入 pkgId + 全局键名 + isNativeShared 标志。
   // connect-native.ts createNativeComponentConfig 通过这三字段走"第三分支":按 pkgId 存/查
   // shared.__nativeComponentApps 表,不共用 Current.app,也不共用单例 nativeComponentApp。
   // 严格 gate:非 sharedRuntime 场景 config 结构保持不变,vanilla 路径零回归。
@@ -20,7 +20,7 @@ export default function (this: webpack.LoaderContext<any>, source: string, map?:
     config.isNativeShared = true
     config.pkgId = options.sharedRuntimePkgId
     config.globalKey = options.sharedRuntimeGlobalKey
-    // container 隔离:与 F5 pages 同源,避免 initNativeComponentEntry 硬编码 #app 导致多包冲突
+    // container 隔离:与 pages 同源,避免 initNativeComponentEntry 硬编码 #app 导致多包冲突
     config.appId = options.sharedRuntimePkgId
   }
   const configString = JSON.stringify(config)

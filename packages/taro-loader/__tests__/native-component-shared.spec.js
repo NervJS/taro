@@ -1,6 +1,6 @@
 import nativeComponentLoader from '../src/native-component'
 
-// F6:native-components 共享运行时(方案二 split)loader 注入验证。
+// F6:native-components 共享运行时（split 模式）loader 注入验证。
 // mock webpack LoaderContext:getOptions() 返回 loader options,_compilation 提供 outputOptions。
 function runLoader (options, resourcePath = '/src/components/badge/index') {
   const ctx = {
