@@ -1,6 +1,6 @@
 /* global __TARO_GLOBAL_OBJECT__, __TARO_SHARED_GLOBAL__, __TARO_SHARED_ASYNC_REQUEST__, __TARO_RUNTIME_VERSION__ */
 /**
- * 方案二 split · 同步核（sync-core）入口
+ * 共享运行时（split 模式） · 同步核（sync-core）入口
  *
  * 随业务包，在业务 app.js 顶层被同步 require。职责：
  *   1. 同步填「页面注册必需」的真身：@tarojs/runtime + @tarojs/shared + 平台 runtime
@@ -9,7 +9,7 @@
  *   4. 装 Current.app 占位 shim（app-shim）
  *   5. require.async 拉 shared-async 子包，到达后激活真身
  *
- * 多业务包共享（方案二核心价值场景）：同一宿主小程序可集成多个独立编译的 Taro 业务包，
+ * 多业务包共享（共享运行时核心价值场景）：同一宿主小程序可集成多个独立编译的 Taro 业务包，
  * 各业务包 app.js 顶层都会 require 本文件（本文件在每包产物 outputDir 根各一份，模块 CJS
  * 缓存作用域仅限本包内，跨包不共享缓存）。首包 require 时完整执行装占位 + 触发异步核；
  * 后续包 require 时通过 shared.__syncCoreInstalled 幂等守卫**整体早退**，不重装占位、
@@ -52,7 +52,7 @@ if (!shared.__syncCoreInstalled) {
   // 首包设置，后续包因幂等跳过——多包版本不一时以首包为准。
   shared.__rtVersion = __TARO_RUNTIME_VERSION__
 
-  // 多包 App 隔离表（方案二 split F5）：每个业务包的 realApp 存进 __pkgApps[pkgId],
+  // 多包 App 隔离表（共享运行时（split 模式） F5）：每个业务包的 realApp 存进 __pkgApps[pkgId],
   // page loader 产物在 onLoad 前查回本包 App,恢复非共享运行时下"页面永远 mount 到本包 App"
   // 的语义(见 packages/taro-webpack5-runner/docs/shared-runtime-scope.md)。
   shared.__pkgApps = shared.__pkgApps || {}

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { computeMissingRuntimes, shouldShareExternal } from '../src/shared-runtime/externals'
 
-describe('shouldShareExternal（方案二 split externals 判定）', () => {
+describe('shouldShareExternal（共享运行时（split 模式） externals 判定）', () => {
   it('React 全家桶应被 external', () => {
     expect(shouldShareExternal('react')).toBe(true)
     expect(shouldShareExternal('react-dom')).toBe(true)

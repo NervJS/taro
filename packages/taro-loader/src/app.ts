@@ -51,7 +51,7 @@ exports.taroApp = app
     instantiateApp = modifyInstantiate(instantiateApp, 'app')
   }
 
-  // 共享运行时（方案二 split）多包 App 隔离:在 createReactApp 调用之前,把本业务包身份
+  // 共享运行时（split 模式）多包 App 隔离:在 createReactApp 调用之前,把本业务包身份
   // 记进共享全局的 __currentPkgId,供占位/真身 createReactApp 顺手把 realApp 存进
   // shared.__pkgApps[pkgId] 表——供 page loader 每次 onLoad 前查回本包 App。
   //

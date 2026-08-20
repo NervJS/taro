@@ -3,7 +3,7 @@ import { REG_TARO_SCOPED_PACKAGE, taroJsComponents } from '@tarojs/helper'
 import { REG_POST, SYNC_CORE_REGISTERED_RUNTIMES } from './constants'
 
 /**
- * 共享运行时（方案二 split）需 external 到共享全局的 React 全家桶。
+ * 共享运行时（split 模式）需 external 到共享全局的 React 全家桶。
  * 这四个包 React 单例敏感、版本错配会真出错，必须共享同一实例：
  * react 本体/jsx-runtime 在同步核，react-dom/react-reconciler/scheduler 在异步核，
  * 但对业务包而言都 external 到同一个全局对象，由运行时核在加载时注册齐全。
@@ -31,7 +31,7 @@ export const ASYNC_REACT_MEMBERS: readonly string[] = ['react-reconciler', 'sche
 export const ALL_REACT_MEMBERS: readonly string[] = [...SYNC_REACT_MEMBERS, ...ASYNC_REACT_MEMBERS, 'react-dom']
 
 /**
- * 判断一个模块请求是否应被 external 到共享运行时全局（方案二 split）。
+ * 判断一个模块请求是否应被 external 到共享运行时全局（共享运行时（split 模式））。
  * @param request 裸模块请求名，如 'react'、'@tarojs/runtime'
  * @param extraPackages 接入方声明的额外共享包（config.mini.sharedRuntimeExtraPackages）
  */
