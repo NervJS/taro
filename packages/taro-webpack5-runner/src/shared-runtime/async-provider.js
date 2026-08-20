@@ -1,6 +1,6 @@
 /* global __TARO_GLOBAL_OBJECT__, __TARO_SHARED_GLOBAL__, __TARO_RUNTIME_VERSION__ */
 /**
- * 方案二 split · async-provider —— 落在 shared-async 子包，被 require.async 加载后执行。
+ * 共享运行时（split 模式） · async-provider —— 落在 shared-async 子包，被 require.async 加载后执行。
  * 把 react 协调链 + framework + api 真身原地 mutate 进同步核预放的占位对象（保引用），再 flush。
  *
  * 分工（关键）：
@@ -14,7 +14,7 @@
 
 // React 页面/App 生命周期 hook 名称约定：`use[A-Z]` 前缀（与 B6 scan-imperative-api 同款约定）。
 // 用正则动态从 framework runtime 导出中提取所有匹配项，避免维护硬编码清单——framework 新增/重命名
-// hook 时零改动，天然消除跨版本漂移（曾在 PoC 阶段两处硬编码列表漂移过）。
+// hook 时零改动，天然消除跨版本漂移（早期曾有两处硬编码列表漂移过）。
 var REACT_HOOK_NAME_RE = /^use[A-Z]/
 
 function fill (target, real) {
@@ -76,7 +76,7 @@ function activate () {
   // F5 多包 App 隔离:异步核激活后再加载的业务包会直接调 fw.createReactApp 走真身,
   // 但真身不知道 pkgId、不存表。用 wrapper 兜底:走真身 + 按 pkgId 存进 __pkgApps 表,
   // 使异步核激活后加载的包也能被 page loader onLoad 前查回本包 App。
-  // (F4 拆掉的 "重定向到首包" 兜底与此不同——那是 first-wins 违反 last-writer;这里只
+  // (早前拆掉的 "重定向到首包" 兜底与此不同——那是 first-wins 违反 last-writer;这里只
   // "存表",不改 Current.app 的 last-writer 结果。)
   var realCreateReactApp = fw.createReactApp
   fw.createReactApp = function (App, react, reactDom, config) {

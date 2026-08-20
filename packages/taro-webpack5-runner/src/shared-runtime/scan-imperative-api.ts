@@ -3,7 +3,7 @@ import * as path from 'node:path'
 import { fs } from '@tarojs/helper'
 
 /**
- * 方案二(split) 编译期告警：扫描业务源码中【模块顶层作用域】的 Taro 命令式 API 同步调用。
+ * 共享运行时（split 模式） 编译期告警：扫描业务源码中【模块顶层作用域】的 Taro 命令式 API 同步调用。
  *
  * 背景：split 模式下 @tarojs/taro 命令式 API 在异步核，模块顶层（早于异步核到位）同步调用会拿到
  * 占位 Proxy（告警 + 空操作）而非真身。运行时 Proxy 只在代码被执行到时告警，藏在少走分支里的顶层

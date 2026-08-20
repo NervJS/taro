@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { findTaroBindings, scanCode } from '../src/shared-runtime/scan-imperative-api'
 
-describe('findTaroBindings（P2：覆盖多种导入形态）', () => {
+describe('findTaroBindings（覆盖多种导入形态）', () => {
   it('默认导入 → namespace', () => {
     const b = findTaroBindings("import Taro from '@tarojs/taro'")
     expect(b.namespaces.has('Taro')).toBe(true)

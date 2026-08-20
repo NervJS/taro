@@ -183,9 +183,9 @@ describe('构建配置测试', () => {
       logSpy.mockRestore()
     })
 
-    it('F6:native-components 模式 --shared-runtime 不再被 fail-fast(允许放行)', async () => {
-      // F1 曾拒此组合;F6 引入 isNativeShared 分支后允许放行。
-      // 此测试断言:即使 build 因 fixture 配置不完整而失败,也不应看到 "native-components 模式不适用方案二" 错误消息。
+    it('native-components 模式 --shared-runtime 不再被 fail-fast(允许放行)', async () => {
+      // 早期曾拒此组合;native-components 共享运行时支持(引入 isNativeShared 分支)后允许放行。
+      // 此测试断言:即使 build 因 fixture 配置不完整而失败,也不应看到 "native-components 模式不适用共享运行时" 错误消息。
       const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
       const logSpy = jest.spyOn(console, 'log')
       logSpy.mockImplementation(() => {})
@@ -205,8 +205,8 @@ describe('构建配置测试', () => {
       } catch (error) {
         // build 可能因 fixture 无 components 配置或其它编译问题失败,与本测试焦点无关
       }
-      // 关键:F1 的 native-components 守卫消息不应再出现
-      expect(logSpy.mock.calls.some(call => /native-components 模式不适用方案二/.test(String(call[0])))).toBe(false)
+      // 关键:早期的 native-components 守卫消息不应再出现
+      expect(logSpy.mock.calls.some(call => /native-components 模式不适用共享运行时/.test(String(call[0])))).toBe(false)
 
       exitSpy.mockRestore()
       logSpy.mockRestore()
@@ -238,13 +238,13 @@ describe('构建配置测试', () => {
       }
       expect(exited).toBe(true)
       expect(exitSpy).toBeCalledWith(1)
-      expect(logSpy.mock.calls.some(call => /小程序插件.*不适用方案二/.test(String(call[0])))).toBe(true)
+      expect(logSpy.mock.calls.some(call => /小程序插件.*不适用共享运行时/.test(String(call[0])))).toBe(true)
 
       exitSpy.mockRestore()
       logSpy.mockRestore()
     })
 
-    it('G1a:framework 非 react (vue3) --shared-runtime ==> fail-fast 退出', async () => {
+    it('framework 非 react (vue3) --shared-runtime ==> fail-fast 退出', async () => {
       // 共享运行时模板硬编码 framework-react;vue3/solid 会崩,故 framework 白名单只放行 react。
       const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
       const logSpy = jest.spyOn(console, 'log')
@@ -274,9 +274,9 @@ describe('构建配置测试', () => {
       logSpy.mockRestore()
     })
 
-    // 注:G1b(independent 独立分包拒绝)的守卫放在 build fn 的 modifyAppConfig 回调里
+    // 注:independent(独立分包)拒绝的守卫放在 build fn 的 modifyAppConfig 回调里
     // (真实构建中 getAppConfig→getPages 之前触发,早于任何分包编译)。该回调由 MiniPlugin 在 webpack
     // 编译期调用,本单测 harness 不启动真实 webpack 编译(config 校验即失败),故无法在此覆盖——
-    // G1b 靠 Example 端 independent 分包声明手动验证 fail-fast。
+    // independent 分包拒绝靠 Example 端 independent 分包声明手动验证 fail-fast。
   })
 })

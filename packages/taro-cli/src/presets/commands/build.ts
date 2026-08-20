@@ -69,7 +69,7 @@ export default (ctx: IPluginContext) => {
         process.exit(0)
       }
 
-      // 共享运行时（方案二 split）flag 校验，fail-fast
+      // 共享运行时（split 模式）flag 校验，fail-fast
       if (sharedRuntimeMode != null && !sharedRuntime) {
         console.log(chalk.red('--shared-runtime-mode 必须与 --shared-runtime 一起使用。'))
         process.exit(1)
@@ -79,20 +79,20 @@ export default (ctx: IPluginContext) => {
         // plugin 需先判：cli.ts:161 会把 platform 无条件重写为 'plugin'，若先走白名单，
         // plugin 场景会被更笼统的"平台不支持"拦下，错过精准提示。
         //
-        // 小程序插件（--plugin）模式：插件宿主运行时无共享上下文，方案二不支持。
+        // 小程序插件（--plugin）模式：插件宿主运行时无共享上下文，共享运行时不支持。
         if (typeof args?.plugin === 'string') {
           console.log(chalk.red(
-            '小程序插件（--plugin）模式不适用方案二 split：插件宿主运行时无共享上下文。' +
+            '小程序插件（--plugin）模式不适用共享运行时（split 模式）：插件宿主运行时无共享上下文。' +
             '请去掉 --shared-runtime。'
           ))
           process.exit(1)
         }
-        // F6:native-components 模式在 F1 阶段曾被 fail-fast 拒绝(彼时 BuildNativePlugin 删掉
-        // app.js entry,同步核无注入点会崩)。F6 已扩展 TaroInjectSyncCorePlugin 支持 PAGE 注入,
+        // native-components 模式早期曾被 fail-fast 拒绝(彼时 BuildNativePlugin 删掉
+        // app.js entry,同步核无注入点会崩)。现已扩展 TaroInjectSyncCorePlugin 支持 PAGE 注入,
         // 并在 connect-native.ts/native-component loader 引入 isNativeShared 第三分支——
         // native-components 现在可与 --shared-runtime 共存,守卫移除。
-        // 平台白名单：方案二 split 仅适用于小程序端。h5/rn/harmony 走独立编译栈，
-        // 不经过 MiniCombination/externals，方案二 flag 传入会静默失效——编译期直接拒。
+        // 平台白名单：共享运行时仅适用于小程序端。h5/rn/harmony 走独立编译栈，
+        // 不经过 MiniCombination/externals，共享运行时 flag 传入会静默失效——编译期直接拒。
         const MINI_PLATFORMS = new Set(['weapp', 'alipay', 'swan', 'tt', 'qq', 'jd', 'ascf'])
         if (!MINI_PLATFORMS.has(platform)) {
           console.log(chalk.red(

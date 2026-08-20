@@ -1,5 +1,5 @@
 /**
- * 方案二 split · app-shim —— 占位 framework-runtime + 占位 @tarojs/taro
+ * 共享运行时（split 模式） · app-shim —— 占位 framework-runtime + 占位 @tarojs/taro
  *
  * 业务 app.js 产物真实调用序列（顶层同步执行）：
  *   var o = SHARED["@tarojs/plugin-framework-react/dist/runtime"]

@@ -72,7 +72,7 @@ export default async function build (appPath: string, rawConfig: IMiniBuildConfi
         await prerender.render()
       }
 
-      // 共享运行时（方案二 split）：主构建成功后产出同步核 + 异步子包到 dist
+      // 共享运行时（split 模式）：主构建成功后产出同步核 + 异步子包到 dist
       if (config.sharedRuntime) {
         // 编译期扫描业务源码顶层命令式 API 同步调用，告警不阻断
         warnTopLevelImperativeApi(combination.sourceDir)
