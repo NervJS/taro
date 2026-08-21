@@ -5,7 +5,7 @@ Page({
 
   onClick() {
     wx.navigateTo({
-      url: '/taro/pages/index/index',
+      url: '/pages/shared-runtime/pages/index/index',
     })
   },
 })
