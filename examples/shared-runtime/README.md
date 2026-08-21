@@ -26,14 +26,14 @@ $ npm run dev
 $ npm run build
 ```
 
-`plugin-mv` 会在编译结束后把 `taro-project/dist` 整体拷贝到原生宿主 `miniapp/taro/`（含同步核 `taro-shared-sync.js` 与 `shared-async-v1/` 异步核分包）。
+`plugin-mv` 会在编译结束后把 `taro-project/dist` 搬进原生宿主 `miniapp/pages/` 下：业务产物（含同步核 `taro-shared-sync.js`）→ 业务分包 `miniapp/pages/shared-runtime/`；异步核 → 与之平级的共享分包 `miniapp/pages/shared-async-v1/`。
 
 #### 2. 预览
 
 小程序开发者工具导入项目：
 
 - 指向 `shared-runtime/taro-project`：直接预览 Taro 业务包。
-- 指向 `shared-runtime/miniapp`：预览「原生宿主集成 Taro 业务包」的混合场景（宿主入口页点击按钮跳进 Taro 页面）。宿主 `app.json` 已手工注册 Taro 业务页 `taro/pages/index/index` 与异步核分包 `taro/shared-async-v1`。
+- 指向 `shared-runtime/miniapp`：预览「原生宿主集成 Taro 业务包」的混合场景（宿主入口页点击按钮跳进 Taro 页面）。宿主 `app.json` 已手工注册业务分包 `pages/shared-runtime`（业务页 `pages/index/index`）与异步核分包 `pages/shared-async-v1`，二者平级于宿主 `pages/` 下。
 
 ### 介绍
 

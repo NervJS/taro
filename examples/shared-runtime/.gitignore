@@ -1,4 +1,5 @@
-miniapp/taro
+miniapp/pages/shared-runtime
+miniapp/pages/shared-async-v1
 taro-project/dist
 **/node_modules
 .DS_Store

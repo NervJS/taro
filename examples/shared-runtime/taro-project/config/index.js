@@ -21,6 +21,9 @@ const config = {
   },
   mini: {
     enableSourceMap: false,
+    // 异步核分包在宿主 pages/shared-async-v1/，与业务分包 pages/shared-runtime/ 平级；
+    // 业务包同步核 taro-shared-sync.js 上溯 1 级到 pages/ 再进 shared-async-v1 → '../shared-async-v1/index'。
+    sharedRuntimeAsyncRequest: '../shared-async-v1/index',
     postcss: {
       pxtransform: {
         enable: true,
