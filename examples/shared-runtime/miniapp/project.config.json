@@ -1,0 +1,12 @@
+{
+  "description": "项目配置文件",
+  "projectname": "shared-runtime-miniapp",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
