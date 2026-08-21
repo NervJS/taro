@@ -1,0 +1,51 @@
+{
+  "name": "shared-runtime-taro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "共享运行时（split 模式）示例的 Taro 业务包",
+  "templateInfo": {
+    "name": "default",
+    "typescript": false,
+    "css": "sass"
+  },
+  "scripts": {
+    "build": "taro build --type weapp --new-blended --shared-runtime --shared-runtime-mode split",
+    "dev": "taro build --type weapp --new-blended --shared-runtime --shared-runtime-mode split --watch"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "author": "",
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "@tarojs/cli": "workspace:*",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/plugin-framework-react": "workspace:*",
+    "@tarojs/plugin-platform-weapp": "workspace:*",
+    "@tarojs/react": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "@tarojs/webpack5-runner": "workspace:*",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-reconciler": "^0.29.0",
+    "scheduler": "^0.23.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@types/react": "^18",
+    "@types/webpack-env": "^1.13.6",
+    "babel-preset-taro": "workspace:*",
+    "eslint": "^8.12.0",
+    "eslint-config-taro": "workspace:*",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "fs-extra": "^9.0.1",
+    "stylelint": "^14.4.0"
+  }
+}
