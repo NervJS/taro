@@ -1,0 +1,30 @@
+.index {
+  padding: 40px;
+
+  .header {
+    margin-bottom: 40px;
+
+    .title {
+      font-size: 40px;
+      font-weight: bold;
+    }
+  }
+
+  .desc {
+    margin-bottom: 40px;
+    font-size: 28px;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  .counter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .count {
+      margin-bottom: 20px;
+      font-size: 32px;
+    }
+  }
+}
