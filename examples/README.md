@@ -12,3 +12,4 @@
 - external-prebundle: 第三方使用 PreBundle 特性
 - mini-split-chunks-plugin: 智能提取分包依赖
 - weapp-independent-subpackages: 微信小程序独立分包功能演示
+- shared-runtime: 共享运行时（split 模式）——Taro/React 运行时以独立异步核分包共享，业务包只留同步核
