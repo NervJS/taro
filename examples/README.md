@@ -13,3 +13,4 @@
 - mini-split-chunks-plugin: 智能提取分包依赖
 - [subpackage-indie](subpackage-indie/README.md): 微信混合开发的子分包独立模板示例
 - weapp-independent-subpackages: 微信小程序独立分包功能演示
+- shared-runtime: 共享运行时（split 模式）——Taro/React 运行时以独立异步核分包共享，业务包只留同步核

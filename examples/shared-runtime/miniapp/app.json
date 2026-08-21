@@ -1,0 +1,17 @@
+{
+  "pages": ["pages/index/index", "taro/pages/index/index"],
+  "subPackages": [
+    {
+      "root": "taro/shared-async-v1",
+      "pages": ["index"]
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "共享运行时 Demo",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

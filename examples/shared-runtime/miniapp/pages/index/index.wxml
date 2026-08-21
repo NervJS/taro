@@ -1,0 +1,4 @@
+<view class='container'>
+  <text class='title'>原生小程序入口</text>
+  <button bindtap="onClick">打开共享运行时 Taro 页面</button>
+</view>
