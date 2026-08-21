@@ -2,3 +2,7 @@ miniapp/taro
 taro-project/dist
 **/node_modules
 .DS_Store
+
+# 微信开发者工具打开目录时自动生成的本地/私有配置（可能写入真实 appid，勿入库）
+project.private.config.json
+/project.config.json
