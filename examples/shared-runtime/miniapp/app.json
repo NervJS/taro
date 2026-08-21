@@ -1,9 +1,14 @@
 {
-  "pages": ["pages/index/index", "taro/pages/index/index"],
+  "pages": ["pages/index/index"],
   "subPackages": [
     {
-      "root": "taro/shared-async-v1",
-      "pages": ["index"]
+      "root": "pages/shared-runtime",
+      "pages": ["pages/index/index"]
+    },
+    {
+      "root": "pages/shared-async-v1",
+      "pages": ["index"],
+      "independent": false
     }
   ],
   "window": {
@@ -13,5 +18,11 @@
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "preloadRule": {
+    "pages/index/index": {
+      "packages": ["pages/shared-async-v1"],
+      "network": "all"
+    }
+  }
 }
