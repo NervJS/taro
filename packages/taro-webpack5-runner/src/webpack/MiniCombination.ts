@@ -18,8 +18,8 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
   buildNativePlugin: BuildNativePlugin
   fileType: IFileType
   isBuildPlugin = false
-  // subPackageIndie(--new-blended)场景下,MiniPlugin.apply 把 SubPackageIndiePlugin 实例反向挂这里,
-  // 供主构建结束后的 buildSharedRuntime 读取 mainPackageRoots(把同步核拷进每个 mainPackageRoot 实现自包含)。
+  // subPackageIndie(--new-blended）场景下，MiniPlugin.apply 把 SubPackageIndiePlugin 实例反向挂这里，
+  // 供主构建结束后的 buildSharedRuntime 读取 mainPackageRoots（把同步核拷进每个 mainPackageRoot 实现自包含）。
   subPackageIndiePlugin?: SubPackageIndiePlugin
   optimizeMainPackage: { enable?: boolean | undefined, exclude?: any[] | undefined } = {
     enable: true
@@ -84,8 +84,8 @@ export class MiniCombination extends Combination<IMiniBuildConfig> {
 
     // 共享运行时（split 模式）：把 Taro/React 运行时 external 到全局，产物里不再含这些包，
     // 由运行时核（同步核 + 异步核）在加载时挂到 wx.__TARO_RT_ASYNC_V1__ 供业务包读取。
-    // sharedRuntimeSyncExtraPackages 与 sharedRuntimeExtraPackages 都是"共享 external"清单
-    // (external 判定与执行时机无关,时机差异只体现在异步核 vs 同步核 entry 归属),故合并.
+    // sharedRuntimeSyncExtraPackages 与 sharedRuntimeExtraPackages 都是"共享 external"清单，合并处理
+    // (external 判定与执行时机无关，时机差异只体现在异步核 vs 同步核 entry 归属）。
     const allExtraPackages = [...sharedRuntimeExtraPackages, ...sharedRuntimeSyncExtraPackages]
     const sharedExternals: any[] = sharedRuntime
       ? [({ request }, cb) => {

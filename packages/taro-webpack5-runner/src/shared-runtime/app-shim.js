@@ -7,14 +7,14 @@
  *   x.onLaunch()                                             // 立即调返回对象的 onLaunch
  *   i.initPxTransform({...})                                 // 占位 taro
  *
- * 故占位 createReactApp 必须同步返回一个 appObj（生命周期/mount 全排队），存下 App+config；
- * 异步核到达后由 provider 用真身 react 重跑 createReactApp，flush 队列。
+ * 故占位 createReactApp 必须同步返回 appObj（生命周期/mount 全排队），存下 App+config；
+ * 异步核到达后由 provider 用真身 react 重跑 createReactApp、flush 队列。
  *
- * 命令式 API 未就位保护：@tarojs/taro 的命令式 API（getSystemInfoSync/showToast 等）在异步核里，
- * 同步核阶段只是占位。若业务在异步核到位前（尤其模块顶层）同步调用，原本会拿到 undefined 静默失效。
- * 这里给占位包一层 Proxy：未就位时访问未知成员，
- *   - 打印一条醒目告警（含成员名 + 修复建议），每个成员只警告一次，避免刷屏；
- *   - 返回一个链式安全的空操作值（可被当函数调用、可继续读属性/链式调用），不抛错、不崩页面。
+ * 命令式 API 未就位保护：@tarojs/taro 命令式 API（getSystemInfoSync/showToast 等）在异步核，
+ * 同步核阶段只是占位。业务在异步核到位前（尤其模块顶层）同步调用会拿到 undefined 静默失效。
+ * 故给占位包一层 Proxy：未就位时访问未知成员，
+ *   - 打印醒目告警（含成员名 + 修复建议），每成员只警告一次，避免刷屏；
+ *   - 返回链式安全的空操作值（可当函数调用、可继续读属性/链式调用），不抛错、不崩页面。
  * 关键：绝不 throw —— app.js 初始化早于任何异步加载，抛错会直接崩 app（连 webpack 模块 interop
  * 读 __esModule 都会触发），且会打断业务用 `?.`/`|| {}` 写的容错代码。异步核 fill 真身后，
  * 占位对象的键被真身覆盖，Proxy 陷阱不再触发。
@@ -45,11 +45,11 @@ var INTERNAL_PASS = {
 
 /**
  * 链式安全的空操作值：既能被当函数调用（返回自身），读任意属性也返回自身。
- * 使得 `Taro.getSystemInfoSync().screenWidth`、`Taro.a().b().c` 这类未就位链式调用不崩，
- * 全程返回 noop、最终值为 undefined-like（noop 本身可被 `?.`/`|| {}` 容错）。
+ * 使 `Taro.getSystemInfoSync().screenWidth`、`Taro.a().b().c` 这类未就位链式调用不崩，
+ * 全程返回 noop（noop 本身可被 `?.`/`|| {}` 容错）。
  *
- * 关键：基元强制转换（字符串拼接 / 模板串 / Number()）绝不能抛。JS 引擎转换对象为基元时会读
- * Symbol.toPrimitive / valueOf / toString，若这些返回非函数（undefined）会抛
+ * 关键：基元强制转换（字符串拼接 / 模板串 / Number()）绝不能抛。JS 引擎转对象为基元时会读
+ * Symbol.toPrimitive / valueOf / toString，若它们返回非函数（undefined）会抛
  * "Cannot convert object to primitive value" —— 故这几个键必须返回产出基元的函数。
  */
 function makeChainableNoop () {
@@ -75,19 +75,19 @@ function makeChainableNoop () {
 }
 
 // F6 native-components 占位描述符构造器。
-// native-comp 产物顶层同步调 fw.createNativeComponentConfig(Component, react, reactDOM, config),
-// 把返回值传给 WeChat Component() 注册。同步核阶段 framework/reactDOM 是占位,无法立刻建真描述符;
+// native-comp 产物顶层同步调 fw.createNativeComponentConfig(Component, react, reactDOM, config)，
+// 把返回值传给 WeChat Component() 注册。同步核阶段 framework/reactDOM 是占位，无法立刻建真描述符；
 // 故返回一个「形状与真描述符一致」的占位描述符——WeChat 注册所需的
-// created/attached/ready/detached/pageLifetimes/methods/properties 全部就位,每个都是 deferred
-// 转发器:真描述符(record.realObj)到位后转发到其对应方法;未到位则按调用顺序缓存到 record.pending,
+// created/attached/ready/detached/pageLifetimes/methods/properties 全部就位，每个都是 deferred
+// 转发器：真描述符（record.realObj）到位则转发到对应方法，否则按调用顺序缓存到 record.pending，
 // 异步核到达时由 shared.__replayNativeCompConfigs 用真身重建描述符并按序重放。
 //
-// 关键:WeChat 要求 Component() 在模块顶层同步调用且描述符形状完整,故不能延迟注册,只能
+// 关键：WeChat 要求 Component() 在模块顶层同步调用且描述符形状完整，故不能延迟注册，只能
 // 「同步返回占位描述符 + 生命周期延迟到真身」。这是 createReactApp 占位的 native 版对应物。
 function makePlaceholderNativeComp (record, componentConfig, Component) {
-  // deferred(getReal):返回转发器——真描述符就绪则调其对应方法,否则按序缓存(生命周期顺序即数组顺序)。
-  // 生命周期返回值 WeChat 忽略;onShareAppMessage/onShareTimeline 有返回值但仅用户点击触发(必在
-  // 异步核之后,realObj 已就位),故缓存分支丢返回值不影响正确性。
+  // deferred(getReal)：返回转发器——真描述符就绪则调其对应方法，否则按序缓存（生命周期顺序即数组顺序）。
+  // 生命周期返回值 WeChat 忽略；onShareAppMessage/onShareTimeline 有返回值但仅用户点击触发（必在
+  // 异步核之后，realObj 已就位），故缓存分支丢返回值无害。
   function deferred (getReal) {
     return function () {
       var args = arguments; var self = this
@@ -121,8 +121,8 @@ function makePlaceholderNativeComp (record, componentConfig, Component) {
       onUnload: deferred(function (r) { return r.methods && r.methods.onUnload }),
     },
   }
-  // 分享生命周期:真描述符按 Component 声明条件添加;占位期用同一条件补 deferred 转发器,
-  // 保证 WeChat 注册时右上角分享按钮选项与真身一致(否则真身到位也补不回注册期已定的选项)。
+  // 分享生命周期：真描述符按 Component 声明条件添加；占位期用同一条件补 deferred 转发器，
+  // 保证 WeChat 注册时右上角分享按钮选项与真身一致（否则真身到位也补不回注册期已定的选项）。
   var hasShareMsg = Component && (Component.onShareAppMessage || (Component.prototype && Component.prototype.onShareAppMessage) || Component.enableShareAppMessage)
   if (hasShareMsg) {
     obj.methods.onShareAppMessage = deferred(function (r) { return r.methods && r.methods.onShareAppMessage })
@@ -131,8 +131,8 @@ function makePlaceholderNativeComp (record, componentConfig, Component) {
   if (hasShareTimeline) {
     obj.methods.onShareTimeline = deferred(function (r) { return r.methods && r.methods.onShareTimeline })
   }
-  // 支付宝别名:真描述符在 alipay 下设 onInit/didMount/didUpdate/didUnmount。占位期同 gate 补转发器。
-  // process.env.TARO_ENV 由 build-shared-runtime 的 DefinePlugin 注入,非 alipay 时整段被 DCE 移除。
+  // 支付宝别名：真描述符在 alipay 下设 onInit/didMount/didUpdate/didUnmount。占位期同 gate 补转发器。
+  // process.env.TARO_ENV 由 build-shared-runtime 的 DefinePlugin 注入，非 alipay 时整段被 DCE 移除。
   if (process.env.TARO_ENV === 'alipay') {
     obj.onInit = deferred(function (r) { return r.onInit })
     obj.didMount = deferred(function (r) { return r.didMount })
@@ -221,12 +221,12 @@ function install (shared, Current) {
   fwPlaceholder.__isPlaceholder = true
   fwPlaceholder.createReactApp = function (App, _react, _dom, config) {
     // 业务传入的 _react/_dom 是占位，弃用；只捕获 App + config。
-    // 多业务包 last-writer 语义：后加载的业务包会覆盖 __appBootstrap 与最终 Current.app,
+    // 多业务包 last-writer 语义：后加载的业务包会覆盖 __appBootstrap 与最终 Current.app，
     // 与 Taro 单份 runtime 内 framework `createReactApp` 无守卫赋值的原生行为一致
-    // (见 packages/taro-framework-react/src/runtime/connect.ts:434 `Current.app = appObj`)。
+    // （见 packages/taro-framework-react/src/runtime/connect.ts:434 `Current.app = appObj`)。
     //
-    // F5 多包 App 隔离:同时记 pkgId,__activateReal 建 realApp 后按 pkgId 存进 __pkgApps 表,
-    // 供 page loader 每次 onLoad 前查回本包 App(即使 Current.app 被 last-writer 换走,
+    // F5 多包 App 隔离：同时记 pkgId，__activateReal 建 realApp 后按 pkgId 存进 __pkgApps 表，
+    // 供 page loader 每次 onLoad 前查回本包 App（即使 Current.app 被 last-writer 换走，
     // 本包页面 mount 前仍能恢复到本包 App)。pkgId 由 app loader 顶部注入 shared.__currentPkgId。
     shared.__appBootstrap = {
       App: App,
@@ -236,9 +236,9 @@ function install (shared, Current) {
     return placeholderApp
   }
 
-  // F6 native-components 占位:native-comp 产物顶层同步调 createNativeComponentConfig 建描述符传给
-  // Component()。同步核阶段无法建真描述符(reactDOM/framework 是占位),故返回占位描述符(形状完整、
-  // 生命周期延迟转发),并把 record 登记到 shared.__nativeCompConfigs;异步核到位后 replay 用真身重建。
+  // F6 native-components 占位：native-comp 产物顶层同步调 createNativeComponentConfig 建描述符传给
+  // Component()。同步核阶段无法建真描述符（reactDOM/framework 是占位），故返回占位描述符（形状完整、
+  // 生命周期延迟转发），并把 record 登记到 shared.__nativeCompConfigs；异步核到位后 replay 用真身重建。
   shared.__nativeCompConfigs = shared.__nativeCompConfigs || []
   fwPlaceholder.createNativeComponentConfig = function (Component, _react, _reactDom, componentConfig) {
     var record = { Component: Component, config: componentConfig, realObj: null, pending: [] }
@@ -246,9 +246,9 @@ function install (shared, Current) {
     return makePlaceholderNativeComp(record, componentConfig, Component)
   }
 
-  // 异步核 fill 真身后调用:用真身 framework.createNativeComponentConfig 为每个已注册的 native-comp
-  // 建真描述符,存入 record.realObj,并按调用顺序重放占位期缓存的生命周期调用(created→attached→…)。
-  // 真身 reactDOM 走 shared['react-dom'](已被 provider fill);react 走同步核的 shared.react。
+  // 异步核 fill 真身后调用：用真身 framework.createNativeComponentConfig 为每个已注册的 native-comp
+  // 建真描述符，存入 record.realObj，并按调用顺序重放占位期缓存的生命周期调用（created→attached→…)。
+  // 真身 reactDOM 走 shared['react-dom']（已被 provider fill)；react 走同步核的 shared.react。
   shared.__replayNativeCompConfigs = function (realFramework) {
     if (typeof realFramework.createNativeComponentConfig !== 'function') return
     var records = shared.__nativeCompConfigs || []
@@ -289,7 +289,7 @@ function install (shared, Current) {
     )
     realApp = realAppObj // createReactApp 内部已 Current.app = realAppObj
     shared.__TARO_placeholderApp = null
-    // F5 多包 App 隔离:按 pkgId 存表,供 page loader 每次 onLoad 前查回本包 App。
+    // F5 多包 App 隔离：按 pkgId 存表，供 page loader 每次 onLoad 前查回本包 App。
     if (boot.pkgId) {
       shared.__pkgApps = shared.__pkgApps || {}
       shared.__pkgApps[boot.pkgId] = realAppObj

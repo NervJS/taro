@@ -21,9 +21,9 @@ import { fs } from '@tarojs/helper'
 
 const HOOK_PREFIX = /^use[A-Z]/
 
-// 匹配 `标识符.方法(`（含可选链 ?.），捕获 [对象名, 方法名]
+// 匹配 `标识符.方法（`（含可选链 ？.），捕获 [对象名， 方法名]
 const MEMBER_CALL_RE = /\b([A-Za-z_$][\w$]*)\s*\??\.\s*([A-Za-z_$][\w$]*)\s*\??\.?\s*\(/g
-// 匹配裸函数调用 `标识符(`（用于具名导入的直接调用），捕获 [函数名]
+// 匹配裸函数调用 `标识符（`（用于具名导入的直接调用），捕获 [函数名]
 const BARE_CALL_RE = /(?:^|[^.\w$])([A-Za-z_$][\w$]*)\s*\??\.?\s*\(/g
 
 /**
@@ -50,7 +50,7 @@ interface TaroBindings {
 
 /**
  * 解析文件里对 @tarojs/taro 的各种导入形态，收集命名空间名与具名本地名。
- * 覆盖：ESM 默认/命名空间/具名（含 as 别名）、CJS require 默认/解构（含 : 重命名）。
+ * 覆盖：ESM 默认/命名空间/具名（含 as 别名）、CJS require 默认/解构（含 ： 重命名）。
  */
 export function findTaroBindings (code: string): TaroBindings {
   const namespaces = new Set<string>()
@@ -96,7 +96,7 @@ function parseImportClause (clause: string, namespaces: Set<string>, named: Set<
   }
 }
 
-/** 解析具名列表 `a, b as c, d: e`，取本地名（as/: 后的名字，否则原名） */
+/** 解析具名列表 `a, b as c, d: e`，取本地名（as/： 后的名字，否则原名） */
 function parseNamedList (list: string, named: Set<string>) {
   list.split(',').forEach((item) => {
     const seg = item.trim()

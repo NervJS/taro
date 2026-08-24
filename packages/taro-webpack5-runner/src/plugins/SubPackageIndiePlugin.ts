@@ -306,10 +306,10 @@ export default class SubPackageIndiePlugin {
 
   /**
    * mainPackageRoot 页面/组件 wxss 里 @import app 样式的语句。
-   * app 样式(app.wxss)随 runtime chunks 落在**归一化后**的 mainPackageRoot(normalizeIndieRoot 会砍掉
-   * 末尾 /index),而页面 wxss 落在 `${page.name}/<basename>.wxss`——两者深度可能不同(如 page
-   * pages/order/index/index 与 root pages/order,页面深一级)。故不能硬编码 './app',要按页面 wxss 目录
-   * 到 `${root}/app` 重算,算法与 MiniPlugin 默认样式注入(path.dirname(pageStyle) → app 样式)一致。
+   * app 样式（app.wxss）随 runtime chunks 落在**归一化后**的 mainPackageRoot(normalizeIndieRoot 会砍掉
+   * 末尾 /index)，而页面 wxss 落在 `${page.name}/<basename>.wxss`——两者深度可能不同（如 page
+   * pages/order/index/index 与 root pages/order，页面深一级）。故不能硬编码 './app'，要按页面 wxss 目录
+   * 到 `${root}/app` 重算，算法与 MiniPlugin 默认样式注入（path.dirname(pageStyle) → app 样式）一致。
    */
   buildMainRootAppStyleImport (pageName: string, root: string): string {
     const styleExt = this.options.fileType.style
@@ -317,17 +317,17 @@ export default class SubPackageIndiePlugin {
   }
 
   /**
-   * 生成注入 app.js 的 __taroRegisterRecursiveComponent(供各 root 的 comp.js 调用注册递归基础组件)。
+   * 生成注入 app.js 的 __taroRegisterRecursiveComponent（供各 root 的 comp.js 调用注册递归基础组件）。
    * 递归组件配置由 @tarojs/runtime 的 createRecursiveComponentConfig 提供。
-   * - vanilla:@tarojs/runtime 打进本包 webpack 模块,registrar 遍历 __webpack_require__.c/.m 找到它。
-   * - 共享运行时:@tarojs/runtime 被 external 到共享全局(wx.__TARO_RT_ASYNC_V*__),**不在**
-   *   webpack 模块里,原遍历必然失败 → throw。故 sharedRuntime 下在遍历前先查共享全局。
-   *   严格 gate:非 sharedRuntime 产出与原字符串逐字节一致,vanilla 零回归。
+   * - vanilla:@tarojs/runtime 打进本包 webpack 模块，registrar 遍历 __webpack_require__.c/.m 找到它。
+   * - 共享运行时：@tarojs/runtime 被 external 到共享全局（wx.__TARO_RT_ASYNC_V*__)，不在 webpack 模块里，
+   *   原遍历必然失败 → throw，故 sharedRuntime 下在遍历前先查共享全局。
+   *   严格 gate：非 sharedRuntime 产出与原字符串逐字节一致，vanilla 零回归。
    */
   buildRecursiveComponentRegistrarExpr (): string {
     const sharedRuntime = !!this.options.combination.config.sharedRuntime
-    // 共享全局查找片段:sharedRuntime 时在 webpack 模块遍历之前先试共享全局的 @tarojs/runtime。
-    // globalObject(wx/my/swan…)与全局 key 均取自单一来源,拼进运行时字符串。
+    // 共享全局查找片段：sharedRuntime 时在 webpack 模块遍历前先试共享全局的 @tarojs/runtime。
+    // globalObject(wx/my/swan…）与全局 key 均取自单一来源，拼进运行时字符串。
     let sharedLookup = ''
     if (sharedRuntime) {
       const globalObject = this.options.combination.config.output?.globalObject || 'wx'
@@ -423,7 +423,7 @@ export default class SubPackageIndiePlugin {
 
   /**
    * 获取所有配置了 asyncSubPackage 的 root -> asyncRoot 映射
-   * key: source root 路径, value: asyncRoot 路径
+   * key: source root 路径， value: asyncRoot 路径
    */
   getAsyncSubPackageRootMap (): Map<string, string> {
     const result = new Map<string, string>()
@@ -1327,10 +1327,10 @@ registerRecursiveComponent(${args.join(', ')})
             ? patchedAppJsContent
             : compilation.assets[jsFile]
 
-          // 共享运行时:app.js 头部的 require("./taro-shared-sync")(TaroInjectSyncCorePlugin
-          // 按根级 chunk-id 'app' 注入,天然是"同级"形态)保持不动。同步核文件本身会由
-          // buildSharedRuntime 在子构建产出后拷进 ${mainPackageRoot}/,与此处的 app.js 同级
-          // (subPackageIndie "每个 root 自包含" 原则),故这个同级 require 直接正确,无需重算。
+          // 共享运行时：app.js 头部的 require("./taro-shared-sync")(TaroInjectSyncCorePlugin 按根级
+          // chunk-id 'app' 注入，天然是"同级"形态）保持不动。同步核文件由 buildSharedRuntime 在子构建后
+          // 拷进 ${mainPackageRoot}/，与此处 app.js 同级（subPackageIndie"每个 root 自包含"原则），
+          // 故这个同级 require 直接正确，无需重算。
           compilation.assets[`${mainPackageRoot}/${jsFile}`] = jsContent
         }
 

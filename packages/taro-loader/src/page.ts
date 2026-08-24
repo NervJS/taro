@@ -59,10 +59,9 @@ if (component && component.behaviors) {
   taroOption.${behaviorsName} = (taroOption.${behaviorsName} || []).concat(component.behaviors)
 }
 ${options.sharedRuntime ? `
-// 共享运行时（split 模式）多包 App 隔离:每次进入本页面前,把 Current.app 切回本业务包
-// 的 realApp,避免 A→B→A 跨包切换后 A 页面 mount 到 B 的 App 上。
-// 从 shared.__pkgApps[pkgId] 表查回本包 App,pkgApps 由 app-shim/async-provider 存;
-// 若未激活/表空,不切换(fallback 到 last-writer 语义,与首次冷启动直达 A 页语义一致)。
+// 共享运行时（split 模式）多包 App 隔离：onLoad 前把 Current.app 切回本包 realApp，
+// 防 A→B→A 跨包切换后 A 页面 mount 到 B 的 App。realApp 从 shared.__pkgApps[pkgId] 查
+// （由 app-shim/async-provider 存）；未激活/表空则不切，fallback 到 last-writer。
 if (typeof ${globalObject}[${JSON.stringify(options.sharedRuntimeGlobalKey)}] !== 'undefined') {
   var __TARO_SHARED_FOR_PAGE__ = ${globalObject}[${JSON.stringify(options.sharedRuntimeGlobalKey)}]
   var __TARO_PKG_ID_FOR_PAGE__ = ${JSON.stringify(options.sharedRuntimePkgId)}

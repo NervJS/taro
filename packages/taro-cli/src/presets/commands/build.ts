@@ -75,9 +75,8 @@ export default (ctx: IPluginContext) => {
         process.exit(1)
       }
       if (sharedRuntime) {
-        // 守卫顺序：plugin → 平台白名单 → mode。
-        // plugin 需先判：cli.ts:161 会把 platform 无条件重写为 'plugin'，若先走白名单，
-        // plugin 场景会被更笼统的"平台不支持"拦下，错过精准提示。
+        // 守卫顺序：plugin → 平台白名单 → mode。plugin 需先判：cli.ts:161 会把 platform 无条件
+        // 重写为 'plugin'，若先走白名单会被更笼统的"平台不支持"拦下、错过精准提示。
         //
         // 小程序插件（--plugin）模式：插件宿主运行时无共享上下文，共享运行时不支持。
         if (typeof args?.plugin === 'string') {
@@ -87,12 +86,12 @@ export default (ctx: IPluginContext) => {
           ))
           process.exit(1)
         }
-        // native-components 模式早期曾被 fail-fast 拒绝(彼时 BuildNativePlugin 删掉
-        // app.js entry,同步核无注入点会崩)。现已扩展 TaroInjectSyncCorePlugin 支持 PAGE 注入,
-        // 并在 connect-native.ts/native-component loader 引入 isNativeShared 第三分支——
-        // native-components 现在可与 --shared-runtime 共存,守卫移除。
-        // 平台白名单：共享运行时仅适用于小程序端。h5/rn/harmony 走独立编译栈，
-        // 不经过 MiniCombination/externals，共享运行时 flag 传入会静默失效——编译期直接拒。
+        // native-components 模式曾被 fail-fast 拒绝（彼时 BuildNativePlugin 删掉 app.js entry，
+        // 同步核无注入点会崩）。现 TaroInjectSyncCorePlugin 已支持 PAGE 注入，且
+        // connect-native.ts/native-component loader 引入 isNativeShared 第三分支，
+        // native-components 可与 --shared-runtime 共存，守卫移除。
+        // 平台白名单：共享运行时仅适用于小程序端。h5/rn/harmony 走独立编译栈，不经过
+        // MiniCombination/externals，flag 传入会静默失效——编译期直接拒。
         const MINI_PLATFORMS = new Set(['weapp', 'alipay', 'swan', 'tt', 'qq', 'jd', 'ascf'])
         if (!MINI_PLATFORMS.has(platform)) {
           console.log(chalk.red(
@@ -107,11 +106,11 @@ export default (ctx: IPluginContext) => {
           console.log(chalk.red(`--shared-runtime-mode 仅支持 "split"，收到 "${sharedRuntimeMode}"。`))
           process.exit(1)
         }
-        // framework 白名单：共享运行时模板(app-shim/entry.sync/async-provider)硬编码
+        // framework 白名单：共享运行时模板（app-shim/entry.sync/async-provider）硬编码
         // @tarojs/plugin-framework-react/dist/runtime，vue3/solid 会调用不存在的 createVue3App 崩溃。
-        // preact 与 react 同属 framework:'react' 的 Frameworks 值域(taro-framework-react)，但共享运行时
-        // 子构建是独立 webpack config，不继承主构建的 react→preact/compat resolve.alias——preact 项目里
-        // 子构建 require('react') 会解析到真实 react 或失败，故 preact 亦不支持。
+        // preact 与 react 同属 framework:'react'，但共享运行时子构建是独立 webpack config，
+        // 不继承主构建的 react→preact/compat resolve.alias——子构建 require('react') 会解析到真实
+        // react 或失败，故 preact 亦不支持。
         const framework = ctx.initialConfig.framework
         if (framework !== 'react') {
           console.log(chalk.red(
@@ -187,11 +186,11 @@ export default (ctx: IPluginContext) => {
             async modifyAppConfig (appConfig) {
               extractCompileEntry(appConfig, args, ctx)
 
-              // 共享运行时不支持 independent(独立)分包:独立分包冷启动会跳过主包 app.js 下载/执行,
-              // 同步核(taro-shared-sync,仅在业务 app.js 顶层同步 require)因此不会运行,该分包页面执行时
-              // externals 指向的共享全局(react/@tarojs/* 真身与占位)为空 → 运行时崩。
-              // 校验时机:appConfig.subPackages 在此回调(app.json 解析后、getPages 编译分包前)才可读,
-              // 早于任何分包编译,process.exit 能在产出会崩产物前中断。sharedRuntime 是外层 fn 闭包变量。
+              // 共享运行时不支持 independent（独立）分包：独立分包冷启动跳过主包 app.js 下载/执行，
+              // 同步核（taro-shared-sync，仅在业务 app.js 顶层同步 require）因此不运行，该分包页面执行时
+              // externals 指向的共享全局（react/@tarojs/* 真身与占位）为空 → 崩。
+              // 校验时机：appConfig.subPackages 在此回调（app.json 解析后、getPages 编译分包前）才可读，
+              // 早于任何分包编译，process.exit 能在产出会崩产物前中断。sharedRuntime 是外层 fn 闭包变量。
               if (sharedRuntime) {
                 const subPackages = (appConfig as any).subPackages || (appConfig as any).subpackages || []
                 const independentRoots = (Array.isArray(subPackages) ? subPackages : [])

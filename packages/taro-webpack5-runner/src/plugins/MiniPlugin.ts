@@ -238,8 +238,8 @@ export default class TaroMiniPlugin {
     if (this.options.newBlended) {
       this.subPackageIndiePlugin = new SubPackageIndiePlugin(this)
       this.subPackageIndiePlugin.apply()
-      // 反向挂到 combination,供主构建结束后的 buildSharedRuntime 读取 mainPackageRoots
-      // (把同步核 taro-shared-sync.js 拷进每个 mainPackageRoot,实现 subPackageIndie 自包含)。
+      // 反向挂到 combination，供主构建结束后的 buildSharedRuntime 读取 mainPackageRoots
+      // （把同步核 taro-shared-sync.js 拷进每个 mainPackageRoot，实现 subPackageIndie 自包含）。
       this.options.combination.subPackageIndiePlugin = this.subPackageIndiePlugin
     }
 
@@ -339,9 +339,9 @@ export default class TaroMiniPlugin {
        */
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
         const { framework, loaderMeta, pxTransformConfig } = this.options
-        // 共享运行时（split 模式）：把 sharedRuntime 开关、pkgId(取 output.chunkLoadingGlobal,
-        // 每业务包已必须唯一)、全局对象键名(constants.ts 单一来源)透传给 app/page loader,
-        // 用于在产物里注入多包 App 隔离逻辑。
+        // 共享运行时（split 模式）：把 sharedRuntime 开关、pkgId（取 output.chunkLoadingGlobal，
+        // 每业务包已必须唯一）、全局对象键名（constants.ts 单一来源）透传给 app/page loader，
+        // 供产物注入多包 App 隔离逻辑。
         const sharedRuntime = !!this.options.combination.config.sharedRuntime
         const sharedRuntimePkgId = sharedRuntime
           ? (compiler.options.output?.chunkLoadingGlobal as string) || 'webpackJsonp'
