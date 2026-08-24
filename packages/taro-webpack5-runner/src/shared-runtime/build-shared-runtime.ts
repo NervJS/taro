@@ -29,12 +29,10 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   // 共享运行时模板子构建的 DefinePlugin 常量：按 config 重建 runtime 分支常量（保 DOM 分支与主构建一致），
   // 叠加运行时模板所需的宏。
   const defineConstants = {
-    // 接入方通过插件/webpackChain 注入主构建的自定义 DefinePlugin 常量（如某私有插件的
-    // process.env.SOME_RUNTIME_FLAG）。extraPackages 的 runtime 打进异步核，其行为
-    // 常被这些编译期 define 控制；异步核是独立子构建，不继承主构建的 DefinePlugin，若不透传，
-    // buildDefineConstants 里兜底的 'process.env':'({})' 会把它们吞成 undefined（如
-    // "true"===({}).SOME_RUNTIME_FLAG → false），导致对应运行时特性静默失效。
-    // 放在最前：Taro 核心 runtime 常量与模板宏在后覆盖，避免业务 define 意外改写核心分支。
+    // 透传接入方注入主构建的自定义 DefinePlugin 常量。异步核是独立子构建、不继承主构建
+    // DefinePlugin，若不透传，兜底的 'process.env'：'({})' 会把 extraPackages runtime 依赖的
+    // 编译期 define（如 process.env.SOME_RUNTIME_FLAG）吞成 undefined，致特性静默失效。
+    // 放最前：核心 runtime 常量与模板宏在后覆盖，防业务 define 改写核心分支。
     ...collectUserDefineConstants(combination),
     ...buildDefineConstants(config),
     // 运行时模板（entry.sync.js / async-provider.js）引用的宏，单一来源为 constants.ts + globalObject 配置：
@@ -45,11 +43,11 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
     __TARO_RUNTIME_VERSION__: JSON.stringify(RUNTIME_GLOBAL_VERSION),
   }
 
-  // 接入方声明的额外共享包（CLI 不认识具体包名），按加载时机分两类:
-  //   - sharedRuntimeExtraPackages: 随异步核加载,多业务包共享(不参与首屏时序的 API 定义/异步初始化)
-  //   - sharedRuntimeSyncExtraPackages: 随同步核加载,每业务包各带一份(必须在首屏 window INIT
-  //     广播之前注册监听器/写全局状态等——异步核 .then 晚于首屏 onLoad,时机敏感副作用放这里)
-  // 两者都会被 shouldShareExternal 识别为共享 external,不进业务包主 bundle,只是执行时机不同.
+  // 接入方声明的额外共享包（CLI 不认识具体包名），按加载时机分两类：
+  //   - sharedRuntimeExtraPackages: 随异步核加载，多业务包共享（不参与首屏时序的 API 定义/异步初始化）
+  //   - sharedRuntimeSyncExtraPackages: 随同步核加载，每业务包各带一份（必须在首屏 window INIT
+  //     广播前注册监听器/写全局状态等——异步核 .then 晚于首屏 onLoad，时机敏感副作用放这里）
+  // 两者都被 shouldShareExternal 识别为共享 external，不进业务包主 bundle，仅执行时机不同。
   const extraPackages: string[] = config.sharedRuntimeExtraPackages || []
   const syncExtraPackages: string[] = config.sharedRuntimeSyncExtraPackages || []
 
@@ -60,10 +58,10 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   // 使其副作用在同步核内（与模板消费方同一 @tarojs/shared 单例）就位。对业务透明，无需手动声明。
   const missingRuntimes = computeMissingRuntimes(config.runtimePath, extraPackages, syncExtraPackages)
 
-  // entry 用数组多入口:extras 先执行副作用,最后核心 entry.
-  // 数组多入口 webpack 会按 __webpack_exec__ 序列依次执行,extras 顶层副作用(mergeReconciler
-  // 等)必然先于核心 entry 完成——mock-exec 已实测证实(用 Node vm 跑产物 + mock @tarojs/shared,
-  // 验证 hostConfig 被 tap、initNativeApi hook 就位).
+  // entry 用数组多入口：extras 先执行副作用，最后核心 entry.
+  // webpack 会按 __webpack_exec__ 序列依次执行，extras 顶层副作用（mergeReconciler 等）必然先于
+  // 核心 entry 完成——mock-exec 已实测证实（Node vm 跑产物 + mock @tarojs/shared，验证 hostConfig
+  // 被 tap、initNativeApi hook 就位）。
   const buildEntry = (coreEntryFile: string, extras: string[]) => {
     const core = path.join(shimDir, coreEntryFile)
     return extras.length ? [...extras, core] : core
@@ -88,24 +86,24 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
     resolve: { modules: [userNodeModules, 'node_modules'] },
   })
 
-  // sync-core：放 outputDir 根。SyncExtraPackages 走同步核入口(时机敏感副作用).
-  // missingRuntimes 前置：它们是平台级 side-effect runtime，tap 幂等无顺序依赖，前置更符合语义.
+  // sync-core：放 outputDir 根。SyncExtraPackages 走同步核入口（时机敏感副作用）。
+  // missingRuntimes 前置：它们是平台级 side-effect runtime，tap 幂等无顺序依赖，前置更符合语义。
   // require.async(shared-async-v1/index) 由 externalsType='promise' 编译得到。
   const syncCoreConfig: any = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '', [...missingRuntimes, ...syncExtraPackages])
   syncCoreConfig.externalsType = 'promise'
   syncCoreConfig.externals = { [asyncRequest]: `require.async(${JSON.stringify(asyncRequest)})` }
 
-  // async-provider：放 shared-async-v1/。extraPackages(异步)以数组多入口在核心 entry 前先执行副作用.
+  // async-provider：放 shared-async-v1/。extraPackages（异步）以数组多入口在核心 entry 前先执行副作用。
   const asyncConfig: any = base(SHARED_ASYNC_PROVIDER_NAME, 'async-provider.js', SHARED_ASYNC_ROOT, extraPackages)
   asyncConfig.externals = reverseExternals(globalObject)
 
   await runWebpack([syncCoreConfig, asyncConfig])
 
-  // subPackageIndie 自包含:把刚产出的同步核 taro-shared-sync.js 拷进每个 mainPackageRoot。
-  // subPackageIndie 会把 app.js 等 runtime chunks 搬进 mainPackageRoot 目录,app.js 头部的
-  // require("./taro-shared-sync") 是"同级"引用——同步核也必须在同目录才对。根级那份保留
+  // subPackageIndie 自包含：把刚产出的同步核 taro-shared-sync.js 拷进每个 mainPackageRoot。
+  // subPackageIndie 会把 app.js 等 runtime chunks 搬进 mainPackageRoot，app.js 头部的
+  // require("./taro-shared-sync") 是"同级"引用——同步核也必须在同目录。根级那份保留
   // (ENTRY / F6 native-components 仍从根级 require)。mainPackageRoots 由 MiniPlugin.apply
-  // 反向挂在 combination 上;非 subPackageIndie 场景该列表为空,此步跳过。
+  // 反向挂在 combination 上；非 subPackageIndie 场景该列表为空，此步跳过。
   copySyncCoreIntoMainPackageRoots(outputDir, combination.subPackageIndiePlugin?.getAllMainPackageRoots?.() || [])
 
   // 生成 shared-async 占位入口：index.js 同步 require 真实 chunk（async-provider.js），
@@ -125,14 +123,14 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
 }
 
 /**
- * subPackageIndie 自包含:把 outputDir 根的 taro-shared-sync.js(及其 .LICENSE.txt)拷进每个
- * mainPackageRoot 目录,使其与被 subPackageIndie 搬进去的 app.js 同级(app.js 头部 require 的是
- * "./taro-shared-sync",天然同级)。mainPackageRoots 为空时(非 subPackageIndie)直接跳过。
+ * subPackageIndie 自包含：把 outputDir 根的 taro-shared-sync.js（及其 .LICENSE.txt）拷进每个
+ * mainPackageRoot，使其与被 subPackageIndie 搬进去的 app.js 同级（app.js 头部 require 的是
+ * "./taro-shared-sync"，天然同级）。mainPackageRoots 为空时（非 subPackageIndie）直接跳过。
  *
- * 拷贝后清理根级冗余:subPackageIndie 的 optimizeAssets 已删掉根级 app.js(SubPackageIndiePlugin
- * 接管了根级 ENTRY),故根级 taro-shared-sync.js 不再有消费者(ENTRY app.js 没了;native-components
- * 是互斥的另一种构建,不会有 mainPackageRoot)。此时删根级那份,与 taro-blended-project@main 的
- * 产物结构对齐(businessRoot 根不含同步核)。保守判断:仅当根级确无 app.js 时才删,避免误伤。
+ * 拷贝后清理根级冗余：subPackageIndie 的 optimizeAssets 已删根级 app.js(SubPackageIndiePlugin
+ * 接管了根级 ENTRY)，故根级 taro-shared-sync.js 不再有消费者（ENTRY app.js 没了；native-components
+ * 是互斥的另一种构建，不会有 mainPackageRoot)。此时删根级那份，与 taro-blended-project@main 的
+ * 产物结构对齐（businessRoot 根不含同步核）。保守判断：仅当根级确无 app.js 时才删，避免误伤。
  */
 function copySyncCoreIntoMainPackageRoots (outputDir: string, mainPackageRoots: string[]) {
   if (!mainPackageRoots.length) return
@@ -148,7 +146,7 @@ function copySyncCoreIntoMainPackageRoots (outputDir: string, mainPackageRoots: 
     fs.copySync(src, path.join(destDir, syncCoreFile), { overwrite: true })
     if (hasLicense) fs.copySync(licenseSrc, path.join(destDir, licenseFile), { overwrite: true })
   }
-  // 根级冗余清理:根级 app.js 已被 subPackageIndie 删除 → 根级同步核无消费者,删之对齐 main。
+  // 根级冗余清理：根级 app.js 已被 subPackageIndie 删除 → 根级同步核无消费者，删之对齐 main。
   if (!fs.existsSync(path.join(outputDir, 'app.js'))) {
     fs.removeSync(src)
     if (hasLicense) fs.removeSync(licenseSrc)
@@ -161,9 +159,9 @@ function copySyncCoreIntoMainPackageRoots (outputDir: string, mainPackageRoots: 
  * 定位：仅产物元数据，供宿主/人工排查；运行时跨包错配由同步核/异步核的 __rtVersion 校验兜底。
  *
  * extraPackages（config.mini.sharedRuntimeExtraPackages，如某私有插件的 runtime）的版本也一并记录：
- * 它们随异步核打包共享,多业务包若声明不同版本会静默漂移（不像 react 全家桶有 __rtVersion 硬 gate）。
- * 这里只做**记录**供人工排查——不做编译期 gate（这些包的版本差异未必出错,硬 gate 易误报,与
- * react 全家桶的处理策略一致:只 react 全家桶做硬校验）。
+ * 随异步核打包共享，多业务包若声明不同版本会静默漂移（不像 react 全家桶有 __rtVersion 硬 gate）。
+ * 这里只做**记录**供人工排查，不做编译期 gate（这些包的版本差异未必出错，硬 gate 易误报，与
+ * react 全家桶策略一致：只 react 全家桶做硬校验）。
  */
 function writeRuntimeManifest (asyncDir: string, userNodeModules: string, extraPackages: string[] = [], syncExtraPackages: string[] = []) {
   const REACT_FAMILY = ['react', 'react-dom', 'react-reconciler', 'scheduler', '@tarojs/react']
@@ -277,15 +275,15 @@ function getAsyncRequest (config: any): string {
 /**
  * 从主构建 webpack chain 收集接入方注入的自定义 DefinePlugin 常量，透传给异步核子构建。
  *
- * 场景：某私有插件通过 webpackChain 独立 new DefinePlugin 注入
- * `process.env.SOME_RUNTIME_FLAG` 等编译期开关，控制其 runtime 行为。这些插件的
- * runtime 被 sharedRuntimeExtraPackages 打进异步核，但异步核是独立子构建、不继承主构建的
- * DefinePlugin，若不透传，这些 `process.env.X` 会被兜底的 'process.env':'({})' 吞成 undefined，
- * 导致对应特性静默失效（本次真机现象：根字号开关失效 → root-font-size 空 → 字体变小）。
+ * 场景：某私有插件通过 webpackChain 独立 new DefinePlugin 注入 `process.env.SOME_RUNTIME_FLAG`
+ * 等编译期开关控制其 runtime 行为。其 runtime 被 sharedRuntimeExtraPackages 打进异步核，但异步核
+ * 是独立子构建、不继承主构建 DefinePlugin，若不透传，这些 `process.env.X` 会被兜底的
+ * 'process.env'：'({})' 吞成 undefined，致特性静默失效（真机现象：根字号开关失效 → root-font-size
+ * 空 → 字体变小）。
  *
  * 仅收集**具名精确键**（如 'process.env.X'、裸标识符），显式跳过 'process' / 'process.env' 这类
- * 前缀/裸键——它们由 buildDefineConstants 的兜底策略统一处理，不能被业务值覆盖。调用时机在主构建
- * 结束后（chain 已 finalize，所有插件含业务 DefinePlugin 都已装配），从 combination.chain 遍历。
+ * 前缀/裸键——它们由 buildDefineConstants 兜底统一处理，不能被业务值覆盖。调用时机在主构建结束后
+ * （chain 已 finalize，业务 DefinePlugin 都已装配），从 combination.chain 遍历。
  */
 function collectUserDefineConstants (combination: MiniCombination): Record<string, any> {
   const result: Record<string, any> = {}
@@ -294,9 +292,9 @@ function collectUserDefineConstants (combination: MiniCombination): Record<strin
   if (!store || typeof store.forEach !== 'function') return result
   store.forEach((plugin: any) => {
     try {
-      // 识别 DefinePlugin:优先引用相等(同一 webpack 实例时成立);兜底按构造器名——
-      // 极端场景下业务插件自行 require('webpack') 解析到未被 pnpm 去重的另一实例时,
-      // 引用相等会失败,靠 .name === 'DefinePlugin' 仍能命中,避免静默漏收其 define 常量。
+      // 识别 DefinePlugin：优先引用相等（同一 webpack 实例时成立）；兜底按构造器名——业务插件自行
+      // require('webpack') 解析到未被 pnpm 去重的另一实例时引用相等会失败，靠 .name === 'DefinePlugin'
+      // 仍能命中，避免静默漏收其 define 常量。
       const ctor = plugin?.get?.('plugin')
       if (ctor !== webpack.DefinePlugin && ctor?.name !== 'DefinePlugin') return
       const defs = (plugin.get('args') || [])[0]

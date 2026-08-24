@@ -31,7 +31,7 @@ export const SHARED_ASYNC_PROVIDER_NAME = 'async-provider'
 
 /**
  * taro-loader 的 runtimePath `post:` 前缀（镜像 taro-loader/src/constants.ts 的 REG_POST）。
- * 这里单独定义而非 import：taro-loader 是编译期 loader 包，跨已编译包 import 常量不稳妥，
+ * 单独定义而非 import：taro-loader 是编译期 loader 包，跨已编译包 import 常量不稳妥，
  * 且此正则极简、语义固定，就地镜像一份即可。改动时两处保持一致。
  */
 export const REG_POST = /^post:/
@@ -43,9 +43,8 @@ export const REG_POST = /^post:/
  *
  * ⚠️ 改动 entry.sync.js 里 require 的平台/运行时模块清单时必须同步此常量
  * （tests/shouldShareExternal.spec.ts 有一致性守护单测防漂移）。
- * 注：react 全家桶虽也在 entry.sync.js 同步 require，但它们不属于 platform.runtimePath
- * （runtimePath 只承载 @tarojs/* 平台与插件 runtime），不会进 computeMissingRuntimes 的输入，
- * 故不必列入此清单。
+ * 注：react 全家桶虽也在 entry.sync.js 同步 require，但不属于 platform.runtimePath
+ * （runtimePath 只承载 @tarojs/* 平台与插件 runtime），不会进 computeMissingRuntimes 的输入，故不必列入。
  */
 export const SYNC_CORE_REGISTERED_RUNTIMES: readonly string[] = [
   '@tarojs/runtime',

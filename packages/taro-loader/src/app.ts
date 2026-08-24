@@ -51,15 +51,14 @@ exports.taroApp = app
     instantiateApp = modifyInstantiate(instantiateApp, 'app')
   }
 
-  // 共享运行时（split 模式）多包 App 隔离:在 createReactApp 调用之前,把本业务包身份
-  // 记进共享全局的 __currentPkgId,供占位/真身 createReactApp 顺手把 realApp 存进
-  // shared.__pkgApps[pkgId] 表——供 page loader 每次 onLoad 前查回本包 App。
+  // 共享运行时（split 模式）多包 App 隔离：createReactApp 前把本包 pkgId 记进共享全局
+  // __currentPkgId，供 createReactApp 把 realApp 存进 shared.__pkgApps[pkgId]，page loader
+  // onLoad 前据此查回本包 App。
   //
-  // 关键:给 config.appId 注入本包 pkgId。@tarojs/react 的 renderReactRoot 用
-  // config.appId 作 container 元素 id;两包若都用默认 'app',会 mount 到同一 container,
-  // React root 互相覆盖(A 首次成功,再进 A 时 root 已被 B 顶掉 → 白屏)。
-  // pkgId 已在业务包间唯一(chunkLoadingGlobal 派生),用作 appId 自然隔离 container。
-  // 严格 gate:只在 sharedRuntime 场景注入,非共享模式产物字面上零变化。
+  // 同时给 config.appId 注入 pkgId:renderReactRoot 用 config.appId 作 container 元素 id，
+  // 两包都用默认 'app' 会 mount 到同一 container、React root 互相覆盖（A→B→A 后 A 白屏）。
+  // pkgId 业务包间唯一（chunkLoadingGlobal 派生），用作 appId 天然隔离 container。
+  // 仅 sharedRuntime 场景注入，非共享模式产物字面零变化。
   const sharedRuntimePkgIdInject = options.sharedRuntime
     ? `
 if (typeof ${globalObject}[${JSON.stringify(options.sharedRuntimeGlobalKey)}] !== 'undefined') {

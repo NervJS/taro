@@ -31,18 +31,18 @@ if (typeof tt !== 'undefined') {
 }
 
 /**
- * 重写源码里对某个 outputDir 根产物的 require 相对路径,使其相对于 fromId(而非根目录)。
+ * 重写源码里对某个 outputDir 根产物的 require 相对路径，使其相对于 fromId（而非根目录）。
  *
- * 场景:某段已渲染的源码在生成时按"落在根目录"算好了 require("./<target>")(fromId 深度 0),
- * 之后被搬到更深的目录(如 subPackageIndie 的 mainPackageRoot=pages/order/index),原相对路径失效。
- * 用与注入端 addRequireToSource 相同的 promoteRelativePath(path.relative(...)) 算法重算,保证一致。
+ * 场景：某段已渲染的源码在生成时按"落在根目录"算好了 require("./<target>")(fromId 深度 0)，
+ * 之后被搬到更深的目录（如 subPackageIndie 的 mainPackageRoot=pages/order/index)，原相对路径失效。
+ * 用与注入端 addRequireToSource 相同的 promoteRelativePath(path.relative(...)) 算法重算，保证一致。
  *
- * 用精确字符串替换(全量 split/join,非正则),只命中确定性的 require("./<target>") 原始形态,
- * 避免误伤源码里其它含 target 名的内容;源码不含目标 require 时原样返回。
+ * 用精确字符串替换（全量 split/join，非正则），只命中确定性的 require("./<target>") 原始形态，
+ * 避免误伤源码里其它含 target 名的内容；源码不含目标 require 时原样返回。
  *
  * @param source     源码字符串
- * @param fromId     搬迁后的目录 id(如 'pages/order/index'),相对路径以它为基准
- * @param targetName 根目录产物名(不含扩展名,如 'taro-shared-sync')
+ * @param fromId     搬迁后的目录 id（如 'pages/order/index')，相对路径以它为基准
+ * @param targetName 根目录产物名（不含扩展名，如 'taro-shared-sync')
  */
 export function rewriteRootRequirePath (source: string, fromId: string, targetName: string): string {
   const originalRequire = `require(${JSON.stringify(`./${targetName}`)})`
@@ -53,16 +53,14 @@ export function rewriteRootRequirePath (source: string, fromId: string, targetNa
 }
 
 /**
- * 生成页面 wxss `@import` app 样式的语句,按页面 wxss 目录到 app 样式产物路径重算相对路径。
+ * 生成页面 wxss 的 `@import` app 样式语句：按页面 wxss 目录到 app 样式产物路径重算相对路径。
  *
- * 场景:subPackageIndie 把 app 样式随 runtime chunks 落在**归一化后**的 mainPackageRoot
- * (normalizeIndieRoot 砍掉末尾 /index),而页面 wxss 落在 `${pageName}${styleExt}`——两者深度可能
- * 不同(如页面 pages/order/index/index.wxss 与 app 样式 pages/order/app.wxss,页面深一级)。
- * 算法与 MiniPlugin 默认样式注入(`path.posix.relative(path.dirname(pageStyle), 'app'+ext)`)一致,
- * 只是 app 样式的 target 改为归一化 root 下的完整路径。
+ * 场景：subPackageIndie 下 app 样式落在归一化后的 mainPackageRoot，页面 wxss 落在
+ * `${pageName}${styleExt}`，两者深度可能不同，故相对路径需按实际目录重算。
+ * 算法同 MiniPlugin 默认样式注入（`path.posix.relative`)，仅 app 样式 target 改为归一化 root 下的完整路径。
  *
- * @param pageStyle     页面 wxss 产物路径(如 'pages/order/index/index.wxss')
- * @param appStylePath  app 样式产物路径(如 'pages/order/app.wxss')
+ * @param pageStyle     页面 wxss 产物路径（如 'pages/order/index/index.wxss')
+ * @param appStylePath  app 样式产物路径（如 'pages/order/app.wxss')
  */
 export function buildRootStyleImport (pageStyle: string, appStylePath: string): string {
   const rel = path.posix.relative(path.posix.dirname(pageStyle), appStylePath)
