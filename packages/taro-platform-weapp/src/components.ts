@@ -70,7 +70,8 @@ export const components = {
     bindError: _empty,
     bindOpenSetting: _empty,
     bindLaunchApp: _empty,
-    bindAgreePrivacyAuthorization: _empty
+    bindAgreePrivacyAuthorization: _empty,
+    bindPhoneoneClickLogin: _empty,
   },
   Form: {
     'report-submit-timeout': _zero
