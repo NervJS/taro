@@ -11,7 +11,9 @@
     "prod": "pnpm run build",
     "dev": "pnpm run mv:comp && tsc -w",
     "build": "tsc && pnpm run mv:comp",
-    "mv:comp": "node ./mv-comp.js"
+    "mv:comp": "node ./mv-comp.js",
+    "test": "vitest run",
+    "test:ci": "vitest run --coverage"
   },
   "dependencies": {
     "@ampproject/remapping": "^2.3.0",
