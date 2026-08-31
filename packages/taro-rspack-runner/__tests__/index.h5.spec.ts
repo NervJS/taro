@@ -130,23 +130,31 @@ describe('rspack-runner build', () => {
     expect(rspackConfig.module.rules.length).toBeGreaterThanOrEqual(3)
   })
 
-  it('runs modifyRspackChain after modifyWebpackChain (rspack hook can override)', async () => {
-    const order: string[] = []
+  it('does not invoke webpack chain hooks under rspack (they are webpack-only)', async () => {
+    // rspack-runner 与 vite-runner 一致,完全不调用 modifyWebpackChain / webpackChain /
+    // onWebpackChainReady —— Taro 内置插件无条件注册的 modifyWebpackChain 回调含 webpack
+    // 专属结构(chain.plugin('mainPlugin') 等),在 rspack chain 上执行会抛错。
+    const called: string[] = []
     await build(appPath, {
       ...baseConfig,
-      modifyWebpackChain (chain: any) {
-        order.push('webpack')
-        chain.resolve.alias.set('shared', '/from-webpack')
+      modifyWebpackChain () {
+        called.push('webpack')
+      },
+      webpackChain () {
+        called.push('webpackChain')
+      },
+      onWebpackChainReady () {
+        called.push('onWebpackChainReady')
       },
       modifyRspackChain (chain: any) {
-        order.push('rspack')
+        called.push('rspack')
         chain.resolve.alias.set('shared', '/from-rspack')
       }
     })
 
     const [rspackConfig] = rspackFnMock.mock.calls[0]
-    expect(order).toEqual(['webpack', 'rspack'])
-    // 后跑的 modifyRspackChain 覆盖 modifyWebpackChain 的同名 alias
+    // 只有 rspack 钩子被执行,webpack 系钩子一律不碰
+    expect(called).toEqual(['rspack'])
     expect(rspackConfig.resolve.alias.shared).toBe('/from-rspack')
   })
 

@@ -27,17 +27,6 @@ import { getDefaultPostcssConfig, getPostcssPlugins } from './vendor/postcss.h5'
 
 import type { ILoaderMeta } from '@tarojs/taro/types/compile/config/plugin'
 
-const defaultLoaderMeta: ILoaderMeta = {
-  creator: 'createReactApp',
-  creatorLocation: '',
-  importFrameworkStatement: '',
-  frameworkArgs: '',
-  importFrameworkName: 'React',
-  extraImportForWeb: '',
-  execBeforeCreateWebApp: '',
-  mockAppStatement: ''
-}
-
 /**
  * 生成 pxtransform 运行时 rem 脚本(targetUnit 为 rem 时按视口设置根字号)。
  * 复刻自 @tarojs/webpack5-runner H5WebpackPlugin.getHtmlWebpackPlugin()。
@@ -68,9 +57,14 @@ export default async function build (appPath: string, config: any): Promise<void
   const designWidth = config.designWidth || 750
   const deviceRatio = config.deviceRatio
 
-  // loaderMeta 初始兜底值;平台/框架插件通过 modifyRspackChain 在此基础上补充字段
-  // (见 chain.module.rule('taroEntry').use('taroLoader').tap(...))
-  const loaderMeta = defaultLoaderMeta
+  // loaderMeta 初始只含两个增量字段(对齐 webpack5-runner 中 mainPlugin 的初始 options)。
+  // creator / creatorLocation / importFrameworkStatement 等实质字段由 framework 插件通过
+  // modifyRspackChain 注入(见 @tarojs/plugin-framework-react rspack.h5.ts 的 getLoaderMeta)。
+  // 不预置这些字段,否则会与 framework 注入值经 mergeWith 拼接重复(如 creator 变成 createReactAppcreateReactApp)。
+  const loaderMeta: Pick<ILoaderMeta, 'extraImportForWeb' | 'execBeforeCreateWebApp'> = {
+    extraImportForWeb: '',
+    execBeforeCreateWebApp: ''
+  }
 
   // 2) AppHelper 计算 app.config / pages
   const app = new AppHelper(config.entry || {}, {
@@ -236,14 +230,16 @@ export default async function build (appPath: string, config: any): Promise<void
     })
   }])
 
-  // 4) 依次执行 chain 钩子(顺序对齐 webpack5-runner Combination:先 webpack 兼容层,
-  // 再用户 webpackChain,再 rspack 专属钩子可覆盖修正,最后 ready 回调)。第二参传 rspack。
-  // 不 try/catch:钩子内不兼容操作应让错误可见,而非静默失效。
+  // 4) 执行 rspack chain 钩子。第二参传 rspack。不 try/catch:钩子内不兼容操作应让错误可见。
+  //
+  // Note: 只跑 modifyRspackChain,不碰 modifyWebpackChain / webpackChain / onWebpackChainReady。
+  // 与 vite-runner 一致(vite-runner 同样完全不调用这些 webpack chain 钩子)——它们是 webpack
+  // 专属生命周期,Taro 内置插件(framework-react/vue3/solid、plugin-http/html/devtools 等)
+  // 无条件注册的 modifyWebpackChain 回调里含 chain.plugin('mainPlugin') 等 webpack 结构操作,
+  // 在 rspack chain 上执行必然抛错。跨编译器的配置修改各走各的钩子:webpack 用 modifyWebpackChain,
+  // vite 用 modifyViteConfig,rspack 用 modifyRspackChain。
   const chainData = {}
-  await config.modifyWebpackChain?.(chain, rspack, chainData)
-  await config.webpackChain?.(chain, rspack, chainData)
   await config.modifyRspackChain?.(chain, rspack, chainData)
-  await config.onWebpackChainReady?.(chain, rspack, chainData)
 
   const rspackConfig = chain.toConfig()
 
