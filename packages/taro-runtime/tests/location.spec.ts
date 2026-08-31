@@ -197,6 +197,17 @@ describe('location', () => {
       expect(url.toString()).toBe('http://taro.com/?a=1&b=2&c=3&d=4')
     }
 
+    {
+      const url = new URL('https://example.test/?name=|aaa')
+      expect(url.search).toBe('?name=|aaa')
+      expect(url.toString()).toBe('https://example.test/?name=|aaa')
+      expect(url.searchParams.get('name')).toBe('|aaa')
+      expect(url.searchParams.toString()).toBe('name=%7Caaa')
+
+      url.searchParams.append('age', '18')
+      expect(url.toString()).toBe('https://example.test/?name=%7Caaa&age=18')
+    }
+
     // setters
     {
       const url = new URL('http://taro.com')
