@@ -238,3 +238,9 @@ export enum FRAMEWORK_MAP {
 }
 
 export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']
+
+// H5 Rspack runner 的 chain 命名约定:runner 建基础 taro-loader 规则,
+// 平台/框架插件通过 modifyRspackChain tap 该规则的 use options 注入 loaderMeta。
+// 作为跨包契约集中在此,避免 rspack-runner / plugin-platform-h5 / plugin-framework-react 三处魔法字符串各自漂移。
+export const RSPACK_H5_TARO_ENTRY_RULE = 'taroEntry'
+export const RSPACK_H5_TARO_LOADER_USE = 'taroLoader'

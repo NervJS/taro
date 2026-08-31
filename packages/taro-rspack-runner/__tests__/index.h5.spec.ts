@@ -1,5 +1,6 @@
 import path from 'node:path'
 
+import { RSPACK_H5_TARO_ENTRY_RULE, RSPACK_H5_TARO_LOADER_USE } from '@tarojs/helper'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import build from '../src/index.h5'
@@ -42,17 +43,6 @@ const baseConfig = {
   router: { mode: 'hash' }
 }
 
-const loaderMeta = {
-  creator: 'createReactApp',
-  creatorLocation: '',
-  importFrameworkStatement: '',
-  frameworkArgs: '',
-  importFrameworkName: 'React',
-  extraImportForWeb: '',
-  execBeforeCreateWebApp: '',
-  mockAppStatement: ''
-}
-
 describe('rspack-runner build', () => {
   beforeEach(() => {
     rspackFnMock.mockClear()
@@ -60,15 +50,11 @@ describe('rspack-runner build', () => {
     HtmlRspackPluginMock.mockClear()
   })
 
-  it('assembles rspack config from config.runnerInject', async () => {
-    const extraRule = { test: /\.marker$/, use: [] }
-
+  it('builds base chain config and lets modifyRspackChain inject alias', async () => {
     await build(appPath, {
       ...baseConfig,
-      runnerInject: {
-        alias: { '@tarojs/taro': '/mock/taro' },
-        loaderMeta,
-        extraRules: [extraRule]
+      modifyRspackChain (chain: any) {
+        chain.resolve.alias.set('@tarojs/taro', '/mock/taro')
       }
     })
 
@@ -76,19 +62,101 @@ describe('rspack-runner build', () => {
     const [rspackConfig] = rspackFnMock.mock.calls[0]
 
     expect(rspackConfig.resolve.alias).toEqual({ '@tarojs/taro': '/mock/taro' })
-    expect(rspackConfig.module.rules).toContainEqual(extraRule)
     expect(rspackConfig.entry.app[0]).toContain('app.config')
     expect(DefinePluginMock).toHaveBeenCalledTimes(1)
     expect(HtmlRspackPluginMock).toHaveBeenCalledTimes(1)
+    // 平台后缀前置,使 .h5.tsx 优先于裸 .tsx 命中
+    expect(rspackConfig.resolve.extensions.indexOf('.h5.tsx'))
+      .toBeLessThan(rspackConfig.resolve.extensions.indexOf('.tsx'))
   })
 
-  it('falls back to empty alias when config.runnerInject is absent', async () => {
+  it('modifyRspackChain can append a rule via chain', async () => {
+    await build(appPath, {
+      ...baseConfig,
+      modifyRspackChain (chain: any) {
+        chain.module.rule('markerRule').test(/\.marker$/).use('markerLoader').loader('/mock/marker-loader').end().end()
+      }
+    })
+
+    const [rspackConfig] = rspackFnMock.mock.calls[0]
+    const markerRule = rspackConfig.module.rules.find((r: any) => String(r.test) === String(/\.marker$/))
+    expect(markerRule).toBeTruthy()
+    expect(markerRule.use[0].loader).toBe('/mock/marker-loader')
+  })
+
+  it('lets two producers tap the same taroLoader without overwriting disjoint loaderMeta fields', async () => {
+    // 模拟 platform-h5 与 framework-react 先后 tap 同一 taroEntry/taroLoader:
+    // 前者拼接 extraImportForWeb(字符串增量),后者覆盖 creator(对象字段)。
+    // 二者字段不相交,应互不覆盖。
+    await build(appPath, {
+      ...baseConfig,
+      modifyRspackChain (chain: any) {
+        const use = chain.module.rule(RSPACK_H5_TARO_ENTRY_RULE).use(RSPACK_H5_TARO_LOADER_USE)
+        // 生产者 A(仿 platform-h5):拼接 extraImportForWeb
+        use.tap((options: any = {}) => ({
+          ...options,
+          loaderMeta: {
+            ...options.loaderMeta,
+            extraImportForWeb: (options.loaderMeta?.extraImportForWeb || '') + 'IMPORT_FROM_H5\n',
+          },
+        }))
+        // 生产者 B(仿 framework-react):覆盖 creator
+        use.tap((options: any = {}) => ({
+          ...options,
+          loaderMeta: {
+            ...options.loaderMeta,
+            creator: 'createReactAppFromFramework',
+          },
+        }))
+      }
+    })
+
+    const [rspackConfig] = rspackFnMock.mock.calls[0]
+    const taroEntryRule = rspackConfig.module.rules.find((r: any) => typeof r.test === 'function')
+    const loaderMeta = taroEntryRule.use[0].options.loaderMeta
+    // A 注入的字段保留(未被 B 的 tap 清除)
+    expect(loaderMeta.extraImportForWeb).toContain('IMPORT_FROM_H5')
+    // B 注入的字段生效
+    expect(loaderMeta.creator).toBe('createReactAppFromFramework')
+  })
+
+  it('keeps built-in rules when no chain hook is provided', async () => {
     await build(appPath, { ...baseConfig })
 
     const [rspackConfig] = rspackFnMock.mock.calls[0]
-    expect(rspackConfig.resolve.alias).toEqual({})
-    // 兜底场景下也应保留内建规则(app config / script / style),不因缺省 extraRules 而丢失
+    // 无 alias 被 set 时,rspack-chain toConfig() 会清理掉空的 resolve.alias(对 rspack 无影响)
+    expect(rspackConfig.resolve.alias ?? {}).toEqual({})
+    // 兜底场景下也应保留内建规则(taroEntry / script / style)
     expect(rspackConfig.module.rules.length).toBeGreaterThanOrEqual(3)
+  })
+
+  it('runs modifyRspackChain after modifyWebpackChain (rspack hook can override)', async () => {
+    const order: string[] = []
+    await build(appPath, {
+      ...baseConfig,
+      modifyWebpackChain (chain: any) {
+        order.push('webpack')
+        chain.resolve.alias.set('shared', '/from-webpack')
+      },
+      modifyRspackChain (chain: any) {
+        order.push('rspack')
+        chain.resolve.alias.set('shared', '/from-rspack')
+      }
+    })
+
+    const [rspackConfig] = rspackFnMock.mock.calls[0]
+    expect(order).toEqual(['webpack', 'rspack'])
+    // 后跑的 modifyRspackChain 覆盖 modifyWebpackChain 的同名 alias
+    expect(rspackConfig.resolve.alias.shared).toBe('/from-rspack')
+  })
+
+  it('does not swallow errors thrown inside a chain hook', async () => {
+    await expect(build(appPath, {
+      ...baseConfig,
+      modifyRspackChain () {
+        throw new Error('boom from hook')
+      }
+    })).rejects.toThrow('boom from hook')
   })
 
   it('rejects with a readable error when rspack reports compilation errors', async () => {

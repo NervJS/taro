@@ -22,8 +22,7 @@ export interface IH5RunnerInject {
 /**
  * 计算 H5 平台注入 runner 的 alias 与 loaderMeta 增量。
  * 供 program.ts 的 modifyWebpackConfig()（写入 webpack-chain）与
- * index.ts 的 modifyRunnerOpts tap（写入 opts.runnerInject，供 rspack-runner 等无 chain 的 runner 消费）共用，
- * 保证两条链路产出一致。
+ * modifyRspackConfig()（写入 rspack-chain）共用,保证两条链路产出一致。
  */
 export function computeH5RunnerInject (ctx: IPluginContext, mainFields: string[] = [...defaultMainFields]): IH5RunnerInject {
   const framework = ctx.initialConfig.framework || 'react'

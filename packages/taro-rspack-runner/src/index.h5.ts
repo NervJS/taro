@@ -3,16 +3,24 @@
  *
  * 签名对齐官方 runner:build(appPath, config)。
  *
- * alias / loaderMeta / extraRules 由 `@tarojs/plugin-platform-h5` 与
- * `@tarojs/plugin-framework-react` 通过 `modifyRunnerOpts` hook 写入
- * `config.runnerInject`（参见两个插件 src/index.ts 中的 `ctx.modifyRunnerOpts` 实现），
- * 而不是像 webpack5-runner 那样依赖 webpack-chain 的闭包副作用。
+ * 配置采用 rspack-chain 驱动:runner 构建基础 chain(命名 rule / plugin),
+ * 在 toConfig() 前依次执行 modifyWebpackChain / webpackChain / modifyRspackChain /
+ * onWebpackChainReady 四个钩子(第二参为 @rspack/core)。平台/框架插件的
+ * alias、loaderMeta、额外 loader 规则均通过 modifyRspackChain 正向写入 chain
+ * (参见 @tarojs/plugin-platform-h5 的 modifyRspackConfig()、@tarojs/plugin-framework-react
+ * 的 rspack.h5.ts),用户自定义 modifyRspackChain / modifyWebpackChain 亦在此生效。
+ *
+ * Note: loaderMeta 落点为命名 rule 'taroEntry' 的 'taroLoader' use options,
+ * 平台/框架插件通过 chain.module.rule('taroEntry').use('taroLoader').tap() 注入
+ * —— 该 rule/use 命名是 runner 与插件之间的契约,改名需同步。
  *
  * 简化边界(初版):仅 production build;hash 单页;React;不含 prebundle / dev / HMR。
  */
 import path from 'node:path'
 
 import { rspack } from '@rspack/core'
+import { RSPACK_H5_TARO_ENTRY_RULE, RSPACK_H5_TARO_LOADER_USE } from '@tarojs/helper'
+import Config from 'rspack-chain'
 
 import AppHelper from './vendor/app-helper'
 import { getDefaultPostcssConfig, getPostcssPlugins } from './vendor/postcss.h5'
@@ -60,8 +68,9 @@ export default async function build (appPath: string, config: any): Promise<void
   const designWidth = config.designWidth || 750
   const deviceRatio = config.deviceRatio
 
-  // 1) 读取 modifyRunnerOpts 阶段收集到的 alias / loaderMeta / extraRules
-  const { alias = {}, loaderMeta = defaultLoaderMeta, extraRules = [] } = config.runnerInject || {}
+  // loaderMeta 初始兜底值;平台/框架插件通过 modifyRspackChain 在此基础上补充字段
+  // (见 chain.module.rule('taroEntry').use('taroLoader').tap(...))
+  const loaderMeta = defaultLoaderMeta
 
   // 2) AppHelper 计算 app.config / pages
   const app = new AppHelper(config.entry || {}, {
@@ -117,7 +126,6 @@ export default async function build (appPath: string, config: any): Promise<void
     isBuildNativeComp: false
   }
 
-  // 3) 组装 Rspack config
   const appConfigEntry = app.getConfigFilePath(appEntryPath)
   const postcssPlugins = getPostcssPlugins(appPath, postcssConfigList)
 
@@ -143,95 +151,101 @@ export default async function build (appPath: string, config: any): Promise<void
     }, {})
   }
 
-  const rspackConfig = {
-    mode: 'production' as const,
-    context: appPath,
-    target: ['web', 'es5'] as ['web', 'es5'],
+  // 3) 用 rspack-chain 组装配置
+  const chain = new Config()
+
+  chain
+    .mode('production')
+    .context(appPath)
+    .target(['web', 'es5'])
     // Note: 关闭 Rspack 内建 CSS 处理,统一走 CssExtractRspackPlugin + css-loader 链路
-    experiments: { css: false },
-    entry: {
-      [entryFileName]: [appConfigEntry]
-    },
-    output: {
-      path: outputDir,
-      filename: 'js/[name].js',
-      chunkFilename: 'chunk/[name].js',
-      publicPath,
-      clean: true
-    },
-    resolve: {
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs'],
-      alias
-    },
-    module: {
-      rules: [
-        {
-          test: (filePath: string) => filePath === appConfigEntry,
-          use: [
-            {
-              loader: require.resolve('@tarojs/taro-loader/lib/h5', { paths: [appPath] }),
-              options: taroLoaderOptions
-            }
-          ]
-        },
-        {
-          test: /\.[tj]sx?$/,
-          exclude: [/node_modules/],
-          use: [
-            {
-              loader: 'builtin:swc-loader',
-              options: {
-                jsc: {
-                  parser: { syntax: 'typescript', tsx: true },
-                  transform: {
-                    react: { runtime: 'automatic' }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        {
-          test: /\.(s[ac]ss|css)$/,
-          // Note: opt out of Rspack 内建 CSS 管线,交给 CssExtractRspackPlugin.loader + css-loader,
-          // 否则二者冲突。见 rspack CssExtractRspackPlugin 用法。
-          type: 'javascript/auto',
-          use: [
-            rspack.CssExtractRspackPlugin.loader,
-            { loader: require.resolve('css-loader'), options: { importLoaders: 2, modules: false } },
-            {
-              loader: require.resolve('postcss-loader'),
-              options: { postcssOptions: { plugins: postcssPlugins } }
-            },
-            {
-              loader: require.resolve('sass-loader'),
-              options: {
-                implementation: require.resolve('sass'),
-                sassOptions: { outputStyle: 'expanded' }
-              }
-            }
-          ]
-        },
-        // 由 modifyRunnerOpts 收集的额外规则(如 framework-react 的 api-loader,
-        // 向 @tarojs/taro 注入 useLaunch/useLoad 等 React hooks)
-        ...extraRules
-      ]
-    },
-    plugins: [
-      new rspack.DefinePlugin(definePluginOptions),
-      new rspack.CssExtractRspackPlugin({ filename: 'css/[name].css' }),
-      new rspack.HtmlRspackPlugin({
-        template: path.join(sourceDir, 'index.html'),
-        filename: 'index.html',
-        // Note: Taro 模板用 <%= htmlWebpackPlugin.options.script %> 注入 pxtransform rem 脚本。
-        // HtmlRspackPlugin 不自动提供该命名空间,需经 templateParameters 函数形式注入。
-        templateParameters: (params: Record<string, any>) => ({
-          ...params,
-          htmlWebpackPlugin: { options: { script: htmlScript } }
-        })
-      })
-    ]
-  }
+    .experiments({ css: false })
+
+  chain.entry(entryFileName).add(appConfigEntry).end()
+
+  chain.output
+    .path(outputDir)
+    .filename('js/[name].js')
+    .chunkFilename('chunk/[name].js')
+    .publicPath(publicPath)
+    .clean(true)
+
+  // Note: 平台后缀前置于裸后缀,使 foo.h5.tsx 优先于 foo.tsx 命中。
+  // 已知限制:extensions 近似无法覆盖目录 index 平台变体(foo.h5/index)、
+  // node_modules 包内平台解析 —— 完整多端解析需 rspack resolver 运行时机制,留待后续。
+  chain.resolve.extensions.merge([
+    '.h5.js', '.h5.jsx', '.h5.ts', '.h5.tsx',
+    '.js', '.jsx', '.ts', '.tsx', '.mjs'
+  ])
+
+  // 命名 rule / use:loaderMeta 注入的契约落点(常量见 @tarojs/helper),
+  // 平台(plugin-platform-h5)与框架(plugin-framework-react)插件通过
+  // chain.module.rule(RSPACK_H5_TARO_ENTRY_RULE).use(RSPACK_H5_TARO_LOADER_USE).tap() 补充 loaderMeta 字段。
+  chain.module
+    .rule(RSPACK_H5_TARO_ENTRY_RULE)
+    .test((filePath: string) => filePath === appConfigEntry)
+    .use(RSPACK_H5_TARO_LOADER_USE)
+    .loader(require.resolve('@tarojs/taro-loader/lib/h5', { paths: [appPath] }))
+    .options(taroLoaderOptions)
+    .end()
+    .end()
+
+  chain.module
+    .rule('script')
+    .test(/\.[tj]sx?$/)
+    .exclude.add(/node_modules/).end()
+    .use('swc')
+    .loader('builtin:swc-loader')
+    .options({
+      jsc: {
+        parser: { syntax: 'typescript', tsx: true },
+        transform: {
+          react: { runtime: 'automatic' }
+        }
+      }
+    })
+    .end()
+    .end()
+
+  chain.module
+    .rule('style')
+    .test(/\.(s[ac]ss|css)$/)
+    // Note: opt out of Rspack 内建 CSS 管线,交给 CssExtractRspackPlugin.loader + css-loader,否则二者冲突。
+    .type('javascript/auto')
+    .use('cssExtract').loader(rspack.CssExtractRspackPlugin.loader).end()
+    .use('css').loader(require.resolve('css-loader')).options({ importLoaders: 2, modules: false }).end()
+    .use('postcss').loader(require.resolve('postcss-loader')).options({ postcssOptions: { plugins: postcssPlugins } }).end()
+    .use('sass').loader(require.resolve('sass-loader')).options({
+      implementation: require.resolve('sass'),
+      sassOptions: { outputStyle: 'expanded' }
+    }).end()
+    .end()
+
+  // Note: 插件统一用 (Ctor, [args]) 形式注册,不传已实例化对象 ——
+  // rspack-chain 对已实例化插件后续无法 tap(args 数组为空)。
+  chain.plugin('definePlugin').use(rspack.DefinePlugin, [definePluginOptions])
+  chain.plugin('cssExtractPlugin').use(rspack.CssExtractRspackPlugin, [{ filename: 'css/[name].css' }])
+  chain.plugin('htmlPlugin').use(rspack.HtmlRspackPlugin, [{
+    template: path.join(sourceDir, 'index.html'),
+    filename: 'index.html',
+    // Note: Taro 模板用 <%= htmlWebpackPlugin.options.script %> 注入 pxtransform rem 脚本。
+    // HtmlRspackPlugin 不自动提供该命名空间,需经 templateParameters 函数形式注入。
+    templateParameters: (params: Record<string, any>) => ({
+      ...params,
+      htmlWebpackPlugin: { options: { script: htmlScript } }
+    })
+  }])
+
+  // 4) 依次执行 chain 钩子(顺序对齐 webpack5-runner Combination:先 webpack 兼容层,
+  // 再用户 webpackChain,再 rspack 专属钩子可覆盖修正,最后 ready 回调)。第二参传 rspack。
+  // 不 try/catch:钩子内不兼容操作应让错误可见,而非静默失效。
+  const chainData = {}
+  await config.modifyWebpackChain?.(chain, rspack, chainData)
+  await config.webpackChain?.(chain, rspack, chainData)
+  await config.modifyRspackChain?.(chain, rspack, chainData)
+  await config.onWebpackChainReady?.(chain, rspack, chainData)
+
+  const rspackConfig = chain.toConfig()
 
   await new Promise<void>((resolve, reject) => {
     rspack(rspackConfig, (err: Error | null, stats: any) => {

@@ -50,6 +50,7 @@
     "postcss-plugin-constparse": "workspace:*",
     "postcss-pxtransform": "workspace:*",
     "postcss-url": "^10.1.3",
+    "rspack-chain": "^1.4.1",
     "sass-loader": "^14.2.1"
   },
   "devDependencies": {

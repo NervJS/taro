@@ -53,6 +53,7 @@
     "lodash-es": "4.17.21"
   },
   "devDependencies": {
-    "@tarojs/taro": "workspace:*"
+    "@tarojs/taro": "workspace:*",
+    "rspack-chain": "^1.4.1"
   }
 }

@@ -1,8 +1,7 @@
 import { fs, REG_TARO_H5 } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
-import { mergeWith } from 'lodash'
 
-import { getLoaderMeta } from './loader-meta'
+import { modifyH5RspackChain } from './rspack.h5'
 import { h5iVitePlugin } from './vite.h5'
 import { harmonyVitePlugin } from './vite.harmony'
 import { miniVitePlugin } from './vite.mini'
@@ -39,6 +38,16 @@ export default (ctx: IPluginContext) => {
     } else {
       // 小程序
       modifyMiniWebpackChain(ctx, framework, chain)
+    }
+  })
+
+  ctx.modifyRspackChain?.(({ chain }) => {
+    // 通用
+    setAlias(framework, chain)
+
+    // Note: rspack-runner 目前仅支持 H5,其余平台无 rspack chain 可改
+    if (process.env.TARO_PLATFORM === 'web') {
+      modifyH5RspackChain(framework, chain)
     }
   })
 
@@ -92,20 +101,6 @@ export default (ctx: IPluginContext) => {
       } else {
         // 小程序
         compiler.vitePlugins.push(miniVitePlugin(ctx, framework))
-      }
-    } else if (compiler.type === 'rspack') {
-      if (process.env.TARO_PLATFORM === 'web') {
-        // H5：rspack-runner 无 webpack-chain 概念，通过 opts.runnerInject 传递 loaderMeta / 额外 module 规则
-        const customizer = (object = '', sources = '') => {
-          if ([object, sources].every((e) => typeof e === 'string')) return object + sources
-        }
-        opts.runnerInject ||= {}
-        opts.runnerInject.loaderMeta = mergeWith(getLoaderMeta(framework), opts.runnerInject.loaderMeta, customizer)
-        opts.runnerInject.extraRules ||= []
-        opts.runnerInject.extraRules.push({
-          test: REG_TARO_H5,
-          use: [{ loader: require.resolve('./api-loader') }],
-        })
       }
     }
   })

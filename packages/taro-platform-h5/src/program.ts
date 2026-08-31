@@ -1,13 +1,14 @@
 import path from 'node:path'
 
 import { transformAsync } from '@babel/core'
-import { defaultMainFields, SCRIPT_EXT } from '@tarojs/helper'
+import { defaultMainFields, RSPACK_H5_TARO_ENTRY_RULE, RSPACK_H5_TARO_LOADER_USE, SCRIPT_EXT } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
 
 import { computeH5RunnerInject } from './runner-inject'
 import { resolveSync } from './utils'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
+import type RspackChain from 'rspack-chain'
 
 const compLibraryAlias = {
   vue3: 'vue3',
@@ -23,7 +24,13 @@ export default class H5 extends TaroPlatformWeb {
     super(ctx, config)
     this.setupTransaction.addWrapper({
       close() {
-        this.compiler === 'webpack5' ? this.modifyWebpackConfig() : this.compiler === 'vite' ? this.modifyViteConfig() : undefined
+        this.compiler === 'webpack5'
+          ? this.modifyWebpackConfig()
+          : this.compiler === 'vite'
+            ? this.modifyViteConfig()
+            : this.compiler === 'rspack'
+              ? this.modifyRspackConfig()
+              : undefined
       },
     })
   }
@@ -131,6 +138,37 @@ export default class H5 extends TaroPlatformWeb {
         .rule('map')
         .test(/\.map$/)
         .type('json')
+    })
+  }
+
+  /**
+   * 修改 Rspack 配置
+   *
+   * Note: 对称于 modifyWebpackConfig()。rspack-runner 采用 rspack-chain 驱动,
+   * 通过 modifyRspackChain 钩子正向写入 alias / loaderMeta。
+   * loaderMeta 落点为 runner 约定的命名 rule / use(常量见 @tarojs/helper,由 runner 与插件共享)。
+   */
+  modifyRspackConfig() {
+    this.ctx.modifyRspackChain?.(({ chain }: { chain: RspackChain }) => {
+      const runnerInject = computeH5RunnerInject(this.ctx, this.mainFields)
+
+      const alias = chain.resolve.alias
+      Object.entries(runnerInject.alias).forEach(([key, value]) => alias.set(key, value))
+
+      chain.module
+        .rule(RSPACK_H5_TARO_ENTRY_RULE)
+        .use(RSPACK_H5_TARO_LOADER_USE)
+        .tap((options: any = {}) => {
+          const loaderMeta = options.loaderMeta || {}
+          return {
+            ...options,
+            loaderMeta: {
+              ...loaderMeta,
+              extraImportForWeb: (loaderMeta.extraImportForWeb || '') + runnerInject.loaderMeta.extraImportForWeb,
+              execBeforeCreateWebApp: (loaderMeta.execBeforeCreateWebApp || '') + runnerInject.loaderMeta.execBeforeCreateWebApp,
+            },
+          }
+        })
     })
   }
 

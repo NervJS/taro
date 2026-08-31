@@ -145,6 +145,17 @@ export default (ctx: IPluginContext) => {
                 },
               })
             },
+            async modifyRspackChain (chain, rspack, data) {
+              await ctx.applyPlugins({
+                name: hooks.MODIFY_RSPACK_CHAIN,
+                initialVal: chain,
+                opts: {
+                  chain,
+                  rspack,
+                  data,
+                },
+              })
+            },
             async modifyViteConfig(viteConfig, data, viteCompilerContext) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_VITE_CONFIG,
