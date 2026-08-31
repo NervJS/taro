@@ -138,6 +138,13 @@ interface ButtonProps extends StandardProps {
    * @default false
    */
   showMessageCard?: boolean
+  /** 当手机号快速验证或手机号实时验证额度用尽时，是否对用户展示平台默认提示
+   *
+   * 生效时机：`open-type="getPhoneNumber"` 或 `open-type="getRealtimePhoneNumber"`
+   * @supported weapp
+   * @default true
+   */
+  phoneNumberNoQuotaToast?: boolean
   /** 生活号 id，必须是当前小程序同主体且已关联的生活号，open-type="lifestyle" 时有效。
    * @supported alipay, qq
    */
