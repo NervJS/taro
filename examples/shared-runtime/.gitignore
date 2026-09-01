@@ -1,6 +1,9 @@
 miniapp/pages/shared-runtime
+miniapp/pages/shared-native-comp
 miniapp/pages/shared-async-v1
 taro-project/dist
+native-comp-project/dist
+native-comp-project/node_modules
 **/node_modules
 .DS_Store
 
