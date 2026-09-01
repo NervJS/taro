@@ -12,7 +12,7 @@ const outputTargets: OutputTarget[] = [
     componentCorePackage: '@tarojs/components',
     customElementsDir: 'dist/components',
     includeImportCustomElements: true,
-    proxiesFile: '../taro-components-library-react/src/components.ts',
+    proxiesFile: 'dist/lib/react/components.ts',
   }),
   vue3OutputTarget({
     componentCorePackage: '@tarojs/components',
@@ -31,13 +31,13 @@ const outputTargets: OutputTarget[] = [
     }],
     customElementsDir: 'dist/components',
     includeImportCustomElements: true,
-    proxiesFile: '../taro-components-library-vue3/src/components.ts',
+    proxiesFile: 'dist/lib/vue3/components.ts',
   }),
   solidOutputTarget({
     componentCorePackage: '@tarojs/components',
     customElementsDir: 'dist/components',
     includeImportCustomElements: true,
-    proxiesFile: '../taro-components-library-solid/src/components.ts',
+    proxiesFile: 'dist/lib/solid/components.ts',
   }),
   {
     type: 'dist',
@@ -89,8 +89,8 @@ export const config: Config = {
     { components: ['taro-video-core', 'taro-video-control', 'taro-video-danmu'] }
   ],
   /**
-   * Note: Taro内部有很多地方都直接引用了dist/components，最终的编译产物中有很多super()，导致低版安装白屏
-   * 为彻底解决此包导致的白屏问题，故暂不在包构建是转为es5，而是将此包加入到项目的babel编译中
+   * Note: Taro 内部有很多地方都直接引用了 dist/components，最终的编译产物中有很多 super()，导致低版安装白屏
+   * 为彻底解决此包导致的白屏问题，故暂不在包构建是转为 es5，而是将此包加入到项目的 babel 编译中
    */
   // buildEs5: 'prod',
   /**
