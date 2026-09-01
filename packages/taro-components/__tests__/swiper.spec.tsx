@@ -99,6 +99,37 @@ describe('Swiper', () => {
     expect(page.root).toMatchSnapshot()
   })
 
+  it('should skip loopDestroy when swiper wrapper is unavailable', () => {
+    const swiper = new Swiper()
+    const child = document.createElement('taro-swiper-item-core')
+    const wrapper = {
+      appendChild: jest.fn((node) => node),
+      insertBefore: jest.fn((node) => node),
+      replaceChild: jest.fn((node) => node),
+      removeChild: jest.fn((node) => node),
+    } as unknown as HTMLElement
+    const loopDestroy = jest.fn()
+
+    Object.assign(swiper, {
+      circular: true,
+      el: {} as HTMLElement,
+      isWillLoadCalled: true,
+      swiper: {
+        destroyed: false,
+        loopDestroy,
+        params: {
+          loop: true,
+        },
+      },
+    })
+
+    swiper.watchSwiperWrapper(wrapper)
+    swiper.el.appendChild(child)
+
+    expect(loopDestroy).not.toHaveBeenCalled()
+    expect(wrapper.appendChild).toHaveBeenCalledWith(child)
+  })
+
   it('should be vertical', async () => {
     // TODO
     const interval = 1500
