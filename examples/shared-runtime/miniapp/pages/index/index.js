@@ -3,9 +3,15 @@ Page({
     console.log('原生入口页面加载')
   },
 
-  onClick() {
+  onClickPage() {
     wx.navigateTo({
       url: '/pages/shared-runtime/pages/index/index',
+    })
+  },
+
+  onClickComp() {
+    wx.navigateTo({
+      url: '/pages/comp-host/index',
     })
   },
 })

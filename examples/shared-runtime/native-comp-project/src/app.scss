@@ -1,0 +1,2 @@
+// 全局样式在 native-components 场景无宿主 app.wxss 承接（BuildNativePlugin.generateConfigFile 不生成 app.json/app.wxss）。
+// 各 native-comp 自带 scss，Taro 会为每个 comp 独立生成 wxss。

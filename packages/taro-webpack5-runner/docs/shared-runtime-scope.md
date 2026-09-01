@@ -42,6 +42,33 @@ taro build native-components --type weapp --shared-runtime --shared-runtime-mode
 > 独立分包冷启动跳过主包、且**运行时隔离**——访问不到主包/其他分包的资源。即使 native-comp 的 chunk 顶部注入了同步核,同步核要 `require.async('shared-async-v1/index')` 去拉异步核,而 `shared-async-v1` 是主包区域的普通分包 → 独立分包内拉不到 → 崩。
 > 这与 pages 模式的独立分包问题同源,但 **CLI 拦不住**:`--shared-runtime` 的独立分包 fail-fast(见下方"❌ 不适用 · 4")检查的是**当前构建项目**的 `app.config.subPackages[].independent`,而 native-comp 编译产物没有 app.json、不声明业务分包;组件被放进哪种分包完全是**宿主接入方的布局决策**,构建期无从得知。故此约束只能靠接入约定保证:宿主用 `usingComponents` 引用共享 native-comp 的页面,不得位于独立分包内。
 
+**宿主接入的两个必踩坑(与共享运行时无关,是微信 + Taro native-comp 的既有约定,但每个业务方接入都会遇到)**:
+
+1. **宿主页 `usingComponents` 引用共享 native-comp 时必须配 `componentPlaceholder`**。共享 native-comp 位于业务分包(如 `pages/shared-native-comp/`),宿主页首次进入时该分包尚未下载,微信直接把它当作"组件未找到"报错 `Component is not found in path ...(using by "宿主页"), may be missing corresponding "componentPlaceholder" option?`——组件根本不会挂上去,自然看不到任何渲染。修法在宿主页 `.json` 加占位:
+   ```json
+   {
+     "usingComponents": { "shared-counter": "/pages/shared-native-comp/components/counter/index" },
+     "componentPlaceholder": { "shared-counter": "view" }
+   }
+   ```
+   微信官方分包异步化机制:占位在分包下载完成前显示为普通 `view`,下载完成后自动替换为真组件。`preloadRule` 只能缩小窗口不能省略占位声明,首次访问仍需 `componentPlaceholder` 兜底。
+
+2. **props 只能通过 `properties.props` 一个字段传,不能用顶层 attr**。Taro native-comp 的既有约定:所有 React props 打包成一个对象,通过微信 Component 的 `properties.props` 传入(共享运行时占位描述符 `properties: { props: { observer: deferred(...) } }` 就是照抄这个约定)。宿主 wxml 里:
+   ```wxml
+   <!-- ❌ 错:顶层 attr 不会映射进 React props,组件里 props.initial 是 undefined -->
+   <shared-counter initial="{{100}}" />
+
+   <!-- ✅ 对:所有 props 打包进单一 props 对象 -->
+   <shared-counter props="{{ {initial: 100} }}" />
+   ```
+   现象:组件能渲染,但业务 prop 全丢(如计数器示例的 `initial=100` 变成 `initial=0`)。这个坑不共享运行时也存在,只是共享场景组件从异步分包加载,发现该问题的调试路径更绕。
+
+> **⚠️ 分包 `pages` 数组非空要求**:宿主 `app.json` 里注册的 native-comp 业务分包 `subPackages[].pages` **不能为空数组**,否则微信认作无效分包声明,`preloadRule` 引用它时报 `pages/xxx/ not found`。native-comp 产物本身只有组件、无页面,但只要 `pages` 数组里放一个存在的路径(即使是 `component: true` 的组件 json 路径),微信就认可分包有效。例:
+> ```json
+> {"root": "pages/shared-native-comp", "pages": ["components/counter/index"]}
+> ```
+
+
 ### 3. subPackageIndie(`--new-blended` 自包含分包)
 
 Taro 自有的 `AppConfig.subPackageIndie`(4.1.x 起,`--new-blended` 混合模式下解决"微信禁止跨分包 `<import>`/`require()`"的编译期特性,**与微信原生 `independent: true` 无关**)与 `--shared-runtime` **可共存**。
