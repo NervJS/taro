@@ -11,5 +11,11 @@
  */
 
 export { createProjectGraph } from './graph'
+export { collectProjectFacts } from './collect-project-facts'
+export * from './compatibility'
+export * from './facts'
+export * from './facts-serialization'
 export * from './query'
 export * from './schema'
+export * from './workspace-manifest'
+export * from './workspace-discovery'
