@@ -9,10 +9,15 @@ use serde::Serialize;
 handlebars_helper!(includes: |{ s: str = "" }, *args| args.iter().map(|a| a.render()).any(|arg| arg == s));
 // handlebars_helper!(eq: |x: str, y: str| x == y);
 
+// 语义：运行时数组 `arr` 中是否包含 `vals` 中任意一个候选值（字符串比较）。
+// 与 `includes` 相反：`includes` 是"候选值列表（模板里写死）中是否存在等于运行时变量的项"。
+handlebars_helper!(array_includes: |arr: array, *vals| vals.iter().any(|v| arr.iter().any(|item| item.as_str() == v.as_str())));
+
 pub static HANDLEBARS: Lazy<Handlebars<'static>> = Lazy::new(|| {
   let mut hbs = new_hbs();
   register(&mut hbs);
   hbs.register_helper("includes", Box::new(includes));
+  hbs.register_helper("array_includes", Box::new(array_includes));
   hbs
 });
 
@@ -122,4 +127,37 @@ pub enum CompilerType {
 pub enum PeriodType {
   CreateAPP,
   CreatePage,
+}
+
+#[cfg(test)]
+mod tests {
+  use serde_json::json;
+
+  use super::HANDLEBARS;
+
+  fn render(tpl: &str, platforms: &[&str]) -> String {
+    HANDLEBARS
+      .render_template(tpl, &json!({ "platforms": platforms }))
+      .unwrap()
+  }
+
+  #[test]
+  fn test_array_includes_single_value() {
+    assert_eq!(
+      render("{{#if (array_includes platforms \"weapp\")}}yes{{else}}no{{/if}}", &["weapp", "h5"]),
+      "yes"
+    );
+    assert_eq!(
+      render("{{#if (array_includes platforms \"weapp\")}}yes{{else}}no{{/if}}", &["h5"]),
+      "no"
+    );
+  }
+
+  #[test]
+  fn test_array_includes_multiple_values() {
+    let tpl = "{{#if (array_includes platforms \"weapp\" \"alipay\" \"swan\" \"tt\" \"qq\" \"jd\")}}yes{{else}}no{{/if}}";
+    assert_eq!(render(tpl, &["h5"]), "no");
+    assert_eq!(render(tpl, &["h5", "swan"]), "yes");
+    assert_eq!(render(tpl, &[]), "no");
+  }
 }

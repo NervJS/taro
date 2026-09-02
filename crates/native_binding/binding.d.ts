@@ -34,6 +34,7 @@ export interface CreateOptions {
   changeExt?: boolean
   isCustomTemplate?: boolean
   pluginType?: string
+  platforms?: Array<string>
 }
 
 export function createPage(conf: Page, handlers: Record<string, (err: Error | null, arg: CreateOptions) => any>): Promise<void>
@@ -116,5 +117,6 @@ export interface Project {
   date?: string
   compiler?: CompilerType
   period: PeriodType
+  platforms?: Array<string>
 }
 
