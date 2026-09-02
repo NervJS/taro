@@ -186,6 +186,11 @@ export interface IProjectBaseConfig {
   modifyWebpackChain?: (chain: Chain, webpack: typeof Webpack, data: IModifyChainData) => Promise<any>
 
   /**
+   * 编译中修改 rspack 配置，在这个钩子中，你可以对 rspack-chain 作出想要的调整（仅 compiler 为 rspack 时生效）
+   */
+  modifyRspackChain?: (chain: any, rspack: any, data: IModifyChainData) => Promise<any>
+
+  /**
    * 编译中修改 vite 配置
    */
   modifyViteConfig?: (viteConfig: any, data: IModifyChainData) => void

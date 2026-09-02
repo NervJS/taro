@@ -1,6 +1,7 @@
 import { fs, REG_TARO_H5 } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 
+import { modifyH5RspackChain } from './rspack.h5'
 import { h5iVitePlugin } from './vite.h5'
 import { harmonyVitePlugin } from './vite.harmony'
 import { miniVitePlugin } from './vite.mini'
@@ -37,6 +38,16 @@ export default (ctx: IPluginContext) => {
     } else {
       // 小程序
       modifyMiniWebpackChain(ctx, framework, chain)
+    }
+  })
+
+  ctx.modifyRspackChain?.(({ chain }) => {
+    // 通用
+    setAlias(framework, chain)
+
+    // Note: rspack-runner 目前仅支持 H5,其余平台无 rspack chain 可改
+    if (process.env.TARO_PLATFORM === 'web') {
+      modifyH5RspackChain(framework, chain)
     }
   })
 

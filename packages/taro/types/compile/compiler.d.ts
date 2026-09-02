@@ -5,7 +5,9 @@ export type CompilerViteTypes = 'vite'
 
 export type CompilerWebpackTypes = 'webpack5'
 
-export type CompilerTypes = CompilerWebpackTypes | CompilerViteTypes
+export type CompilerRspackTypes = 'rspack'
+
+export type CompilerTypes = CompilerWebpackTypes | CompilerViteTypes | CompilerRspackTypes
 
 interface IPrebundle {
   enable?: boolean

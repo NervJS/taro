@@ -149,6 +149,11 @@ export declare interface IPluginContext {
    */
   modifyWebpackChain: (fn: (args: { chain: Chain, webpack: typeof Webpack, data?: IModifyChainData }) => void) => void
   /**
+   * 编译中修改 rspack 配置,在这个钩子中,你可以对 rspack-chain 作出想要的调整
+   * Note: chain 为 rspack-chain 实例(rspack-runner 依赖,service 层不直接依赖故用 any),rspack 为 @rspack/core
+   */
+  modifyRspackChain: (fn: (args: { chain: any, rspack: any, data?: IModifyChainData }) => void) => void
+  /**
    * 编译中修改 vite 配置
    */
   modifyViteConfig: (fn: (args: { viteConfig: any, data?: IModifyChainData, viteCompilerContext: any }) => void) => void

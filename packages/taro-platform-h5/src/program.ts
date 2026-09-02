@@ -1,12 +1,14 @@
 import path from 'node:path'
 
 import { transformAsync } from '@babel/core'
-import { defaultMainFields, SCRIPT_EXT } from '@tarojs/helper'
+import { defaultMainFields, RSPACK_H5_TARO_ENTRY_RULE, RSPACK_H5_TARO_LOADER_USE, SCRIPT_EXT } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
 
+import { computeH5RunnerInject } from './runner-inject'
 import { resolveSync } from './utils'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
+import type RspackChain from 'rspack-chain'
 
 const compLibraryAlias = {
   vue3: 'vue3',
@@ -22,7 +24,13 @@ export default class H5 extends TaroPlatformWeb {
     super(ctx, config)
     this.setupTransaction.addWrapper({
       close() {
-        this.compiler === 'webpack5' ? this.modifyWebpackConfig() : this.modifyViteConfig()
+        this.compiler === 'webpack5'
+          ? this.modifyWebpackConfig()
+          : this.compiler === 'vite'
+            ? this.modifyViteConfig()
+            : this.compiler === 'rspack'
+              ? this.modifyRspackConfig()
+              : undefined
       },
     })
   }
@@ -113,38 +121,15 @@ export default class H5 extends TaroPlatformWeb {
 
       const alias = chain.resolve.alias
       // TODO 考虑集成到 taroComponentsPath 中，与小程序端对齐
-      alias.set('@tarojs/components$', this.componentLibrary)
-      alias.set('@tarojs/components/lib', this.componentAdapter)
-      alias.set('@tarojs/router$', this.routerLibrary)
-      alias.set('@tarojs/taro', this.apiLibrary)
+      const runnerInject = computeH5RunnerInject(this.ctx, this.mainFields)
+      Object.entries(runnerInject.alias).forEach(([key, value]) => alias.set(key, value))
       chain.plugin('mainPlugin').tap((args) => {
         args[0].loaderMeta ||= {
           extraImportForWeb: '',
           execBeforeCreateWebApp: '',
         }
-
-        // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
-        if (this.useDeprecatedAdapterComponent) {
-          args[0].loaderMeta.extraImportForWeb += `import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'\n`
-          args[0].loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
-        }
-
-        if (!this.useHtmlComponents) {
-          args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefreshCore } from '@tarojs/components/dist/components'\n`
-          args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefreshCore()\n`
-        }
-
-        switch (this.framework) {
-          case 'vue3':
-            args[0].loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
-            break
-          default:
-            if (this.useHtmlComponents) {
-              args[0].loaderMeta.extraImportForWeb += `import '@tarojs/components-react/dist/index.css'\nimport { PullDownRefresh } from '@tarojs/components'\n`
-              args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
-            }
-        }
+        args[0].loaderMeta.extraImportForWeb += runnerInject.loaderMeta.extraImportForWeb
+        args[0].loaderMeta.execBeforeCreateWebApp += runnerInject.loaderMeta.execBeforeCreateWebApp
         return args
       })
 
@@ -153,6 +138,37 @@ export default class H5 extends TaroPlatformWeb {
         .rule('map')
         .test(/\.map$/)
         .type('json')
+    })
+  }
+
+  /**
+   * 修改 Rspack 配置
+   *
+   * Note: 对称于 modifyWebpackConfig()。rspack-runner 采用 rspack-chain 驱动,
+   * 通过 modifyRspackChain 钩子正向写入 alias / loaderMeta。
+   * loaderMeta 落点为 runner 约定的命名 rule / use(常量见 @tarojs/helper,由 runner 与插件共享)。
+   */
+  modifyRspackConfig() {
+    this.ctx.modifyRspackChain?.(({ chain }: { chain: RspackChain }) => {
+      const runnerInject = computeH5RunnerInject(this.ctx, this.mainFields)
+
+      const alias = chain.resolve.alias
+      Object.entries(runnerInject.alias).forEach(([key, value]) => alias.set(key, value))
+
+      chain.module
+        .rule(RSPACK_H5_TARO_ENTRY_RULE)
+        .use(RSPACK_H5_TARO_LOADER_USE)
+        .tap((options: any = {}) => {
+          const loaderMeta = options.loaderMeta || {}
+          return {
+            ...options,
+            loaderMeta: {
+              ...loaderMeta,
+              extraImportForWeb: (loaderMeta.extraImportForWeb || '') + runnerInject.loaderMeta.extraImportForWeb,
+              execBeforeCreateWebApp: (loaderMeta.execBeforeCreateWebApp || '') + runnerInject.loaderMeta.execBeforeCreateWebApp,
+            },
+          }
+        })
     })
   }
 

@@ -1,4 +1,5 @@
 import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import ts from '@rollup/plugin-typescript'
 import { merge } from 'lodash-es'
@@ -21,6 +22,7 @@ function getPlugins(pre = [], post = []) {
       preferBuiltins: false,
       mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
+    json(),
     ts(),
     commonjs(),
     ...post,
