@@ -73,9 +73,13 @@ export const hostConfig = {
       ? {
         ...componentConfig,
         deriveDataFromProps (nextProps) {
-          if (this.data.i !== undefined && this.props.i !== nextProps.i) {
-            this.setData({ i: nextProps.i })
-          }
+          if (this.data.rd === undefined || this.props.i === nextProps.i || !nextProps.i) return
+
+          const { ubid: nextUpdateBatchId = 0, sid: nextSid } = nextProps.i
+          const { ubid: curUpdateBatchId = -1, sid: curSid } = this.data.rd || {}
+
+          if (curSid === nextSid && nextUpdateBatchId < curUpdateBatchId) return
+          this.setData({ rd: nextProps.i })
         }
       }
       : componentConfig

@@ -13,15 +13,31 @@ import { TaroElement } from './element'
 
 import type { HydratedData, MpInstance, TFunc, UpdatePayload, UpdatePayloadValue } from '../interface'
 
-function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
-  // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']
-  const list = dataPathArr.slice(1)
-  let currentData: any = root
-  let customWrapper: Record<string, any> | undefined
-  let splitedPath = ''
+interface CustomWrapperInPath {
+  node: TaroElement
+  // CustomWrapper 节点在完整 dataPath 中的位置
+  pathIndex: number
+}
 
-  list.some((item, i) => {
-    const key = item
+interface CustomWrapperUpdateTarget extends CustomWrapperInPath {
+  ctx: Record<string, any>
+  chainIndex: number
+  relativePath: string
+}
+
+interface CustomWrapperPathInfo {
+  wrapperChain: CustomWrapperInPath[]
+  updateTarget?: CustomWrapperUpdateTarget
+}
+
+function resolveCustomWrapperPath (root: TaroRootElement, dataPath: string[]): CustomWrapperPathInfo | undefined {
+  let currentData: any = root
+  let updateTarget: CustomWrapperUpdateTarget | undefined
+  const wrapperChain: CustomWrapperInPath[] = []
+
+  // 跳过 root，收集更新路径经过的每一层 CustomWrapper
+  for (let pathIndex = 1; pathIndex < dataPath.length; pathIndex++) {
+    const key = dataPath[pathIndex]
       // '[0]' => '0'
       .replace(/^\[(.+)\]$/, '$1')
       // 'cn' => 'childNodes'
@@ -33,23 +49,25 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
       currentData = currentData.filter(el => !isComment(el))
     }
 
-    if (isUndefined(currentData)) return true
+    if (isUndefined(currentData)) break
 
     if (currentData.nodeName === CUSTOM_WRAPPER) {
-      const res = customWrapperCache.get(currentData.sid)
-      if (res) {
-        customWrapper = res
-        splitedPath = dataPathArr.slice(i + 2).join('.')
+      const wrapper = { node: currentData, pathIndex }
+      const ctx = customWrapperCache.get(currentData.sid)
+      wrapperChain.push(wrapper)
+
+      // 持续覆盖更新目标，最终由路径中最深的已 attached CustomWrapper 执行 setData
+      if (ctx) {
+        const chainIndex = wrapperChain.length - 1
+        const relativePath = dataPath.slice(pathIndex + 1).join('.')
+        updateTarget = { ...wrapper, ctx, chainIndex, relativePath }
       }
     }
-  })
-
-  if (customWrapper) {
-    return {
-      customWrapper,
-      splitedPath
-    }
   }
+
+  if (!wrapperChain.length) return
+
+  return { wrapperChain, updateTarget }
 }
 
 export class TaroRootElement extends TaroElement {
@@ -58,6 +76,8 @@ export class TaroRootElement extends TaroElement {
   private updateCallbacks: TFunc[] = []
 
   public pendingUpdate = false
+
+  public updateBatchId = 0
 
   public ctx: null | MpInstance = null
 
@@ -94,6 +114,7 @@ export class TaroRootElement extends TaroElement {
     const ctx = hooks.call('proxyToRaw', this.ctx)!
 
     this.scheduleTask(() => {
+      const updateBatchId = ++this.updateBatchId
       const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`
       perf.start(setDataMark)
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
@@ -105,6 +126,10 @@ export class TaroRootElement extends TaroElement {
 
       while (this.updatePayloads.length > 0) {
         const { path, value } = this.updatePayloads.shift()!
+        const pathInfo = resolveCustomWrapperPath(this, path.split('.'))
+        pathInfo?.wrapperChain.forEach((wrapper) => {
+          wrapper.node.updateBatchId = updateBatchId
+        })
         if (path.endsWith(Shortcuts.Childnodes)) {
           resetPaths.add(path)
         }
@@ -131,7 +156,7 @@ export class TaroRootElement extends TaroElement {
       // 正常渲染
       this.pendingUpdate = false
       let normalUpdate = {}
-      const customWrapperMap: Map<Record<any, any>, Record<string, any>> = new Map()
+      const customWrapperUpdates: Map<Record<any, any>, Record<string, any>> = new Map()
 
       if (initRender) {
         // 初次渲染，使用页面级别的 setData
@@ -139,24 +164,37 @@ export class TaroRootElement extends TaroElement {
       } else {
         // 更新渲染，区分 CustomWrapper 与页面级别的 setData
         for (const p in data) {
-          const dataPathArr = p.split('.')
-          const found = findCustomWrapper(this, dataPathArr)
-          if (found) {
+          const dataPath = p.split('.')
+          const pathInfo = resolveCustomWrapperPath(this, dataPath)
+          if (pathInfo?.updateTarget) {
             // 此项数据使用 CustomWrapper 去更新
-            const { customWrapper, splitedPath } = found
-            // 合并同一个 customWrapper 的相关更新到一次 setData 中
-            customWrapperMap.set(customWrapper, {
-              ...(customWrapperMap.get(customWrapper) || {}),
-              [`i.${splitedPath}`]: data[p]
+            const { updateTarget, wrapperChain } = pathInfo
+            const { ctx: customWrapper, relativePath } = updateTarget
+            const update = {
+              ...(customWrapperUpdates.get(customWrapper) || {}),
+              [`rd${relativePath ? `.${relativePath}` : ''}`]: data[p],
+              'rd.ubid': updateTarget.node.updateBatchId
+            }
+
+            // 未 attached 的内层 CustomWrapper 会通过当前更新目标接收数据，需要同时传递对应的批次号
+            wrapperChain.slice(updateTarget.chainIndex + 1).forEach((nestedWrapper) => {
+              const nestedWrapperPath = dataPath.slice(updateTarget.pathIndex + 1, nestedWrapper.pathIndex + 1).join('.')
+              update[`rd.${nestedWrapperPath}.ubid`] = nestedWrapper.node.updateBatchId
             })
+
+            // 合并同一个 customWrapper 的相关更新到一次 setData 中
+            customWrapperUpdates.set(customWrapper, update)
           } else {
             // 此项数据使用页面去更新
             normalUpdate[p] = data[p]
+            pathInfo?.wrapperChain.forEach((wrapper) => {
+              normalUpdate[`${wrapper.node._path}.ubid`] = wrapper.node.updateBatchId
+            })
           }
         }
       }
 
-      const customWrapperCount = customWrapperMap.size
+      const customWrapperCount = customWrapperUpdates.size
       const isNeedNormalUpdate = Object.keys(normalUpdate).length > 0
       const updateArrLen = customWrapperCount + (isNeedNormalUpdate ? 1 : 0)
       let executeTime = 0
@@ -171,7 +209,7 @@ export class TaroRootElement extends TaroElement {
 
       // custom-wrapper setData
       if (customWrapperCount) {
-        customWrapperMap.forEach((data, ctx) => {
+        customWrapperUpdates.forEach((data, ctx) => {
           if (process.env.NODE_ENV !== 'production' && options.debug) {
             // eslint-disable-next-line no-console
             console.log('custom wrapper setData: ', data)
