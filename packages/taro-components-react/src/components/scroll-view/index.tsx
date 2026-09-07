@@ -339,6 +339,7 @@ function ScrollView (props: IProps) {
   return (
     <ScrollElementContext.Provider value={scrollElementContextValue}>
       <div
+        id={props.id}
         ref={e => {
           if (e) {
             container.current = e
