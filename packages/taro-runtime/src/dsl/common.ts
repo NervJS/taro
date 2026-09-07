@@ -424,7 +424,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
                 const { ubid: nextUpdateBatchId = 0, sid: nextSid } = nextProps
                 const { ubid: curUpdateBatchId = -1, sid: curSid } = this.data.rd || {}
 
-                if (curSid === nextSid && nextUpdateBatchId < curUpdateBatchId) return
+                if (curSid === nextSid && nextUpdateBatchId <= curUpdateBatchId) return
                 this.setData({ rd: nextProps })
               }
             }
