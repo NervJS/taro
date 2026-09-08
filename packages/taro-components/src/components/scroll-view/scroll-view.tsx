@@ -52,6 +52,7 @@ export class ScrollView implements ComponentInterface {
   @Prop({ attribute: 'scroll-with-animation' }) animated = false
   @Prop() enhanced = false
   @Prop() showScrollbar = true
+  @Prop() stopTouchMovePropagation = true
 
   @Event({
     eventName: 'scroll',
@@ -124,7 +125,9 @@ export class ScrollView implements ComponentInterface {
   @Listen('touchmove')
   handleTouchMove (e: Event) {
     if (e instanceof CustomEvent) return
-    e.stopPropagation()
+    if (this.stopTouchMovePropagation) {
+      e.stopPropagation()
+    }
   }
 
   @Method()

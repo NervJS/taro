@@ -90,6 +90,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   onTouchMove: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onTouchStart?: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
   onTouchEnd?: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
+  stopTouchMovePropagation?: boolean
   showScrollbar?: boolean // 新增参数，默认true
   enhanced?: boolean // 新增参数，默认false
   /** 嵌套滚动：内容在滚动容器中的起始偏移（固定头部等场景） */
@@ -110,7 +111,9 @@ function ScrollView (props: IProps) {
   const lastAppliedScrollIntoViewIdRef = useRef<string | null>(null)
   const [containerHeight, setContainerHeight] = useState(0)
   const onTouchMove = (e) => {
-    e.stopPropagation()
+    if (props.stopTouchMovePropagation !== false) {
+      e.stopPropagation()
+    }
   }
 
   const applyControlledScrollTopLeft = (p: IProps) => {
