@@ -30,6 +30,10 @@ interface CustomWrapperPathInfo {
   updateTarget?: CustomWrapperUpdateTarget
 }
 
+function isChildNodesPath (relativePath: string): boolean {
+  return relativePath === Shortcuts.Childnodes || relativePath.startsWith(`${Shortcuts.Childnodes}.`)
+}
+
 function resolveCustomWrapperPath (root: TaroRootElement, dataPath: string[]): CustomWrapperPathInfo | undefined {
   let currentData: any = root
   let updateTarget: CustomWrapperUpdateTarget | undefined
@@ -54,12 +58,12 @@ function resolveCustomWrapperPath (root: TaroRootElement, dataPath: string[]): C
     if (currentData.nodeName === CUSTOM_WRAPPER) {
       const wrapper = { node: currentData, pathIndex }
       const ctx = customWrapperCache.get(currentData.sid)
+      const chainIndex = wrapperChain.length
+      const relativePath = dataPath.slice(pathIndex + 1).join('.')
       wrapperChain.push(wrapper)
 
-      // 持续覆盖更新目标，最终由路径中最深的已 attached CustomWrapper 执行 setData
-      if (ctx) {
-        const chainIndex = wrapperChain.length - 1
-        const relativePath = dataPath.slice(pathIndex + 1).join('.')
+      // 持续覆盖更新目标，最终由路径中最深且实际持有此子节点数据的已 attached CustomWrapper 执行 setData
+      if (ctx && isChildNodesPath(relativePath)) {
         updateTarget = { ...wrapper, ctx, chainIndex, relativePath }
       }
     }
@@ -126,8 +130,13 @@ export class TaroRootElement extends TaroElement {
 
       while (this.updatePayloads.length > 0) {
         const { path, value } = this.updatePayloads.shift()!
-        const pathInfo = resolveCustomWrapperPath(this, path.split('.'))
+        const dataPath = path.split('.')
+        const pathInfo = resolveCustomWrapperPath(this, dataPath)
         pathInfo?.wrapperChain.forEach((wrapper) => {
+          const relativePath = dataPath.slice(wrapper.pathIndex + 1).join('.')
+
+          if (!isChildNodesPath(relativePath)) return
+
           wrapper.node.updateBatchId = updateBatchId
         })
         if (path.endsWith(Shortcuts.Childnodes)) {
@@ -170,15 +179,21 @@ export class TaroRootElement extends TaroElement {
             // 此项数据使用 CustomWrapper 去更新
             const { updateTarget, wrapperChain } = pathInfo
             const { ctx: customWrapper, relativePath } = updateTarget
-            const update = {
+            const update: Record<string, any> = {
               ...(customWrapperUpdates.get(customWrapper) || {}),
-              [`rd${relativePath ? `.${relativePath}` : ''}`]: data[p],
+              [`rd.${relativePath}`]: data[p],
               'rd.ubid': updateTarget.node.updateBatchId
             }
 
-            // 未 attached 的内层 CustomWrapper 会通过当前更新目标接收数据，需要同时传递对应的批次号
+            // 未 attached 的内层 CustomWrapper 会通过当前更新目标接收数据。
+            // 只有更新进入其子节点数据域时，才需要传递对应的批次号。
             wrapperChain.slice(updateTarget.chainIndex + 1).forEach((nestedWrapper) => {
+              const nestedRelativePath = dataPath.slice(nestedWrapper.pathIndex + 1).join('.')
+
+              if (!isChildNodesPath(nestedRelativePath)) return
+
               const nestedWrapperPath = dataPath.slice(updateTarget.pathIndex + 1, nestedWrapper.pathIndex + 1).join('.')
+
               update[`rd.${nestedWrapperPath}.ubid`] = nestedWrapper.node.updateBatchId
             })
 
@@ -188,6 +203,10 @@ export class TaroRootElement extends TaroElement {
             // 此项数据使用页面去更新
             normalUpdate[p] = data[p]
             pathInfo?.wrapperChain.forEach((wrapper) => {
+              const relativePath = dataPath.slice(wrapper.pathIndex + 1).join('.')
+
+              if (!isChildNodesPath(relativePath)) return
+
               normalUpdate[`${wrapper.node._path}.ubid`] = wrapper.node.updateBatchId
             })
           }
