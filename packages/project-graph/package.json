@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/project-graph",
-  "version": "4.2.2-beta.3",
+  "version": "4.2.2-beta.4",
   "description": "Taro project structure graph — unified, queryable project facts layer",
   "author": "O2Team",
   "license": "MIT",
