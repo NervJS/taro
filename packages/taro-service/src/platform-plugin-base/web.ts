@@ -8,6 +8,18 @@ import TaroPlatform from './platform'
 
 import type { TConfig } from '../utils/types'
 
+function resolveWebRunnerPkg (compiler: string, runner?: unknown) {
+  if (runner !== undefined) {
+    if (typeof runner !== 'string' || runner.length === 0 || runner.trim() !== runner) {
+      throw new Error('compiler.runner 必须是非空且不包含首尾空白的字符串')
+    }
+
+    return runner
+  }
+
+  return compiler === 'vite' ? '@tarojs/vite-runner' : '@tarojs/webpack5-runner'
+}
+
 export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroPlatform<T> {
   platformType = PLATFORM_TYPE.WEB
 
@@ -56,7 +68,9 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
     const { appPath } = this.ctx.paths
     const { npm } = this.helper
 
-    const runnerPkg = this.compiler === 'vite' ? '@tarojs/vite-runner' : '@tarojs/webpack5-runner'
+    const compiler = this.config.compiler
+    const customRunner = typeof compiler === 'object' ? compiler.runner : undefined
+    const runnerPkg = resolveWebRunnerPkg(this.compiler, customRunner)
 
     const runner = await npm.getNpmPkg(runnerPkg, appPath)
 
