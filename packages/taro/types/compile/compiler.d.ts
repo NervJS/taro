@@ -24,7 +24,7 @@ interface IPrebundle {
 interface ICompiler<T> {
   type: T
   /**
-   * Web 端使用的自定义 runner 模块标识。未配置时根据 `type` 使用默认 runner。
+   * 使用的自定义 runner 模块标识。未配置时根据 `type` 使用默认 runner。
    * 该值必须是 Node.js 可解析的非空字符串，且不能包含首尾空白。
    *
    * @example
