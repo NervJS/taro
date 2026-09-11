@@ -14,6 +14,7 @@ export default (ctx: IPluginContext) => {
       '--template [template]': '项目模板',
       '--css [css]': 'CSS预处理器(sass/less/stylus/none)',
       '--autoInstall': '自动安装依赖',
+      '--platforms [platforms]': '需要支持的平台，多个用逗号分隔（如 weapp,h5）',
       '-h, --help': 'output usage information'
     },
     async fn (opts) {
@@ -34,6 +35,7 @@ export default (ctx: IPluginContext) => {
         hideDefaultTemplate,
         sourceRoot,
         autoInstall,
+        platforms,
         ask
       } = opts.options
 
@@ -54,6 +56,7 @@ export default (ctx: IPluginContext) => {
         hideDefaultTemplate,
         autoInstall,
         css,
+        platforms,
         ask
       })
 
