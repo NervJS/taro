@@ -177,6 +177,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
 
   const isHorizontal = scrollX === true
   const listType = nestedScroll === true ? 'nested' : 'default'
+  const containerRef = React.useRef<HTMLDivElement>(null)
   const {
     effectiveScrollElement,
     effectiveStartOffset,
@@ -186,7 +187,7 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     autoFindStatus,
     contentWrapperRef,
     contentId,
-  } = useListNestedScroll(listType, scrollElement, undefined, isHorizontal)
+  } = useListNestedScroll(listType, scrollElement, undefined, isHorizontal, containerRef)
   const DEFAULT_ITEM_WIDTH = 120
   const DEFAULT_ITEM_HEIGHT = 40
   const defaultItemSize = isHorizontal ? DEFAULT_ITEM_WIDTH : DEFAULT_ITEM_HEIGHT
@@ -207,8 +208,6 @@ const InnerList = (props: ListProps, ref: React.Ref<ListHandle | null>) => {
     return fallback
   }, [props.itemSize, props.itemData, normalizeSize])
 
-  // 滚动状态管理
-  const containerRef = React.useRef<HTMLDivElement>(null)
 
   // 生成唯一 List ID（用于小程序 ResizeObserver）
   const listId = React.useMemo(() => `list-${Math.random().toString(36).slice(2, 11)}`, [])

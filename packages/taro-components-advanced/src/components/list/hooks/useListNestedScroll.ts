@@ -33,7 +33,8 @@ export function useListNestedScroll(
   listType: 'default' | 'nested',
   scrollElement?: RefObject<HTMLElement | null>,
   startOffsetProp?: number,
-  isHorizontal: boolean = false
+  isHorizontal: boolean = false,
+  excludeScrollElement?: RefObject<HTMLElement | null>
 ): UseListNestedScrollResult {
   const contentWrapperRef = useRef<HTMLDivElement>(null)
   const contentId = useMemo(() => `list-content-${Math.random().toString(36).slice(2, 11)}`, [])
@@ -48,7 +49,7 @@ export function useListNestedScroll(
     (isH5 || isWeapp)
   const { scrollParentRef: autoFoundRef, status: autoFindStatus } = useScrollParentAutoFind(
     contentWrapperRef,
-    { enabled: !!needAutoFind, isHorizontal, contentId: isWeapp ? contentId : undefined }
+    { enabled: !!needAutoFind, isHorizontal, contentId: isWeapp ? contentId : undefined, excludeScrollElement }
   )
 
   const effectiveScrollElement =

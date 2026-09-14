@@ -19,7 +19,9 @@
     "prebuild": "pnpm run clean",
     "build": "rollup -c",
     "clean": "rimraf ./dist",
-    "dev": "pnpm run build -w"
+    "dev": "pnpm run build -w",
+    "test": "jest",
+    "test:ci": "jest --ci --runInBand"
   },
   "keywords": [],
   "dependencies": {

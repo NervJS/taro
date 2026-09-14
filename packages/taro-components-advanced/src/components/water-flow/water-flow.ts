@@ -71,6 +71,7 @@ const InnerWaterFlow = (
   // 从 ScrollElementContext 获取 scrollRef（List/ScrollView 内嵌时提供）；无 Context 时兜底为 fallback
   const scrollElementCtx = useContext(ScrollElementContextOrFallback) as ScrollElementContextValueShape | null
   const contentWrapperRef = useRef<HTMLDivElement>(null)
+  const scrollViewShellRef = useRef<HTMLElement | null>(null)
   const setContainerRef = useCallback(
     (el: HTMLElement | null) => {
       (contentWrapperRef as React.MutableRefObject<HTMLElement | null>).current = el
@@ -97,7 +98,12 @@ const InnerWaterFlow = (
     (isH5 || isWeapp)
   const { scrollParentRef: autoFoundRef, status: autoFindStatus } = useScrollParentAutoFind(
     contentWrapperRef,
-    { enabled: !!needAutoFind, isHorizontal: false, contentId: isWeapp ? contentId : undefined }
+    {
+      enabled: !!needAutoFind,
+      isHorizontal: false,
+      contentId: isWeapp ? contentId : undefined,
+      excludeScrollElement: scrollViewShellRef
+    }
   )
   const effectiveScrollElement =
     scrollElement ??
@@ -150,7 +156,6 @@ const InnerWaterFlow = (
     flowType === 'nested' && !!(effectiveScrollElement && (isH5 || isWeapp))
   const renderView =
     useScrollElementMode || (!!needAutoFind && autoFindStatus === 'pending')
-  const scrollViewShellRef = useRef<HTMLElement | null>(null)
   if (flowType === 'nested' && !effectiveScrollElement && (isH5 || isWeapp) && autoFindStatus === 'not-found') {
     // eslint-disable-next-line no-console
     console.warn('[WaterFlow] nestedScroll 模式但无 scrollElement（props/Context/自动查找），回退为 default，将渲染自有 ScrollView')

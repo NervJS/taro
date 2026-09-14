@@ -17,14 +17,20 @@ export type ScrollParentAutoFindStatus = 'pending' | 'found' | 'not-found'
  * - H5：DOM 遍历 findScrollParent(contentEl)
  * - 小程序：Taro 虚拟 DOM findScrollParentTaro(contentId)
  * - ref 未就绪时自动重试
+ * - H5 首次未找到时监听 content 及祖先尺寸变化，待父容器实际可滚动后重新查找
  * - 找到后通过 setState 触发 re-render，供 effectiveScrollElement 读取
  * - status 用于 probe 阶段：pending=尚未完成，found=已找到，not-found=已尝试未找到
  */
 export function useScrollParentAutoFind(
   contentRef: RefObject<HTMLElement | null>,
-  options: { enabled: boolean, isHorizontal?: boolean, contentId?: string }
+  options: {
+    enabled: boolean
+    isHorizontal?: boolean
+    contentId?: string
+    excludeScrollElement?: RefObject<HTMLElement | null>
+  }
 ): { scrollParentRef: RefObject<HTMLElement | null>, status: ScrollParentAutoFindStatus } {
-  const { enabled, isHorizontal = false, contentId } = options
+  const { enabled, isHorizontal = false, contentId, excludeScrollElement } = options
   const scrollParentRef = useRef<HTMLElement | null>(null)
   const [status, setStatus] = useState<ScrollParentAutoFindStatus>('pending')
   const [retryTrigger, setRetryTrigger] = useState(0)
@@ -74,17 +80,57 @@ export function useScrollParentAutoFind(
     }
 
     retryCountRef.current = 0
-    const found = findScrollParent(contentEl, !isHorizontal)
-    if (found) {
-      if (found !== scrollParentRef.current) {
-        scrollParentRef.current = found
-        setStatus('found')
-      }
-    } else {
-      scrollParentRef.current = null
-      setStatus('not-found')
+    const findAndUpdate = () => {
+      const found = findScrollParent(contentRef.current, !isHorizontal, excludeScrollElement?.current)
+      if (!found) return false
+
+      scrollParentRef.current = found
+      setStatus('found')
+      return true
     }
-  }, [enabled, contentRef, isHorizontal, contentId, retryTrigger])
+
+    if (findAndUpdate()) return
+
+    scrollParentRef.current = null
+    setStatus('not-found')
+
+    let resizeObserver: ResizeObserver | null = null
+    let mutationObserver: MutationObserver | null = null
+    let retryFrame: number | null = null
+    let disposed = false
+    const disconnect = () => {
+      disposed = true
+      resizeObserver?.disconnect()
+      mutationObserver?.disconnect()
+      if (retryFrame !== null) {
+        cancelAnimationFrame(retryFrame)
+        retryFrame = null
+      }
+    }
+    const retryFind = () => {
+      if (disposed || retryFrame !== null) return
+      retryFrame = requestAnimationFrame(() => {
+        retryFrame = null
+        if (!disposed && findAndUpdate()) disconnect()
+      })
+    }
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(retryFind)
+    }
+    if (typeof MutationObserver !== 'undefined') {
+      mutationObserver = new MutationObserver(retryFind)
+    }
+    if (!resizeObserver && !mutationObserver) return
+
+    let target: HTMLElement | null = contentEl
+    while (target && target !== document.body) {
+      resizeObserver?.observe(target)
+      mutationObserver?.observe(target, { attributes: true, childList: true })
+      target = target.parentElement
+    }
+
+    return disconnect
+  }, [enabled, contentRef, isHorizontal, contentId, excludeScrollElement, retryTrigger])
 
   return { scrollParentRef, status }
 }

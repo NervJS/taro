@@ -44,20 +44,21 @@ export function isScrollableElement(
  */
 export function findScrollParent(
   el: HTMLElement | null,
-  vertical = true
+  vertical = true,
+  excludedElement?: HTMLElement | null
 ): HTMLElement | null {
   if (!el) return null
 
   // 1. 优先：Taro ScrollView 的 div（.taro-scroll）
   const taroScroll = el.closest?.('.taro-scroll')
-  if (taroScroll && taroScroll !== document.body && isScrollableElement(taroScroll as HTMLElement, vertical)) {
+  if (taroScroll && taroScroll !== excludedElement && taroScroll !== document.body && isScrollableElement(taroScroll as HTMLElement, vertical)) {
     return taroScroll as HTMLElement
   }
 
   // 2. 回退：通用可滚动祖先
   let parent: HTMLElement | null = el.parentElement
   while (parent !== null && parent !== document.body) {
-    if (isScrollableElement(parent, vertical)) return parent
+    if (parent !== excludedElement && isScrollableElement(parent, vertical)) return parent
     parent = (parent as HTMLElement).parentElement
   }
   return null
@@ -90,4 +91,3 @@ export function findScrollParentTaro (contentId: string): TaroElement | null {
   }
   return null
 }
-
