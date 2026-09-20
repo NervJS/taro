@@ -576,7 +576,7 @@ ${this.buildXsImportTemplate()}<template is="{{'tmpl_0_' + i.${Shortcuts.NodeNam
 
     // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
-${this.buildXsImportTemplate()}<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}" />
+${this.buildXsImportTemplate()}<template is="{{'tmpl_0_' + item.${Shortcuts.NodeName}}}" data="{{${data}}}" ${Adapter.for}="{{rd.${Shortcuts.Childnodes}}}" ${Adapter.key}="${Shortcuts.Sid}" />
 `
   }
 

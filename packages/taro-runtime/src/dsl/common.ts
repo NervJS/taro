@@ -375,7 +375,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
           return
         }
 
-        const componentId = this.data.i?.sid || this.props.i?.sid
+        const componentId = this.data.rd?.sid || this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
           const el = env.document.getElementById(componentId)
@@ -389,7 +389,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
           return
         }
 
-        const componentId = this.data.i?.sid || this.props.i?.sid
+        const componentId = this.data.rd?.sid || this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.delete(componentId)
           const el = env.document.getElementById(componentId)
@@ -413,8 +413,22 @@ export function createRecursiveComponentConfig (componentName?: string) {
         i: {
           type: Object,
           value: {
-            [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
-          }
+            [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num,
+            ...(isCustomWrapper ? { ubid: 0 } : {})
+          },
+          ...(isCustomWrapper
+            ? {
+              observer (nextProps) {
+                if (!nextProps) return
+
+                const { ubid: nextUpdateBatchId = 0, sid: nextSid } = nextProps
+                const { ubid: curUpdateBatchId = -1, sid: curSid } = this.data.rd || {}
+
+                if (curSid === nextSid && nextUpdateBatchId <= curUpdateBatchId) return
+                this.setData({ rd: nextProps })
+              }
+            }
+            : {})
         },
         l: {
           type: String,
@@ -428,6 +442,17 @@ export function createRecursiveComponentConfig (componentName?: string) {
       methods: {
         eh: eventHandler
       },
+      ...(isCustomWrapper
+        ? {
+          data: {
+            rd: {
+              [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num,
+              [Shortcuts.Childnodes]: [],
+              ubid: -1
+            }
+          }
+        }
+        : {}),
       ...lifeCycles
     }, { isCustomWrapper })
 }
