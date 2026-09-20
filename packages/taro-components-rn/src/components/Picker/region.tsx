@@ -1,16 +1,15 @@
-import AntPicker from '@ant-design/react-native/lib/picker'
-import { PickerData } from '@ant-design/react-native/lib/picker/PropsType'
+import AntPicker, { PickerColumnItem } from '@ant-design/react-native/lib/picker'
 import * as React from 'react'
 
 import { noop } from '../../utils'
 import { RegionObj, RegionProps, RegionState } from './PropsType'
 import { regionData } from './regionData'
 
-function formateRegionData(clObj: RegionObj[] = [], customItem?: string, depth = 2): PickerData[] {
+function formateRegionData(clObj: RegionObj[] = [], customItem?: string, depth = 2): PickerColumnItem[] {
   const l = depth
-  const obj: PickerData[] = []
+  const obj: PickerColumnItem[] = []
   if (customItem) {
-    const objClone: PickerData = {
+    const objClone: PickerColumnItem = {
       value: customItem,
       label: customItem
     }
@@ -23,7 +22,7 @@ function formateRegionData(clObj: RegionObj[] = [], customItem?: string, depth =
     obj.push(panding)
   }
   for (let i = 0; i < clObj.length; i++) {
-    const region: PickerData = {
+    const region: PickerColumnItem = {
       value: clObj[i].value,
       label: clObj[i].value,
     }
