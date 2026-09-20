@@ -349,7 +349,7 @@ function resolveLocal(input: IResolveInput, ctx: IResolveContext): IResolveResul
     return resolveUnresolved(input, listMainFileCandidates(base, ctx.platform), suffixOnly)
   }
 
-  const realpath = fs.realpathSync(hit)
+  const realpath = fs.realpathSync.native(hit)
   const exportName = input.exportName ?? 'default'
   // 单跳 local 结果（barrel 穿透由 resolveComponent 在此之上驱动，带共享 visited）。
   return {
@@ -599,7 +599,7 @@ export function splitPackageSpecifier(specifier: string): { packageName: string,
 function resolvePackageRoot(packageName: string, projectRoot: string): { dir: string, entry: string, manifest: string } | undefined {
   try {
     const entry = require.resolve(packageName, { paths: [projectRoot] })
-    const escaped = escapeRegExp(packageName)
+    const escaped = packageName.split('/').map(escapeRegExp).join('[\\\\/]')
     // 从主入口路径截包根：锚定最后一个 `node_modules/<pkg>` 边界（贪婪 `.*` 吃到
     // 最后一次 node_modules，避免包名在路径里多次出现时截错——如 pnpm 的
     // `.../node_modules/.pnpm/vant@x/node_modules/vant/index.js` 要取靠右那个）。

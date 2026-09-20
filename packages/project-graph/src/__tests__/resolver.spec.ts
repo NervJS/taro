@@ -174,8 +174,8 @@ describe('resolveComponent — local 终态（relative / alias）', () => {
     })
     expect(r.resolution).toBe('local')
     expect(r.sourceKind).toBe('local')
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(comp))
-    expect(r.id).toBe(`${fs.realpathSync(comp)}#default`)
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(comp))
+    expect(r.id).toBe(`${fs.realpathSync.native(comp)}#default`)
     expect(r.exportName).toBe('default')
     expect(r.ownerPartial).toBe(false)
   })
@@ -188,7 +188,7 @@ describe('resolveComponent — local 终态（relative / alias）', () => {
       { fromFilePath: from, rawSpecifier: '../components/Bar', exportName: 'Bar' },
       { projectRoot: root, alias: {}, hasKernel: false },
     )
-    expect(r.id).toBe(`${fs.realpathSync(comp)}#Bar`)
+    expect(r.id).toBe(`${fs.realpathSync.native(comp)}#Bar`)
     expect(r.exportName).toBe('Bar')
   })
 
@@ -201,7 +201,7 @@ describe('resolveComponent — local 终态（relative / alias）', () => {
       { projectRoot: root, alias: { '@comp': path.join(root, 'src', 'components') }, hasKernel: true },
     )
     expect(r.resolution).toBe('local')
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(comp))
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(comp))
   })
 
   test('alias 精确命中 key（value 直指文件所在目录的 index）', () => {
@@ -214,7 +214,7 @@ describe('resolveComponent — local 终态（relative / alias）', () => {
       { projectRoot: root, alias: { '@ui': dir }, hasKernel: true },
     )
     expect(r.resolution).toBe('local')
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(path.join(dir, 'index.tsx')))
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(path.join(dir, 'index.tsx')))
   })
 
   test('platform 感知：alias 组件优先命中平台后缀文件', () => {
@@ -226,7 +226,7 @@ describe('resolveComponent — local 终态（relative / alias）', () => {
       { fromFilePath: from, rawSpecifier: '@comp/Plat' },
       { projectRoot: root, alias: { '@comp': dir }, hasKernel: true, platform: 'weapp' },
     )
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(path.join(dir, 'Plat.weapp.tsx')))
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(path.join(dir, 'Plat.weapp.tsx')))
   })
 })
 
@@ -384,7 +384,7 @@ describe('resolveComponent — unresolved 终态与降级面区分（§3.4 / §4
       { projectRoot: root, alias: {}, hasKernel: true, platform: 'weapp' },
     )
     expect(r.resolution).toBe('local')
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(path.join(root, 'src', 'components', 'Only.weapp.tsx')))
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(path.join(root, 'src', 'components', 'Only.weapp.tsx')))
   })
 
   test('工具限制类：alias 形态但 value 非字符串（展开不出）→ unresolved + ownerPartial=true', () => {
@@ -469,8 +469,8 @@ describe('resolveComponent — barrel/re-export 穿透（§4.4 一跳非终态�
     const r = resolveComponent({ fromFilePath: from(), rawSpecifier: '../components', exportName: 'Button' }, ctx())
     expect(r.resolution).toBe('local')
     // 身份穿透到 Button.tsx（定义文件），不是 index.ts（barrel）
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(comp('Button.tsx')))
-    expect(r.id).toBe(`${fs.realpathSync(comp('Button.tsx'))}#Button`)
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(comp('Button.tsx')))
+    expect(r.id).toBe(`${fs.realpathSync.native(comp('Button.tsx'))}#Button`)
     // rawSpecifier 保留最初引用点
     expect(r.rawSpecifier).toBe('../components')
   })
@@ -480,17 +480,17 @@ describe('resolveComponent — barrel/re-export 穿透（§4.4 一跳非终态�
     fs.writeFileSync(comp('Card.tsx'), 'export function Inner(){}\n')
     const r = resolveComponent({ fromFilePath: from(), rawSpecifier: '../components', exportName: 'Card' }, ctx())
     expect(r.resolution).toBe('local')
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(comp('Card.tsx')))
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(comp('Card.tsx')))
     // 穿透后 exportName 收敛为来源名 Inner
-    expect(r.id).toBe(`${fs.realpathSync(comp('Card.tsx'))}#Inner`)
+    expect(r.id).toBe(`${fs.realpathSync.native(comp('Card.tsx'))}#Inner`)
   })
 
   test('export { default as X } from：穿透后 exportName=default', () => {
     fs.writeFileSync(comp('index.ts'), `export { default as Modal } from './Modal'\n`)
     fs.writeFileSync(comp('Modal.tsx'), 'export default function Modal(){}\n')
     const r = resolveComponent({ fromFilePath: from(), rawSpecifier: '../components', exportName: 'Modal' }, ctx())
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(comp('Modal.tsx')))
-    expect(r.id).toBe(`${fs.realpathSync(comp('Modal.tsx'))}#default`)
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(comp('Modal.tsx')))
+    expect(r.id).toBe(`${fs.realpathSync.native(comp('Modal.tsx'))}#default`)
   })
 
   test('深链 barrel：多跳穿透到最终定义', () => {
@@ -498,7 +498,7 @@ describe('resolveComponent — barrel/re-export 穿透（§4.4 一跳非终态�
     fs.writeFileSync(comp('mid.ts'), `export { Deep } from './Deep'\n`)
     fs.writeFileSync(comp('Deep.tsx'), 'export function Deep(){}\n')
     const r = resolveComponent({ fromFilePath: from(), rawSpecifier: '../components', exportName: 'Deep' }, ctx())
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(comp('Deep.tsx')))
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(comp('Deep.tsx')))
   })
 
   test('re-export 到 npm 包：穿透后收敛 npm 终态', () => {
@@ -520,7 +520,7 @@ describe('resolveComponent — barrel/re-export 穿透（§4.4 一跳非终态�
     fs.writeFileSync(comp('widgets.tsx'), 'export function Star(){}\n')
     const r = resolveComponent({ fromFilePath: from(), rawSpecifier: '../components', exportName: 'Star' }, ctx())
     expect(r.resolution).toBe('local')
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(comp('widgets.tsx')))
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(comp('widgets.tsx')))
   })
 
   test('cycle-safe：自引用 barrel 不死循环（回退当前身份）', () => {
@@ -546,6 +546,6 @@ describe('resolveComponent — barrel/re-export 穿透（§4.4 一跳非终态�
     fs.writeFileSync(comp('Plain.tsx'), 'export function Plain(){}\n')
     const r = resolveComponent({ fromFilePath: from(), rawSpecifier: '../components/Plain', exportName: 'Plain' }, ctx())
     expect(r.resolution).toBe('local')
-    expect(r.resolvedFilePath).toBe(fs.realpathSync(comp('Plain.tsx')))
+    expect(r.resolvedFilePath).toBe(fs.realpathSync.native(comp('Plain.tsx')))
   })
 })

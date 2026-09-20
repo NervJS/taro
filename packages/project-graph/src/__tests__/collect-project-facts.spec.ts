@@ -77,8 +77,8 @@ describe('collectProjectFacts', () => {
     const snapshot = await collectProjectFacts({ root })
     expect(snapshot.workspaceManifest.roots).toContainEqual(expect.objectContaining({
       role: 'local-dependency',
-      originalPath: fs.realpathSync(localDependencyRoot),
-      relativePlacement: path.relative(fs.realpathSync(root), fs.realpathSync(localDependencyRoot)).replaceAll(path.sep, '/'),
+      originalPath: fs.realpathSync.native(localDependencyRoot),
+      relativePlacement: path.relative(fs.realpathSync.native(root), fs.realpathSync.native(localDependencyRoot)).replaceAll(path.sep, '/'),
     }))
   })
 
@@ -98,7 +98,7 @@ describe('collectProjectFacts', () => {
   })
 
   it('captures a parent workspace and only the selected local dependency closure', async () => {
-    const workspaceRoot = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'collect-monorepo-facts-')))
+    const workspaceRoot = fs.realpathSync.native(fs.mkdtempSync(path.join(os.tmpdir(), 'collect-monorepo-facts-')))
     try {
       const projectRoot = path.join(workspaceRoot, 'apps', 'demo')
       const sharedRoot = path.join(workspaceRoot, 'packages', 'shared')

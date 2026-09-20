@@ -6,6 +6,7 @@
 import * as fs from 'node:fs'
 import * as os from 'node:os'
 import * as path from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 import { createProjectGraph } from '../graph'
 
@@ -48,7 +49,7 @@ describe('Query API — WP6a（selector / 反查 / filter / summary / pageToFile
   afterEach(() => { fs.rmSync(root, { recursive: true, force: true }) })
 
   test('findReferencesToComponent(byFilePath)：反查指向 Card 的边（config + JSX 两类）', () => {
-    const cardFile = fs.realpathSync(path.join(root, 'src/components/Card.tsx'))
+    const cardFile = fs.realpathSync.native(path.join(root, 'src/components/Card.tsx'))
     const refs = q.findReferencesToComponent({ byFilePath: cardFile })
     // config usingComponent + JSX componentUsage 都指向同一 Card 节点
     expect(refs.some((e) => e.kind === 'usingComponent')).toBe(true)
@@ -104,7 +105,7 @@ describe('Query API — WP6a（selector / 反查 / filter / summary / pageToFile
 
   test('pageToFileUrl：命中页面返回 file://绝对路径:1:1', () => {
     const url = q.pageToFileUrl('pages/index/index')
-    expect(url).toMatch(/^file:\/\/.*\/pages\/index\/index\.tsx:1:1$/)
+    expect(url).toBe(`${pathToFileURL(path.join(root, 'src/pages/index/index.tsx')).href}:1:1`)
   })
 
   test('pageToFileUrl：页面不存在抛错', () => {
@@ -166,7 +167,7 @@ describe('findComponentDependencies — direct / transitive（§5.1）', () => {
   beforeEach(() => {
     root = buildChainProject()
     q = createProjectGraph({ root })
-    aId = `${fs.realpathSync(path.join(root, 'src/components/A.tsx'))}#default`
+    aId = `${fs.realpathSync.native(path.join(root, 'src/components/A.tsx'))}#default`
   })
   afterEach(() => { fs.rmSync(root, { recursive: true, force: true }) })
 

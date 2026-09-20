@@ -25,7 +25,7 @@ describe('discoverWorkspace', () => {
     const included = await discoverWorkspace(path.join(root, 'apps/app'))
     const excluded = await discoverWorkspace(path.join(root, 'apps/excluded'))
 
-    expect(included).toMatchObject({ workspaceRoot: fs.realpathSync(root), kind: 'pnpm', issues: [] })
+    expect(included).toMatchObject({ workspaceRoot: fs.realpathSync.native(root), kind: 'pnpm', issues: [] })
     expect(included.packages.map(pkg => pkg.relativePath)).toEqual(['apps/app', 'packages/lib'])
     expect(excluded.workspaceRoot).toBeUndefined()
   })
@@ -38,7 +38,7 @@ describe('discoverWorkspace', () => {
     const result = await discoverWorkspace(path.join(root, 'apps/inner/packages/app'))
 
     expect(result).toMatchObject({
-      workspaceRoot: fs.realpathSync(path.join(root, 'apps/inner')),
+      workspaceRoot: fs.realpathSync.native(path.join(root, 'apps/inner')),
       kind: 'workspaces',
       issues: [],
     })
@@ -59,7 +59,7 @@ describe('discoverWorkspace', () => {
     writeJson('package.json', { name: 'standalone' })
 
     await expect(discoverWorkspace(root)).resolves.toEqual({
-      projectRoot: fs.realpathSync(root),
+      projectRoot: fs.realpathSync.native(root),
       packages: [],
       declarationFiles: [],
       issues: [],
@@ -73,7 +73,7 @@ describe('discoverWorkspace', () => {
 
     const result = await discoverWorkspace(path.join(root, 'apps/app'))
 
-    expect(result.workspaceRoot).toBe(fs.realpathSync(root))
+    expect(result.workspaceRoot).toBe(fs.realpathSync.native(root))
     expect(result.packages.map(pkg => pkg.relativePath)).toEqual(['apps/app'])
     expect(result.issues).toEqual([
       expect.stringContaining('Cannot parse workspace member'),

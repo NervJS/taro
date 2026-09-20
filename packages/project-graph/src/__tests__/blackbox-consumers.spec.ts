@@ -155,7 +155,7 @@ describe('§7 四类黑盒消费者（仅公共入口 ../index）', () => {
     const cycles = query.getProjectGraph().issues.filter((i) => i.kind === 'cycle')
     expect(cycles.length).toBeGreaterThan(0)
     // 环 issue 至少覆盖 A、B 两成员之一（message/filePath 承载 SCC 成员线索）。
-    const cycleText = JSON.stringify(cycles)
+    const cycleText = JSON.stringify(cycles).replaceAll('\\', '/')
     expect(cycleText.includes('/A') || cycleText.includes('/B') || cycleText.includes('components/A')).toBe(true)
   })
 })

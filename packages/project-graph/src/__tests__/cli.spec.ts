@@ -27,11 +27,11 @@ describe('parseCliArgs', () => {
     expect(parseCliArgs(['--route=/pages/detail/index']).route).toBe('/pages/detail/index')
   })
   test('--root= 覆盖 root', () => {
-    expect(parseCliArgs(['--root=/tmp/x']).root).toBe('/tmp/x')
+    expect(parseCliArgs(['--root=/tmp/x']).root).toBe(path.resolve('/tmp/x'))
   })
   test('多参数组合', () => {
     const opts = parseCliArgs(['--json', '--root=/tmp/x', '--route=/a'])
-    expect(opts).toEqual({ root: '/tmp/x', json: true, route: '/a' })
+    expect(opts).toEqual({ root: path.resolve('/tmp/x'), json: true, route: '/a' })
   })
   test('WP8a 新增项缺省为 undefined（非 false，保持与既有 toEqual 断言兼容）', () => {
     const opts = parseCliArgs([])
@@ -164,7 +164,7 @@ describe('runCli — --component（direct / transitive / max-depth / limit）', 
   })
 
   function cardSelector(): string {
-    return `file:${fs.realpathSync(path.join(root, 'src/components/Card.tsx'))}`
+    return `file:${fs.realpathSync.native(path.join(root, 'src/components/Card.tsx'))}`
   }
 
   test('direct：只列 Card 的直接依赖 Sub', () => {

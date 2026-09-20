@@ -105,7 +105,7 @@ describe('Pilot fact compatibility projections', () => {
 
     expect(profile.lockfiles).toContainEqual(expect.objectContaining({
       kind: 'pnpm',
-      path: path.join(fs.realpathSync(root), 'pnpm-lock.yaml'),
+      path: path.join(fs.realpathSync.native(root), 'pnpm-lock.yaml'),
     }))
   })
 })

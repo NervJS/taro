@@ -125,7 +125,7 @@ describe('buildJsxComponentGraph — 建边/建节点/递归（§4.3 / §2.1）'
     const g = buildJsxComponentGraph([{ ownerNodeId: 'pages/index/index', filePath: page('index.tsx') }], ctx())
     expect(g.edges).toHaveLength(1)
     expect(g.edges[0]).toMatchObject({ kind: 'componentUsage', from: 'pages/index/index', resolution: 'local', localName: 'Foo' })
-    expect(g.edges[0].to).toBe(`${fs.realpathSync(comp('Foo.tsx'))}#default`)
+    expect(g.edges[0].to).toBe(`${fs.realpathSync.native(comp('Foo.tsx'))}#default`)
     expect(g.components).toHaveLength(1)
     expect(g.components[0].sourceKind).toBe('local')
     expect(g.partialOwners.size).toBe(0)

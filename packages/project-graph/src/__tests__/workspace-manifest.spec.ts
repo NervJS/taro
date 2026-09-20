@@ -138,7 +138,7 @@ describe('workspace manifest', () => {
 
     expect(manifest.entries.find(entry => entry.relativePath === 'src/absolute-entry.ts')).toMatchObject({
       kind: 'symlink',
-      symlinkTarget: fs.realpathSync(target),
+      symlinkTarget: fs.realpathSync.native(target),
     })
   })
 })

@@ -105,7 +105,7 @@ describe('buildConfigComponentGraph — 建边/建节点/递归（§4.2 / §2.1�
     expect(g.edges).toHaveLength(1)
     expect(g.edges[0]).toMatchObject({ kind: 'usingComponent', from: 'pages/index/index', resolution: 'local', localName: 'Foo', rawSpecifier: '../components/Foo' })
     // config usingComponents 指向默认导出 → id 用 #default（localName 仅作边上 owner 本地符号）
-    expect(g.edges[0].to).toBe(`${fs.realpathSync(comp('Foo.tsx'))}#default`)
+    expect(g.edges[0].to).toBe(`${fs.realpathSync.native(comp('Foo.tsx'))}#default`)
     expect(g.components).toHaveLength(1)
     expect(g.components[0].sourceKind).toBe('local')
     expect(g.partialOwners.size).toBe(0)
@@ -167,7 +167,7 @@ describe('buildConfigComponentGraph — 建边/建节点/递归（§4.2 / §2.1�
     expect(g.edges).toHaveLength(2)
     const froms = g.edges.map((e) => e.from).sort()
     expect(froms).toContain('pages/index/index')
-    expect(froms).toContain(`${fs.realpathSync(comp('Parent.tsx'))}#default`)
+    expect(froms).toContain(`${fs.realpathSync.native(comp('Parent.tsx'))}#default`)
     // 节点：Parent + Child
     expect(g.components).toHaveLength(2)
   })

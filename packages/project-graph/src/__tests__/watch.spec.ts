@@ -46,7 +46,7 @@ describe('startWatch — 监听层逻辑（mock chokidar）', () => {
     startWatch('/proj', '/proj/src', () => {})
     expect(watchMock).toHaveBeenCalledTimes(1)
     const [paths, opts] = watchMock.mock.calls[0] as [string[], { ignoreInitial: boolean, ignored: RegExp }]
-    expect(paths).toEqual(['/proj/src', '/proj/config'])
+    expect(paths).toEqual(['/proj/src', path.join('/proj', 'config')])
     expect(opts.ignoreInitial).toBe(true)
     expect(opts.ignored.test('/proj/src/node_modules/x')).toBe(true)
   })
@@ -55,7 +55,7 @@ describe('startWatch — 监听层逻辑（mock chokidar）', () => {
     startWatch('/proj', '/proj/src', () => {}, ['/proj/package.json', '/proj/pnpm-lock.yaml'])
     const [paths] = watchMock.mock.calls[0] as [string[]]
     // src + config/ 恒在前（既有契约），额外文件追加在后。
-    expect(paths).toEqual(['/proj/src', '/proj/config', '/proj/package.json', '/proj/pnpm-lock.yaml'])
+    expect(paths).toEqual(['/proj/src', path.join('/proj', 'config'), '/proj/package.json', '/proj/pnpm-lock.yaml'])
   })
 
   test('ready 前的变更被缓冲，ready 时冲洗（不丢首个事件）', () => {
@@ -277,4 +277,3 @@ describe('createProjectGraph — onGraphChange 集成（mock chokidar 驱动）'
     expect(paths).toContain(path.join(root, 'package.json'))
   })
 })
-

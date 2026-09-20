@@ -12,7 +12,7 @@ describe('workspace facts', () => {
   let workspaceRoot: string
 
   beforeEach(() => {
-    fixtureRoot = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'workspace-facts-')))
+    fixtureRoot = fs.realpathSync.native(fs.mkdtempSync(path.join(os.tmpdir(), 'workspace-facts-')))
     workspaceRoot = path.join(fixtureRoot, 'workspace')
     fs.mkdirSync(workspaceRoot)
   })
