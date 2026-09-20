@@ -760,7 +760,22 @@ export default class TaroMiniPlugin {
     const { newBlended, frameworkExts, combination } = this.options
     const { prerender } = combination.config
 
-    this.prerenderPages = new Set(validatePrerenderPages(appPages, prerender).map(p => p.path))
+    // Collect sub-package pages so they are also eligible for prerender.
+    // `getPages` previously only fed main-package `appPages` into `prerenderPages`,
+    // so sub-package pages never received the `wx._prerender` injection and their
+    // prerender snapshots silently fell back to the previous page's instance.
+    const subPackages = this.appConfig.subPackages || this.appConfig.subpackages || []
+    const subPages: string[] = []
+    for (const sp of subPackages) {
+      const root = sp.root || ''
+      for (const pg of (sp.pages || [])) {
+        subPages.push(`${root}/${pg}`.replace(/\/{2,}/g, '/'))
+      }
+    }
+
+    this.prerenderPages = new Set(
+      validatePrerenderPages([...appPages, ...subPages], prerender).map(p => p.path)
+    )
     this.getTabBarFiles(this.appConfig)
     this.pages = new Set([
       ...appPages.map<IComponent>(item => {
