@@ -78,7 +78,7 @@ describe('discoverWorkspace', () => {
     expect(result.issues).toEqual([
       expect.stringContaining('Cannot parse workspace member'),
     ])
-    expect(result.issues[0]).toContain('packages/broken/package.json')
+    expect(result.issues[0]).toContain(path.join('packages', 'broken', 'package.json'))
   })
 
   function write(relativePath: string, value: string): void {
