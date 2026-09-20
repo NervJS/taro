@@ -92,16 +92,15 @@ class TaroURL {
   }
 
   get search () {
-    if (!this.#searchModified) return this.#searchRaw
+    const val = this.#serializedSearch()
 
-    const val = this.#search.toString()
-    return (val.length === 0 || val.startsWith('?')) ? val : `?${val}`
+    return val === '?' ? '' : val
   }
 
   set search (val: string) {
     if (isString(val)) {
       val = val.trim()
-      this.#setSearch(val)
+      this.#setSearch(val.replace(/#/g, '%23'))
     }
   }
 
@@ -118,7 +117,7 @@ class TaroURL {
   }
 
   get href () {
-    return `${this.protocol}//${this.host}${this.pathname}${this.search}${this.hash}`
+    return `${this.protocol}//${this.host}${this.pathname}${this.#serializedSearch()}${this.hash}`
   }
 
   set href (val: string) {
@@ -172,6 +171,13 @@ class TaroURL {
         this.#searchModified = true
       })
     }
+  }
+
+  #serializedSearch () {
+    if (!this.#searchModified) return this.#searchRaw
+
+    const val = this.#search.toString()
+    return (val.length === 0 || val.startsWith('?')) ? val : `?${val}`
   }
 
   // convenient for deconstructor
