@@ -15,6 +15,8 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   lazyLoad?: boolean
   imgProps?: Record<string, any>
   forwardedRef?: React.MutableRefObject<HTMLDivElement>
+  /** 为 true 时不挂载默认占位尺寸（320×240），由业务 style/class 决定容器大小 */
+  disableDefaultSize?: boolean
 }
 
 function Image (props: IProps) {
@@ -23,19 +25,21 @@ function Image (props: IProps) {
   const [, setIsLoaded] = useState(false)
   const {
     className,
-    style = {},
+    style,
     src,
     mode,
     onError,
     lazyLoad,
     imgProps,
     forwardedRef,
+    disableDefaultSize = false,
     ...reset
   } = props
 
   const cls = classNames(
     'taro-img',
     {
+      'taro-img--with-default-host-size': !disableDefaultSize,
       'taro-img__widthfix': mode === 'widthFix'
     },
     className

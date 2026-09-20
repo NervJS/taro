@@ -1,0 +1,35 @@
+.taro-switch {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--type-switch {
+    border: 1px solid #DFDFDF;
+    box-sizing: border-box;
+  }
+
+  &--type-switch &__thumb {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  &--type-checkbox {
+    border: 1px solid #c9c9c9;
+    box-sizing: border-box;
+  }
+
+  &--type-checkbox &__checkmark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+}

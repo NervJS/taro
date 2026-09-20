@@ -29,6 +29,7 @@ pub struct Project {
   pub date: Option<String>,
   pub compiler: Option<CompilerType>,
   pub period: PeriodType,
+  pub platforms: Option<Vec<String>>,
 }
 
 impl Project {
@@ -48,6 +49,7 @@ impl Project {
     date: Option<String>,
     compiler: Option<CompilerType>,
     period: PeriodType,
+    platforms: Option<Vec<String>>,
   ) -> Self {
     Project {
       project_root,
@@ -65,6 +67,7 @@ impl Project {
       date,
       compiler,
       period,
+      platforms,
     }
   }
 
@@ -117,6 +120,7 @@ impl Project {
       change_ext: None,
       is_custom_template: None,
       plugin_type: None,
+      platforms: self.platforms.clone(),
     };
     let all_files = all_files
       .iter()

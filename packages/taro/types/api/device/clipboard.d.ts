@@ -11,6 +11,11 @@ declare module '../../index' {
     interface Option {
       /** 剪贴板的内容 */
       data: string
+      /** 其他配置项 */
+      options?: {
+        /** 隐藏默认的 “内容已复制” message */
+        hideDefaultMessage: boolean
+      }
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */

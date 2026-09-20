@@ -41,6 +41,12 @@ interface ImageProps extends StandardProps {
    * @supported h5, harmony_hybrid
    */
   nativeProps?: Record<string, unknown>
+  /**
+   * H5 / WebComponents 为 true 时关闭默认占位，`taro-image-core` 外层宽高均为 `auto`（默认 false 仍为 320×240）。
+   * @default false
+   * @supported h5, harmony_hybrid
+   */
+  disableDefaultSize?: boolean
   /** 默认图片地址，若设置默认图片地址，会先显示默认图片，等 src 对应的图片加载成功后，再渲染对应的图片。
    * @supported alipay
    */

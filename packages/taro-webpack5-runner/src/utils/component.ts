@@ -4,7 +4,8 @@ export const componentConfig: IComponentConfig = {
   includes: new Set(['view', 'catch-view', 'static-view', 'pure-view', 'click-view', 'scroll-view', 'image', 'static-image', 'text', 'static-text']),
   exclude: new Set(),
   thirdPartyComponents: new Map(),
-  includeAll: false
+  includeAll: false,
+  scopedIncludes: new Map()
 }
 
 // 用户 cache 功能开启时，记录 parser 过程中的组件信息
