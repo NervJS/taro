@@ -1,12 +1,12 @@
 import { execFile } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
-import { existsSync } from 'node:fs'
+import { existsSync, statSync } from 'node:fs'
 import { opendir, readFile, realpath } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { promisify } from 'node:util'
+
 import {
-  PROJECT_FACTS_SCHEMA_VERSION,
   type ICollectProjectFactsOptions,
   type IDependencyFacts,
   type IEnvironmentFacts,
@@ -14,25 +14,26 @@ import {
   type IFactsCapabilities,
   type IFactsCapabilityEntry,
   type IInvocationFacts,
-  type ILockfileFacts,
   type ILocalDependencyFacts,
+  type ILockfileFacts,
   type IProjectFacts,
   type IProjectFactsSnapshot,
   type IRepositoryChangedFileFacts,
   type IRepositoryFacts,
-  type IToolVersionFacts,
   type IToolchainFacts,
+  type IToolVersionFacts,
   type IWorkspacePackageFacts,
   type IWorkspaceRoot,
   type TJsonValue,
   type TLockfileKind,
   type TPackageManagerKind,
+  PROJECT_FACTS_SCHEMA_VERSION,
 } from './facts'
 import { discoverWorkspace } from './workspace-discovery'
 import {
-  buildDiscoveredWorkspaceState,
   type IDiscoveredWorkspaceState,
   type IWorkspacePackageManifest,
+  buildDiscoveredWorkspaceState,
 } from './workspace-facts'
 import { collectWorkspaceManifest } from './workspace-manifest'
 
@@ -167,7 +168,7 @@ export async function collectProjectFacts(options: ICollectProjectFactsOptions):
 }
 
 function collectGeneratedPaths(root: string, project: IProjectFacts, configText: string): string[] {
- const paths = ['dist', ...(project.outputRoot ? [project.outputRoot] : [])]
+  const paths = ['dist', ...(project.outputRoot ? [project.outputRoot] : [])]
   const nativeProjectMatch = configText.match(/projectPath\s*:\s*path\.resolve\([^,]+,\s*['"]([^'"]+)['"]\s*\)/)
   const nativeProjectPath = nativeProjectMatch?.[1]
   if (nativeProjectPath) {
@@ -192,8 +193,8 @@ function collectProjectMetadata(
     ...(packageJson.version ? { version: packageJson.version } : {}),
     ...(packageJson.private === undefined ? {} : { private: packageJson.private }),
     framework,
-    compiler: /compiler\s*:\s*['"]vite['"]/.test(configText) ? 'vite' :
-      /compiler\s*:\s*['"]webpack5?['"]/.test(configText) ? 'webpack5' : 'unknown',
+    compiler: /compiler\s*:\s*['"]vite['"]/.test(configText) ? 'vite'
+      : /compiler\s*:\s*['"]webpack5?['"]/.test(configText) ? 'webpack5' : 'unknown',
     ...readConfigPath(configText, 'sourceRoot'),
     ...readConfigPath(configText, 'outputRoot'),
     configFiles,
@@ -202,7 +203,7 @@ function collectProjectMetadata(
 }
 
 function readConfigPath(configText: string, key: 'outputRoot' | 'sourceRoot'): Partial<IProjectFacts> {
-  const match = configText.match(new RegExp(`${key}\\s*:\\s*['\"]([^'\"]+)['\"]`))
+  const match = configText.match(new RegExp(`${key}\\s*:\\s*['"]([^'"]+)['"]`))
   return match?.[1] ? { [key]: match[1] } : {}
 }
 
@@ -249,7 +250,7 @@ async function collectWorkspaceState(
   for (const [name, specifier] of Object.entries(declared)) {
     if (!/^(file|link):/.test(specifier)) continue
     const dependencyRoot = path.resolve(root, specifier.replace(/^(file|link):/, ''))
-    if (!existsSync(dependencyRoot)) continue
+    if (!statSync(dependencyRoot, { throwIfNoEntry: false })?.isDirectory()) continue
     const rootId = `local:${digestText(`${name}:${dependencyRoot}`).slice(7, 19)}`
     roots.push({
       rootId,

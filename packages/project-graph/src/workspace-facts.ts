@@ -1,7 +1,8 @@
 import { createHash } from 'node:crypto'
-import { existsSync } from 'node:fs'
+import { existsSync, statSync } from 'node:fs'
 import { readFile, realpath } from 'node:fs/promises'
 import path from 'node:path'
+
 import type {
   IInvocationFacts,
   IWorkspacePackageFacts,
@@ -225,7 +226,8 @@ function addExternalLocalDependencies(
     for (const [name, specifier] of Object.entries(allDependencies(state.manifest))) {
       if (!/^(file|link):/.test(specifier)) continue
       const dependencyRoot = path.resolve(state.descriptor.root, specifier.replace(/^(file|link):/, ''))
-      if (!existsSync(dependencyRoot) || roots.some(root => root.originalPath === dependencyRoot)) continue
+      if (!statSync(dependencyRoot, { throwIfNoEntry: false })?.isDirectory() ||
+        roots.some(root => root.originalPath === dependencyRoot)) continue
       roots.push({
         rootId: `local:${digestText(`${name}:${dependencyRoot}`).slice(7, 19)}`,
         role: 'local-dependency',

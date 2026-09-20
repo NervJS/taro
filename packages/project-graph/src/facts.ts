@@ -1,5 +1,5 @@
-import type { IProjectGraph, TFrameworkKind } from './schema'
 import type { KernelLike } from './query'
+import type { IProjectGraph, TFrameworkKind } from './schema'
 
 export const PROJECT_FACTS_SCHEMA_VERSION = 1 as const
 

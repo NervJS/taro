@@ -1,8 +1,9 @@
 import { createHash } from 'node:crypto'
 import { createReadStream } from 'node:fs'
-import type { Dirent } from 'node:fs'
 import { lstat, opendir, readlink, realpath } from 'node:fs/promises'
 import path from 'node:path'
+
+import type { Dirent } from 'node:fs'
 import type {
   IContentSink,
   IWorkspaceContentEntry,
@@ -116,10 +117,10 @@ async function walkDirectory(
 
   for (const child of children) {
     const relativePath = path.posix.join(relativeDirectory.split(path.sep).join(path.posix.sep), child.name)
- if (isExcluded(relativePath, excludedPaths)) continue
- if (EXCLUDED_DIRECTORIES.has(child.name)) continue
- if (child.isDirectory() && !child.isSymbolicLink()) {
- await walkDirectory(root, relativePath, onEntry, excludedPaths)
+    if (isExcluded(relativePath, excludedPaths)) continue
+    if (EXCLUDED_DIRECTORIES.has(child.name)) continue
+    if (child.isDirectory() && !child.isSymbolicLink()) {
+      await walkDirectory(root, relativePath, onEntry, excludedPaths)
       continue
     }
     if (child.isFile() || child.isSymbolicLink()) await onEntry(relativePath)

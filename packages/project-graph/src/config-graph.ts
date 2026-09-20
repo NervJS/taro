@@ -208,7 +208,7 @@ export function buildConfigComponentGraph(owners: IConfigOwnerInput[], ctx: IRes
   }
 
   /** 展开 local 组件的 component config：读其 .config 文件、以该组件为新 owner 递归。 */
-  const expandLocalComponent = (componentId: string, componentFilePath: string): void => {
+  function expandLocalComponent(componentId: string, componentFilePath: string): void {
     const configFilePath = resolvePageConfigPath(componentFilePath)
     if (configFilePath == null) {
       // 组件当前无 config 文件：登记其 config 候选为缺失候选（§6）——冷启动后给组件

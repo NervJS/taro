@@ -1,9 +1,11 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+
+import { buildDiscoveredWorkspaceState } from '../workspace-facts'
+
 import type { IInvocationFacts } from '../facts'
 import type { IWorkspaceDiscovery, IWorkspacePackageDescriptor } from '../workspace-discovery'
-import { buildDiscoveredWorkspaceState } from '../workspace-facts'
 
 describe('workspace facts', () => {
   let fixtureRoot: string
@@ -123,6 +125,41 @@ describe('workspace facts', () => {
       role: 'local-dependency',
       originalPath: externalRoot,
       relativePlacement: '../external-library',
+    }))
+  })
+
+  it.each(['file', 'link'] as const)('ignores external %s archive dependencies', async protocol => {
+    const tarballPath = path.join(fixtureRoot, 'external-library.tgz')
+    fs.writeFileSync(tarballPath, 'fixture')
+    const projectRoot = createPackage('apps/demo', {
+      name: '@fixture/demo',
+      dependencies: { '@fixture/external': `${protocol}:../../../external-library.tgz` },
+    })
+    fs.writeFileSync(path.join(workspaceRoot, 'package.json'), JSON.stringify({
+      name: '@fixture/root',
+      private: true,
+      packageManager: 'pnpm@10.0.0',
+    }))
+    const discovery: IWorkspaceDiscovery = {
+      projectRoot,
+      workspaceRoot,
+      kind: 'pnpm',
+      packages: [{
+        root: projectRoot,
+        relativePath: 'apps/demo',
+        manifest: JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8')),
+      }],
+      declarationFiles: ['pnpm-workspace.yaml'],
+      issues: [],
+    }
+
+    const state = await buildDiscoveredWorkspaceState(
+      discovery,
+      JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8')),
+    )
+
+    expect(state?.roots).not.toContainEqual(expect.objectContaining({
+      originalPath: tarballPath,
     }))
   })
 

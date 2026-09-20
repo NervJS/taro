@@ -10,12 +10,12 @@
  * config / 页面解析等实现细节（config-parser / page-parser）不对外导出。
  */
 
-export { createProjectGraph } from './graph'
 export { collectProjectFacts } from './collect-project-facts'
 export * from './compatibility'
 export * from './facts'
 export * from './facts-serialization'
+export { createProjectGraph } from './graph'
 export * from './query'
 export * from './schema'
-export * from './workspace-manifest'
 export * from './workspace-discovery'
+export * from './workspace-manifest'

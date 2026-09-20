@@ -1,9 +1,10 @@
 import path from 'node:path'
+
 import {
-  PROJECT_FACTS_SCHEMA_VERSION,
   type IBuildCycleFacts,
   type IProjectFactsSnapshot,
   type IWorkspaceContentEntry,
+  PROJECT_FACTS_SCHEMA_VERSION,
 } from './facts'
 
 const SHA256_PATTERN = /^sha256:[a-f0-9]{64}$/
@@ -32,9 +33,9 @@ export function parseProjectFacts(value: string | Uint8Array): IProjectFactsSnap
       `Snapshot is not valid JSON: ${error instanceof Error ? error.message : String(error)}`,
     ])
   }
- const migrated = migrateProjectFactsSnapshot(parsed)
- assertProjectFactsSnapshot(migrated)
- return migrated
+  const migrated = migrateProjectFactsSnapshot(parsed)
+  assertProjectFactsSnapshot(migrated)
+  return migrated
 }
 
 type ProjectFactsMigration = (value: Record<string, unknown>) => Record<string, unknown>
@@ -42,32 +43,32 @@ type ProjectFactsMigration = (value: Record<string, unknown>) => Record<string, 
 const PROJECT_FACTS_MIGRATIONS: Partial<Record<number, ProjectFactsMigration>> = {}
 
 function migrateProjectFactsSnapshot(value: unknown): unknown {
- if (!isRecord(value) || !Number.isSafeInteger(value.schemaVersion)) return value
- if (Number(value.schemaVersion) > PROJECT_FACTS_SCHEMA_VERSION) {
- throw new ProjectFactsValidationError([
- `schemaVersion ${value.schemaVersion} is newer than supported version ${PROJECT_FACTS_SCHEMA_VERSION}.`,
- ])
- }
+  if (!isRecord(value) || !Number.isSafeInteger(value.schemaVersion)) return value
+  if (Number(value.schemaVersion) > PROJECT_FACTS_SCHEMA_VERSION) {
+    throw new ProjectFactsValidationError([
+      `schemaVersion ${value.schemaVersion} is newer than supported version ${PROJECT_FACTS_SCHEMA_VERSION}.`,
+    ])
+  }
 
- let migrated = value
- let version = Number(value.schemaVersion)
- while (version < PROJECT_FACTS_SCHEMA_VERSION) {
- const migration = PROJECT_FACTS_MIGRATIONS[version]
- if (!migration) {
- throw new ProjectFactsValidationError([
- `schemaVersion ${version} has no migration to ${version + 1}.`,
- ])
- }
- migrated = migration(migrated)
- const nextVersion = Number(migrated.schemaVersion)
- if (nextVersion !== version + 1) {
- throw new ProjectFactsValidationError([
- `schemaVersion migration ${version} must produce version ${version + 1}.`,
- ])
- }
- version = nextVersion
- }
- return migrated
+  let migrated = value
+  let version = Number(value.schemaVersion)
+  while (version < PROJECT_FACTS_SCHEMA_VERSION) {
+    const migration = PROJECT_FACTS_MIGRATIONS[version]
+    if (!migration) {
+      throw new ProjectFactsValidationError([
+        `schemaVersion ${version} has no migration to ${version + 1}.`,
+      ])
+    }
+    migrated = migration(migrated)
+    const nextVersion = Number(migrated.schemaVersion)
+    if (nextVersion !== version + 1) {
+      throw new ProjectFactsValidationError([
+        `schemaVersion migration ${version} must produce version ${version + 1}.`,
+      ])
+    }
+    version = nextVersion
+  }
+  return migrated
 }
 
 export function assertProjectFactsSnapshot(value: unknown): asserts value is IProjectFactsSnapshot {
@@ -184,9 +185,9 @@ function validateBuildSessionPredecessor(value: unknown, issues: string[]): void
   requireIsoDate(value, 'resumedAt', issues, 'buildSession.predecessor')
   requireString(value, 'reason', issues, 'buildSession.predecessor')
   if (
-    typeof value.gapStartedAt === 'string'
-    && typeof value.resumedAt === 'string'
-    && Date.parse(value.resumedAt) < Date.parse(value.gapStartedAt)
+    typeof value.gapStartedAt === 'string' &&
+    typeof value.resumedAt === 'string' &&
+    Date.parse(value.resumedAt) < Date.parse(value.gapStartedAt)
   ) {
     issues.push('buildSession.predecessor.resumedAt must not precede gapStartedAt.')
   }

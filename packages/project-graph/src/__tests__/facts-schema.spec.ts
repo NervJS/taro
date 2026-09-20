@@ -1,8 +1,8 @@
 import {
-  PROJECT_FACTS_SCHEMA_VERSION,
   type IBuildSessionFacts,
   type IProjectFactsSnapshot,
   type TBuildReplay,
+  PROJECT_FACTS_SCHEMA_VERSION,
 } from '../facts'
 
 describe('project facts schema', () => {

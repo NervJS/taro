@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+
 import { collectProjectFacts } from '../collect-project-facts'
 
 describe('collectProjectFacts', () => {
@@ -37,9 +38,9 @@ describe('collectProjectFacts', () => {
   })
 
   it('collects a restorable project fact snapshot without Taro Kernel', async () => {
- fs.mkdirSync(path.join(root, 'dist'), { recursive: true })
- fs.writeFileSync(path.join(root, 'dist', 'generated.js'), 'generated')
- const snapshot = await collectProjectFacts({ root })
+    fs.mkdirSync(path.join(root, 'dist'), { recursive: true })
+    fs.writeFileSync(path.join(root, 'dist', 'generated.js'), 'generated')
+    const snapshot = await collectProjectFacts({ root })
 
     expect(snapshot.schemaVersion).toBe(1)
     expect(snapshot.project).toMatchObject({
@@ -61,8 +62,8 @@ describe('collectProjectFacts', () => {
     expect(snapshot.platform.configuredTargets).toContain('h5')
     expect(snapshot.capabilities.invocation.status).toBe('unsupported')
     expect(snapshot.capabilities.platform.status).toBe('degraded')
- expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath === 'src/pages/index/index.tsx')).toBe(true)
- expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath.startsWith('dist/'))).toBe(false)
+    expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath === 'src/pages/index/index.tsx')).toBe(true)
+    expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath.startsWith('dist/'))).toBe(false)
   }, 30_000)
 
   it('preserves relative placement for a local dependency outside the project', async () => {
@@ -78,6 +79,21 @@ describe('collectProjectFacts', () => {
       role: 'local-dependency',
       originalPath: fs.realpathSync(localDependencyRoot),
       relativePlacement: path.relative(fs.realpathSync(root), fs.realpathSync(localDependencyRoot)).replaceAll(path.sep, '/'),
+    }))
+  })
+
+  it.each(['file', 'link'] as const)('does not treat a local %s tarball as a workspace root', async protocol => {
+    const packagePath = path.join(root, 'package.json')
+    const tarballPath = path.join(root, 'local-plugin.tgz')
+    const manifest = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+    manifest.dependencies['@fixture/local-plugin'] = `${protocol}:./local-plugin.tgz`
+    fs.writeFileSync(packagePath, JSON.stringify(manifest))
+    fs.writeFileSync(tarballPath, 'fixture')
+
+    const snapshot = await collectProjectFacts({ root })
+
+    expect(snapshot.workspaceManifest.roots).not.toContainEqual(expect.objectContaining({
+      originalPath: tarballPath,
     }))
   })
 
@@ -103,7 +119,7 @@ describe('collectProjectFacts', () => {
         private: true,
         dependencies: { '@fixture/shared': 'workspace:*', '@tarojs/taro': '4.2.2' },
       }))
-      fs.writeFileSync(path.join(projectRoot, 'src', 'app.config.ts'), "export default { pages: [] }\n")
+      fs.writeFileSync(path.join(projectRoot, 'src', 'app.config.ts'), 'export default { pages: [] }\n')
       fs.writeFileSync(path.join(sharedRoot, 'package.json'), JSON.stringify({ name: '@fixture/shared' }))
       fs.writeFileSync(path.join(sharedRoot, 'index.ts'), 'export const shared = true\n')
       fs.writeFileSync(path.join(unusedRoot, 'package.json'), JSON.stringify({ name: '@fixture/unused' }))

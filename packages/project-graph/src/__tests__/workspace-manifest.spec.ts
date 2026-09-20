@@ -1,8 +1,10 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import type { IContentSink, IContentWriter, IWorkspaceContentEntry } from '../facts'
+
 import { collectWorkspaceManifest } from '../workspace-manifest'
+
+import type { IContentSink, IContentWriter, IWorkspaceContentEntry } from '../facts'
 
 describe('workspace manifest', () => {
   let root: string
@@ -43,24 +45,24 @@ describe('workspace manifest', () => {
     })
   })
 
- it('excludes dependency and git paths when they are symlinks', async () => {
- fs.rmSync(path.join(root, 'node_modules'), { recursive: true })
- fs.rmSync(path.join(root, '.git'), { recursive: true })
- fs.symlinkSync('src', path.join(root, 'node_modules'))
- fs.symlinkSync('src', path.join(root, '.git'))
+  it('excludes dependency and git paths when they are symlinks', async () => {
+    fs.rmSync(path.join(root, 'node_modules'), { recursive: true })
+    fs.rmSync(path.join(root, '.git'), { recursive: true })
+    fs.symlinkSync('src', path.join(root, 'node_modules'))
+    fs.symlinkSync('src', path.join(root, '.git'))
 
- const manifest = await collectWorkspaceManifest({
- roots: [{ rootId: 'project', role: 'project', originalPath: root }],
- })
+    const manifest = await collectWorkspaceManifest({
+      roots: [{ rootId: 'project', role: 'project', originalPath: root }],
+    })
 
- expect(manifest.entries.map(entry => entry.relativePath)).toEqual([
- 'package.json',
- 'src/entry.ts',
- 'src/index.ts',
- ])
- })
+    expect(manifest.entries.map(entry => entry.relativePath)).toEqual([
+      'package.json',
+      'src/entry.ts',
+      'src/index.ts',
+    ])
+  })
 
- it('streams the same captured bytes into the content sink', async () => {
+  it('streams the same captured bytes into the content sink', async () => {
     const blobs = new Map<string, Buffer[]>()
     const commits: Array<{ entry: Omit<IWorkspaceContentEntry, 'digest'>, digest: string, size: number }> = []
     const sink: IContentSink = {

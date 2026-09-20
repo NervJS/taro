@@ -1,4 +1,5 @@
 import path from 'node:path'
+
 import type { IProjectFactsSnapshot } from './facts'
 import type { IProjectGraph } from './schema'
 

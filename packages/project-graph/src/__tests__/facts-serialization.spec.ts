@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+
 import { collectProjectFacts } from '../collect-project-facts'
 import {
   parseProjectFacts,
@@ -30,9 +31,9 @@ describe('project facts serialization', () => {
     expect(restored).toEqual(snapshot)
   })
 
- it('rejects old schema versions without an explicit migration', async () => {
- const snapshot = await collectProjectFacts({ root })
- const legacy = { ...snapshot, schemaVersion: 0 }
+  it('rejects old schema versions without an explicit migration', async () => {
+    const snapshot = await collectProjectFacts({ root })
+    const legacy = { ...snapshot, schemaVersion: 0 }
 
     expect(() => parseProjectFacts(JSON.stringify(legacy))).toThrow('schemaVersion 0 has no migration to 1')
   })
@@ -42,9 +43,9 @@ describe('project facts serialization', () => {
     const future = { ...snapshot, schemaVersion: 2 }
 
     expect(() => parseProjectFacts(JSON.stringify(future))).toThrow('newer than supported version 1')
- })
+  })
 
- it('rejects unsafe manifest paths', async () => {
+  it('rejects unsafe manifest paths', async () => {
     const snapshot = await collectProjectFacts({ root })
     snapshot.workspaceManifest.entries[0].relativePath = '../outside'
 
