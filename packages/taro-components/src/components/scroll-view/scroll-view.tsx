@@ -52,6 +52,7 @@ export class ScrollView implements ComponentInterface {
   @Prop({ attribute: 'scroll-with-animation' }) animated = false
   @Prop() enhanced = false
   @Prop() showScrollbar = true
+  @Prop() stopTouchMovePropagation = true
 
   @Event({
     eventName: 'scroll',
@@ -124,7 +125,9 @@ export class ScrollView implements ComponentInterface {
   @Listen('touchmove')
   handleTouchMove (e: Event) {
     if (e instanceof CustomEvent) return
-    e.stopPropagation()
+    if (this.stopTouchMovePropagation) {
+      e.stopPropagation()
+    }
   }
 
   @Method()
@@ -153,10 +156,11 @@ export class ScrollView implements ComponentInterface {
   @Method()
   async mpScrollIntoViewMethod(selector: string) {
     if (typeof selector === 'string' && selector) {
+      // 未开启的滚动轴使用 nearest 避免原生 scrollIntoView 沿该轴滚动整页
       document.querySelector(`#${selector}`)?.scrollIntoView({
         behavior: this.animated ? 'smooth' : 'auto',
-        block: this.scrollY ? (this.mpScrollIntoViewAlignment || 'center') : 'center',
-        inline: this.scrollX ? (this.mpScrollIntoViewAlignment || 'start') : 'start'
+        block: this.scrollY ? (this.mpScrollIntoViewAlignment || 'center') : 'nearest',
+        inline: this.scrollX ? (this.mpScrollIntoViewAlignment || 'start') : 'nearest'
       })
     }
   }

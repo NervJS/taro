@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "4.2.1",
+  "version": "4.2.2-beta.5",
   "description": "",
   "author": "O2Team",
   "license": "MIT",
@@ -19,11 +19,14 @@
     "prebuild": "pnpm run clean",
     "build": "rollup -c",
     "clean": "rimraf ./dist",
-    "dev": "pnpm run build -w"
+    "dev": "pnpm run build -w",
+    "test": "jest",
+    "test:ci": "jest --ci --runInBand"
   },
   "keywords": [],
   "dependencies": {
     "@tarojs/components": "workspace:*",
+    "@tarojs/components-react": "workspace:*",
     "classnames": "^2.2.5",
     "csstype": "^3.1.1",
     "memoize-one": "^6.0.0",
