@@ -32,10 +32,10 @@ const _fetch = (requestPromise, timeout) => {
 
 const isAndroid = Platform.OS === 'android'
 
-const createFormData = (filePath, body, name) => {
+const createFormData = (filePath, body, name, fileName) => {
   const data = new FormData()
   const uri = isAndroid ? filePath : filePath.replace('file://', '')
-  const fileObj = { uri: uri, type: 'application/octet-stream', name: 'file' }
+  const fileObj = { uri: uri, type: 'application/octet-stream', name: fileName || filePath.split('/').pop() || 'file' }
 
   Object.keys(body).forEach(key => {
     data.append(key, body[key])
@@ -59,11 +59,11 @@ const createFormData = (filePath, body, name) => {
  * @return UploadTask - 一个可以监听上传进度进度变化的事件和取消上传的对象
  */
 function uploadFile (opts: Taro.uploadFile.Option): Promise<Taro.uploadFile.SuccessCallbackResult & Taro.UploadTask> {
-  const { url, timeout = 2000, filePath, name, header, formData = {}, success, fail, complete } = opts
+  const { url, timeout = 2000, filePath, name, header, formData = {}, fileName, success, fail, complete } = opts
 
   const execFetch = fetch(url, {
     method: 'POST',
-    body: createFormData(filePath, formData, name),
+    body: createFormData(filePath, formData, name, fileName),
     headers: header
   })
 
