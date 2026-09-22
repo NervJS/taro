@@ -243,8 +243,12 @@ function Map (props: MapProps) {
   // 修正：control 也是对象，必须 useMemo，否则 TMap 每次 render 反复 add/removeControl
   // setMapControl 机制：control 里"缺的 key"会被 removeControl，存在即保留（空配置 = 沿用腾讯默认位置，视觉与存量逐像素一致）
   const mergedControl = useMemo(() => {
-    const control: Record<string, { position?: string }> = {
-      zoom: {}, // Taro 无 zoom 控件开关，恒保留存量 H5 的 +/- 按钮
+    const control: Record<string, { position?: string }> = {}
+    // +/- 缩放按钮并入 enableZoom：未传/true 时保留存量 H5 的 +/-（零破坏）；
+    // 显式 false 时一并隐藏——按钮走 zoomIn/zoomOut 程序通道，不受 scrollable 等手势开关控制，
+    // 不隐藏会在 enableZoom={false} 下留出可缩放的漏洞
+    if (enableZoom !== false) {
+      control.zoom = {}
     }
     // showScale/showCompass 与 viewMode/enable3D/pitchable 同一原则：条件透传零破坏。
     // 未传或 true → 维持存量默认显示；仅显式 false 才从 control 中剔除（被 removeControl 隐藏）。
@@ -257,7 +261,7 @@ function Map (props: MapProps) {
       control.rotation = {}
     }
     return control
-  }, [showScale, showCompass])
+  }, [enableZoom, showScale, showCompass])
 
   /** ************************适配 options 参数********************** */
   const hasCenter = typeof latitude === 'number' && typeof longitude === 'number'
