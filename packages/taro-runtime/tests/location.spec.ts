@@ -197,6 +197,23 @@ describe('location', () => {
       expect(url.toString()).toBe('http://taro.com/?a=1&b=2&c=3&d=4')
     }
 
+    {
+      const url = new URL('https://example.test/?name=|aaa')
+      expect(url.search).toBe('?name=|aaa')
+      expect(url.toString()).toBe('https://example.test/?name=|aaa')
+      expect(url.searchParams.get('name')).toBe('|aaa')
+      expect(url.searchParams.toString()).toBe('name=%7Caaa')
+
+      url.searchParams.append('age', '18')
+      expect(url.toString()).toBe('https://example.test/?name=%7Caaa&age=18')
+    }
+
+    {
+      const url = new URL('https://example.test/?')
+      expect(url.search).toBe('')
+      expect(url.toString()).toBe('https://example.test/?')
+    }
+
     // setters
     {
       const url = new URL('http://taro.com')
@@ -213,13 +230,17 @@ describe('location', () => {
       expect(url.toString()).toBe('https://taro.com:8080/hello/world')
       url.search = '?a=1'
       expect(url.toString()).toBe('https://taro.com:8080/hello/world?a=1')
+      url.search = 'q=a#b'
+      expect(url.search).toBe('?q=a%23b')
+      expect(url.searchParams.get('q')).toBe('a#b')
+      expect(url.toString()).toBe('https://taro.com:8080/hello/world?q=a%23b')
       url.hash = '#b=2'
-      expect(url.toString()).toBe('https://taro.com:8080/hello/world?a=1#b=2')
+      expect(url.toString()).toBe('https://taro.com:8080/hello/world?q=a%23b#b=2')
 
       url.host = 'example.com:8081'
-      expect(url.toString()).toBe('https://example.com:8081/hello/world?a=1#b=2')
+      expect(url.toString()).toBe('https://example.com:8081/hello/world?q=a%23b#b=2')
       url.origin = 'http://taro.com:8080'
-      expect(url.toString()).toBe('http://taro.com:8080/hello/world?a=1#b=2')
+      expect(url.toString()).toBe('http://taro.com:8080/hello/world?q=a%23b#b=2')
       url.href = 'https://taro.com/user?name=hongxin#age=18'
       expect(url.toString()).toBe('https://taro.com/user?name=hongxin#age=18')
       expect(url.search).toBe('?name=hongxin')
