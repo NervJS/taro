@@ -1,5 +1,5 @@
 {
-  "name": "blend-taro-native-component",
+  "name": "subpackage-indie-example",
   "version": "1.0.0",
   "private": true,
   "description": "",
@@ -10,7 +10,8 @@
   },
   "scripts": {
     "build": "taro build --type weapp --new-blended",
-    "dev": "taro build --type weapp --new-blended --watch"
+    "dev": "taro build --type weapp --new-blended --watch",
+    "test": "node --test plugin-mv/index.test.cjs babel-config.test.cjs"
   },
   "browserslist": [
     "last 3 versions",
@@ -35,16 +36,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
-    "@tarojs/plugin-indie": "0.0.8",
     "@types/react": "^18",
-    "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "workspace:*",
     "eslint": "^8.12.0",
     "eslint-config-taro": "workspace:*",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "fs-extra": "^9.0.1",
-    "stylelint": "^14.4.0"
+    "fs-extra": "^9.0.1"
   }
 }

@@ -72,6 +72,7 @@
     "sax": "1.2.4",
     "style-loader": "^3.3.4",
     "stylus-loader": "^8.1.0",
+    "tapable": "^2.2.1",
     "terser-webpack-plugin": "^5.3.10",
     "vm2": "^3.9.19",
     "webpack-chain": "^6.5.1",

@@ -1,27 +1,31 @@
 const fs = require('fs-extra')
 const path = require('path')
 
-export default (ctx, options) => {
-  ctx.onBuildFinish(() => {
-    console.log('编译结束！')
+module.exports = (ctx) => {
+  ctx.onBuildFinish(({ error, stats } = {}) => {
+    const { platform, newBlended } = ctx.runOpts.options || {}
+    if (platform !== 'weapp' || !newBlended) return
+    if (error || !stats || stats.hasErrors()) return
 
-    const rootPath = path.resolve(__dirname, '../..')
-    const miniappPath = path.join(rootPath, 'miniapp')
-    const outputPath = path.resolve(__dirname, '../dist')
+    const outputPath = ctx.paths.outputPath
+    const orderPath = path.resolve(__dirname, '../../miniapp/pages/order')
+    const entries = ['pages/index/index', 'pages/sub1/index', 'pages/sub2/index']
+    const hasEntries = entries.every((entry) =>
+      ['.js', '.json', '.wxml'].every((extension) => fs.existsSync(path.join(outputPath, entry + extension)))
+    )
+    if (!hasEntries) return
 
-    // 1. 清理目标目录
-    const orderPath = path.join(miniappPath, 'pages/order')
-    if (fs.existsSync(orderPath)) {
-      fs.removeSync(orderPath)
-    }
-
-    // 2. 直接复制整个 pages/order 目录（不需要路径修正了！）
-    const srcOrderPath = path.join(outputPath, '')
-    if (fs.existsSync(srcOrderPath)) {
-      fs.copySync(srcOrderPath, orderPath)
-    }
-
-    console.log('orderPath, srcOrderPath :>> ', orderPath, srcOrderPath)
-    console.log('拷贝结束！')
+    fs.removeSync(orderPath)
+    fs.copySync(outputPath, orderPath, {
+      filter: (source) => {
+        const relative = path.relative(outputPath, source)
+        const filename = path.basename(source)
+        return relative !== 'app.json' &&
+          filename !== 'project.config.json' &&
+          filename !== 'project.private.config.json' &&
+          !filename.endsWith('.map')
+      },
+    })
+    console.log('微信混合开发产物已复制到 miniapp/pages/order')
   })
 }
