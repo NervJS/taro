@@ -117,7 +117,7 @@ export function connectReactPage (
       }
 
       static getDerivedStateFromError (error: Error) {
-        Current.app?.onError?.(error.message + error.stack)
+        Current.app?.onError?.(error.message + error.stack, error)
         return { hasError: true }
       }
 
