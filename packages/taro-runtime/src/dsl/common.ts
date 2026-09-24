@@ -417,6 +417,8 @@ export function createRecursiveComponentConfig (
   const extraOptions: { [key: string]: any } = {}
   if (process.env.TARO_ENV === 'jd') {
     extraOptions.addGlobalClass = true
+  } else if (['weapp', 'harmony-hybrid'].includes(process.env.TARO_ENV as unknown as string)) {
+    extraOptions.styleIsolation = 'apply-shared'
   }
 
   return hooks.call('modifyRecursiveComponentConfig',
