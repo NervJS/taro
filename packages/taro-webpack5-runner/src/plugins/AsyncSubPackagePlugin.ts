@@ -226,9 +226,6 @@ export default class AsyncSubPackagePlugin {
   updateAsyncRootMap (asyncRootMap: Map<string, string>) {
     this.asyncRootMap = new Map(asyncRootMap)
     this.asyncRuntimeRoots = Array.from(asyncRootMap.entries()).map(([sourceRoot, asyncRoot]) => ({ sourceRoot, asyncRoot }))
-    // asyncSubPackage 依赖 webpack 看到原生 import() 后生成异步 chunk。
-    // 这里通知 babel-preset-taro 不要再把 import() 提前转换成 require()。
-    ;(global as any).__taroAsyncSubPackageUseWebpackImport = true
   }
 
   updateAsyncRuntimeRoots (asyncRuntimeRoots: AsyncSubPackageRuntimeRoot[]) {
@@ -243,6 +240,7 @@ export default class AsyncSubPackagePlugin {
         this.asyncChunkRootCache = new WeakMap()
         this.asyncChunkSourceRoots = new Map()
       })
+      this.setupAsyncBabel(compiler)
       this.setupAsyncSplitChunks(compiler)
       this.setupAsyncChunkOptimization(compiler)
       this.setupAsyncChunkRuntime(compiler)
@@ -253,6 +251,29 @@ export default class AsyncSubPackagePlugin {
       this.miniHooksApplied = true
       this.setupSubPackageRegistration()
     }
+  }
+
+  private setupAsyncBabel (compiler: Compiler) {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (_compilation, { normalModuleFactory }) => {
+      normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, data => {
+        if (this.asyncRootMap.size === 0) return
+        const { loaders } = data.createData
+        if (!loaders) return
+
+        for (const [index, loader] of loaders.entries()) {
+          if (!/(^|[/\\])babel-loader([/\\]|$)/.test(loader.loader)) continue
+          const options = (loader.options || {}) as Record<string, any>
+          // 只为当前 compiler 传递 caller，不修改共享 loader 配置或用户 Babel 配置。
+          loaders[index] = {
+            ...loader,
+            options: {
+              ...options,
+              caller: { ...options.caller, taroAsyncSubPackage: true },
+            },
+          }
+        }
+      })
+    })
   }
 
   // ==================== Async SplitChunks ====================

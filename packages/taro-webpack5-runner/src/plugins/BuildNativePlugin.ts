@@ -48,7 +48,7 @@ export default class BuildNativePlugin extends MiniPlugin {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
 
-    const { frameworkExts, newBlended } = this.options
+    const { frameworkExts } = this.options
     this.prerenderPages = new Set()
 
     const componentPages = appPages.map<IComponent>(item => {
@@ -63,7 +63,7 @@ export default class BuildNativePlugin extends MiniPlugin {
 
     this.pages = new Set(componentPages)
 
-    if (newBlended) {
+    if (this.isWeappSubPackageIndieEnabled()) {
       componentPages.forEach(component => {
         this.nativeComponents.set(component.name, component)
       })
