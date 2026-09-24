@@ -7,6 +7,7 @@ import nativeSupportPlugin from './native-support'
 import pagePlugin from './page'
 import pipelinePlugin from './pipeline'
 import stylePlugin from './style'
+import tabbarPlugin from './tabbar'
 
 import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
@@ -17,6 +18,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     configPlugin(viteCompilerContext),
     entryPlugin(viteCompilerContext),
     pagePlugin(viteCompilerContext),
+    tabbarPlugin(viteCompilerContext),
     multiPlatformPlugin(viteCompilerContext),
     nativeSupportPlugin(viteCompilerContext),
     assetsPlugin(viteCompilerContext),
