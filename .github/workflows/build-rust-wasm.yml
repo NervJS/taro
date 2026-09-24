@@ -28,7 +28,7 @@ jobs:
       - name: Build
         run: cargo build-swc-plugins
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: wasm-wasi-swc_plugins
           path: target/wasm32-wasip1/release/*.wasm
