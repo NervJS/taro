@@ -99,7 +99,7 @@ interface InputProps extends StandardProps, FormItemProps {
   adjustPosition?: boolean
   /** focus 时，点击页面的时候不收起键盘
    * @default false
-   * @supported weapp, tt
+   * @supported weapp, swan, tt
    */
   holdKeyboard?: boolean
   /**

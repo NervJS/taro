@@ -61,6 +61,8 @@ export class TaroRootElement extends TaroElement {
 
   public ctx: null | MpInstance = null
 
+  public nearestCtxEpoch = 0
+
   public constructor () {
     super()
     this.nodeName = ROOT_STR
@@ -73,6 +75,10 @@ export class TaroRootElement extends TaroElement {
 
   public get _root (): TaroRootElement {
     return this
+  }
+
+  public bumpNearestCtxEpoch () {
+    this.nearestCtxEpoch++
   }
 
   public scheduleTask(fn: TFunc) {

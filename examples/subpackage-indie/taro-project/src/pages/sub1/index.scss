@@ -1,0 +1,48 @@
+.sub1-list {
+  background-color: #e8f4fd;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+
+  .sub1-image {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+
+  .list-header {
+    margin-bottom: 10px;
+
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1890ff;
+    }
+  }
+
+  .list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 4px;
+
+    .item-name {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .item-status {
+      font-size: 12px;
+      color: #666;
+    }
+  }
+}

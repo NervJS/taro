@@ -21,13 +21,31 @@ const mockGetSystemInfo = jest.fn(({ success, fail } = { success: undefined, fai
   }
 })
 
+// useResize 仅注册窗口变化回调，测试环境无需真实实现
+const mockUseResize = jest.fn()
+const mockCheckIsOpenAccessibility = jest.fn(() => Promise.resolve({ open: false }))
+// getSystemInfoSync 提供 app 版本 version（picker 无障碍门控据此判定）与安全区等信息
+const mockGetSystemInfoSync = jest.fn(() => ({
+  version: '99.0.0',
+  windowWidth: 375,
+  windowHeight: 667,
+  pixelRatio: 2,
+  lengthScaleRatio: 1,
+}))
+
 jest.mock('@tarojs/taro', () => {
   return {
     __esModule: true,
     default: {
       getSystemInfo: mockGetSystemInfo,
+      getSystemInfoSync: mockGetSystemInfoSync,
+      useResize: mockUseResize,
+      checkIsOpenAccessibility: mockCheckIsOpenAccessibility,
     },
     getSystemInfo: mockGetSystemInfo,
+    getSystemInfoSync: mockGetSystemInfoSync,
+    useResize: mockUseResize,
+    checkIsOpenAccessibility: mockCheckIsOpenAccessibility,
   }
 })
 
