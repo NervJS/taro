@@ -130,6 +130,7 @@ require("./runtime");
                 "send-message-img": _empty,
                 "app-parameter": _empty,
                 "show-message-card": _false,
+                "phone-number-no-quota-toast": _true,
                 "business-id": _empty,
                 bindGetUserInfo: _empty,
                 bindContact: _empty,
@@ -728,7 +729,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_14">
-  <button size="{{i.p18||'default'}}" type="{{i.p19}}" plain="{{xs.b(i.p12,!1)}}" disabled="{{i.p2}}" loading="{{xs.b(i.p9,!1)}}" form-type="{{i.p3}}" open-type="{{i.p11}}" hover-class="{{i.p4||'button-hover'}}" hover-stop-propagation="{{xs.b(i.p7,!1)}}" hover-start-time="{{xs.b(i.p5,20)}}" hover-stay-time="{{xs.b(i.p6,70)}}" name="{{i.p10}}" bindagreeprivacyauthorization="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" lang="{{i.p8||en}}" session-from="{{i.p16}}" send-message-title="{{i.p15}}" send-message-path="{{i.p14}}" send-message-img="{{i.p13}}" app-parameter="{{i.p0}}" show-message-card="{{xs.b(i.p17,false)}}" business-id="{{i.p1}}" bindgetuserinfo="eh" bindcontact="eh" bindgetphonenumber="eh" bindgetrealtimephonenumber="eh" bindchooseavatar="eh" binderror="eh" bindopensetting="eh" bindlaunchapp="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <button size="{{i.p19||'default'}}" type="{{i.p20}}" plain="{{xs.b(i.p13,!1)}}" disabled="{{i.p2}}" loading="{{xs.b(i.p9,!1)}}" form-type="{{i.p3}}" open-type="{{i.p11}}" hover-class="{{i.p4||'button-hover'}}" hover-stop-propagation="{{xs.b(i.p7,!1)}}" hover-start-time="{{xs.b(i.p5,20)}}" hover-stay-time="{{xs.b(i.p6,70)}}" name="{{i.p10}}" bindagreeprivacyauthorization="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" lang="{{i.p8||en}}" session-from="{{i.p17}}" send-message-title="{{i.p16}}" send-message-path="{{i.p15}}" send-message-img="{{i.p14}}" app-parameter="{{i.p0}}" show-message-card="{{xs.b(i.p18,false)}}" phone-number-no-quota-toast="{{xs.b(i.p12,true)}}" business-id="{{i.p1}}" bindgetuserinfo="eh" bindcontact="eh" bindgetphonenumber="eh" bindgetrealtimephonenumber="eh" bindchooseavatar="eh" binderror="eh" bindopensetting="eh" bindlaunchapp="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" wx:for="{{i.cn}}" wx:key="sid" />
   </button>
 </template>
