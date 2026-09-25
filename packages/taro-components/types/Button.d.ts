@@ -234,7 +234,7 @@ interface ButtonProps extends StandardProps {
   /** 获取服务动态授权码的回调
    *
    * 生效时机：`open-type="liveActivity"`
-   * @supported ascf
+   * @supported weapp, ascf
    */
   onCreateLiveActivity?: CommonEventFunction<ButtonProps.onCreateLiveActivityEventDetail>
   /**
