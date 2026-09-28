@@ -162,12 +162,37 @@ export default class TaroLoadChunksPlugin {
     })
   }
 
+  /**
+   * 判断模块是否为 @tarojs/components 的运行时形态。
+   *
+   * 背景：业务源码 `import { Button } from '@tarojs/components'` 被主构建的
+   * resolve.alias（`${taroJsComponents}$` → taroComponentsPath，如 weapp 平台的
+   * `@tarojs/plugin-platform-weapp/dist/components-react`，其内部再
+   * `export * from '@tarojs/components/mini'`）改写——落到 chunk 里的模块
+   * rawRequest 是 `@tarojs/components/mini`（或平台的转发路径），而非裸包名。
+   * 此前用 `rawRequest === taroJsComponents` 精确匹配永远失配 → usedExports
+   * 分析结果（页面真正用到的组件清单）从未合入 componentConfig.includes →
+   * base.wxml 模板缺组件（如 button 无 tmpl_*_14，页面 Button 静默不渲染）。
+   *
+   * 兼容三种形态：裸包名（taroJsComponents）、平台子入口（`@tarojs/components/mini`
+   * 等 `/` 子路径）、平台包转发入口（`@tarojs/plugin-platform-xxx/dist/components-react`，
+   * 经 taroComponentsPath alias 落进来）。排除 `@tarojs/components-xxx` 这类
+   * 独立包名（startsWith 前缀陷阱）。
+   */
+  isTaroComponentsModule (rawRequest: string | undefined): boolean {
+    if (!rawRequest) return false
+    if (rawRequest === taroJsComponents || rawRequest.startsWith(`${taroJsComponents}/`)) return true
+    // 平台转发入口：@tarojs/plugin-platform-*/dist/components-react（weapp）等由
+    // MiniCombination.getAlias 的 taroComponentsPath 指定，形式固定为 plugin-platform 包。
+    return /^@tarojs\/plugin-platform-[a-z-]+\/dist\/components(-react)?$/.test(rawRequest)
+  }
+
   collectComponents (compiler: Compiler, compilation: Compilation, chunk: Chunk) {
     const chunkGraph = compilation.chunkGraph
     const moduleGraph = compilation.moduleGraph
     const modulesIterable: Iterable<TaroNormalModule> = chunkGraph.getOrderedChunkModulesIterable(chunk, compiler.webpack.util.comparators.compareModulesByIdentifier) as any
     for (const module of modulesIterable) {
-      if (module.rawRequest === taroJsComponents) {
+      if (this.isTaroComponentsModule(module.rawRequest)) {
         this.isCompDepsFound = true
         const includes = componentConfig.includes
         const moduleUsedExports = moduleGraph.getUsedExports(module, chunk.runtime)
