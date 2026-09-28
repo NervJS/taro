@@ -37,6 +37,7 @@ taro build --type weapp --new-blended --shared-runtime --shared-runtime-mode spl
 | `sharedRuntimeAsyncRequest` | `string` | 异步核分包的加载路径。默认 `shared-async-v1/index`；业务包搬进原生宿主后通常需按实际布局覆盖。**详见下方「配置项详解」。** |
 | `sharedRuntimeExtraPackages` | `string[]` | 额外纳入共享的包名（随异步核加载）。用于把接入方自己的运行时插件（如私有 API 注入插件的 mini runtime）一起 external 到共享核。适合命令式 API 定义、异步初始化等**不参与首屏时序**的功能。多业务包共享同一份。 |
 | `sharedRuntimeSyncExtraPackages` | `string[]` | 与上一个平行，但随**同步核**加载（执行更早）。适合**必须在首屏之前就位**的副作用（如需在页面首屏渲染前注册好的监听器、写全局状态）。代价：每个业务包各打包一份，不共享。 |
+| `sharedRuntimeWebpackChain` | `(chain, webpack, data) => void` | 定制两个运行时核（同步核 / 异步核）各自的 webpack 子构建。**详见下方「定制运行时核子构建」。** |
 
 配置示例：
 
@@ -75,6 +76,39 @@ export default {
 | 同步核在宿主 `components/` 下、异步核在 `pages/` 下（native-components 场景） | `components/<xxx>/taro-shared-sync.js` | `pages/shared-async-v1/` | `../../pages/shared-async-v1/index` |
 
 **配错的症状**：路径不对时，同步核 `require.async` 找不到异步核分包，运行时核加载失败，页面白屏或运行时报错（如找不到 `@tarojs/runtime`）。改对相对路径 + 确认宿主 `app.json` 已注册 `shared-async-v1` 分包即可。
+
+### 配置项详解：`sharedRuntimeWebpackChain`（定制运行时核子构建）
+
+**背景**：两个运行时核（同步核 `taro-shared-sync.js` / 异步核 `shared-async-v1/async-provider.js`）是**两份独立的 webpack 子构建**，与主构建互不共享配置——项目根 `config` 里配的 `webpackChain`、`modifyWebpackChain` 只作用于主构建，**改不到这两核**。
+
+**默认行为**（无需配置即已生效）：
+
+- **ES5 转译**：两核内置 babel-loader，把打进产物的 `@tarojs/*`、react 全家桶、`sharedRuntime(Sync)ExtraPackages`、平台插件 runtime 与运行时模板全部降为 ES5。转译配置**复用业务项目根的 `babel.config.js`**（即 babel-preset-taro，与主构建给业务代码用的同一套 targets，默认 ios 9 / android 5），保证两核与业务包语法基线一致——宿主开发者工具常配 `"es6": false`，ES6+ 产物在低版本基础库真机会语法报错。
+- `regenerator-runtime` alias 钉死到 Taro runner 自带的那份（与主构建同源），不随业务项目依赖布局漂移。
+
+**什么时候需要配**：`sharedRuntime(Sync)ExtraPackages` 引入的私有 runtime 需要 loader / resolve 级定制时——例如它含 TypeScript 或私有语法需要额外 loader、需要特殊 alias、需要在核内追加 plugin。
+
+**签名**（同步核、异步核**各调用一次**，用 `data.name` 区分当前是哪个核）：
+
+```ts
+// config/index.ts
+export default {
+  mini: {
+    sharedRuntimeExtraPackages: ['@your-scope/your-plugin/runtime-mini'],
+    sharedRuntimeWebpackChain (chain, webpack, data) {
+      // data.name === 'taro-shared-sync'（同步核）或 'async-provider'（异步核）
+      if (data.name === 'async-provider') {
+        chain.resolve.alias.set('@your-scope/your-plugin', '/abs/path/to/your-plugin')
+      }
+    },
+  },
+}
+```
+
+`data` 的完整字段见类型定义 `ISharedRuntimeChainData`（`@tarojs/taro` 类型包）。chain 是标准 [webpack-chain](https://github.com/neutrinojs/webpack-chain) `Config` 实例，与主构建 `webpackChain` 收到的同构，用法一致。钩子在两核内置配置（含 externals）装配完之后调用，最后写的赢——你在钩子里对 externals / loader / plugin 的覆盖与追加都会生效。
+
+**注意**：不要移除内置的 `script` 规则（babel-loader）——它承担两核的 ES5 转译；微调（追加 loader、改 resolve）叠加即可。
+
 
 ## 四、产物结构与宿主接线
 

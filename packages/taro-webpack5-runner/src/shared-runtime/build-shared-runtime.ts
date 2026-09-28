@@ -1,7 +1,8 @@
 import * as path from 'node:path'
 
-import { fs } from '@tarojs/helper'
+import { fs, REG_SCRIPTS } from '@tarojs/helper'
 import webpack from 'webpack'
+import Chain from 'webpack-chain'
 
 import { RUNTIME_GLOBAL_VERSION, SHARED_ASYNC_PROVIDER_NAME, SHARED_ASYNC_ROOT, SHARED_GLOBAL_ASYNC, SHARED_SYNC_CORE_NAME } from './constants'
 import { computeMissingRuntimes, SYNC_REACT_MEMBERS } from './externals'
@@ -16,6 +17,12 @@ import type { MiniCombination } from '../webpack/MiniCombination'
  * 为何独立 webpack 而非 child compiler：主构建 externals 把 @tarojs/*+react 外置了，
  * 而这些 bundle 要把它们真正打进产物，依赖集正相反。独立 compiler 自带反向 external。
  * 依赖解析：react/@tarojs/* 从用户项目 node_modules 解析（resolve.modules 指向 appPath）。
+ *
+ * 产物语法（ES5）：本子构建内置 babel-loader 转译规则（见 buildSharedRuntime 内注释），
+ * 保证打进两核的 @tarojs/*（tsc 产物为 ES2015/2017，含 class/let/模板串）、extraPackages
+ * 与运行时模板全部降为 ES5——与主构建对业务代码的转译基线一致（宿主宿主侧开发者工具
+ * 常配 "es6": false，ES6+ 产物在低版本基础库真机会语法报错）。同步核/异步核各有一个
+ * webpack-chain，接入方可经 config.mini.sharedRuntimeWebpackChain 对各自定义微调。
  */
 export async function buildSharedRuntime (combination: MiniCombination): Promise<void> {
   const { appPath, outputDir } = combination
@@ -67,37 +74,135 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
     return extras.length ? [...extras, core] : core
   }
 
-  const base = (name: string, entry: string, emitTo: string, extras: string[]) => ({
-    name,
-    mode: 'production' as const,
-    target: ['web', 'es5'] as any,
-    entry: buildEntry(entry, extras),
-    output: {
-      path: path.join(outputDir, emitTo),
-      filename: `${name}.js`,
-      globalObject,
-      iife: true,
-    },
-    optimization: { minimize: true, splitChunks: false as const, runtimeChunk: false as const },
-    plugins: [
-      new webpack.DefinePlugin(defineConstants),
-      new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
-    ],
-    resolve: { modules: [userNodeModules, 'node_modules'] },
-  })
+  /**
+   * 子构建的 babel-loader 转译选项——复用业务项目的 babel 配置（与主构建给业务代码用的
+   * 同一套 preset/targets，默认 ios 9 / android 5），保证两核与业务包语法基线一致：
+   *   - cwd/root 指向用户项目（appPath）：babel 从业务项目找 babel.config.js / babel-preset-taro
+   *     （node_modules 靠 resolve.modules 的 appPath 定位）。
+   *   - babelrc: false + 显式 configFile 查找：两核的输入含 node_modules 里的运行时包，
+   *     .babelrc 是 legacy 的**就近生效**文件——node_modules 深处或业务目录里残留的 .babelrc
+   *     会意外改变两核转译行为，显式关掉，只认项目根的 babel.config.js 系列。
+   *     （这是有意与主构建不同的偏离：主构建的 babel-loader 未关 babelrc，但业务源码都在
+   *     项目内、离残留 .babelrc 距离可控；两核输入面更广，收紧更稳。）
+   *   - 未找到 configFile 时 babel 落回 root=appPath 的默认查找（含 babel.config.json），
+   *     与无 babel 配置项目的主构建行为一致，不引入新分歧。
+   *   - 不开 cacheDirectory：与主构建 script rule 保持一致（主构建未开），且 babel-loader 8.2.1
+   *     的缓存哈希在 Node 17+（OpenSSL 3）下有 md4 报错风险，避免给两核引入环境相关的坑。
+   */
+  const getBabelLoaderOptions = () => {
+    const findConfigFile = (basename: string) => {
+      const file = path.join(appPath, basename)
+      return fs.existsSync(file) ? file : undefined
+    }
+    return {
+      cwd: appPath,
+      root: appPath,
+      // .babelrc 是 legacy 就近生效文件，业务目录下残留会意外改变两核的转译行为；显式关掉。
+      babelrc: false,
+      // babel.config.js / .babelrc.js / .cjs 均可（与 babel 默认查找一致），找到哪个用哪个。
+      configFile: findConfigFile('babel.config.js') || findConfigFile('babel.config.cjs') || findConfigFile('babel.config.mjs') || findConfigFile('.babelrc.js'),
+      compact: false,
+    }
+  }
+
+  /**
+   * 同步核/异步核共用的 webpack-chain 骨架。
+   *
+   * 为什么改用 webpack-chain 而非继续拼裸 config：接入方此前对这两个子构建**没有任何定制入口**
+   * （主构建的 webpackChain/modifyWebpackChain 只作用于主 chain），extraPackages 带来的私有
+   * runtime 需要 loader/resolve 级定制（如私有语法插件）时无从下手。现在两核各有 chain，
+   * 接入方经 config.mini.sharedRuntimeWebpackChain 拿到 (chain, webpack, data) 可自由微调，
+   * 与主构建 webpackChain 的签名约定一致（data 携带核心信息，见 ISharedRuntimeChainData）。
+   *
+   * 内置规则只有一条：script 全量过 babel-loader（无 include 限制——两核的输入全是被主构建
+   * external 掉的运行时包，主构建从不转译它们，这里必须兜底转全量），产出 ES5。
+   * regenerator-runtime alias 与主构建 MiniBaseConfig 同源：值都解析到 runner 自带的那份
+   * regenerator-runtime@0.11（require.resolve 不带 paths，从 runner 自身 node_modules 解析，
+   * 不依赖业务项目依赖布局）；不设 alias 时它反而可能经 resolve.modules（userNodeModules
+   * 在前）解析到业务项目的另一份，alias 把这个不确定性钉死。
+   */
+  const base = (name: string, entry: string, emitTo: string, extras: string[]) => {
+    const chain = new Chain()
+    chain.merge({
+      name,
+      mode: 'production',
+      target: ['web', 'es5'] as any,
+      entry: { [name]: buildEntry(entry, extras) },
+      output: {
+        path: path.join(outputDir, emitTo),
+        filename: `${name}.js`,
+        globalObject,
+        iife: true,
+      },
+      optimization: { minimize: true, splitChunks: false as const, runtimeChunk: false as const },
+      resolve: {
+        modules: [userNodeModules, 'node_modules'],
+        alias: {
+          // 与主构建 MiniBaseConfig 同源（require.resolve 不带 paths，从 runner 自身 node_modules
+          // 解析 regenerator-runtime@0.11，不依赖业务项目依赖布局）
+          'regenerator-runtime': require.resolve('regenerator-runtime'),
+        },
+      },
+      module: {
+        rule: {
+          script: {
+            test: REG_SCRIPTS,
+            use: {
+              babelLoader: {
+                loader: require.resolve('babel-loader'),
+                options: getBabelLoaderOptions(),
+              },
+            },
+          },
+        },
+      },
+      plugin: {
+        define: { plugin: webpack.DefinePlugin, args: [defineConstants] },
+        limitChunkCount: { plugin: webpack.optimize.LimitChunkCountPlugin, args: [{ maxChunks: 1 }] },
+      },
+    })
+
+    // 内置 externals：先把骨架的 externals/externalsType 装配完，再调接入方钩子——
+    // 与主构建同构（主构建在 process() 写完 externals 后才在 post() 里跑 webpackChain，
+    // 钩子因此可以覆盖/追加 externals）。若钩子先跑，此处 externals() 会用 deepmerge
+    // 合并甚至盖掉钩子写入的条目，接入方定制被静默丢弃。
+    // webpack-chain v6 未内置 externalsType 快捷键（extend 列表里没有），直接 set 写 store。
+    if (name === SHARED_SYNC_CORE_NAME) {
+      // require.async(shared-async-v1/index) 由 externalsType='promise' 编译得到。
+      (chain as any).set('externalsType', 'promise')
+      chain.externals({ [asyncRequest]: `require.async(${JSON.stringify(asyncRequest)})` })
+    } else {
+      // async-provider：凡同步核已提供的包都读共享运行时全局，不打副本，避免双实例。
+      chain.externals(reverseExternals(globalObject))
+    }
+
+    // 接入方钩子：对两核的 chain 做最终定制（签名与主构建 webpackChain 同构）。
+    // 在内置装配之后调用——最后写的赢，接入方可覆盖/追加 externals、loader、plugin 等。
+    if (typeof config.sharedRuntimeWebpackChain === 'function') {
+      config.sharedRuntimeWebpackChain(chain, webpack, {
+        name,
+        emitTo,
+        asyncRequest,
+        extraPackages,
+        syncExtraPackages,
+        missingRuntimes,
+        appPath,
+        outputDir,
+        globalObject,
+      })
+    }
+
+    return chain
+  }
 
   // sync-core：放 outputDir 根。SyncExtraPackages 走同步核入口（时机敏感副作用）。
   // missingRuntimes 前置：它们是平台级 side-effect runtime，tap 幂等无顺序依赖，前置更符合语义。
-  // require.async(shared-async-v1/index) 由 externalsType='promise' 编译得到。
-  const syncCoreConfig: any = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '', [...missingRuntimes, ...syncExtraPackages])
-  syncCoreConfig.externalsType = 'promise'
-  syncCoreConfig.externals = { [asyncRequest]: `require.async(${JSON.stringify(asyncRequest)})` }
+  const syncCoreChain = base(SHARED_SYNC_CORE_NAME, 'entry.sync.js', '', [...missingRuntimes, ...syncExtraPackages])
 
   // async-provider：放 shared-async-v1/。extraPackages（异步）以数组多入口在核心 entry 前先执行副作用。
-  const asyncConfig: any = base(SHARED_ASYNC_PROVIDER_NAME, 'async-provider.js', SHARED_ASYNC_ROOT, extraPackages)
-  asyncConfig.externals = reverseExternals(globalObject)
+  const asyncChain = base(SHARED_ASYNC_PROVIDER_NAME, 'async-provider.js', SHARED_ASYNC_ROOT, extraPackages)
 
-  await runWebpack([syncCoreConfig, asyncConfig])
+  await runWebpack([syncCoreChain.toConfig(), asyncChain.toConfig()])
 
   // subPackageIndie 自包含：把刚产出的同步核 taro-shared-sync.js 拷进每个 mainPackageRoot。
   // subPackageIndie 会把 app.js 等 runtime chunks 搬进 mainPackageRoot，app.js 头部的
