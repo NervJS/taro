@@ -367,6 +367,32 @@ describe('webpack5 微信分包混合能力平台隔离', () => {
     expect(assetNames).toContain('pages/index/app.wxss')
     expect(assetNames).not.toContain('app.js')
   })
+
+  test.each([
+    ['普通微信构建', false],
+    ['微信 newBlended', true],
+  ])('%s 页面配置 forceCustomWrapper 时 comp 组件保持实例绑定', async (_name, newBlended) => {
+    const program = new Weapp({ helper } as any, {})
+    const { stats } = await compile('common-style', {
+      platformType: 'mini',
+      buildAdapter: 'weapp',
+      globalObject: program.globalObject,
+      fileType: program.fileType,
+      template: program.template,
+      runtimePath: program.runtimePath,
+      newBlended,
+    })
+    expect(stats.hasErrors()).toBe(false)
+    // forceCustomWrapper 是已有页面级能力，不随分包混合模式开关：
+    // comp 模板消费 TARO_FORCE_CUSTOM_WRAPPER，产物中递归组件配置应收到 true
+    // （createRecursiveComponentConfig 经 alias 后为 mock runtime 的压缩导出名，如 s$）
+    const outputFs = stats.compilation.compiler.outputFileSystem
+    const assetNames = (stats.toJson().assets || []).map(asset => asset.name)
+    const compAssetName = assetNames.find(name => /(^|\/)comp\.js$/.test(name))
+    expect(compAssetName).toBeDefined()
+    const compSource = outputFs.readFileSync(`dist/${compAssetName}`).toString()
+    expect(compSource).toMatch(/\(undefined,\s*true\)/)
+  })
 })
 
 

@@ -48,7 +48,7 @@ export default class BuildNativePlugin extends MiniPlugin {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
 
-    const { frameworkExts } = this.options
+    const { frameworkExts, newBlended } = this.options
     this.prerenderPages = new Set()
 
     const componentPages = appPages.map<IComponent>(item => {
@@ -63,7 +63,9 @@ export default class BuildNativePlugin extends MiniPlugin {
 
     this.pages = new Set(componentPages)
 
-    if (this.isWeappSubPackageIndieEnabled()) {
+    // newBlended 与平台无关：native-components 构建在所有端都需要登记本地化组件，
+    // 平台隔离只应限制微信分包混合（SubPackageIndiePlugin）的注册，见 applySubPackageIndiePlugin。
+    if (newBlended) {
       componentPages.forEach(component => {
         this.nativeComponents.set(component.name, component)
       })

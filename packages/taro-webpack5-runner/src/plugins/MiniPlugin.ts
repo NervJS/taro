@@ -257,9 +257,9 @@ export default class TaroMiniPlugin {
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
         await this.run(compiler)
-        if (this.isWeappSubPackageIndieEnabled()) {
-          this.applyForceCustomWrapperDefine(compiler)
-        }
+        // forceCustomWrapper 是已有的页面级能力（非递归模板平台），与微信分包混合模式无关，
+        // 不能被 isWeappSubPackageIndieEnabled 门控；内部已有 isSupportRecursive 守卫。
+        this.applyForceCustomWrapperDefine(compiler)
         this.applyAsyncSubPackagePlugin(compiler)
         new TaroLoadChunksPlugin({
           commonChunks: commonChunks,
@@ -281,9 +281,8 @@ export default class TaroMiniPlugin {
           this.isWatch = true
         }
         await this.run(compiler)
-        if (this.isWeappSubPackageIndieEnabled()) {
-          this.applyForceCustomWrapperDefine(compiler)
-        }
+        // 同上：forceCustomWrapper 与微信分包混合模式无关。
+        this.applyForceCustomWrapperDefine(compiler)
         this.applyAsyncSubPackagePlugin(compiler)
         if (!this.loadChunksPlugin) {
           this.loadChunksPlugin = new TaroLoadChunksPlugin({
