@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process'
+import * as path from 'node:path'
 
 import * as helper from '@tarojs/helper'
 import { Alipay } from '@tarojs/plugin-platform-alipay'
@@ -151,7 +152,8 @@ describe('webpack5 微信分包混合能力平台隔离', () => {
     const plugin = Object.create(MiniPlugin.prototype) as MiniPlugin
     plugin.options = { newBlended: true } as any
 
-    expect(plugin.getCompTemplatePath()).toMatch(/template\/comp$/)
+    const compTemplatePath = plugin.getCompTemplatePath().replace(/\\/g, '/')
+    expect(compTemplatePath).toMatch(/template\/comp$/)
   })
 
   test('tt 静默忽略 subPackageIndie 配置', () => {
@@ -273,7 +275,7 @@ describe('webpack5 微信分包混合能力平台隔离', () => {
 
     expect(commonStyle).toBeDefined()
     expect(appStyle).toBeDefined()
-    expect(output).toContain('/** filePath: dist/app.ttss **/')
+    expect(output.replace(/\\/g, '/')).toContain('/** filePath: dist/app.ttss **/')
     expect(output).toContain('@import "./common.ttss";')
   })
 
@@ -301,9 +303,9 @@ describe('webpack5 微信分包混合能力平台隔离', () => {
     const styleExt = program.fileType.style
     expect(stats.compilation.getAsset(`common${styleExt}`)).toBeDefined()
     const outputFs = stats.compilation.compiler.outputFileSystem
-    const outputPath = stats.compilation.outputOptions.path
-    expect(outputFs.readFileSync(`${outputPath}/app${styleExt}`).toString()).toContain(`@import "./common${styleExt}";`)
-    const appConfig = JSON.parse(outputFs.readFileSync(`${outputPath}/app.json`).toString())
+    const appStyle = outputFs.readFileSync(path.join('dist', `app${styleExt}`)).toString()
+    expect(appStyle).toContain(`@import "./common${styleExt}";`)
+    const appConfig = JSON.parse(outputFs.readFileSync(path.join('dist', 'app.json')).toString())
     expect(appConfig.subPackageIndie).toBeUndefined()
     expect(appConfig.forceCustomWrapper).toBeUndefined()
     expect(stats.compilation.getAsset('pages/index/app.js')).toBeUndefined()
