@@ -185,9 +185,31 @@ native-components 包**没有 app.js**,从不调 `createReactApp`。因此:
 
 **注意**:`SYNC_CORE_REGISTERED_RUNTIMES`(`constants.ts`)必须与 `entry.sync.js` 实际 `require` 的平台/运行时清单保持一致——它是 `computeMissingRuntimes` 做差集的依据,漂移会导致"已注册的被重复打包"或"未注册的仍漏掉"。有一致性守护单测(`tests/react-members-consistency.spec.ts`)防漂移。当前仅列了 weapp 平台 runtime,故非 weapp 平台的平台 runtime 会被误纳入 missing——但共享运行时本就仅 weapp 真机验证(见下"不适用/已知边界"),不构成新增边界。
 
+### button 等组件模板缺失(已修复:collectComponents 匹配放宽)
+
+**现象(修复前)**:业务页面里 `<Button>` 编译后**不渲染**(静默空白),IDE 报 `Template tmpl_0_14 not found`;native-components 分包同理。
+
+**根因**:mini 端组件收集器 `TaroLoadChunksPlugin.collectComponents` 用 `module.rawRequest === '@tarojs/components'` 精确匹配组件模块——但主构建的 resolve.alias(`${taroJsComponents}$` → taroComponentsPath,如 weapp 平台 `@tarojs/plugin-platform-weapp/dist/components-react`,内部再 `export * from '@tarojs/components/mini'`)把业务源码的 `import { Button } from '@tarojs/components'` 改写为 `@tarojs/components/mini`,**精确匹配永远失配** → usedExports 分析结果(页面真正用到的组件清单)从未合入 `componentConfig.includes` → `buildTemplate` 生成的 base.wxml 缺组件模板(只有默认 0-9,66),渲染时 wxs 拼出 `tmpl_0_14` 不存在 → WXML 静默渲染为空。vanilla subPackageIndie 不受影响是因为它配置了 subPackageIndie,走 SubPackageIndiePlugin 的 scoped 收集(消费 parser 层 usedComponentRefs,不依赖此匹配)。
+
+**修复**:`collectComponents` 的匹配放宽为 `isTaroComponentsModule`——兼容裸包名、`@tarojs/components/<子路径>`、平台转发入口(`@tarojs/plugin-platform-*/dist/components-react`)三种形态(排除 `@tarojs/components-xxx` 独立包名的前缀陷阱)。修复后 `tmpl_0_14` 正常生成,与 vanilla 形态一致。
+
+**实机验证(微信开发者工具 + miniprogram-automator)**:`<Button>` 渲染(47×46px 原生样式)、文本 +1、`element.tap()` 真实点击 → React `count: 0→1→2` 全链路工作,样式(字号分级/padding/flex)不受影响。
+
+**遗留(独立问题,与本修复无关)**:native-components 分包经 componentPlaceholder 挂到宿主页时仍不渲染——模板报错已消失但组件未创建,深挖发现是**微信开发者工具对 app.json/页面注册表变更不重编译**(close→open 才生效)的验证干扰 + 该模式待查的独立问题;devtools 下页面 js 加载失败会静默 pop 页面栈(无任何 console/error),排查成本高。后续如需彻底验证 native-comp 模式,建议按"改一次产物 close→open 一次"的节奏逐项验证。
+
 ### dev/watch 模式重复构建共享运行时子核
 
-`buildSharedRuntime()` 挂在构建完成回调上,`--watch` 模式下**每次增量重编译都会重跑一遍完整生产模式子构建**(sync-core + async-provider 两个独立 webpack config)。不影响正确性(产物一致),但拖慢 watch 循环。当前无"输入未变则跳过"缓存判断——归为已知性能边界,开发期可接受。
+`buildSharedRuntime()` 挂在构建完成回调上,`--watch` 模式下**每次增量重编译都会重跑一遍完整生产模式子构建**(sync-core + async-provider 两个独立 webpack config)。不影响正确性(产物一致),但拖慢 watch 循环。当前无"输入未变则跳过"缓存判断——归为已知性能边界,开发期可接受。子构建不开 babel cacheDirectory(与主构建 script rule 对齐,且 babel-loader 8.2.1 的缓存 md4 哈希在 Node 17+ 有环境坑),watch 重跑的转译开销与主构建同级。
+
+### 运行时核子构建的 ES5 转译与 webpack-chain 定制
+
+两核(sync-core / async-provider)是**独立 webpack 子构建**,此前存在两个问题,均已修复:
+
+1. **产物是 ES6+**:子构建没配任何 babel-loader,`target: ['web','es5']` 只管 webpack 自身 runtime 代码、不转译模块源码。而打进两核的 `@tarojs/*` 是 tsc 产物(target ES2015/ES2017,含 class/let/模板串),主构建里它们靠 script rule 的 babel-loader(业务项目 babel.config.js → babel-preset-taro,默认 targets ios 9/android 5)降为 ES5,子构建却原样打进产物 → 宿主开发者工具常配 `"es6": false`,低版本基础库真机会语法报错。
+   **修复**:两核的 chain 内置 `script` 规则(全量过 babel-loader,无 include 限制——两核输入全是被主构建 external 掉的运行时包,主构建从不转译它们),babel 的 `cwd`/`root`/`configFile` 钉到**业务项目根**,复用业务 `babel.config.js`(与主构建同一套 preset/targets),保证两核与业务包语法基线一致;`regenerator-runtime` alias 与主构建 MiniBaseConfig 同源。
+
+2. **无定制入口**:主构建的 `webpackChain`/`modifyWebpackChain` 只作用于主 chain,接入方对两核无从定制——`sharedRuntime(Sync)ExtraPackages` 引入的私有 runtime 需要 loader/resolve 级定制(如私有语法插件)时无路可走。
+   **修复**:两核改用 webpack-chain 构造,新增 `config.mini.sharedRuntimeWebpackChain` 钩子(签名与主构建 webpackChain 同构:`(chain, webpack, data)`),同步核、异步核**各调用一次**,`data.name`(`'taro-shared-sync'`/`'async-provider'`)区分。接入方不要移除内置 script 规则(承担 ES5 转译),叠加式微调即可。
 
 ### 分包体积预算无构建期检查
 
