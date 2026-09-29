@@ -1,0 +1,4 @@
+<view class='container'>
+  <text class='title'>原生页宿主 —— 嵌入 native-component</text>
+  <shared-counter props="{{ {initial: 100} }}" />
+</view>
