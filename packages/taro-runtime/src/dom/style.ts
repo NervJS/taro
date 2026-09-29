@@ -169,7 +169,7 @@ export class Style {
   }
 
   public removeProperty (propertyName: string): string {
-    propertyName = toCamelCase(propertyName)
+    propertyName = isCssVariable(propertyName) ? propertyName : toCamelCase(propertyName)
     if (!this._usedStyleProp.has(propertyName)) {
       return ''
     }
@@ -180,7 +180,7 @@ export class Style {
   }
 
   public getPropertyValue (propertyName: string) {
-    propertyName = toCamelCase(propertyName)
+    propertyName = isCssVariable(propertyName) ? propertyName : toCamelCase(propertyName)
     const value = this[propertyName]
     if (!value) {
       return ''

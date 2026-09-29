@@ -40,4 +40,16 @@ describe('style', () => {
     expect(style.fontWeight).toBe('bold')
     expect(style.color).toBe('red')
   })
+
+  test('css variables', () => {
+    const root = document.createElement('root')
+    const style = new Style(root)
+    style.setProperty('--main-color', 'red')
+    expect(style.getPropertyValue('--main-color')).toBe('red')
+    expect(style.removeProperty('--main-color')).toBe('red')
+    expect(style.cssText).toBe('')
+    style.setProperty('--main-color', 'blue')
+    style.cssText = 'color: red;'
+    expect(style.cssText).toBe('color: red;')
+  })
 })
