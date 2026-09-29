@@ -13,6 +13,11 @@ interface ScrollViewProps extends StandardProps {
    * @rn 二选一
    */
   scrollY?: boolean
+  /** 是否阻止 touchmove 事件冒泡
+   * @supported h5
+   * @default true
+   */
+  stopTouchMovePropagation?: boolean
   /** 距顶部/左边多远时（单位px），触发 scrolltoupper 事件
    * @default 50
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid, ascf

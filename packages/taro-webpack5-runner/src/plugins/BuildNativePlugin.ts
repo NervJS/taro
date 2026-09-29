@@ -48,20 +48,28 @@ export default class BuildNativePlugin extends MiniPlugin {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
     }
 
-    const { frameworkExts } = this.options
+    const { frameworkExts, newBlended } = this.options
     this.prerenderPages = new Set()
 
-    this.pages = new Set([
-      ...appPages.map<IComponent>(item => {
-        const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
+    const componentPages = appPages.map<IComponent>(item => {
+      const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
 
-        return {
-          name: item,
-          path: pagePath,
-          isNative: false
-        }
+      return {
+        name: item,
+        path: pagePath,
+        isNative: false
+      }
+    })
+
+    this.pages = new Set(componentPages)
+
+    // newBlended 与平台无关：native-components 构建在所有端都需要登记本地化组件，
+    // 平台隔离只应限制微信分包混合（SubPackageIndiePlugin）的注册，见 applySubPackageIndiePlugin。
+    if (newBlended) {
+      componentPages.forEach(component => {
+        this.nativeComponents.set(component.name, component)
       })
-    ])
+    }
   }
 
   // entry 删除 app.js

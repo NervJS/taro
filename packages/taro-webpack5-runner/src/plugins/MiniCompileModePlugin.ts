@@ -30,6 +30,8 @@ import path from 'node:path'
 import { normalizePath } from '@tarojs/helper'
 import webpack, { type Compiler, Dependency, Module, } from 'webpack'
 
+import { isWeappSubPackageIndieEnabled } from '../utils/platform'
+
 import type { MiniCombination } from '../webpack/MiniCombination'
 
 const PLUGIN_NAME = 'taro-compile-mode-plugin'
@@ -283,17 +285,28 @@ export default class MiniCompileModePlugin {
           const baseTemplName = `base${fileType.templ}`
           const raw = assets[baseTemplName]
           const { ConcatSource } = compiler.webpack.sources
-          const source = new ConcatSource(raw)
+          const isWeappSubPackageIndie = isWeappSubPackageIndieEnabled(
+            process.env.TARO_ENV,
+            combination.config.newBlended || false
+          )
+          const source = new ConcatSource(isWeappSubPackageIndie ? raw ?? '' : raw)
+          const rawBaseTemplate = typeof raw?.source === 'function' ? raw.source().toString() : ''
+          const shouldUseScopedBaseTemplates = isWeappSubPackageIndie && rawBaseTemplate.trim().length === 0
+          const hasCachedTemplates = templatesCache.length > 0
 
-          if (templatesCache.length) {
+          if (hasCachedTemplates) {
             let cur
             while ((cur = templatesCache.shift()) !== undefined) {
               source.add('\n')
               source.add(cur)
             }
-          } else {
-            Object.keys(assets)
-              .filter(key => (new RegExp(`-templates${fileType.templ}$`)).test(key))
+          }
+
+          const compileTemplateAssets = Object.keys(assets)
+            .filter(key => (new RegExp(`-templates${fileType.templ}$`)).test(key))
+
+          if (!shouldUseScopedBaseTemplates && (isWeappSubPackageIndie || !hasCachedTemplates)) {
+            compileTemplateAssets
               .map(key => {
                 const source = new ConcatSource()
                 source.add(`<import src="${normalizePath(path.relative(path.dirname(key), `./${baseTemplName}`))}"/>\n`)
@@ -309,6 +322,50 @@ export default class MiniCompileModePlugin {
                 pre.add(`\n<import src="${cur}"/>`)
                 return pre
               }, source)
+          } else if (shouldUseScopedBaseTemplates) {
+            const scopedBaseSourceMap = new Map<string, InstanceType<typeof ConcatSource>>()
+
+            const getScopedBaseSource = (baseAssetName: string) => {
+              let baseSource = scopedBaseSourceMap.get(baseAssetName)
+              if (!baseSource) {
+                baseSource = baseAssetName === baseTemplName
+                  ? source
+                  : new ConcatSource(assets[baseAssetName] ?? '')
+                scopedBaseSourceMap.set(baseAssetName, baseSource)
+              }
+              return baseSource
+            }
+
+            scopedBaseSourceMap.set(baseTemplName, source)
+
+            compileTemplateAssets
+              .map(key => {
+                const scopedBaseTemplName = `${path.dirname(key)}/${baseTemplName}`
+                const hasScopedBaseTemplate = shouldUseScopedBaseTemplates && !!assets[scopedBaseTemplName]
+                const targetBaseTemplName = hasScopedBaseTemplate ? scopedBaseTemplName : baseTemplName
+                const source = new ConcatSource()
+                source.add(`<import src="${normalizePath(path.relative(path.dirname(key), targetBaseTemplName))}"/>\n`)
+                if (fileType.xs) {
+                  const scopedUtilsPath = hasScopedBaseTemplate
+                    ? `${path.dirname(targetBaseTemplName)}/utils`
+                    : './utils'
+                  const content = template.buildXsImportTemplate(normalizePath(path.relative(path.dirname(key), scopedUtilsPath)))
+                  source.add(content)
+                }
+                source.add(assets[key])
+                assets[key] = source
+                return {
+                  key,
+                  targetBaseTemplName,
+                }
+              })
+              .forEach(({ key, targetBaseTemplName }) => {
+                getScopedBaseSource(targetBaseTemplName).add(`\n<import src="${normalizePath(path.relative(path.dirname(targetBaseTemplName), key))}"/>`)
+              })
+
+            scopedBaseSourceMap.forEach((baseSource, baseAssetName) => {
+              compilation.assets[baseAssetName] = baseSource
+            })
           }
 
           compilation.assets[baseTemplName] = source

@@ -41,12 +41,13 @@ export default class _Picker extends React.Component<PickerViewProps> {
   render(): JSX.Element | null {
     const { data, value, children, ...restProps } = this.props
     if (!children) return null
+    const pickerData = data.length > 0 ? data : this.getDataFromChildren(children)
     return (
       <AntPickerView
         {...restProps}
-        cols={1}
+        cols={pickerData.length}
         value={value}
-        data={data.length > 0 ? data : this.getDataFromChildren(children)}
+        data={pickerData}
         onChange={this.onChange}
         cascade={false}
 

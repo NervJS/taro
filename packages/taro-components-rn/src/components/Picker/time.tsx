@@ -1,16 +1,23 @@
-import AntDatePicker from '@ant-design/react-native/lib/date-picker'
+import AntPicker, { PickerColumnItem, PickerValue } from '@ant-design/react-native/lib/picker'
 import * as React from 'react'
 
 import { noop } from '../../utils'
 import { TimeProps, TimeState } from './PropsType'
 
-function formatTimeStr(time = ''): Date {
-  const now = new Date()
-  let [hour, minute]: any = time.split(':')
-  hour = ~~hour
-  minute = ~~minute
-  now.setHours(hour, minute)
-  return now
+function getTimeData(start: string, end: string): PickerColumnItem[] {
+  const [startHour, startMinute] = start.split(':').map(Number)
+  const [endHour, endMinute] = end.split(':').map(Number)
+  const hours: PickerColumnItem[] = []
+  for (let hour = startHour; hour <= endHour; hour++) {
+    const minutes: PickerColumnItem[] = []
+    const minMinute = hour === startHour ? startMinute : 0
+    const maxMinute = hour === endHour ? endMinute : 59
+    for (let minute = minMinute; minute <= maxMinute; minute++) {
+      minutes.push({ label: `${minute}分`, value: String(minute).padStart(2, '0') })
+    }
+    hours.push({ label: `${hour}时`, value: String(hour).padStart(2, '0'), children: minutes })
+  }
+  return hours
 }
 
 export default class TimeSelector extends React.Component<TimeProps, TimeState> {
@@ -53,11 +60,9 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
     return null
   }
 
-  onChange = (date: Date): void => {
+  onChange = (values: PickerValue[]): void => {
     const { onChange = noop } = this.props
-    const hh: string = ('0' + date.getHours()).slice(-2)
-    const mm: string = ('0' + date.getMinutes()).slice(-2)
-    const value = `${hh}:${mm}`
+    const value = values.join(':')
     this.setState({ value })
     onChange({ detail: { value } })
     this.setState({ isInOnChangeUpdate: true })
@@ -69,21 +74,21 @@ export default class TimeSelector extends React.Component<TimeProps, TimeState> 
   }
 
   render(): JSX.Element {
-    const { children, start, end, disabled } = this.props
+    const { children, start = '00:00', end = '23:59', disabled } = this.props
     const { value } = this.state
 
     return (
-      <AntDatePicker
-        mode={'time'}
-        value={formatTimeStr(value)}
-        minDate={formatTimeStr(start)}
-        maxDate={formatTimeStr(end)}
+      <AntPicker
+        cols={2}
+        cascade
+        data={getTimeData(start, end)}
+        value={value.split(':')}
         onChange={this.onChange}
         onDismiss={this.onDismiss}
         disabled={disabled}
       >
         {children}
-      </AntDatePicker>
+      </AntPicker>
     )
   }
 }

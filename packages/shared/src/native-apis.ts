@@ -315,6 +315,10 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
             task?.onProgressUpdate(cb)
             return p
           }
+          p.headersReceive = cb => {
+            task?.onHeadersReceived(cb)
+            return p
+          }
           p.abort = cb => {
             cb?.()
             task?.abort()

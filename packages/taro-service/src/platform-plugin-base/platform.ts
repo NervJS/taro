@@ -67,6 +67,19 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
     return this.config
   }
 
+  protected resolveRunnerPkg (defaultRunnerPkg: string) {
+    const compiler = this.config.compiler
+    const runner = typeof compiler === 'object' ? compiler.runner : undefined
+
+    if (runner === undefined) return defaultRunnerPkg
+
+    if (typeof runner !== 'string' || runner.length === 0 || runner.trim() !== runner) {
+      throw new Error('compiler.runner 必须是非空且不包含首尾空白的字符串')
+    }
+
+    return runner
+  }
+
   protected emptyOutputDir (excludes: Array<string | RegExp> = []) {
     const { outputPath } = this.ctx.paths
     this.helper.emptyDirectory(outputPath, { excludes })
