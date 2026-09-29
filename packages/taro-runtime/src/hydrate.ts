@@ -6,6 +6,7 @@ import {
   CLASS,
   CLICK_VIEW,
   COMPILE_MODE,
+  CUSTOM_WRAPPER,
   ID,
   PURE_VIEW,
   STYLE,
@@ -94,6 +95,11 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
 
   // Children
   data[Shortcuts.Childnodes] = node.childNodes.filter(node => !isComment(node)).map(hydrate)
+
+  if (nodeName === CUSTOM_WRAPPER) {
+    node.updateBatchId ??= node._root?.updateBatchId ?? 0
+    data.ubid = node.updateBatchId
+  }
 
   if (node.className !== '') {
     data[Shortcuts.Class] = node.className
