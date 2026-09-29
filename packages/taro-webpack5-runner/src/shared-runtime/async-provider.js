@@ -106,9 +106,18 @@ function activate () {
     runtime.hooks.call('initNativeApi', taroObj)
   }
 
-  // 补跑 initPxTransform（同步核占位阶段存的参数）
+  // 补跑 initPxTransform（同步核占位阶段存的参数）。
+  // 注意 taro/taroObj 是两个对象：taro 是异步核内打包的 @tarojs/taro 真身（initPxTransform 把
+  // config 写在它自己身上）；taroObj 是同步核预放、fill 后的共享占位对象——业务页面 require
+  // ('@tarojs/taro') external 到的是**占位对象**。只调 taro.initPxTransform 会把 config 留在
+  // 真身上，页面侧读占位对象的 config 拿到 null → 运行时 pxTransform 落回默认 750 基准，
+  // root font-size 算小一半（字号整体缩小）。补跑后必须把 config 原地同步给占位对象。
   if (shared.__pxTransformOpts && typeof taro.initPxTransform === 'function') {
     taro.initPxTransform(shared.__pxTransformOpts)
+    if (taro.config) {
+      taroObj.config = taroObj.config || {}
+      Object.keys(taro.config).forEach(function (k) { taroObj.config[k] = taro.config[k] })
+    }
   }
 
   // 建真 appObj + flush 生命周期/mount 队列。
