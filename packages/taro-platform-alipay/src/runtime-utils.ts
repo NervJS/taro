@@ -69,19 +69,33 @@ export const hostConfig = {
   },
   modifyRecursiveComponentConfig (componentConfig, { isCustomWrapper }) {
     // 修改组件的生命周期配置
-    return isCustomWrapper
-      ? {
-        ...componentConfig,
-        deriveDataFromProps (nextProps) {
-          if (this.data.rd === undefined || this.props.i === nextProps.i || !nextProps.i) return
+    if (!isCustomWrapper) return componentConfig
 
-          const { ubid: nextUpdateBatchId = 0, sid: nextSid } = nextProps.i
-          const { ubid: curUpdateBatchId = -1, sid: curSid } = this.data.rd || {}
+    const { didMount, didUpdate } = componentConfig
 
-          if (curSid === nextSid && nextUpdateBatchId <= curUpdateBatchId) return
-          this.setData({ rd: nextProps.i })
-        }
+    const syncCustomWrapperRenderData = (ctx, nextData) => {
+      if (!nextData) return
+
+      const { ubid: nextUpdateBatchId = 0, sid: nextSid } = nextData
+      const { ubid: curUpdateBatchId = -1, sid: curSid } = ctx.data.rd || {}
+
+      if (curSid === nextSid && nextUpdateBatchId <= curUpdateBatchId) return
+      ctx.setData({ rd: nextData })
+    }
+
+    return {
+      ...componentConfig,
+      deriveDataFromProps (nextProps) {
+        syncCustomWrapperRenderData(this, nextProps.i)
+      },
+      didMount () {
+        didMount?.call(this)
+        syncCustomWrapperRenderData(this, this.props.i)
+      },
+      didUpdate (prevProps, prevData) {
+        didUpdate?.call(this, prevProps, prevData)
+        syncCustomWrapperRenderData(this, this.props.i)
       }
-      : componentConfig
+    }
   },
 }
