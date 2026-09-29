@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "原生页 · 嵌入共享 native-comp",
+  "usingComponents": {
+    "shared-counter": "/pages/shared-native-comp/components/counter/index"
+  },
+  "componentPlaceholder": {
+    "shared-counter": "view"
+  }
+}
