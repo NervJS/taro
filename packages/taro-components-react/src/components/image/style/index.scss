@@ -2,13 +2,17 @@ img[src=''] {
   opacity: 0;
 }
 
+/* 默认占位宽高仅挂在 .taro-img--with-default-host-size（由 disableDefaultSize 控制是否挂载），与业务 class 同为单类优先级 */
 .taro-img {
   display: inline-block;
   overflow: hidden;
   position: relative;
+  font-size: 0;
+}
+
+.taro-img--with-default-host-size {
   width: 320px;
   height: 240px;
-  font-size: 0;
 }
 
 .taro-img.taro-img__widthfix {

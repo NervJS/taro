@@ -157,4 +157,34 @@ describe('ScrollView', () => {
 
     expect(page.root).toMatchSnapshot()
   })
+
+  it('should stop touchmove propagation by default', async () => {
+    const onTouchMove = jest.fn()
+    page = await newSpecPage({
+      components: [ScrollView],
+      template: () => <taro-scroll-view-core>content</taro-scroll-view-core>,
+    })
+    page.body.addEventListener('touchmove', onTouchMove)
+
+    page.root.dispatchEvent(new Event('touchmove', { bubbles: true }))
+
+    expect(onTouchMove).not.toHaveBeenCalled()
+  })
+
+  it('should allow touchmove propagation when disabled', async () => {
+    const onTouchMove = jest.fn()
+    page = await newSpecPage({
+      components: [ScrollView],
+      template: () => (
+        <taro-scroll-view-core stopTouchMovePropagation={false}>
+          content
+        </taro-scroll-view-core>
+      ),
+    })
+    page.body.addEventListener('touchmove', onTouchMove)
+
+    page.root.dispatchEvent(new Event('touchmove', { bubbles: true }))
+
+    expect(onTouchMove).toHaveBeenCalledTimes(1)
+  })
 })

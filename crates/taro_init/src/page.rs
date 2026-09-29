@@ -116,6 +116,7 @@ impl Page {
       build_es5: None,
       is_custom_template: self.is_custom_template.clone(),
       plugin_type: None,
+      platforms: None,
     };
     let files = self
       .base_page_files

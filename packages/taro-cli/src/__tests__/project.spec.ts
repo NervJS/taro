@@ -203,4 +203,102 @@ describe('create project', () => {
     expect(prompts).toHaveLength(1)
     expect(prompts[0]).toMatchObject({ name: 'projectName' })
   })
+
+  it('should prompt for platforms when conf.platforms is undefined', () => {
+    const project = new Project({
+      projectDir: '/a/b',
+      projectName: 'my-project',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react'
+    } as any)
+
+    const prompts: Record<string, unknown>[] = []
+    project.askPlatforms(project.conf, prompts)
+
+    expect(prompts).toHaveLength(1)
+    expect(prompts[0]).toMatchObject({ type: 'checkbox', name: 'platforms' })
+  })
+
+  it('should not prompt for platforms when conf.platforms is already an array', () => {
+    const project = new Project({
+      projectDir: '/a/b',
+      projectName: 'my-project',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react',
+      platforms: ['weapp', 'h5']
+    } as any)
+
+    const prompts: Record<string, unknown>[] = []
+    project.askPlatforms(project.conf, prompts)
+
+    expect(prompts).toHaveLength(0)
+    expect(project.conf.platforms).toEqual(['weapp', 'h5'])
+  })
+
+  it('should normalize a comma-separated platforms string into an array', () => {
+    const project = new Project({
+      projectDir: '/a/b',
+      projectName: 'my-project',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react',
+      platforms: 'weapp, h5'
+    } as any)
+
+    const prompts: Record<string, unknown>[] = []
+    project.askPlatforms(project.conf, prompts)
+
+    expect(project.conf.platforms).toEqual(['weapp', 'h5'])
+    expect(prompts).toHaveLength(0)
+  })
+
+  it.each([
+    [[], '未选择平台'],
+    [['unknown'], 'unknown']
+  ])('should reject invalid platforms %p', (platforms, message) => {
+    const project = new Project({
+      projectDir: '/a/b',
+      projectName: 'my-project',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react',
+      platforms
+    } as any)
+
+    expect(() => project.askPlatforms(project.conf, [])).toThrow(message)
+  })
+
+  it('should require at least one platform when prompting', () => {
+    const project = new Project({
+      projectDir: '/a/b',
+      projectName: 'my-project',
+      sourceRoot: __dirname,
+      template: 'default',
+      templateSource: 'default-template',
+      npm: 'npm',
+      css: 'none',
+      framework: 'react'
+    } as any)
+
+    const prompts: Record<string, unknown>[] = []
+    project.askPlatforms(project.conf, prompts)
+    const validate = prompts[0].validate as (input: string[]) => true | string
+
+    expect(validate([])).toBe('请至少选择一个平台！')
+    expect(validate(['weapp'])).toBe(true)
+  })
 })

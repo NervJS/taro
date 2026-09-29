@@ -47,6 +47,8 @@ export class MiniBaseConfig extends BaseConfig {
   constructor(appPath: string, config: Partial<IMiniBuildConfig>) {
     super(appPath, config)
     const mainFields = [...defaultMainFields]
+    // Note: mini 端统一优先读取 main:mini 入口
+    mainFields.unshift('main:mini')
     const resolveOptions = {
       basedir: appPath,
       mainFields,

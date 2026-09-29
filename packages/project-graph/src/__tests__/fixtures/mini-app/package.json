@@ -1,0 +1,13 @@
+{
+  "name": "mini-app-fixture",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@tarojs/components": "*",
+    "@tarojs/taro": "*",
+    "react": "*"
+  },
+  "devDependencies": {
+    "@tarojs/plugin-framework-react": "*"
+  }
+}

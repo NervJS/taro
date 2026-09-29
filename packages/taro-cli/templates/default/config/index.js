@@ -32,7 +32,7 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
     compiler: '{{ to_lower_case compiler }}',{{#if (eq compiler "Webpack5") }}
     cache: {
       enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
-    },{{/if}}
+    },{{/if}}{{#if (array_includes platforms "weapp" "alipay" "swan" "tt" "qq" "jd") }}
     mini: {
       postcss: {
         pxtransform: {
@@ -52,7 +52,7 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }{{/unless}}{{/if}}
-    },
+    },{{/if}}{{#if (array_includes platforms "h5" "harmony-hybrid") }}
     h5: {
       publicPath: '/',
       staticDirectory: 'static',
@@ -82,7 +82,7 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }{{/unless}}{{/if}}
-    },
+    },{{/if}}{{#if (array_includes platforms "rn") }}
     rn: {
       appName: 'taroDemo',
       postcss: {
@@ -90,7 +90,7 @@ export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{
           enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
         }
       }
-    }
+    },{{/if}}
   }
 
   {{#if buildEs5 }}

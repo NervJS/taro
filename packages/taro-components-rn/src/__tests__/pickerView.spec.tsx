@@ -1,4 +1,5 @@
-import { render } from '@testing-library/react-native'
+import AntPickerView from '@ant-design/react-native/lib/picker-view'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { View } from 'react-native'
 
@@ -44,7 +45,23 @@ describe('PickerView', () => {
         </PickerViewColumn>
       </PickerView>
     )
+    const picker = component.UNSAFE_getByType(AntPickerView)
+    expect(picker.props.data.map(column => column.length)).toEqual([11, 12, 30])
+    expect(picker.props.data[0][0]).toEqual({ label: '2010年', value: 0 })
+    expect(picker.props.data[2][29]).toEqual({ label: '30日', value: 29 })
+    expect(picker.props.cascade).toBe(false)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
+    // The new wheel waits for native item and container measurements before rendering its columns.
+    const measure = height => fireEvent(
+      component.UNSAFE_getAllByType(View).find(view => view.props.onLayout)!,
+      'layout',
+      { nativeEvent: { layout: { height, width: 300, x: 0, y: 0 } } }
+    )
+    measure(40)
+    measure(280)
+    expect(component.getByText('2010年')).toBeTruthy()
+    expect(component.getByText('1月')).toBeTruthy()
+    expect(component.getByText('1日')).toBeTruthy()
   })
 })

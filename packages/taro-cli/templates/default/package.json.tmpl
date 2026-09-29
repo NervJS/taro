@@ -11,25 +11,25 @@
   },
   "scripts": {
     "prepare": "husky",
-    "new": "taro new",
+    "new": "taro new"{{#if (array_includes platforms "weapp")}},
     "build:weapp": "taro build --type weapp",
+    "dev:weapp": "npm run build:weapp -- --watch"{{/if}}{{#if (array_includes platforms "swan")}},
     "build:swan": "taro build --type swan",
+    "dev:swan": "npm run build:swan -- --watch"{{/if}}{{#if (array_includes platforms "alipay")}},
     "build:alipay": "taro build --type alipay",
+    "dev:alipay": "npm run build:alipay -- --watch"{{/if}}{{#if (array_includes platforms "tt")}},
     "build:tt": "taro build --type tt",
+    "dev:tt": "npm run build:tt -- --watch"{{/if}}{{#if (array_includes platforms "h5")}},
     "build:h5": "taro build --type h5",
+    "dev:h5": "npm run build:h5 -- --watch"{{/if}}{{#if (array_includes platforms "rn")}},
     "build:rn": "taro build --type rn",
+    "dev:rn": "npm run build:rn -- --watch"{{/if}}{{#if (array_includes platforms "qq")}},
     "build:qq": "taro build --type qq",
+    "dev:qq": "npm run build:qq -- --watch"{{/if}}{{#if (array_includes platforms "jd")}},
     "build:jd": "taro build --type jd",
+    "dev:jd": "npm run build:jd -- --watch"{{/if}}{{#if (array_includes platforms "harmony-hybrid")}},
     "build:harmony-hybrid": "taro build --type harmony-hybrid",
-    "dev:weapp": "npm run build:weapp -- --watch",
-    "dev:swan": "npm run build:swan -- --watch",
-    "dev:alipay": "npm run build:alipay -- --watch",
-    "dev:tt": "npm run build:tt -- --watch",
-    "dev:h5": "npm run build:h5 -- --watch",
-    "dev:rn": "npm run build:rn -- --watch",
-    "dev:qq": "npm run build:qq -- --watch",
-    "dev:jd": "npm run build:jd -- --watch",
-    "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch"
+    "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch"{{/if}}
   },
   {{#if buildEs5 }}
   "browserslist": {
@@ -53,15 +53,15 @@
   "dependencies": {
     "@babel/runtime": "^7.24.4",
     "@tarojs/components": "{{ version }}",
-    "@tarojs/helper": "{{ version }}",
-    "@tarojs/plugin-platform-weapp": "{{ version }}",
-    "@tarojs/plugin-platform-alipay": "{{ version }}",
-    "@tarojs/plugin-platform-tt": "{{ version }}",
-    "@tarojs/plugin-platform-swan": "{{ version }}",
-    "@tarojs/plugin-platform-jd": "{{ version }}",
-    "@tarojs/plugin-platform-qq": "{{ version }}",
-    "@tarojs/plugin-platform-h5": "{{ version }}",
-    "@tarojs/plugin-platform-harmony-hybrid": "{{ version }}",
+    "@tarojs/helper": "{{ version }}",{{#if (array_includes platforms "weapp")}}
+    "@tarojs/plugin-platform-weapp": "{{ version }}",{{/if}}{{#if (array_includes platforms "alipay")}}
+    "@tarojs/plugin-platform-alipay": "{{ version }}",{{/if}}{{#if (array_includes platforms "tt")}}
+    "@tarojs/plugin-platform-tt": "{{ version }}",{{/if}}{{#if (array_includes platforms "swan")}}
+    "@tarojs/plugin-platform-swan": "{{ version }}",{{/if}}{{#if (array_includes platforms "jd")}}
+    "@tarojs/plugin-platform-jd": "{{ version }}",{{/if}}{{#if (array_includes platforms "qq")}}
+    "@tarojs/plugin-platform-qq": "{{ version }}",{{/if}}{{#if (array_includes platforms "h5")}}
+    "@tarojs/plugin-platform-h5": "{{ version }}",{{/if}}{{#if (array_includes platforms "harmony-hybrid")}}
+    "@tarojs/plugin-platform-harmony-hybrid": "{{ version }}",{{/if}}
     "@tarojs/runtime": "{{ version }}",
     "@tarojs/shared": "{{ version }}",
     "@tarojs/taro": "{{ version }}",{{#if (includes "React" "Preact" s=framework)}}
