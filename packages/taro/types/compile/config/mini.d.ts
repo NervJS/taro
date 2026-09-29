@@ -15,6 +15,31 @@ interface Runtime {
   enableMutationObserver?: boolean
 }
 
+/**
+ * `mini.sharedRuntimeWebpackChain` 钩子收到的第三个参数：当前运行时核子构建的核心信息。
+ * 同步核与异步核各调用一次钩子，`name` 区分。
+ */
+export interface ISharedRuntimeChainData {
+  /** 当前核：'taro-shared-sync'（同步核）| 'async-provider'（异步核），与产物文件名一致 */
+  name: string
+  /** 产物 emit 目标相对 outputDir 的目录：同步核为 ''（根），异步核为 'shared-async-v1' */
+  emitTo: string
+  /** 异步核加载路径（require.async 目标），业务 config 的 sharedRuntimeAsyncRequest 覆盖值或默认值 */
+  asyncRequest: string
+  /** config.mini.sharedRuntimeExtraPackages：随异步核加载的额外共享包 */
+  extraPackages: string[]
+  /** config.mini.sharedRuntimeSyncExtraPackages：随同步核加载的额外共享包 */
+  syncExtraPackages: string[]
+  /** 从 runtimePath 自动识别、被作为同步核额外入口的平台插件 runtime（plugin-html 等） */
+  missingRuntimes: string[]
+  /** 业务项目根目录 */
+  appPath: string
+  /** 产物输出目录（dist） */
+  outputDir: string
+  /** 平台全局对象名，如 'wx' */
+  globalObject: string
+}
+
 export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> {
   /** 用于控制是否生成 js、css 对应的 sourceMap (默认值：watch 模式下为 true，否则为 false) */
   enableSourceMap?: boolean
@@ -116,6 +141,26 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
    * 仅在 `--shared-runtime --shared-runtime-mode split` 编译时生效。
    */
   sharedRuntimeSyncExtraPackages?: string[]
+
+  /**
+   * 共享运行时（split 模式）：自定义两个运行时核（同步核 taro-shared-sync / 异步核
+   * async-provider）各自独立 webpack 子构建的配置。
+   *
+   * 背景：这两个子构建与主构建**完全独立**——主构建的 `webpackChain` / `modifyWebpackChain`
+   * 只作用于主 chain，对两核无效。此前接入方没有任何入口可定制它们；而
+   * `sharedRuntimeExtraPackages` 引入的私有 runtime 若需要 loader / resolve 级定制
+   * （如私有语法插件、特殊 alias），必须从这里改。
+   *
+   * 同步核、异步核各调用一次本钩子，`data.name` 区分当前是哪个核
+   * （`'taro-shared-sync'` / `'async-provider'`，与产物文件名一致）。
+   *
+   * 注意：两个子构建默认已内置 ES5 转译（babel-loader + 业务项目 babel 配置）与
+   * `regenerator-runtime` alias，一般无需再配置；本钩子用于在此之上的微调
+   * （追加 loader、改 resolve、追加 plugin 等），不建议移除内置的 babel 规则。
+   *
+   * 仅在使用 `--shared-runtime --shared-runtime-mode split` 编译时生效。
+   */
+  sharedRuntimeWebpackChain?: (chain: Chain, webpack: typeof Webpack, data: ISharedRuntimeChainData) => void
 
   /** 使用的编译工具。可选值：webpack5、vite */
   compiler?: Compiler<T>
