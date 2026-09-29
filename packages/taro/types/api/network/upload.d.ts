@@ -31,7 +31,7 @@ declare module '../../index' {
        */
       enableQuic?: boolean
       /** 上传的文件名
-       * @supported h5
+       * @supported h5, rn
        */
       fileName?: string
       /** 是否应使用传出凭据 (cookie) 发送此请求
