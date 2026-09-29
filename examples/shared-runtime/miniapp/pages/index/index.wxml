@@ -1,4 +1,5 @@
 <view class='container'>
   <text class='title'>原生小程序入口</text>
-  <button bindtap="onClick">打开共享运行时 Taro 页面</button>
+  <button bindtap="onClickPage">打开共享运行时 Taro 页面(pages 模式)</button>
+  <button bindtap="onClickComp">打开共享运行时 native-component 页(native-components 模式)</button>
 </view>
