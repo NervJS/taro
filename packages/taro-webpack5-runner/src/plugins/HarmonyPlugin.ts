@@ -410,6 +410,8 @@ export default class TaroHarmonyPlugin {
     if (isEmptyObject(appConfig)) {
       throw new Error('缺少 app 全局配置文件，请检查！')
     }
+    delete appConfig.forceCustomWrapper
+    delete appConfig.subPackageIndie
     return appConfig as AppConfig
   }
 
@@ -910,7 +912,7 @@ export default class TaroHarmonyPlugin {
   generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {
     const { RawSource } = compiler.webpack.sources
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components', 'forceCustomWrapper']
+    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components', 'forceCustomWrapper', 'subPackageIndie']
     unofficialConfigs.forEach(item => {
       delete config[item]
     })

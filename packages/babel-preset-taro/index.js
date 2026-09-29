@@ -198,7 +198,10 @@ module.exports = (_, options = {}) => {
     },
   ])
 
-  const shouldUseWebpackDynamicImport = typeof global !== 'undefined' && global.__taroAsyncSubPackageUseWebpackImport
+  // 返回布尔值作为 Babel cache key，避免异步分包配置泄漏到后续普通构建。
+  const shouldUseWebpackDynamicImport = _.caller?.(caller =>
+    caller?.taroAsyncSubPackage === true && process.env.TARO_ENV === 'weapp'
+  ) === true
   const shouldTransformDynamicImport = !shouldUseWebpackDynamicImport && (typeof options['dynamic-import-node'] === 'boolean'
     ? options['dynamic-import-node']
     : process.env.TARO_PLATFORM !== 'web')

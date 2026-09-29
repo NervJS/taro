@@ -31,6 +31,37 @@ declare module '../../index' {
     }
   }
 
+  namespace requestCommonPayment {
+    interface Option {
+      /** 支付的类型 */
+      mode: Mode
+      /** 具体支付参数。该参数需要序列化为字符串传递 */
+      signData: string
+      /** 支付签名，详见微信官方文档《签名详解》 */
+      paySig: string
+      /** 用户态签名，详见微信官方文档《签名详解》 */
+      signature: string
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: FailCallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: SuccessCallbackResult) => void
+    }
+
+    /**
+     * 支付类型：B2b 支付、间接支付、合单支付或多渠道 B2b 支付
+     */
+    type Mode = 'retail_pay_goods' | 'retail_pay_indirect_goods' | 'retail_pay_combined_goods' | 'retail_pay_goods_new'
+
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {}
+
+    interface FailCallbackResult extends TaroGeneral.CallbackResult {
+      /** 错误码 */
+      errno: number
+    }
+  }
+
   namespace requestOrderPayment {
     interface Option {
       /** 时间戳，从 1970 年 1 月 1 日 00:00:00 至今的秒数，即当前的时间 */
@@ -83,6 +114,33 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
      */
     requestPayment(option: requestPayment.Option): Promise<TaroGeneral.CallbackResult>
+
+    /** 发起通用支付。目前仅支持 B2b 支付类型
+     * @supported weapp
+     * @since 2.19.2
+     * @example
+     * ```tsx
+     * Taro.requestCommonPayment({
+     *   mode: 'retail_pay_goods',
+     *   signData: JSON.stringify({
+     *     mchid: '1234567890',
+     *     out_trade_no: 'test1244',
+     *     description: '测试订单',
+     *     amount: {
+     *       order_amount: 1,
+     *       currency: 'CNY'
+     *     },
+     *     env: 0
+     *   }),
+     *   paySig: '',
+     *   signature: '',
+     *   success (res) { },
+     *   fail (res) { }
+     * })
+     * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestCommonPayment.html
+     */
+    requestCommonPayment(option: requestCommonPayment.Option): void
 
     /** 创建自定义版交易组件订单，并发起支付。 仅接入了[自定义版交易组件](https://developers.weixin.qq.com/miniprogram/dev/framework/ministore/minishopopencomponent2/Introduction2)的小程序需要使用，普通小程序可直接使用 `Taro.requestPayment`。
      * @supported weapp

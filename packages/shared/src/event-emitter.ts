@@ -36,9 +36,19 @@ export class Events {
   }
 
   once (events: EventName, callback: (...r: any[]) => void, context?: any): this {
+    let fired = false
     const wrapper = (...args: any[]) => {
-      callback.apply(this, args)
-      this.off(events, wrapper, context)
+      // Note: 监听器内再次 trigger 同一事件时，wrapper 会在 off 之前被重入，
+      // 因此用 fired 标记保证回调只执行一次；回调报错时也需要解绑。
+      if (fired) {
+        return
+      }
+      fired = true
+      try {
+        callback.apply(this, args)
+      } finally {
+        this.off(events, wrapper, context)
+      }
     }
 
     this.on(events, wrapper, context)
