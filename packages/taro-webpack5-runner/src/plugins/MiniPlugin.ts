@@ -26,6 +26,7 @@ import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency
 import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../utils/component'
 import { computeForceCustomWrapperForIndependentPackage } from '../utils/forceCustomWrapper'
+import { isWeappSubPackageIndieEnabled, shouldProcessCommonStyles } from '../utils/platform'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import AsyncSubPackagePlugin from './AsyncSubPackagePlugin'
 import SubPackageIndiePlugin, {
@@ -234,10 +235,7 @@ export default class TaroMiniPlugin {
     this.context = compiler.context
     this.appEntry = this.getAppEntry(compiler)
 
-    if (this.options.newBlended) {
-      this.subPackageIndiePlugin = new SubPackageIndiePlugin(this)
-      this.subPackageIndiePlugin.apply()
-    }
+    this.applySubPackageIndiePlugin()
 
     const {
       commonChunks,
@@ -259,6 +257,8 @@ export default class TaroMiniPlugin {
       PLUGIN_NAME,
       this.tryAsync<Compiler>(async compiler => {
         await this.run(compiler)
+        // forceCustomWrapper 是已有的页面级能力（非递归模板平台），与微信分包混合模式无关，
+        // 不能被 isWeappSubPackageIndieEnabled 门控；内部已有 isSupportRecursive 守卫。
         this.applyForceCustomWrapperDefine(compiler)
         this.applyAsyncSubPackagePlugin(compiler)
         new TaroLoadChunksPlugin({
@@ -281,6 +281,7 @@ export default class TaroMiniPlugin {
           this.isWatch = true
         }
         await this.run(compiler)
+        // 同上：forceCustomWrapper 与微信分包混合模式无关。
         this.applyForceCustomWrapperDefine(compiler)
         this.applyAsyncSubPackagePlugin(compiler)
         if (!this.loadChunksPlugin) {
@@ -323,7 +324,7 @@ export default class TaroMiniPlugin {
       compilation.dependencyFactories.set(EntryDependency, normalModuleFactory)
       compilation.dependencyFactories.set(TaroSingleEntryDependency as any, normalModuleFactory)
 
-      if (this.options.newBlended) {
+      if (this.isWeappSubPackageIndieEnabled()) {
         normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, (resolveData: any) => {
           this.hooks.afterResolveModule.call(resolveData)
         })
@@ -520,7 +521,7 @@ export default class TaroMiniPlugin {
   applyAsyncSubPackagePlugin (compiler: Compiler) {
     if (!this.subPackageIndiePlugin) return
     const asyncRootMap = this.subPackageIndiePlugin.getAsyncSubPackageRootMap()
-    if (asyncRootMap.size === 0) return
+    if (asyncRootMap.size === 0 && !this.asyncSubPackagePlugin) return
 
     if (!this.asyncSubPackagePlugin) {
       this.asyncSubPackagePlugin = new AsyncSubPackagePlugin(this)
@@ -528,6 +529,22 @@ export default class TaroMiniPlugin {
     this.asyncSubPackagePlugin.updateAsyncRootMap(asyncRootMap)
     this.asyncSubPackagePlugin.updateAsyncRuntimeRoots(this.subPackageIndiePlugin.getAsyncSubPackageRuntimeRoots())
     this.asyncSubPackagePlugin.apply(compiler)
+  }
+
+  applySubPackageIndiePlugin () {
+    if (!this.isWeappSubPackageIndieEnabled()) return
+
+    this.subPackageIndiePlugin = new SubPackageIndiePlugin(this)
+    this.subPackageIndiePlugin.apply()
+  }
+
+  isWeappSubPackageIndieEnabled () {
+    return isWeappSubPackageIndieEnabled(process.env.TARO_ENV, this.options.newBlended)
+  }
+
+  getCompTemplatePath () {
+    const templateName = this.isWeappSubPackageIndieEnabled() ? 'comp-new-blended' : 'comp'
+    return path.resolve(__dirname, '..', 'template', templateName)
   }
 
   /**
@@ -650,7 +667,7 @@ export default class TaroMiniPlugin {
       }
     })
     if (!template.isSupportRecursive) {
-      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+      this.addEntry(this.getCompTemplatePath(), 'comp', META_TYPE.STATIC)
     }
     this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
     normalFiles.forEach(item => {
@@ -735,6 +752,10 @@ export default class TaroMiniPlugin {
     const { modifyAppConfig } = this.options.combination.config
     if (typeof modifyAppConfig === 'function') {
       await modifyAppConfig(appConfig)
+    }
+    if (!this.isWeappSubPackageIndieEnabled()) {
+      delete appConfig.forceCustomWrapper
+      delete appConfig.subPackageIndie
     }
     return appConfig as AppConfig
   }
@@ -894,7 +915,7 @@ export default class TaroMiniPlugin {
     })
 
     if (!template.isSupportRecursive && !entryFlags.skipRootComp) {
-      this.addEntry(path.resolve(__dirname, '..', 'template/comp'), 'comp', META_TYPE.STATIC)
+      this.addEntry(this.getCompTemplatePath(), 'comp', META_TYPE.STATIC)
     }
     if (!entryFlags.skipRootWrapper) {
       this.addEntry(path.resolve(__dirname, '..', 'template/custom-wrapper'), 'custom-wrapper', META_TYPE.STATIC)
@@ -1130,7 +1151,7 @@ export default class TaroMiniPlugin {
           path: `${compiler.options.output.path}/${name}`,
           chunkLoadingGlobal: `subpackage_${name}`
         })
-        const compPath = path.resolve(__dirname, '..', 'template/comp')
+        const compPath = this.getCompTemplatePath()
         childCompiler.inputFileSystem = compiler.inputFileSystem
         childCompiler.outputFileSystem = compiler.outputFileSystem
         childCompiler.context = compiler.context
@@ -1140,10 +1161,13 @@ export default class TaroMiniPlugin {
           filename: `[name]${this.options.fileType.style}`,
           chunkFilename: `[name]${this.options.fileType.style}`
         }).apply(childCompiler)
-        new compiler.webpack.DefinePlugin({
-          ...this.options.constantsReplaceList,
-          TARO_FORCE_CUSTOM_WRAPPER: JSON.stringify(this.computeForceCustomWrapperForIndieRoot(pages))
-        }).apply(childCompiler)
+        const constantsReplaceList = this.isWeappSubPackageIndieEnabled()
+          ? {
+            ...this.options.constantsReplaceList,
+            TARO_FORCE_CUSTOM_WRAPPER: JSON.stringify(this.computeForceCustomWrapperForIndieRoot(pages))
+          }
+          : this.options.constantsReplaceList
+        new compiler.webpack.DefinePlugin(constantsReplaceList).apply(childCompiler)
         if (compiler.options.optimization) {
           new SplitChunksPlugin({
             chunks: 'all',
@@ -1202,7 +1226,7 @@ export default class TaroMiniPlugin {
           appConfig: this.appConfig
         }).apply(childCompiler)
         // 添加 comp 和 custom-wrapper 组件
-        new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/comp'), `${name}/comp`, META_TYPE.STATIC).apply(childCompiler)
+        new TaroSingleEntryPlugin(compiler.context, this.getCompTemplatePath(), `${name}/comp`, META_TYPE.STATIC).apply(childCompiler)
         new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/custom-wrapper'), `${name}/custom-wrapper`, META_TYPE.STATIC).apply(childCompiler)
 
         // 给每个子编译器标记上名称和 tag
@@ -1323,7 +1347,7 @@ export default class TaroMiniPlugin {
             [baseCompName]: `./${baseCompName}`
           }
         } as Config & { component?: boolean, usingComponents: Record<string, string> }
-        if (isUsingCustomWrapper) {
+        if (!this.isWeappSubPackageIndieEnabled() || isUsingCustomWrapper) {
           compConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
         }
         this.generateConfigFile(compilation, compiler, `${name}/${baseCompName}`, compConfig)
@@ -1570,7 +1594,7 @@ export default class TaroMiniPlugin {
     const componentName = this.getComponentName(filePath)
     config = this.hooks.modifyConfig.call(config, componentName)
 
-    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components', 'forceCustomWrapper']
+    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components', 'forceCustomWrapper', 'subPackageIndie']
     unofficialConfigs.forEach(item => {
       delete config[item]
     })
@@ -1741,12 +1765,13 @@ export default class TaroMiniPlugin {
       })
     }
 
-    // 判断是否需要处理样式：有 common chunks 或者有 app.wxss（可被扩展插件修改）
+    // 默认处理公共样式；微信分包混合模式要求入口样式存在（可被扩展插件修改）
     const hasAppStyle = !!assets[appStyle]
-    let shouldProcessStyles = commons.size() > 0
-    if (!hasAppStyle) {
-      shouldProcessStyles = false
-    }
+    let shouldProcessStyles = shouldProcessCommonStyles({
+      hasCommonStyles: commons.size() > 0,
+      hasAppStyle,
+      isWeappSubPackageIndieEnabled: this.isWeappSubPackageIndieEnabled(),
+    })
     shouldProcessStyles = this.hooks.modifyShouldProcessStyles.call(shouldProcessStyles)
 
     if (shouldProcessStyles) {

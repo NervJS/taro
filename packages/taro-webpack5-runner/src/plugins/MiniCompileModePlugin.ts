@@ -30,6 +30,8 @@ import path from 'node:path'
 import { normalizePath } from '@tarojs/helper'
 import webpack, { type Compiler, Dependency, Module, } from 'webpack'
 
+import { isWeappSubPackageIndieEnabled } from '../utils/platform'
+
 import type { MiniCombination } from '../webpack/MiniCombination'
 
 const PLUGIN_NAME = 'taro-compile-mode-plugin'
@@ -283,11 +285,16 @@ export default class MiniCompileModePlugin {
           const baseTemplName = `base${fileType.templ}`
           const raw = assets[baseTemplName]
           const { ConcatSource } = compiler.webpack.sources
-          const source = new ConcatSource(raw ?? '')
+          const isWeappSubPackageIndie = isWeappSubPackageIndieEnabled(
+            process.env.TARO_ENV,
+            combination.config.newBlended || false
+          )
+          const source = new ConcatSource(isWeappSubPackageIndie ? raw ?? '' : raw)
           const rawBaseTemplate = typeof raw?.source === 'function' ? raw.source().toString() : ''
-          const shouldUseScopedBaseTemplates = rawBaseTemplate.trim().length === 0
+          const shouldUseScopedBaseTemplates = isWeappSubPackageIndie && rawBaseTemplate.trim().length === 0
+          const hasCachedTemplates = templatesCache.length > 0
 
-          if (templatesCache.length) {
+          if (hasCachedTemplates) {
             let cur
             while ((cur = templatesCache.shift()) !== undefined) {
               source.add('\n')
@@ -298,7 +305,7 @@ export default class MiniCompileModePlugin {
           const compileTemplateAssets = Object.keys(assets)
             .filter(key => (new RegExp(`-templates${fileType.templ}$`)).test(key))
 
-          if (!shouldUseScopedBaseTemplates) {
+          if (!shouldUseScopedBaseTemplates && (isWeappSubPackageIndie || !hasCachedTemplates)) {
             compileTemplateAssets
               .map(key => {
                 const source = new ConcatSource()
@@ -315,7 +322,7 @@ export default class MiniCompileModePlugin {
                 pre.add(`\n<import src="${cur}"/>`)
                 return pre
               }, source)
-          } else {
+          } else if (shouldUseScopedBaseTemplates) {
             const scopedBaseSourceMap = new Map<string, InstanceType<typeof ConcatSource>>()
 
             const getScopedBaseSource = (baseAssetName: string) => {

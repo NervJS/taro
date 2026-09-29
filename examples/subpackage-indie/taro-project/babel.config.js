@@ -4,6 +4,8 @@ module.exports = {
   presets: [
     ['taro', {
       framework: 'react',
+      // Keep local filesystem paths out of development bundles.
+      absoluteRuntime: false,
       ts: false
     }]
   ]
