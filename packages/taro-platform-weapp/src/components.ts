@@ -86,7 +86,14 @@ export const components = {
     'safe-password-salt': '',
     'safe-password-custom-hash': '',
     'auto-fill': _empty,
-    'cursor-color': '',
+    // 微信官方语义：iOS 只认 #RRGGBB、Android 只支持 'default' 和 'green'（官方文档标注
+    // "必填"实为文档错误——不传时组件应回退系统默认光标）。此前空串默认会让模板生成
+    // cursor-color="{{i.pN}}"，业务未传 cursorColor 时属性值为空 → Android 对非法值
+    // 不回退默认，光标直接消失（真机"input 没光标"）。改为 'default'（带引号字面量，
+    // 与同表 Slider color 的写法一致）后模板生成 cursor-color="{{i.pN||'default'}}"：
+    // Android 命中官方 default 字面量；iOS/Skyline 对非十六进制色值按无效忽略、维持系统
+    // 默认——未传即回退系统光标色，显式传值仍生效。
+    'cursor-color': "'default'",
     bindKeyboardHeightChange: _empty,
     bindNicknameReview: _empty,
     bindSelectionChange: _empty,
