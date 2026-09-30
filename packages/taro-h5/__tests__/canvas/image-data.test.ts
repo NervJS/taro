@@ -1,6 +1,6 @@
-import * as utils from '../../src/utils'
 import { canvasGetImageData } from '../../src/api/canvas/canvasGetImageData'
 import { canvasPutImageData } from '../../src/api/canvas/canvasPutImageData'
+import * as utils from '../../src/utils'
 
 describe('canvas image data', () => {
   const pixels = new Uint8ClampedArray([255, 0, 0, 255])
