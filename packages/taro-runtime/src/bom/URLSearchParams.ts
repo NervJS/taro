@@ -36,8 +36,9 @@ function encode (str: string) {
   return encodeURIComponent(str).replace(findReg, replacer)
 }
 
-export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.URLSearchParams : class {
+export class TaroURLSearchParams {
   #dict = Object.create(null)
+  #onChange?: () => void
 
   constructor (query) {
     query ??= ''
@@ -81,12 +82,18 @@ export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.
     }
   }
 
+  _setOnChange (onChange?: () => void) {
+    this.#onChange = onChange
+  }
+
   append (name: string, value: string) {
     appendTo(this.#dict, name, value)
+    this.#onChange?.()
   }
 
   delete (name: string) {
     delete this.#dict[name]
+    this.#onChange?.()
   }
 
   get (name: string) {
@@ -109,6 +116,7 @@ export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.
 
   set (name: string, value: string) {
     this.#dict[name] = ['' + value]
+    this.#onChange?.()
   }
 
   forEach (callback, thisArg) {
@@ -136,3 +144,5 @@ export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.
     return query.join('&')
   }
 }
+
+export const URLSearchParams = process.env.TARO_PLATFORM === 'web' ? env.window.URLSearchParams : TaroURLSearchParams
