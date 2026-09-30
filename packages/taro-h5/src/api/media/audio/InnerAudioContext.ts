@@ -9,6 +9,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   stopStack: CallbackManager
   __startTime = 0
   __isFirstPlay = true
+  private readonly onRouterChange = () => this.stop()
 
   constructor () {
     this.Instance = new Audio()
@@ -16,7 +17,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     this.stopStack = new CallbackManager()
     this.Instance.onerror = this.errorStack.trigger
 
-    Taro.eventCenter.on('__taroRouterChange', () => { this.stop() })
+    Taro.eventCenter.on('__taroRouterChange', this.onRouterChange)
     this.onPlay(() => {
       if (this.__isFirstPlay) {
         this.__isFirstPlay = false
@@ -80,14 +81,16 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     }
   }
 
-  /**
-   * @TODO destroy得并不干净
-   */
   destroy = () => {
+    if (!this.Instance) return
+
     this.stop()
-    if (this.Instance) {
-      this.Instance = undefined
-    }
+    Taro.eventCenter.off('__taroRouterChange', this.onRouterChange)
+    this.Instance.onerror = null
+    this.Instance.removeAttribute('src')
+    this.errorStack.clear()
+    this.stopStack.clear()
+    this.Instance = undefined
   }
 
   onCanplay = (callback: Taro.InnerAudioContext.OnCanplayCallback = () => {}) => this.Instance?.addEventListener('canplay', callback as any)
