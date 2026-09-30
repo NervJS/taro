@@ -2283,6 +2283,7 @@
     "official-account": {},
     "open-container": {},
     "open-data": {},
+    "open-embedded-atomicservice": {},
     "page-container": {},
     "page-meta": {},
     "pan-gesture-handler": {},
@@ -2361,6 +2362,7 @@
       "scrollX": "boolean",
       "scrollY": "boolean",
       "showScrollbar": "boolean",
+      "stopTouchMovePropagation": "boolean",
       "upperThreshold": "string | number"
     },
     "share-element": {},
