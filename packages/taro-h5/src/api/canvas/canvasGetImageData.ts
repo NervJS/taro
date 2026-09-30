@@ -8,17 +8,18 @@ import { MethodHandler } from '../../utils/handler'
  */
 export const canvasGetImageData: typeof Taro.canvasGetImageData = ({ canvasId, success, fail, complete, x, y, width, height }, inst) => {
   const handle = new MethodHandler({ name: 'canvasGetImageData', success, fail, complete })
-  const el = findDOM(inst) as HTMLElement
-  const canvas = el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement
 
   try {
+    const el = findDOM(inst) as HTMLElement
+    const canvas = el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement
     const ctx = canvas?.getContext('2d')
-    // TODO ImageData => Uint8ClampedArray
-    const data = ctx?.getImageData(x, y, width, height) as unknown as Uint8ClampedArray
+    if (!ctx) throw new Error(`canvas ${canvasId} is not available`)
+
+    const imageData = ctx.getImageData(x, y, width, height)
     return handle.success({
-      width,
-      height,
-      data
+      width: imageData.width,
+      height: imageData.height,
+      data: imageData.data
     })
   } catch (e) {
     return handle.fail({
