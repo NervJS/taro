@@ -61,6 +61,7 @@ export const components = {
     'send-message-img': _empty,
     'app-parameter': _empty,
     'show-message-card': _false,
+    'phone-number-no-quota-toast': _true,
     'business-id': _empty,
     bindGetUserInfo: _empty,
     bindContact: _empty,

@@ -1,5 +1,4 @@
-import { View, Text, Image } from '@tarojs/components'
-import img from '../../assets/no_wifi.png'
+import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 export default function Sub1List() {
@@ -11,7 +10,6 @@ export default function Sub1List() {
 
   return (
     <View className="sub1-list">
-      <Image src={img} className="sub1-image" />
       <View className="list-header">
         <Text className="title">订单列表 (Sub1 子分包组件)</Text>
       </View>

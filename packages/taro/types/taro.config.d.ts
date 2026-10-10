@@ -517,7 +517,7 @@ declare module './index' {
      */
     subPackages?: SubPackage[]
     subpackages?: SubPackage[]
-    /** 子分包独立模板配置（用于 newBlended 模式），支持多入口配置
+    /** 微信小程序子分包独立模板配置（用于 newBlended 模式），支持多入口配置；其他平台会忽略该配置
      * @example
      * ```js
      * subPackageIndie: [

@@ -226,9 +226,6 @@ export default class AsyncSubPackagePlugin {
   updateAsyncRootMap (asyncRootMap: Map<string, string>) {
     this.asyncRootMap = new Map(asyncRootMap)
     this.asyncRuntimeRoots = Array.from(asyncRootMap.entries()).map(([sourceRoot, asyncRoot]) => ({ sourceRoot, asyncRoot }))
-    // asyncSubPackage 依赖 webpack 看到原生 import() 后生成异步 chunk。
-    // 这里通知 babel-preset-taro 不要再把 import() 提前转换成 require()。
-    ;(global as any).__taroAsyncSubPackageUseWebpackImport = true
   }
 
   updateAsyncRuntimeRoots (asyncRuntimeRoots: AsyncSubPackageRuntimeRoot[]) {
@@ -243,6 +240,7 @@ export default class AsyncSubPackagePlugin {
         this.asyncChunkRootCache = new WeakMap()
         this.asyncChunkSourceRoots = new Map()
       })
+      this.setupAsyncBabel(compiler)
       this.setupAsyncSplitChunks(compiler)
       this.setupAsyncChunkOptimization(compiler)
       this.setupAsyncChunkRuntime(compiler)
@@ -253,6 +251,55 @@ export default class AsyncSubPackagePlugin {
       this.miniHooksApplied = true
       this.setupSubPackageRegistration()
     }
+  }
+
+  private setupAsyncBabel (compiler: Compiler) {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (_compilation, { normalModuleFactory }) => {
+      normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, data => {
+        if (this.asyncRootMap.size === 0) return
+        const { loaders } = data.createData
+        if (!loaders) return
+
+        let stamped = false
+        for (const [index, loader] of loaders.entries()) {
+          if (!/(^|[/\\])babel-loader([/\\]|$)/.test(loader.loader)) continue
+          const options = loader.options
+          // 仅处理对象 options；string options（inline query 形式）展开会产出
+          // 字符索引对象，属于无效配置，直接跳过。
+          if (!options || typeof options !== 'object') continue
+          // 只为当前 compiler 传递 caller，不修改共享 loader 配置或用户 Babel 配置。
+          loaders[index] = {
+            ...loader,
+            // 对象 options 默认按 rule path 生成稳定 ident，request 中序列化为
+            // `loader??ident`；不区分 ident 时两种模式共享同一模块缓存键。
+            ident: `${loader.ident ? `${loader.ident}|` : ''}taro-async-subpackage`,
+            options: {
+              ...options,
+              caller: { ...options.caller, taroAsyncSubPackage: true },
+            },
+          }
+          stamped = true
+        }
+
+        if (!stamped) return
+        // NormalModule.identifier() 直接使用 createData.request，而 request 在 resolve
+        // 阶段已用 stringifyLoadersAndResource 生成（afterResolve 之前），仅修改 loaders
+        // 或 ident 不会改变 identifier。异步分包模块与普通模块会因此共享同一模块缓存键，
+        // 两种 Babel 模式（保留 import() vs 转换为 require()）会相互污染。
+        // 按 loaderToIdent 的序列化规则重算 request，使异步模式获得独立 identifier。
+        data.createData.request = `${loaders
+          .map(loader => {
+            if (loader.options && typeof loader.options === 'object' && loader.ident) {
+              return `${loader.loader}??${loader.ident}`
+            }
+            if (loader.options) {
+              return `${loader.loader}?${typeof loader.options === 'string' ? loader.options : JSON.stringify(loader.options)}`
+            }
+            return loader.loader
+          })
+          .join('!')}!${data.createData.resource}`
+      })
+    })
   }
 
   // ==================== Async SplitChunks ====================

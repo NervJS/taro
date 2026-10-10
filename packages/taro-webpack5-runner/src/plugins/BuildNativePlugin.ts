@@ -63,6 +63,8 @@ export default class BuildNativePlugin extends MiniPlugin {
 
     this.pages = new Set(componentPages)
 
+    // newBlended 与平台无关：native-components 构建在所有端都需要登记本地化组件，
+    // 平台隔离只应限制微信分包混合（SubPackageIndiePlugin）的注册，见 applySubPackageIndiePlugin。
     if (newBlended) {
       componentPages.forEach(component => {
         this.nativeComponents.set(component.name, component)

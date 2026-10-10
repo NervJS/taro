@@ -1,1 +1,0 @@
-{ "component": true, "isNewBlended": true, "usingComponents": { "comp": "./comp" }, "styleIsolation": "apply-shared" }

@@ -63,9 +63,7 @@ export class HarmonyWebpackPlugin {
       return target
     }, {})
 
-    return WebpackPlugin.getDefinePlugin([envConstants, defineConstants, {
-      TARO_FORCE_CUSTOM_WRAPPER: JSON.stringify(false)
-    }])
+    return WebpackPlugin.getDefinePlugin([envConstants, defineConstants])
   }
 
   getCopyWebpackPlugin () {
