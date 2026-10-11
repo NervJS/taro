@@ -19,7 +19,12 @@ let lastTime = 0
 // https://gist.github.com/paulirish/1579671
 // https://gist.github.com/jalbam/5fe05443270fa6d8136238ec72accbc0
 // Same Node config-load hazard as env.ts: these identifiers throw when absent.
-const _raf = process.env.TARO_PLATFORM === 'web' && typeof requestAnimationFrame !== 'undefined'
+// Use native implementations only when BOTH exist to ensure raf/caf use matching APIs.
+const _hasNativeRaf = process.env.TARO_PLATFORM === 'web' &&
+  typeof requestAnimationFrame !== 'undefined' &&
+  typeof cancelAnimationFrame !== 'undefined'
+
+const _raf = _hasNativeRaf
   ? requestAnimationFrame
   : function (callback) {
     const _now = now()
@@ -27,7 +32,7 @@ const _raf = process.env.TARO_PLATFORM === 'web' && typeof requestAnimationFrame
     return setTimeout(function () { callback(lastTime = nextTime) }, nextTime - _now)
   }
 
-const _caf = process.env.TARO_PLATFORM === 'web' && typeof cancelAnimationFrame !== 'undefined'
+const _caf = _hasNativeRaf
   ? cancelAnimationFrame
   : function (seed) {
     // fix https://github.com/NervJS/taro/issues/7749
