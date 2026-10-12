@@ -29,6 +29,7 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
   private _rootMargin: Taro.IntersectionObserver.RelativeToViewportMargins = {}
   // 是否已初始化
   private _isInited = false
+  private _warnedReasons = new Set<string>()
 
   // selector 的容器节点
   protected get container () {
@@ -95,16 +96,33 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
   public observe (targetSelector: string, callback: Taro.IntersectionObserver.ObserveCallback): void {
     // 同wx小程序效果一致，每个实例监听一个Selector
     if (this._listeners.length) return
+    const container = this.container
+    const containerElement = container.nodeType === 1 ? container as Element : null
+    const containerName = containerElement
+      ? `${containerElement.tagName.toLowerCase()}${containerElement.id ? `#${containerElement.id}` : ''}`
+      : 'document'
+    const warnOnce = (reason: string) => {
+      if (this._warnedReasons.has(reason)) return
+      this._warnedReasons.add(reason)
+      console.warn(`IntersectionObserver.observe: ${reason} (selector: ${targetSelector}, container: ${containerName}).`)
+    }
     // 监听前没有设置关联的节点
     if (!this._observerInst) {
-      console.warn('Intersection observer will be ignored because no relative nodes are found.')
+      warnOnce('call relativeTo or relativeToViewport first; observer has not been created')
       return
     }
 
+    const selfMatch = containerElement?.matches(targetSelector) ? containerElement : null
     const nodeList = this._options.observeAll
-      ? this.container.querySelectorAll(targetSelector)
-      : [this.container.querySelector(targetSelector)]
+      ? [...(selfMatch ? [selfMatch] : []), ...container.querySelectorAll(targetSelector)]
+      : [container.querySelector(targetSelector) || selfMatch]
 
+    if (!nodeList.some(Boolean)) {
+      warnOnce('target was not found')
+      return
+    }
+
+    // 查询在调用时完成；只延后原生观察注册，以保持首次回调的既有时机。
     Taro.nextTick(() => {
       nodeList.forEach(element => {
         if (!element) return
