@@ -22,6 +22,9 @@ packages/taro-webpack5-runner/src/__tests__/__snapshots__
 packages/taro-webpack5-runner/src/__tests__/fixtures
 packages/taro-webpack5-runner/src/__tests__/bundled
 
+packages/project-graph/src/__tests__/__mocks__
+packages/project-graph/src/__tests__/fixtures
+
 packages/taro/types
 
 packages/taro-router/__tests__

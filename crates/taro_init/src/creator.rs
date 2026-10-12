@@ -41,6 +41,7 @@ pub struct CreateOptions {
   pub change_ext: Option<bool>,
   pub is_custom_template: Option<bool>,
   pub plugin_type: Option<String>,
+  pub platforms: Option<Vec<String>>,
 }
 
 #[derive(Debug)]

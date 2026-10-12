@@ -59,10 +59,6 @@ describe('Image', () => {
     await page.waitForChanges()
     expect(page.root?.mode).toEqual(mode)
     expect(img?.classList.contains(getModeClassName(mode))).toBe(true)
-    // 无头浏览器中获取不到 naturalWidth 和 naturalHeight
-    // const { naturalWidth, naturalHeight } = img
-    // const aspectFillMode = naturalWidth > naturalHeight ? 'width' : 'height'
-    // assert(img.classList.contains(`taro-img__mode-aspectfill--${aspectFillMode}`) === true)
 
     mode = 'widthFix'
     page.root?.setAttribute('mode', mode)

@@ -39,6 +39,8 @@ interface ComponentConfig {
   exclude: Set<string>
   thirdPartyComponents: Map<string, Set<string>>
   includeAll: boolean
+  /** 当为 true 时，跳过最后一层 container template 中对 <comp> 的引用，超出 baseLevel 的节点将被静默截断 */
+  skipRecursiveComponent?: boolean
 }
 
 export interface IAdapter {
@@ -83,6 +85,7 @@ export class BaseTemplate {
   protected exportExpr = 'module.exports ='
   protected isSupportRecursive: boolean
   protected miniComponents: Components
+  protected componentConfig: ComponentConfig | undefined
   protected thirdPartyPatcher: Record<string, Record<string, string>> = {}
   protected modifyCompProps?: (compName: string, target: Record<string, string>) => Record<string, string>
   protected modifyLoopBody?: (child: string, nodeName: string) => string
@@ -509,11 +512,16 @@ export class BaseTemplate {
 
   // 最后一层的 comp 需要引用 container 进行重新的模版循环，其他情况不需要 container
   protected buildContainerTemplate (level: number) {
+    const skipRecursive = this.componentConfig?.skipRecursiveComponent
+    const compTag = skipRecursive
+      ? '<!-- nodes beyond baseLevel are truncated -->'
+      : (!this.isSupportRecursive && this.isUseXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />')
+
     const tmpl = `<block ${this.Adapter.if}="{{i.nn === '${this.componentsAlias['#text']._num}'}}">
     <template is="tmpl_0_${this.componentsAlias['#text']._num}" data="{{${this.dataKeymap('i:i')}}}" />
   </block>
   <block ${this.Adapter.else}>
-    ${!this.isSupportRecursive && this.isUseXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />'}
+    ${compTag}
   </block>`
 
     return `
@@ -652,7 +660,6 @@ export class RecursiveTemplate extends BaseTemplate {
 export class UnRecursiveTemplate extends BaseTemplate {
   isSupportRecursive = false
   protected _baseLevel = 16
-  private componentConfig: ComponentConfig
 
   public buildTemplate = (componentConfig: ComponentConfig) => {
     this.componentConfig = componentConfig
@@ -683,7 +690,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
     }, '')
 
     template += this.buildPlainTextTemplate(level)
-    template += this.buildThirdPartyTemplate(level, this.componentConfig)
+    template += this.buildThirdPartyTemplate(level, this.componentConfig!)
 
     return template
   }
@@ -710,7 +717,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
     }, '')
 
     if (level === 0) template += this.buildPlainTextTemplate(level)
-    template += this.buildThirdPartyTemplate(level, this.componentConfig)
+    template += this.buildThirdPartyTemplate(level, this.componentConfig!)
 
     return template
   }
@@ -718,7 +725,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
   protected buildXSTmplName () {
     const isLoopComps = [
       ...Array.from(this.nestElements.keys()),
-      ...Array.from(this.componentConfig.thirdPartyComponents.keys())
+      ...Array.from(this.componentConfig!.thirdPartyComponents.keys())
     ]
     const isLoopCompsSet = new Set(isLoopComps)
     const hasMaxComps: string[] = []

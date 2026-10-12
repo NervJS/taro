@@ -1,0 +1,3 @@
+{
+  "extends": ["taro/react"]
+}

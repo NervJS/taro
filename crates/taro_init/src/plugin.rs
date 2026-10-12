@@ -67,6 +67,7 @@ impl Plugin {
       sub_pkg: None,
       page_dir: None,
       set_sub_pkg_page_name: None,
+      platforms: None,
     };
     let all_files = all_files
       .iter()

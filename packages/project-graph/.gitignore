@@ -1,0 +1,2 @@
+# 测试 fixture 运行时生成的图缓存（含绝对路径，不入版本控制）
+src/__tests__/fixtures/**/.taro/
