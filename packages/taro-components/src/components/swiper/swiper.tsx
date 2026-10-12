@@ -222,7 +222,14 @@ export class Swiper implements ComponentInterface {
     if (!this.isWillLoadCalled || !swiper) return
     if (!newVal) return
     const beforeDomOperation = () => {
-      if (!this.isSwiperReady(swiper)) return
+      if (!this.isSwiperReady(swiper)) {
+        // 失效实例不能继续占位，等本次子节点操作完成后恢复轮播
+        if (this.swiper === swiper) {
+          this.destroySwiper()
+          this.handleSwiperSizeDebounce()
+        }
+        return
+      }
       this.#domChangeByOutSide = true
       swiper.autoplay?.stop()
       // 如果是由于外部子节点的变化引起的 dom 变化，需要重新初始化 swiper。
@@ -264,7 +271,12 @@ export class Swiper implements ComponentInterface {
     clearTimeout(this.#sizeTimer)
     const swiper = this.swiper
     this.#sizeTimer = setTimeout(() => {
-      if (!this.isSwiperReady(swiper) || !this.isWillLoadCalled) return
+      if (this.swiper !== swiper || !this.isWillLoadCalled || !this.el.isConnected) return
+      if (!this.isSwiperReady(swiper)) {
+        this.destroySwiper()
+        this.handleInit(true)
+        return
+      }
       if (this.circular) {
         if (this.#domChangeByOutSide) {
           this.reset()
@@ -308,7 +320,10 @@ export class Swiper implements ComponentInterface {
   }
 
   componentDidRender () {
-    if (this.#didLoad && !this.swiper) this.handleInit(true)
+    if (this.#didLoad && !this.isSwiperReady(this.swiper)) {
+      this.destroySwiper()
+      this.handleInit(true)
+    }
   }
 
   disconnectedCallback () {
