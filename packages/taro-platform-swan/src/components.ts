@@ -46,13 +46,15 @@ export const components = {
     'skip-subscribe-authorize': 'false'
   },
   Input: {
-    'adjust-position': 'true'
+    'adjust-position': 'true',
+    'hold-keyboard': 'false'
   },
   Textarea: {
     'confirm-type': singleQuote('default'),
     'confirm-hold': 'false',
     'show-confirm-bar': 'true',
-    'adjust-position': 'true'
+    'adjust-position': 'true',
+    'hold-keyboard': 'false'
   },
   Navigator: {
     target: singleQuote('self'),

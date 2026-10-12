@@ -2878,6 +2878,31 @@ require("./runtime");
             RichText: {
                 space: _empty,
                 "user-select": _false
+            },
+            ScrollView: {
+                "scroll-x": _false,
+                "scroll-y": _false,
+                "upper-threshold": "50",
+                "lower-threshold": "50",
+                "scroll-top": _empty,
+                "scroll-left": _empty,
+                "scroll-into-view": _empty,
+                "scroll-with-animation": _false,
+                "enable-back-to-top": _false,
+                bindscrolltoupper: _empty,
+                bindscrolltolower: _empty,
+                bindscroll: _empty,
+                "enable-flex": _false,
+                "enable-passive": _false,
+                "refresher-enabled": _false,
+                "refresher-threshold": "45",
+                "refresher-default-style": singleQuote("black"),
+                "refresher-background": singleQuote("#FFF"),
+                "refresher-triggered": _false,
+                bindrefresherpulling: _empty,
+                bindrefresherrefresh: _empty,
+                bindrefresherrestore: _empty,
+                bindrefresherabort: _empty
             }
         };
         const hostConfig = {
@@ -3839,7 +3864,7 @@ require("./runtime");
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ "comp" ], {
     "../../../../packages/taro-webpack5-runner/dist/template/comp.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../mocks/taro-runtime.ts");
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)(undefined, false));
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {

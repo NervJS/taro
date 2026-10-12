@@ -6,6 +6,7 @@ export interface IComponentConfig {
   exclude: Set<string>
   thirdPartyComponents: Map<Tagname, Attrs>
   includeAll: boolean
+  scopedIncludes: Map<string, Set<string>>
 }
 
 export interface IModifyChainData {

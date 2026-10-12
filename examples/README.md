@@ -11,4 +11,5 @@
 - custom-tabbar-vue3: 微信小程序自定义 TabBar（Vue3）
 - external-prebundle: 第三方使用 PreBundle 特性
 - mini-split-chunks-plugin: 智能提取分包依赖
+- [subpackage-indie](subpackage-indie/README.md): 微信混合开发的子分包独立模板示例
 - weapp-independent-subpackages: 微信小程序独立分包功能演示

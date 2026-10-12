@@ -15,6 +15,16 @@ import type { PluginOption } from 'vite'
 export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   return [{
     name: 'taro:vite-mini-emit',
+    renderChunk (code, chunk) {
+      if (viteCompilerContext && chunk.isEntry && chunk.name === viteCompilerContext.app.name) {
+        const { app } = viteCompilerContext
+        const appConfig = app.config
+        if (process.env.TARO_ENV === 'tt' && appConfig) {
+          return `if (typeof tt !== 'undefined') {\n  tt.__$enableTTDom$__ = ${appConfig.enableTTDom};\n}\n${code}`
+        }
+      }
+      return null
+    },
     async generateBundle (_outputOpts, bundle) {
       const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
@@ -60,6 +70,9 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         })
 
         // emit: page
+        // 先生成 base 模板：buildPageTemplate 的平台覆写（如微信小程序的 page-meta）
+        // 依赖 buildTemplate 填充的组件信息，而页面模板先于 base 模板生成
+        const baseTemplate = template.buildTemplate(componentConfig)
         viteCompilerContext.pages.forEach(page => {
           const pageConfig = page.config
 
@@ -78,7 +91,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             const importBaseTemplatePath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, viteCompilerContext.getTemplatePath(baseTemplateName))))
             generateTemplateFile(this, viteCompilerContext, {
               filePath: page.scriptPath,
-              content: template.buildPageTemplate(importBaseTemplatePath)
+              content: template.buildPageTemplate(importBaseTemplatePath, { content: pageConfig, path: page.name })
             })
           }
 
@@ -97,10 +110,10 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           })
         }
 
-        // emit: base.xml
+        // emit: base.xml（内容已在生成页面模板前计算，供 buildPageTemplate 覆写读取组件信息）
         generateTemplateFile(this, viteCompilerContext, {
           filePath: baseTemplateName,
-          content: template.buildTemplate(componentConfig)
+          content: baseTemplate
         })
 
         if (template.isUseXS) {
@@ -216,7 +229,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
 function generateConfigFile (ctx: PluginContext, viteCompilerContext: ViteMiniCompilerContext, options: { filePath: string, config: Config & { component?: boolean } }) {
   const { filePath, config } = options
   const fileName = viteCompilerContext.getConfigPath(getComponentName(viteCompilerContext, filePath))
-  const unOfficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+  const unOfficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components', 'forceCustomWrapper']
   unOfficialConfigs.forEach(item => {
     delete config[item]
   })

@@ -386,7 +386,7 @@ export class TaroElement extends TaroNode {
 
     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       const componentsAlias = getComponentsAlias()
-      const value = isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
+      const value = name === VIEW && !isHasExtractProp(this) ? PURE_VIEW : `static-${name}`
       const valueAlias = componentsAlias[value]._num
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,

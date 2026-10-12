@@ -16,6 +16,12 @@ rustflags = ["-C", "target-feature=+crt-static"]
 [target.i686-pc-windows-msvc]
 rustflags = ["-C", "target-feature=+crt-static"]
 
+# SWC 插件依赖宿主注入的 import 函数(如 __set_transform_result),
+# 编译到 wasm 时这些符号本应作为 wasm import 保留为未定义。
+# rustc 1.97 起 rust-lld 默认将其视为链接错误,故显式放行。
+[target.wasm32-wasip1]
+rustflags = ["-C", "link-args=--allow-undefined"]
+
 [alias]
 # Alias to build actual SWC plugin binary for the specified target.
 build-wasi = "build --target wasm32-wasip1"

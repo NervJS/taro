@@ -1122,11 +1122,7 @@
       "success": "void",
       "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
     },
-    "createMapContext": {
-      "object": "*",
-      "success": "void",
-      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
-    },
+    "createMapContext": "*",
     "createMediaRecorder": {
       "object": "*",
       "success": "void",
@@ -2189,7 +2185,7 @@
       "type": "Type"
     },
     "image": {
-      "lang": "string",
+      "disableDefaultSize": "boolean",
       "lazyLoad": "boolean",
       "mode": "Mode",
       "nativeProps": "*",

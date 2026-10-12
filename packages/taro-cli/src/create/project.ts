@@ -43,7 +43,14 @@ export interface IProjectConf {
   hideDefaultTemplate?: boolean
   framework: FrameworkType
   compiler?: CompilerType
+  platforms?: string[]
   ask?: (config: object) => Promise<void> | void
+  /**
+   * 内部标记：由 `taro init .` / `./` 触发。
+   * 表示目标目录即当前工作目录，projectName 已被解析为当前目录名。
+   * 仅在 CLI 内部流转，不会传递给底层 createProject。
+   */
+  initInCurrentDir?: boolean
 }
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -55,6 +62,24 @@ interface AskMethods {
 }
 
 const NONE_AVAILABLE_TEMPLATE = '无可用模板'
+
+function resolveProjectConf (conf: IProjectConfOptions): IProjectConfOptions {
+  if (!conf.projectName || !/^\.(?:[\\/])?$/.test(conf.projectName)) return conf
+
+  const projectDir = conf.projectDir || process.cwd()
+  const currentDirName = path.basename(projectDir)
+  // 文件系统根目录（如 `/` 或 `C:\`）下 basename 为空，无法推断项目名，
+  // 显式报错而非静默传空名，避免在根目录创建文件、init git、装依赖。
+  if (!currentDirName) {
+    throw new Error('无法在文件系统根目录下初始化项目，请切换到具体目录，或使用 `taro init <项目名>` 指定项目名称')
+  }
+  return {
+    ...conf,
+    projectDir: path.dirname(projectDir),
+    projectName: currentDirName,
+    initInCurrentDir: true
+  }
+}
 
 export default class Project extends Creator {
   public rootPath: string
@@ -68,7 +93,7 @@ export default class Project extends Creator {
     }
     this.rootPath = this._rootPath
 
-    this.conf = Object.assign(
+    this.conf = resolveProjectConf(Object.assign(
       {
         projectName: '',
         projectDir: '',
@@ -77,7 +102,7 @@ export default class Project extends Creator {
         npm: ''
       },
       options
-    )
+    ))
   }
 
   init () {
@@ -109,6 +134,7 @@ export default class Project extends Creator {
     this.askTypescript(conf, prompts)
     this.askBuildEs5(conf, prompts)
     this.askCSS(conf, prompts)
+    this.askPlatforms(conf, prompts)
     this.askNpm(conf, prompts)
     const answers = await inquirer.prompt<IProjectConf>(prompts)
 
@@ -145,6 +171,10 @@ export default class Project extends Creator {
   }
 
   askProjectName: AskMethods = function (conf, prompts) {
+    // `taro init .` 场景：目标目录即当前目录，projectName 已解析为当前目录名，
+    // 目录存在是预期行为，跳过“同名目录已存在”校验，避免误报。
+    if (conf.initInCurrentDir) return
+
     if ((typeof conf.projectName) !== 'string') {
       prompts.push({
         type: 'input',
@@ -237,6 +267,47 @@ export default class Project extends Creator {
         choices: cssChoices
       })
     }
+  }
+
+  askPlatforms: AskMethods = function (conf, prompts) {
+    if (typeof conf.platforms === 'string') {
+      conf.platforms = (conf.platforms as unknown as string).split(',').map(p => p.trim()).filter(Boolean)
+    }
+
+    const platformChoices = [
+      { name: '微信小程序', value: 'weapp' },
+      { name: '支付宝小程序', value: 'alipay' },
+      { name: '百度小程序', value: 'swan' },
+      { name: '字节跳动小程序', value: 'tt' },
+      { name: 'QQ 小程序', value: 'qq' },
+      { name: '京东小程序', value: 'jd' },
+      { name: 'H5', value: 'h5' },
+      { name: '鸿蒙元服务（Hybrid）', value: 'harmony-hybrid' },
+      { name: 'React Native', value: 'rn' }
+    ]
+
+    if (isArray(conf.platforms)) {
+      const supportedPlatforms = new Set(platformChoices.map(choice => choice.value))
+      const invalidPlatforms = conf.platforms.filter(
+        platform => !supportedPlatforms.has(platform)
+      )
+
+      if (conf.platforms.length === 0 || invalidPlatforms.length > 0) {
+        throw new Error(`无效的平台配置: ${invalidPlatforms.join(', ') || '未选择平台'}`)
+      }
+      return
+    }
+
+    prompts.push({
+      type: 'checkbox',
+      name: 'platforms',
+      message: '请选择需要支持的平台？',
+      choices: platformChoices,
+      default: ['weapp', 'h5'],
+      validate (input: string[]) {
+        return input.length > 0 || '请至少选择一个平台！'
+      }
+    })
   }
 
   askCompiler: AskMethods = function (conf, prompts) {
@@ -491,6 +562,7 @@ export default class Project extends Creator {
       description: this.conf.description,
       compiler: this.conf.compiler,
       period: PeriodType.CreateAPP,
+      platforms: this.conf.platforms,
     }, handler).then(() => {
       cb && cb()
     })

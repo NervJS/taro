@@ -130,6 +130,7 @@ require("./runtime");
                 "send-message-img": _empty,
                 "app-parameter": _empty,
                 "show-message-card": _false,
+                "phone-number-no-quota-toast": _true,
                 "business-id": _empty,
                 bindGetUserInfo: _empty,
                 bindContact: _empty,
@@ -843,7 +844,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -914,7 +915,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_1_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -985,7 +986,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_2_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1056,7 +1057,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_3_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1109,7 +1110,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_4_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1162,7 +1163,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_5_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1209,7 +1210,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_6_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1256,7 +1257,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_7_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1303,7 +1304,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_8_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1350,7 +1351,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_9_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1397,7 +1398,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_10_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1444,7 +1445,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_11_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1491,7 +1492,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_12_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1538,7 +1539,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_13_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1585,7 +1586,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_14_custom-wrapper">
-  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <custom-wrapper i="{{i}}" l="{{l}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}" class="{{i.cl}}" style="{{i.st}}">
   </custom-wrapper>
 </template>
   
@@ -1640,7 +1641,7 @@ require("./runtime");
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ "comp" ], {
     "../../../../packages/taro-webpack5-runner/dist/template/comp.js": function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../mocks/taro-runtime.ts");
-        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)());
+        Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.s$)(undefined, false));
     }
 }, function(__webpack_require__) {
     var __webpack_exec__ = function(moduleId) {

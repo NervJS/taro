@@ -42,12 +42,12 @@ export function getInitPxTransform (taro) {
   }
 }
 
-export function getPxTransform (taro) {
+export function getPxTransform (taro, designWid?: number) {
   return function (size) {
     const config = taro.config || {}
     const baseFontSize = config.baseFontSize
     const deviceRatio = config.deviceRatio || defaultDesignRatio
-    const designWidth = ((input = 0) => isFunction(config.designWidth)
+    const designWidth = designWid || ((input = 0) => isFunction(config.designWidth)
       ? config.designWidth(input)
       : config.designWidth || defaultDesignWidth)(size)
     if (!(designWidth in deviceRatio)) {

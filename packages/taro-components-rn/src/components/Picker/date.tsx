@@ -4,6 +4,8 @@ import * as React from 'react'
 import { noop } from '../../utils'
 import { DateProps, DateState } from './PropsType'
 
+import type { PickerProps } from '@ant-design/react-native/lib/picker'
+
 function formatTimeStr(time = ''): Date {
   let [year, month, day]: any = time.split('-')
   year = ~~year || 2000
@@ -94,22 +96,21 @@ export default class DateSelector extends React.Component<DateProps, DateState> 
       value,
     } = this.state
 
-    let mode: any = 'date'
-    if (fields === 'year') {
-      mode = 'year'
-    } else if (fields === 'month') {
-      mode = 'month'
+    // 5.1.3 forwards these props to Picker but omits them from DatePickerProps.
+    // Remove this bridge when the upstream declaration includes them.
+    const popupProps: Pick<PickerProps, 'onDismiss' | 'disabled'> = {
+      onDismiss: this.onDismiss,
+      disabled,
     }
 
     return (
       <AntDatePicker
-        mode={mode}
+        precision={fields || 'day'}
+        {...popupProps}
         value={formatTimeStr(value)}
         minDate={formatTimeStr(start)}
         maxDate={formatTimeStr(end)}
         onChange={this.onChange}
-        onDismiss={this.onDismiss}
-        disabled={disabled}
       >
         {children}
       </AntDatePicker>
