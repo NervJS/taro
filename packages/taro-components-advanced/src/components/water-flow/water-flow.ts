@@ -226,7 +226,6 @@ const InnerWaterFlow = (
 
   const controlledScrollTop = pickControlledScrollOffset(scrollTop)
   const controlledScrollLeft = pickControlledScrollOffset(scrollLeft)
-  const resizeWidthRef = useRef<number | null>(null)
   const warnedShrinks = useRef<Map<string, number> | null>(null)
 
   const sections = useMemo(() => {
@@ -250,7 +249,7 @@ const InnerWaterFlow = (
           id: sectionId,
           order,
           col: autoColumn
-            ? getFeedColumn(resizeWidthRef.current ?? Taro.getSystemInfoSync().windowWidth)
+            ? getFeedColumn(Taro.getSystemInfoSync().windowWidth)
             : normalizeColumn(sectionProps.column),
           rowGap: sectionProps.rowGap || 0,
           columnGap: sectionProps.columnGap || 0,
@@ -267,8 +266,9 @@ const InnerWaterFlow = (
 
   /** autoColumn:监听窗口变化,组件内部算列数并原地 reflow,不依赖业务改 props */
   useResize(useMemoizedFn((res: Taro.PageResizeObject) => {
-    const width = res?.size?.windowWidth ?? Taro.getSystemInfoSync().windowWidth
-    resizeWidthRef.current = width
+    const width = isH5
+      ? Taro.getSystemInfoSync().windowWidth
+      : (res?.size?.windowWidth ?? Taro.getSystemInfoSync().windowWidth)
     const nextCol = getFeedColumn(width)
     let changed = false
     for (const section of root.sectionMap.values()) {
@@ -295,7 +295,7 @@ const InnerWaterFlow = (
     let changed = false
     let autoColumnCount: number | undefined
     const getAutoColumnCount = () => {
-      autoColumnCount ??= getFeedColumn(resizeWidthRef.current ?? Taro.getSystemInfoSync().windowWidth)
+      autoColumnCount ??= getFeedColumn(Taro.getSystemInfoSync().windowWidth)
       return autoColumnCount
     }
     if (warnedShrinks.current === null) warnedShrinks.current = new Map()

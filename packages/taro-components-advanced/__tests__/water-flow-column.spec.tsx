@@ -10,14 +10,17 @@ import { WaterFlow } from '../src/components/water-flow/water-flow'
 import type { Root as ReactRoot } from 'react-dom/client'
 
 let resizeCallback: ((value: { size: { windowWidth: number } }) => void) | undefined
-jest.mock('@tarojs/taro', () => ({
-  __esModule: true,
-  default: { getSystemInfoSync: jest.fn(() => ({ windowWidth: 400, windowHeight: 800 })) },
-  getSystemInfoSync: jest.fn(() => ({ windowWidth: 400, windowHeight: 800 })),
-  getEnv: () => 'WEB',
-  nextTick: (callback: () => void) => callback(),
-  useResize: (callback: typeof resizeCallback) => { resizeCallback = callback },
-}))
+jest.mock('@tarojs/taro', () => {
+  const getSystemInfoSync = jest.fn(() => ({ windowWidth: 400, windowHeight: 800 }))
+  return {
+    __esModule: true,
+    default: { getSystemInfoSync },
+    getSystemInfoSync,
+    getEnv: () => 'WEB',
+    nextTick: (callback: () => void) => callback(),
+    useResize: (callback: typeof resizeCallback) => { resizeCallback = callback },
+  }
+})
 jest.mock('@tarojs/runtime', () => ({
   requestAnimationFrame: (callback: FrameRequestCallback) => setTimeout(callback, 0),
   cancelAnimationFrame: (handle: number) => clearTimeout(handle),
@@ -59,6 +62,8 @@ beforeEach(() => {
 afterEach(() => {
   act(() => reactRoot.unmount())
   mount.remove()
+  const getSystemInfoSync = (jest.requireMock('@tarojs/taro') as { getSystemInfoSync: jest.Mock }).getSystemInfoSync
+  getSystemInfoSync.mockReturnValue({ windowWidth: 400, windowHeight: 800 })
   jest.restoreAllMocks()
 })
 
@@ -127,6 +132,7 @@ test('normalizes invalid columns and switches autoColumn immediately', () => {
 })
 
 test('H5 resize flushes height and notifies only changed auto sections', () => {
+  const getSystemInfoSync = (jest.requireMock('@tarojs/taro') as { getSystemInfoSync: jest.Mock }).getSystemInfoSync
   const changed = jest.fn()
   const unchanged = jest.fn()
   const render = () => act(() => reactRoot.render(
@@ -139,6 +145,7 @@ test('H5 resize flushes height and notifies only changed auto sections', () => {
   act(() => model.findSection('second')!.reflow(3))
   changed.mockClear()
   unchanged.mockClear()
+  getSystemInfoSync.mockReturnValue({ windowWidth: 650, windowHeight: 800 })
   act(() => resizeCallback?.({ size: { windowWidth: 650 } }))
   expect(model.findSection('first')?.col).toBe(3)
   expect(changed).toHaveBeenCalledTimes(1)
@@ -146,19 +153,24 @@ test('H5 resize flushes height and notifies only changed auto sections', () => {
   expect(model.getState().scrollHeight).toBe(model.sectionRange[1][1])
 })
 
-test('keeps the resize column when the system width differs after appending items', () => {
+test('ignores the resize payload and follows the live system width', () => {
   const getSystemInfoSync = (jest.requireMock('@tarojs/taro') as { default: { getSystemInfoSync: jest.Mock } }).default.getSystemInfoSync
   getSystemInfoSync.mockReturnValue({ windowWidth: 625, windowHeight: 800 })
   const onColumnChange = jest.fn()
-  const section = renderFlow(2, 6, true, onColumnChange)
+  const section = renderFlow(2, 4, true, onColumnChange)
   expect(section.col).toBe(2)
+  expect(section.columnMap.map(nodes => nodes.map(node => node.childIndex))).toEqual([[0, 2], [1, 3]])
   act(() => resizeCallback?.({ size: { windowWidth: 640 } }))
-  expect(section.col).toBe(3)
+  expect(section.col).toBe(2)
+  expect(onColumnChange).not.toHaveBeenCalled()
+  renderFlow(2, 5, true, onColumnChange)
+  expect(section.columnMap.map(nodes => nodes.map(node => node.childIndex))).toEqual([[0, 2, 4], [1, 3]])
+  getSystemInfoSync.mockReturnValue({ windowWidth: 900, windowHeight: 800 })
+  renderFlow(2, 6, true, onColumnChange)
+  expect(section.col).toBe(4)
+  expect(section.columnMap.map(nodes => nodes.map(node => node.childIndex))).toEqual([[0, 4], [1, 5], [2], [3]])
   expect(onColumnChange).toHaveBeenCalledTimes(1)
-  renderFlow(2, 7, true, onColumnChange)
-  expect(section.col).toBe(3)
-  expect(onColumnChange).toHaveBeenCalledTimes(1)
-  getSystemInfoSync.mockReturnValue({ windowWidth: 400, windowHeight: 800 })
+  expect(onColumnChange).toHaveBeenCalledWith(4)
 })
 
 test('reflows sections outside the visible range in order', () => {
