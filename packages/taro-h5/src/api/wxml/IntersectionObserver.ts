@@ -95,35 +95,23 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
   public observe (targetSelector: string, callback: Taro.IntersectionObserver.ObserveCallback): void {
     // 同wx小程序效果一致，每个实例监听一个Selector
     if (this._listeners.length) return
-    const container = this.container
-    const containerElement = container.nodeType === 1 ? container as Element : null
-    const containerName = containerElement
-      ? `${containerElement.tagName.toLowerCase()}${containerElement.id ? `#${containerElement.id}` : ''}`
-      : 'document'
     // 监听前没有设置关联的节点
     if (!this._observerInst) {
-      console.warn(`IntersectionObserver.observe: call relativeTo or relativeToViewport first; observer has not been created (selector: ${targetSelector}, container: ${containerName}).`)
+      console.warn('Intersection observer will be ignored because no relative nodes are found.')
       return
     }
 
-    const selfMatch = containerElement?.matches(targetSelector) ? containerElement : null
-    const nodeList: Element[] = []
-    if (this._options.observeAll) {
-      if (selfMatch) nodeList.push(selfMatch)
-      nodeList.push(...container.querySelectorAll(targetSelector))
-    } else {
-      const target = container.querySelector(targetSelector) || selfMatch
-      if (target) nodeList.push(target)
-    }
+    const container = this.container
+    const selfMatch = container.nodeType === 1 && (container as Element).matches(targetSelector)
+      ? container as Element
+      : null
+    const nodeList = this._options.observeAll
+      ? [...(selfMatch ? [selfMatch] : []), ...container.querySelectorAll(targetSelector)]
+      : [container.querySelector(targetSelector) || selfMatch]
 
-    if (!nodeList.length) {
-      console.warn(`IntersectionObserver.observe: target was not found (selector: ${targetSelector}, container: ${containerName}).`)
-      return
-    }
-
-    // 查询在调用时完成；只延后原生观察注册，以保持首次回调的既有时机。
     Taro.nextTick(() => {
       nodeList.forEach(element => {
+        if (!element) return
         this._observerInst.observe(element)
         this._listeners.push({ element, callback })
       })
@@ -131,33 +119,21 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
   }
 
   public relativeTo (selector: string, margins?: Taro.IntersectionObserver.RelativeToMargins | undefined): Taro.IntersectionObserver {
-    return this._setRoot(selector, margins, true)
-  }
-
-  public relativeToViewport (margins?: Taro.IntersectionObserver.RelativeToViewportMargins | undefined): Taro.IntersectionObserver {
-    return this._setRoot('.taro_page', margins, false)
-  }
-
-  private _setRoot (selector: string, margins: Taro.IntersectionObserver.RelativeToMargins | undefined, warnOnMiss: boolean): Taro.IntersectionObserver {
     // 已设置observe监听后，重新关联节点
     if (this._listeners.length) {
       console.error('Relative nodes cannot be added after "observe" call in IntersectionObserver')
       return this
     }
-    const container = this.container
-    this._root = container.querySelector(selector) || null
-    if (warnOnMiss && !this._root) {
-      const containerElement = container.nodeType === 1 ? container as Element : null
-      const containerName = containerElement
-        ? `${containerElement.tagName.toLowerCase()}${containerElement.id ? `#${containerElement.id}` : ''}`
-        : 'document'
-      console.warn(`IntersectionObserver.relativeTo: reference node was not found (selector: ${selector}, container: ${containerName}); ensure the node is mounted when relativeTo is called. Falling back to viewport.`)
-    }
+    this._root = this.container.querySelector(selector) || null
     if (margins) {
       this._rootMargin = margins
     }
     this._observerInst = this.createInst()
     return this
+  }
+
+  public relativeToViewport (margins?: Taro.IntersectionObserver.RelativeToViewportMargins | undefined): Taro.IntersectionObserver {
+    return this.relativeTo('.taro_page', margins)
   }
 
   private _getCallbackByElement (element: Element) {
