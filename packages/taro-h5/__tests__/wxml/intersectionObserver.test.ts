@@ -90,24 +90,24 @@ describe('H5 IntersectionObserver', () => {
     expect(callback).toHaveBeenCalledTimes(2)
   })
 
-  test('warns only once when targets are missing without calling the callback', () => {
+  test('warns on every missing target without calling the callback', () => {
     const callback = jest.fn()
     const observer = new TaroH5IntersectionObserver(container)
     observer.relativeToViewport()
     observer.observe('.missing', callback)
     observer.observe('.missing', callback)
     flushObservation()
-    expect(console.warn).toHaveBeenCalledTimes(1)
+    expect(console.warn).toHaveBeenCalledTimes(2)
     expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('selector: .missing, container: div#scope'))
     expect(callback).not.toHaveBeenCalled()
   })
 
-  test('warns once when the relative area was not configured', () => {
+  test('warns on every call when the relative area was not configured', () => {
     const callback = jest.fn()
     const observer = new TaroH5IntersectionObserver(container)
     observer.observe('.item', callback)
     observer.observe('.item', callback)
-    expect(console.warn).toHaveBeenCalledTimes(1)
+    expect(console.warn).toHaveBeenCalledTimes(2)
     expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('observer has not been created'))
     expect(callback).not.toHaveBeenCalled()
   })
@@ -119,9 +119,10 @@ describe('H5 IntersectionObserver', () => {
     observer.relativeToViewport()
     observer.observe('.missing', callback)
     observer.observe('.missing', callback)
-    expect(console.warn).toHaveBeenCalledTimes(2)
+    expect(console.warn).toHaveBeenCalledTimes(3)
     expect(console.warn).toHaveBeenNthCalledWith(1, expect.stringContaining('observer has not been created'))
     expect(console.warn).toHaveBeenNthCalledWith(2, expect.stringContaining('target was not found'))
+    expect(console.warn).toHaveBeenNthCalledWith(3, expect.stringContaining('target was not found'))
     expect(callback).not.toHaveBeenCalled()
   })
 
@@ -131,6 +132,53 @@ describe('H5 IntersectionObserver', () => {
     observer.relativeToViewport().observe('.missing', callback)
     expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('target was not found'))
     expect(callback).not.toHaveBeenCalled()
+  })
+
+  test('explicit relativeTo warns on each missing reference and still observes with the viewport', () => {
+    const callback = jest.fn()
+    const observer = new TaroH5IntersectionObserver(container)
+    expect(observer.relativeTo('#nope')).toBe(observer)
+    expect(observer.relativeTo('#nope')).toBe(observer)
+    expect(console.warn).toHaveBeenCalledTimes(2)
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('selector: #nope, container: div#scope'))
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('mounted when relativeTo is called'))
+    observer.observe('#child', callback)
+    flushObservation()
+    const instance = MockIntersectionObserver.instances[1]
+    expect(instance.options?.root).toBeNull()
+    expect(instance.observed).toEqual([document.getElementById('child')])
+    instance.trigger(document.getElementById('child')!, 1)
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
+
+  test('passes margins in CSS order and thresholds to the native observer', () => {
+    const thresholds = [0, 0.5, 1]
+    const observer = new TaroH5IntersectionObserver(container, { thresholds })
+    observer.relativeTo('#nope', { top: 1, right: 2, bottom: 3, left: 4 })
+    expect(MockIntersectionObserver.instances[0].options).toEqual(expect.objectContaining({
+      root: null,
+      rootMargin: '1px 2px 3px 4px',
+      threshold: thresholds
+    }))
+  })
+
+  test('relativeToViewport keeps the page root when querying the document', () => {
+    new TaroH5IntersectionObserver(null).relativeToViewport()
+    expect(MockIntersectionObserver.instances[0].options?.root).toBe(document.querySelector('.taro_page'))
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  test('relativeToViewport falls back to the viewport without warning when scoped to the page', () => {
+    const page = document.querySelector('.taro_page')!
+    new TaroH5IntersectionObserver(page).relativeToViewport()
+    expect(MockIntersectionObserver.instances[0].options?.root).toBeNull()
+    expect(console.warn).not.toHaveBeenCalled()
+  })
+
+  test('explicit relativeTo warns even when the selector is .taro_page', () => {
+    const page = document.querySelector('.taro_page')!
+    new TaroH5IntersectionObserver(page).relativeTo('.taro_page')
+    expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('selector: .taro_page'))
   })
 
   test('searches the document when no component is provided', () => {
