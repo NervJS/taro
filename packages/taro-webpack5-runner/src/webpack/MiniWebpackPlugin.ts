@@ -50,10 +50,12 @@ export class MiniWebpackPlugin {
     // 使同步核先于页面注册执行（填共享全局 + 装占位 shim + 触发异步核加载）。
     // F6 native-components 场景:BuildNativePlugin 删了 ENTRY dep,没有 app.js;
     // 每个 native-component 是 META_TYPE.PAGE,需在 PAGE chunk 顶部也注入同步核 require。
+    // new-blended(--new-blended)也是本地化组件独立编译,组件顶层同步调 createNativeComponentConfig,
+    // 同样需要同步核先就位;此前只按 isBuildNativeComp 判断,漏掉 newBlended 增量,导致组件白屏。
     if (this.combination.config.sharedRuntime) {
       plugins.taroInjectSyncCorePlugin = WebpackPlugin.getPlugin(TaroInjectSyncCorePlugin, [{
         syncCoreName: SHARED_SYNC_CORE_NAME,
-        injectOnPage: !!this.combination.isBuildNativeComp,
+        injectOnPage: !!this.combination.isBuildNativeComp || !!this.combination.newBlended,
       }])
     }
 
