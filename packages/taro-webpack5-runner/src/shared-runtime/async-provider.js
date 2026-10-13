@@ -65,6 +65,11 @@ function activate () {
 
   // react-dom 真身填进同步核预放的占位对象（保引用）
   fill(shared['react-dom'], reactDom)
+  // react-dom/client 是 react-dom 的 subpath。业务 `import { createRoot } from "react-dom/client"`
+  // 会被 external 到 shared['react-dom/client']（见 externals.ts:REG_SHARED_REACT 的 (\/|$) 前缀匹配）。
+  // 真身 @tarojs/react 已导出 createRoot/hydrateRoot/createPortal，补挂同一对象即可。
+  // 缺失则业务包该 import 读到 undefined，真机报 createRoot undefined、弹层/toast/modal 无法挂载。
+  share(shared, 'react-dom/client', reactDom)
 
   // framework-runtime 真身填进占位。fill 后 fw.createReactApp 指向真身,
   // 后续业务包 app.js 顶层 `createReactApp(App_B, ...)` 直接走真身,内部 last-writer
