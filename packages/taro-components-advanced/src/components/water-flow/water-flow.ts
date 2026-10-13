@@ -42,6 +42,11 @@ function pickControlledScrollOffset (value: unknown): number | undefined {
   return typeof value === 'number' && !Number.isNaN(value) ? value : undefined
 }
 
+function normalizeColumn (column: number | undefined): number {
+  const value = Number(column ?? 1)
+  return Number.isFinite(value) ? Math.max(1, Math.floor(value)) : 1
+}
+
 const InnerWaterFlow = (
   { children, ...props }: PropsWithChildren<WaterFlowProps>,
   ref: React.ForwardedRef<HTMLElement>
@@ -221,6 +226,7 @@ const InnerWaterFlow = (
 
   const controlledScrollTop = pickControlledScrollOffset(scrollTop)
   const controlledScrollLeft = pickControlledScrollOffset(scrollLeft)
+  const warnedShrinks = useRef<Map<string, number> | null>(null)
 
   const sections = useMemo(() => {
     const [start, end] = renderRange$
@@ -244,10 +250,10 @@ const InnerWaterFlow = (
           order,
           col: autoColumn
             ? getFeedColumn(Taro.getSystemInfoSync().windowWidth)
-            : (sectionProps.column ?? 1),
+            : normalizeColumn(sectionProps.column),
           rowGap: sectionProps.rowGap || 0,
           columnGap: sectionProps.columnGap || 0,
-          count: Children.count(sectionProps.children),
+          count: childCount,
         })
       }
       // 同步只读控制字段(纯赋值,不触发 pub);autoColumn 下列数由 useResize/reflow 驱动
@@ -260,33 +266,66 @@ const InnerWaterFlow = (
 
   /** autoColumn:监听窗口变化,组件内部算列数并原地 reflow,不依赖业务改 props */
   useResize(useMemoizedFn((res: Taro.PageResizeObject) => {
-    const width = res?.size?.windowWidth ?? Taro.getSystemInfoSync().windowWidth
+    const width = isH5
+      ? Taro.getSystemInfoSync().windowWidth
+      : (res?.size?.windowWidth ?? Taro.getSystemInfoSync().windowWidth)
     const nextCol = getFeedColumn(width)
     let changed = false
     for (const section of root.sectionMap.values()) {
       if (section.autoColumn && section.col !== nextCol) {
         section.reflow(nextCol)
         changed = true
+        if (isH5) section.onColumnChange?.(nextCol)
       }
     }
     if (changed) {
-      root.setStateIn('renderRange', root.getSectionRenderRange())
-      for (const section of root.sectionMap.values()) {
-        if (section.autoColumn) section.onColumnChange?.(nextCol)
+      if (isH5) {
+        root.updateScrollHeight(true)
+      } else {
+        root.setStateIn('renderRange', root.getSectionRenderRange())
+        for (const section of root.sectionMap.values()) {
+          if (section.autoColumn) section.onColumnChange?.(nextCol)
+        }
       }
     }
   }))
 
   /** 配对 pushNodesStructuralOnly：在 layout 阶段完成 Section 状态，避免 useMemo 内 setState 告警 */
   useLayoutEffect(() => {
+    let changed = false
+    let autoColumnCount: number | undefined
+    const getAutoColumnCount = () => {
+      autoColumnCount ??= getFeedColumn(Taro.getSystemInfoSync().windowWidth)
+      return autoColumnCount
+    }
+    if (warnedShrinks.current === null) warnedShrinks.current = new Map()
+    const warnedCounts = warnedShrinks.current
     Children.forEach(children, (child: ReactElement<PropsWithChildren<_FlowSectionProps>>, order) => {
       if (Object.is(child, null)) {
         return
       }
       const sectionProps = child.props
       const sectionId = sectionProps.id || `section-${order}`
-      root.findSection(sectionId)?.finalizePushNodesStateIfNeeded()
+      const section = root.findSection(sectionId)
+      if (!section) return
+      section.finalizePushNodesStateIfNeeded()
+      const childCount = Children.count(sectionProps.children)
+      if (childCount >= section.count) {
+        warnedCounts.delete(sectionId)
+      } else if (process.env.NODE_ENV !== 'production' && warnedCounts.get(sectionId) !== childCount) {
+        warnedCounts.set(sectionId, childCount)
+        console.warn(`[WaterFlow] FlowSection ${sectionId} 已注册 ${section.count} 个节点，当前收到 ${childCount} 个子项；减少数据后请重建 WaterFlow。`)
+      }
+      if (!isH5) return
+      const nextCol = section.autoColumn
+        ? getAutoColumnCount()
+        : normalizeColumn(sectionProps.column)
+      if (section.col === nextCol) return
+      section.reflow(nextCol)
+      changed = true
+      if (section.autoColumn) section.onColumnChange?.(nextCol)
     })
+    if (changed) root.updateScrollHeight(true)
   }, [children, root])
 
   const scrollTo = useMemoizedFn((scrollOffset = 0) => {
