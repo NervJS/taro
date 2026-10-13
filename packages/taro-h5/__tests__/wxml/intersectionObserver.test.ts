@@ -61,10 +61,10 @@ describe('H5 IntersectionObserver target lookup', () => {
     expect(callback).toHaveBeenCalledWith(expect.objectContaining({ intersectionRatio: 1 }))
   })
 
-  test('keeps the descendant first when both container and descendant match', () => {
+  test('prefers the container when both container and descendant match', () => {
     new TaroH5IntersectionObserver(container).relativeToViewport().observe('.item', jest.fn())
     jest.runAllTimers()
-    expect(MockIntersectionObserver.instances[0].observed).toEqual([document.getElementById('child')])
+    expect(MockIntersectionObserver.instances[0].observed).toEqual([container])
   })
 
   test('observeAll includes the container before matching descendants', () => {
