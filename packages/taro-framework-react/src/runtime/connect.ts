@@ -208,6 +208,21 @@ export function createReactApp (
       container.id = appId
       appContainer?.appendChild(container)
     }
+    // 共享运行时（split 模式）兼容：taro-loader 为多包 App 隔离把 config.appId 注入为本包
+    // pkgId（如 chunkGlobalPy），React root 因此渲染进 #<pkgId> 容器，而非默认 #app。
+    // 业务代码（如 checkout dom.getRoot）仍按普通 Taro 约定用
+    // document.getElementById('app').children 找 nodeName==='root'，此时 #app 是空的 → 拿不到
+    // root → modal/toast/float-layout 弹层报 "root element does not exists"。
+    // 这里让 #app 的 childNodes 与 pkgId 容器共享引用：TaroNode.appendChild 是 childNodes.push
+    // 原地追加，两者指向同一数组，React 后续 commit 出的 root 元素对 #app.children 也可见，
+    // 保持既有 #app 约定零业务改动。多包场景由「最后 renderReactRoot 的包」接管引用，与页面栈顶
+    // 所属包一致（每包 createReactApp 都会重跑 renderReactRoot）。
+    if (appId !== 'app') {
+      const appEl = document.getElementById('app')
+      if (appEl && appEl !== container) {
+        appEl.childNodes = container.childNodes
+      }
+    }
     if ((react.version || '').startsWith('18')) {
       const root = ReactDOM.createRoot((container as unknown as Element))
       root.render?.(h(AppWrapper))
