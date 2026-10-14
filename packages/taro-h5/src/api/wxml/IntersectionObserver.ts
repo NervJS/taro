@@ -101,10 +101,8 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
       return
     }
 
-    const container = this.container
-    const selfMatch = container.nodeType === 1 && (container as Element).matches(targetSelector)
-      ? container as Element
-      : null
+    const container: Element = this.container as Element
+    const selfMatch = container.nodeType === 1 && container.matches(targetSelector) ? container : null
     let nodeList: (Element | null)[]
     if (this._options.observeAll) {
       nodeList = [selfMatch, ...container.querySelectorAll(targetSelector)]
