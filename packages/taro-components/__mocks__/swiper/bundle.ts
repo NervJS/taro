@@ -45,6 +45,7 @@ export default class Swiper implements ISwiper {
     } as AutoplayMethods
     if (options.init !== false) this.init()
   }
+
   originalParams: SwiperOptions
   loopedSlides: number | null
   snapIndex: number
@@ -64,8 +65,8 @@ export default class Swiper implements ISwiper {
   }
 
   loopDestroy (): void {
-    // 保留真实 Swiper 对无效 wrapper 的访问，用于验证生命周期保护
-    Array.from(this.wrapperEl.children)
+    // Swiper 11 的 recalcSlides 从 slidesEl 读取子节点
+    Array.from(this.slidesEl.children)
   }
 
   init (el?: HTMLElement | undefined): ISwiper {
@@ -73,7 +74,8 @@ export default class Swiper implements ISwiper {
     if (!this.el) return this
     this.wrapperEl = this.el.querySelector('.swiper-wrapper') as HTMLElement
     if (!this.wrapperEl) return this
-    this.slides = Array.from(this.wrapperEl.querySelectorAll('taro-swiper-item-core'))
+    this.slidesEl = this.wrapperEl
+    this.slides = Array.from(this.slidesEl.querySelectorAll('taro-swiper-item-core'))
     this.initialized = true
     if (this.params.autoplay) this.autoplay.start()
     this.params.on?.init?.call(this, this)
@@ -148,6 +150,7 @@ export default class Swiper implements ISwiper {
   attachEvents (): void {}
 
   destroy (deleteInstance?: boolean | undefined, cleanStyles?: boolean | undefined): void {
+    if (this.initialized && this.params.loop) this.loopDestroy()
     this.autoplay.stop()
     this.initialized = false
     this.destroyed = true

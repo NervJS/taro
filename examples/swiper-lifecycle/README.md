@@ -35,4 +35,4 @@ PR 分支：同一操作顺序没有捕获到异常；旧实例被销毁，重�
 
 ## 自动化回归
 
-`packages/taro-components/__tests__/swiper-lifecycle.spec.tsx` 使用现有 `newSpecPage` 和 Swiper mock 覆盖 5 个生命周期场景。main 基线均失败，修复后通过。mock 场景与上面的真实浏览器结果分别记录。
+`packages/taro-components/__tests__/swiper-lifecycle.spec.tsx` 使用现有 `newSpecPage` 和 Swiper mock 覆盖 6 个生命周期场景。最初 5 个场景在 main 基线失败；本轮新增索引覆盖回归，并将失效节点用例对齐真实 slidesEl 路径，两个针对用例在本轮修复前失败、修复后通过。当前 13 个 Swiper 用例及 7 个快照通过。mock 场景与上面的真实浏览器结果分别记录。
