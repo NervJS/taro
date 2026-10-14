@@ -1,8 +1,8 @@
 import { h } from '@stencil/core'
 import { newSpecPage, SpecPage } from '@stencil/core/testing'
 
-import { Swiper } from '../src/components/swiper/swiper'
 import SwiperJS from '../__mocks__/swiper/bundle'
+import { Swiper } from '../src/components/swiper/swiper'
 
 type SwiperComponent = Omit<Swiper, never> & { swiper: SwiperJS }
 
@@ -48,6 +48,8 @@ describe('Swiper lifecycle', () => {
     const loopDestroy = jest.spyOn(previous, 'loopDestroy')
     page.root!.remove()
     await page.waitForChanges()
+    expect(loopDestroy).toHaveBeenCalledTimes(1)
+    loopDestroy.mockClear()
 
     page.root!.circular = false
     page.root!.current = 2
@@ -108,13 +110,13 @@ describe('Swiper lifecycle', () => {
     expect(instance.destroyed).toBe(true)
   })
 
-  it('skips loopDestroy and recovers when the current wrapper becomes invalid', async () => {
+  it('skips loopDestroy and recovers when slidesEl becomes invalid', async () => {
     const component = await mount()
     const instance = component.swiper
     const loopDestroy = jest.spyOn(instance, 'loopDestroy')
     jest.useFakeTimers()
-    // 模拟 DOM 更新期间实例持有的 wrapper 已经失效，不直接改组件状态
-    instance.wrapperEl = undefined as unknown as HTMLElement
+    // 仅让真实循环方法访问的节点失效，验证 wrapper 仍存在时也受到保护
+    instance.slidesEl = undefined as unknown as HTMLElement
     const child = page.doc.createElement('taro-swiper-item-core')
     child.className = 'swiper-slide'
 
@@ -128,5 +130,28 @@ describe('Swiper lifecycle', () => {
     expect(component.swiper.initialized).toBe(true)
     expect(component.swiper.autoplay.running).toBe(true)
     expect(component.swiper.wrapperEl.contains(child)).toBe(true)
+  })
+
+  it('preserves pending current through invalid-instance recovery and later saves the active slide', async () => {
+    const component = await mount()
+    const instance = component.swiper
+    instance.realIndex = 1
+    instance.wrapperEl = undefined as unknown as HTMLElement
+    instance.slidesEl = undefined as unknown as HTMLElement
+
+    page.root!.current = 2
+    await page.waitForChanges()
+
+    expect(component.swiper).not.toBe(instance)
+    expect(component.swiper.realIndex).toBe(2)
+
+    // 待应用索引生效后，普通卸载仍应保存用户后来滑到的位置
+    component.swiper.realIndex = 1
+    page.root!.remove()
+    await page.waitForChanges()
+    page.doc.body.appendChild(page.root!)
+    await page.waitForChanges()
+
+    expect(component.swiper.realIndex).toBe(1)
   })
 })

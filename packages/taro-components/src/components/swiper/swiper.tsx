@@ -22,6 +22,7 @@ export class Swiper implements ComponentInterface {
   // dom 变化是否由外部引起，因为 swiper 的循环模式也会引起 dom 的变化。如果不是由外部引起的 dom 变化，就不需要重新初始化 swiper
   #domChangeByOutSide = false
   #lastSwiperActiveIndex = 0
+  #hasPendingCurrent = false
   #didLoad = false
   #container: HTMLElement | null = null
   #sizeTimer: ReturnType<typeof setTimeout>
@@ -30,7 +31,7 @@ export class Swiper implements ComponentInterface {
   private isSwiperReady (swiper = this.swiper): swiper is SwiperInstance {
     return !!(this.el?.isConnected && swiper && swiper === this.swiper &&
       !swiper.destroyed && swiper.initialized && swiper.el === this.#container &&
-      swiper.wrapperEl?.parentElement === this.#container)
+      swiper.wrapperEl?.parentElement === this.#container && swiper.slidesEl === swiper.wrapperEl)
   }
 
   @Element() el: HTMLElement
@@ -133,6 +134,7 @@ export class Swiper implements ComponentInterface {
     const swiper = this.swiper
     if (!this.isSwiperReady(swiper)) {
       this.#lastSwiperActiveIndex = n
+      this.#hasPendingCurrent = true
       return
     }
     if (n === swiper.realIndex) return
@@ -336,11 +338,16 @@ export class Swiper implements ComponentInterface {
     this.observer = null
     const swiper = this.swiper
     if (swiper && !swiper.destroyed) {
-      this.#lastSwiperActiveIndex = swiper.realIndex
+      // 失效期间收到的 current 优先于旧实例的实际位置
+      if (!this.#hasPendingCurrent) this.#lastSwiperActiveIndex = swiper.realIndex
       // 先切断回调对旧实例的引用，再停止自动播放和销毁实例
       this.swiper = null
       swiper.autoplay?.stop()
-      if (swiper.initialized && swiper.wrapperEl) swiper.destroy()
+      if (swiper.initialized && swiper.wrapperEl) {
+        // slidesEl 失效时跳过循环节点还原，仍释放实例的事件和观察器
+        if (!swiper.slidesEl) swiper.params.loop = false
+        swiper.destroy()
+      }
     }
     this.swiper = null
     this.swiperWrapper = null
@@ -466,6 +473,7 @@ export class Swiper implements ComponentInterface {
       this.destroySwiper()
       return
     }
+    this.#hasPendingCurrent = false
 
     // Note: 这里是拦截了 swiper 的 minTranslate 和 maxTranslate 方法，手动修复了 loop 模式下的 margin 问题
     // 因为这两个属性会影响滑动到哪个位置进行 fixloop
