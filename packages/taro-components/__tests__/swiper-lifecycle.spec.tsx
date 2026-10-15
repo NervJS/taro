@@ -132,7 +132,7 @@ describe('Swiper lifecycle', () => {
     expect(component.swiper.wrapperEl.contains(child)).toBe(true)
   })
 
-  it('preserves pending current through invalid-instance recovery and later saves the active slide', async () => {
+  it('applies current during invalid-instance recovery and later saves the active slide', async () => {
     const component = await mount()
     const instance = component.swiper
     instance.realIndex = 1
@@ -143,6 +143,7 @@ describe('Swiper lifecycle', () => {
     await page.waitForChanges()
 
     expect(component.swiper).not.toBe(instance)
+    expect(instance.destroyed).toBe(true)
     expect(component.swiper.realIndex).toBe(2)
 
     // 待应用索引生效后，普通卸载仍应保存用户后来滑到的位置
@@ -153,5 +154,37 @@ describe('Swiper lifecycle', () => {
     await page.waitForChanges()
 
     expect(component.swiper.realIndex).toBe(1)
+  })
+
+  it('ignores events from the replaced instance', async () => {
+    const component = await mount()
+    const previous = component.swiper
+    const touchEnd = previous.params.on!.touchEnd!
+    page.root!.circular = false
+    await page.waitForChanges()
+    const start = jest.spyOn(previous.autoplay, 'start')
+
+    // 销毁前排队的回调不能重新启动旧实例
+    touchEnd.call(previous, previous, {} as PointerEvent)
+
+    expect(component.swiper).not.toBe(previous)
+    expect(start).not.toHaveBeenCalled()
+    expect(previous.destroyed).toBe(true)
+  })
+
+  it('does not emit slide changes while restoring loop order for a child update', async () => {
+    const component = await mount()
+    const instance = component.swiper
+    const change = jest.spyOn(component.onChange, 'emit')
+    jest.spyOn(instance, 'loopDestroy').mockImplementation(() => {
+      instance.realIndex = 1
+      instance.params.on!.slideChange!.call(instance, instance)
+    })
+
+    page.root!.appendChild(page.doc.createElement('taro-swiper-item-core'))
+
+    expect(change).not.toHaveBeenCalled()
+    page.root!.remove()
+    await page.waitForChanges()
   })
 })
