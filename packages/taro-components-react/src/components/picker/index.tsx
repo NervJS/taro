@@ -17,6 +17,7 @@ import {
   verifyTime,
   verifyValue
 } from '../../utils'
+import { useDuoSheetLayout } from './duo-layout'
 import { PickerGroup } from './picker-group'
 
 // 定义 RegionData 类型，与 Taro 官方保持一致
@@ -219,6 +220,9 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
     a11yTimeLimitColumnId: null,
     a11yTimeLimitNonce: 0
   })
+
+  // iOS Duo：半弹面板按内容区（半折叠横屏为左半窗）限宽居中；非 Duo 为 undefined，样式不变
+  const duoSheetStyle = useDuoSheetLayout(!state.hidden)
 
   // 安全区域底部距离
   const [safeAreaBottom, setSafeAreaBottom] = React.useState(0)
@@ -986,6 +990,7 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
             className={clsSlider}
             style={{
               ...backgroundStyle,
+              ...duoSheetStyle,
             }}
           >
             <View className="taro-picker__hd" {...(backgroundStyle ? { style: backgroundStyle } : {})}>

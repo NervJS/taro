@@ -1,6 +1,7 @@
 import './style/index.scss'
 
 import { View } from '@tarojs/components'
+import Taro from '@tarojs/taro'
 import * as React from 'react'
 
 import { PickerViewColumn, PickerViewColumnProps } from '../picker-view-column'
@@ -154,6 +155,20 @@ export function PickerView(props: PickerViewProps) {
     return parseHeightFromStyle(indicatorStyle) ?? DEFAULT_ITEM_HEIGHT
   })
 
+  // 折叠 / 展开 / 旋转后 lengthScaleRatio 变化：indicator 依赖 DOM 测量时需在重新布局后再量一次
+  const [layoutTick, setLayoutTick] = React.useState(0)
+  const layoutTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  Taro.useResize(() => {
+    if (layoutTimerRef.current != null) clearTimeout(layoutTimerRef.current)
+    layoutTimerRef.current = setTimeout(() => {
+      layoutTimerRef.current = null
+      setLayoutTick((n) => n + 1)
+    }, 200)
+  })
+  React.useEffect(() => () => {
+    if (layoutTimerRef.current != null) clearTimeout(layoutTimerRef.current)
+  }, [])
+
   React.useLayoutEffect(() => {
     if (itemHeight != null) {
       setMeasuredItemHeight(itemHeight)
@@ -170,7 +185,7 @@ export function PickerView(props: PickerViewProps) {
     if (el && el.offsetHeight) {
       setMeasuredItemHeight(el.offsetHeight)
     }
-  }, [itemHeight, indicatorStyle])
+  }, [itemHeight, indicatorStyle, layoutTick])
 
   const effectiveItemHeight = measuredItemHeight
 
