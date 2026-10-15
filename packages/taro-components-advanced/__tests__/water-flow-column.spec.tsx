@@ -93,6 +93,22 @@ test('reflows the same H5 section on column changes without remounting', () => {
   expect(model.findSection('grid')).toBe(section)
 })
 
+test('remeasures relocated items and updates positions after their height changes', async () => {
+  jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+    const section = model?.findSection('grid')
+    const height = this.id === 'test' ? 300 : section?.col === 3 && this.id.endsWith('-item-3') ? 180 : 100
+    return { width: 400, height, top: 0, bottom: height, left: 0, right: 400, x: 0, y: 0, toJSON: () => {} } as DOMRect
+  })
+  const section = renderFlow(2, 9)
+  expect(section.columnMap[1][1].getState().height).toBe(100)
+  await act(async () => {
+    renderFlow(3, 9)
+    await Promise.resolve()
+  })
+  expect(section.columnMap[0][1].getState().height).toBe(180)
+  expect(section.columnMap[0][2].getState().top).toBe(280)
+})
+
 test('finalizes appended items before reflowing and flushes total height', () => {
   const section = renderFlow(2, 3)
   renderFlow(3, 7)
