@@ -1,4 +1,4 @@
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Element, State, Watch } from '@stencil/core'
+import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Element, Watch } from '@stencil/core'
 import SwiperJS from 'swiper/bundle'
 
 import type ISwiper from 'swiper'
@@ -19,25 +19,22 @@ export class Swiper implements ComponentInterface {
   #id = INSTANCE_ID++
   #source = 'autoplay'
   #swiperResetting = false
-  // dom 变化是否由外部引起，因为 swiper 的循环模式也会引起 dom 的变化。如果不是由外部引起的 dom 变化，就不需要重新初始化 swiper
-  #domChangeByOutSide = false
   #lastSwiperActiveIndex = 0
-  #hasPendingCurrent = false
   #didLoad = false
   #container: HTMLElement | null = null
   #sizeTimer: ReturnType<typeof setTimeout>
 
-  // 只有当前已挂载的实例才能响应属性变化和异步回调
-  private isSwiperReady (swiper = this.swiper): swiper is SwiperInstance {
-    return !!(this.el?.isConnected && swiper && swiper === this.swiper &&
-      !swiper.destroyed && swiper.initialized && swiper.el === this.#container &&
-      swiper.wrapperEl?.parentElement === this.#container && swiper.slidesEl === swiper.wrapperEl)
+  @Element() el: HTMLElement
+  private swiper: SwiperInstance | null = null
+  private observer: MutationObserver | null = null
+
+  // 属性入口统一恢复失效实例，事件回调只需排除旧实例
+  private getSwiper (current?: number) {
+    const swiper = this.swiper
+    if (swiper && (swiper.destroyed || !swiper.wrapperEl || !swiper.slidesEl)) this.reset(current)
+    return this.swiper
   }
 
-  @Element() el: HTMLElement
-  @State() swiperWrapper: HTMLElement | null
-  @State() private swiper: SwiperInstance | null = null
-  @State() isWillLoadCalled = false
   /**
    * 是否显示面板指示点
    */
@@ -128,13 +125,12 @@ export class Swiper implements ComponentInterface {
 
   @Watch('current')
   watchCurrent (newVal) {
-    if (this.currentItemId || !this.isWillLoadCalled) return
+    if (this.currentItemId || !this.#didLoad) return
     const n = parseInt(newVal, 10)
     if (isNaN(n)) return
-    const swiper = this.swiper
-    if (!this.isSwiperReady(swiper)) {
+    const swiper = this.getSwiper(n)
+    if (!swiper) {
       this.#lastSwiperActiveIndex = n
-      this.#hasPendingCurrent = true
       return
     }
     if (n === swiper.realIndex) return
@@ -152,8 +148,8 @@ export class Swiper implements ComponentInterface {
 
   @Watch('currentItemId')
   watchCurrentItemId (newVal) {
-    const swiper = this.swiper
-    if (!this.swiperWrapper || !this.isWillLoadCalled || !this.isSwiperReady(swiper)) return
+    const swiper = this.getSwiper()
+    if (!swiper) return
 
     let itemIdIndex = 0
     this.getSlidersList().forEach((swiperItem, index) => {
@@ -180,8 +176,8 @@ export class Swiper implements ComponentInterface {
 
   @Watch('autoplay')
   watchAutoplay (newVal) {
-    const swiper = this.swiper
-    if (!this.isWillLoadCalled || !this.isSwiperReady(swiper)) return
+    const swiper = this.getSwiper()
+    if (!swiper) return
 
     const swiperAutoplay = swiper.autoplay
     if (swiperAutoplay) {
@@ -203,69 +199,49 @@ export class Swiper implements ComponentInterface {
 
   @Watch('duration')
   watchDuration (newVal) {
-    const swiper = this.swiper
-    if (!this.isSwiperReady(swiper) || !this.isWillLoadCalled) return
+    const swiper = this.getSwiper()
+    if (!swiper) return
     swiper.params.speed = newVal
   }
 
   @Watch('interval')
   watchInterval (newVal) {
-    const swiper = this.swiper
-    if (!this.isSwiperReady(swiper) || !this.isWillLoadCalled) return
+    const swiper = this.getSwiper()
+    if (!swiper) return
 
     if (typeof swiper.params.autoplay === 'object') {
       swiper.params.autoplay.delay = newVal
     }
   }
 
-  @Watch('swiperWrapper')
-  watchSwiperWrapper (newVal?: HTMLElement) {
-    const swiper = this.swiper
-    if (!this.isWillLoadCalled || !swiper) return
-    if (!newVal) return
+  private bindWrapper (wrapper: HTMLElement) {
     const beforeDomOperation = () => {
-      if (!this.isSwiperReady(swiper)) {
-        // 失效实例不能继续占位，等本次子节点操作完成后恢复轮播
-        if (this.swiper === swiper) {
-          this.destroySwiper()
-          this.handleSwiperSizeDebounce()
-        }
-        return
+      const swiper = this.swiper
+      if (!swiper) return
+      const firstChange = !this.#swiperResetting
+      this.#swiperResetting = true
+      if (firstChange && this.circular) {
+        swiper.autoplay.stop()
+        if (swiper.wrapperEl && swiper.slidesEl) swiper.loopDestroy()
+        swiper.params.loop = false
       }
-      this.#domChangeByOutSide = true
-      swiper.autoplay?.stop()
-      // 如果是由于外部子节点的变化引起的 dom 变化，需要重新初始化 swiper。
-      // 在初dom操作之前，需要调用 loopDestroy，把子节点的顺序恢复
-      swiper.loopDestroy()
-      swiper.params.loop = false
+      this.handleSwiperSizeDebounce()
     }
     this.el.appendChild = <T extends Node>(newChild: T): T => {
-      this.#swiperResetting = true
-      if(!this.#domChangeByOutSide && this.circular) {
-        beforeDomOperation()
-      }
-      return newVal.appendChild(newChild)
+      beforeDomOperation()
+      return wrapper.appendChild(newChild)
     }
     this.el.insertBefore = <T extends Node>(newChild: T, refChild: Node | null): T => {
-      this.#swiperResetting = true
-      if(!this.#domChangeByOutSide && this.circular) {
-        beforeDomOperation()
-      }
-      return newVal.insertBefore(newChild, refChild)
+      beforeDomOperation()
+      return wrapper.insertBefore(newChild, refChild)
     }
     this.el.replaceChild = <T extends Node>(newChild: Node, oldChild: T): T => {
-      this.#swiperResetting = true
-      if(!this.#domChangeByOutSide && this.circular) {
-        beforeDomOperation()
-      }
-      return newVal.replaceChild(newChild, oldChild)
+      beforeDomOperation()
+      return wrapper.replaceChild(newChild, oldChild)
     }
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
-      this.#swiperResetting = true
-      if(!this.#domChangeByOutSide && this.circular) {
-        beforeDomOperation()
-      }
-      return newVal.removeChild(oldChild)
+      beforeDomOperation()
+      return wrapper.removeChild(oldChild)
     }
   }
 
@@ -273,18 +249,9 @@ export class Swiper implements ComponentInterface {
     clearTimeout(this.#sizeTimer)
     const swiper = this.swiper
     this.#sizeTimer = setTimeout(() => {
-      if (this.swiper !== swiper || !this.isWillLoadCalled || !this.el.isConnected) return
-      if (!this.isSwiperReady(swiper)) {
-        this.destroySwiper()
-        this.handleInit(true)
-        return
-      }
+      if (this.swiper !== swiper || !swiper) return
       if (this.circular) {
-        if (this.#domChangeByOutSide) {
-          this.reset()
-          this.#domChangeByOutSide = false
-          this.#swiperResetting = false
-        }
+        if (this.#swiperResetting) this.reset()
       } else {
         swiper.update()
         this.#swiperResetting = false
@@ -294,22 +261,12 @@ export class Swiper implements ComponentInterface {
 
   @Watch("circular")
   watchCircular () {
-    const swiper = this.swiper
-    if (!this.isSwiperReady(swiper) || !this.isWillLoadCalled) return
-    this.reset()
+    if (this.#didLoad) this.reset()
   }
 
   @Watch("displayMultipleItems")
   watchDisplayMultipleItems () {
-    const swiper = this.swiper
-    if (!this.isSwiperReady(swiper) || !this.isWillLoadCalled) return
-    this.reset()
-  }
-
-  @State() observer: MutationObserver | null = null
-
-  componentWillLoad () {
-    this.isWillLoadCalled = true
+    if (this.#didLoad) this.reset()
   }
 
   connectedCallback () {
@@ -321,13 +278,6 @@ export class Swiper implements ComponentInterface {
     this.handleInit()
   }
 
-  componentDidRender () {
-    if (this.#didLoad && !this.isSwiperReady(this.swiper)) {
-      this.destroySwiper()
-      this.handleInit(true)
-    }
-  }
-
   disconnectedCallback () {
     this.destroySwiper()
   }
@@ -337,26 +287,19 @@ export class Swiper implements ComponentInterface {
     this.observer?.disconnect()
     this.observer = null
     const swiper = this.swiper
-    if (swiper && !swiper.destroyed) {
-      // 失效期间收到的 current 优先于旧实例的实际位置
-      if (!this.#hasPendingCurrent) this.#lastSwiperActiveIndex = swiper.realIndex
-      // 先切断回调对旧实例的引用，再停止自动播放和销毁实例
-      this.swiper = null
-      swiper.autoplay?.stop()
-      if (swiper.initialized && swiper.wrapperEl) {
-        // slidesEl 失效时跳过循环节点还原，仍释放实例的事件和观察器
-        if (!swiper.slidesEl) swiper.params.loop = false
-        swiper.destroy()
-      }
-    }
     this.swiper = null
-    this.swiperWrapper = null
-    this.#domChangeByOutSide = false
+    if (swiper && !swiper.destroyed) {
+      this.#lastSwiperActiveIndex = swiper.realIndex
+      swiper.autoplay.stop()
+      // 失效节点无法还原循环顺序，但实例的事件和观察器仍需释放
+      if (!swiper.wrapperEl || !swiper.slidesEl) swiper.params.loop = false
+      swiper.destroy()
+    }
     this.#swiperResetting = false
   }
 
   handleInit (reset = false) {
-    if (!this.el?.isConnected || !this.#container?.querySelector('.swiper-wrapper') || this.swiper) return
+    if (!this.el.isConnected || !this.#container || this.swiper) return
     const {
       autoplay,
       circular,
@@ -406,7 +349,7 @@ export class Swiper implements ComponentInterface {
       init: false,
       on: {
         transitionEnd(e) {
-          if(!that.isSwiperReady(e) || that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
+          if(e !== that.swiper || that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
           that.#lastSwiperActiveIndex = this.realIndex
           that.getNeedFixLoop() && e.loopFix()
           that.autoplay && e.autoplay.start()
@@ -419,11 +362,11 @@ export class Swiper implements ComponentInterface {
           that.#source = 'autoplay'
         },
         touchMove (e) {
-          if (!that.isSwiperReady(e)) return
+          if (e !== that.swiper) return
           that.#source = 'touch'
         },
         slideChange(e) {
-          if(!that.isSwiperReady(e) || that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
+          if(e !== that.swiper || that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
           const currentItemId = that.getCurrentItemId(e)
           that.onChange.emit({
             current: this.realIndex,
@@ -431,23 +374,18 @@ export class Swiper implements ComponentInterface {
             currentItemId,
           })
         },
-        init: (e) => {
-          if (!that.isSwiperReady(e)) return
-          that.getNeedFixLoop() && e.loopFix();
-          that.autoplay && e.autoplay.start()
-        },
         touchEnd: (e) => {
-          if (!that.isSwiperReady(e)) return
+          if (e !== that.swiper) return
           that.#source = 'touch'
           that.autoplay && e.autoplay.start()
         },
         touchStart: (e) => {
-          if (!that.isSwiperReady(e)) return
+          if (e !== that.swiper) return
           that.#source = 'touch'
           that.autoplay && e.autoplay.pause()
         },
         autoplay(e) {
-          if (!that.isSwiperReady(e)) return
+          if (e !== that.swiper) return
           // Note: 修复 autoplay 时，切换到其他页面再切回来，autoplay 会停止的问题
           // autoplay 会调用 slideTo 方法，里面会判断是否 animating，如果 animating 为 true，就会被 return
           // 参考源码：https://github.com/nolimits4web/swiper/blob/v11.1.0/src/core/slide/slideTo.mjs#27 27行
@@ -467,13 +405,13 @@ export class Swiper implements ComponentInterface {
     }
     // 使用组件内的真实节点，避免全局选择器在脱离文档或重建时匹配失败
     const swiper = new SwiperJS(this.#container, options) as SwiperInstance
-    this.swiper = swiper
     swiper.init()
-    if (!this.isSwiperReady(swiper)) {
-      this.destroySwiper()
+    if (!swiper.initialized) {
+      swiper.destroy()
       return
     }
-    this.#hasPendingCurrent = false
+    this.swiper = swiper
+    this.getNeedFixLoop() && swiper.loopFix()
 
     // Note: 这里是拦截了 swiper 的 minTranslate 和 maxTranslate 方法，手动修复了 loop 模式下的 margin 问题
     // 因为这两个属性会影响滑动到哪个位置进行 fixloop
@@ -497,15 +435,15 @@ export class Swiper implements ComponentInterface {
       }
     }
 
-    this.swiperWrapper = swiper.wrapperEl
+    this.bindWrapper(swiper.wrapperEl)
     this.observer?.disconnect()
     this.observer = new MutationObserver(this.handleSwiperSizeDebounce)
     this.observer.observe(swiper.wrapperEl, { childList: true })
   }
 
-  reset = () => {
-    if (!this.isSwiperReady()) return
+  reset = (current?: number) => {
     this.destroySwiper()
+    if (current !== undefined) this.#lastSwiperActiveIndex = current
     this.#swiperResetting = true
     try {
       this.handleInit(true)
