@@ -2,6 +2,8 @@ import { ScrollView, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import * as React from 'react'
 
+import { usePickerScaleSync } from './picker-scale-sync'
+
 import type { PickerGroupProps } from './picker-group'
 
 // 添加类型定义
@@ -190,6 +192,20 @@ export function PickerGroupBasic(props: PickerGroupProps) {
   React.useEffect(() => {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
   }, [range.length]) // 只在range长度变化时重新计算
+
+  // 折叠 / 展开 / 旋转时同步缩放比例并重新对齐选中项
+  usePickerScaleSync({
+    scrollViewRef,
+    lengthScaleRatioRef,
+    useMeasuredScaleRef,
+    itemHeightRef,
+    isTouchingRef,
+    currentIndex,
+    setTargetScrollTop,
+    calculateLengthScaleRatio,
+    resolveUseMeasuredScale,
+    calculateItemHeight,
+  })
 
   // 滚动到指定索引（供程序化对齐与无障碍步进复用）
   const scrollToIndex = React.useCallback((index: number, withRandomOffset = false) => {
@@ -428,6 +444,20 @@ export function PickerGroupTime(props: PickerGroupProps) {
   React.useEffect(() => {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
   }, [range.length]) // 只在range长度变化时重新计算
+
+  // 折叠 / 展开 / 旋转时同步缩放比例并重新对齐选中项
+  usePickerScaleSync({
+    scrollViewRef,
+    lengthScaleRatioRef,
+    useMeasuredScaleRef,
+    itemHeightRef,
+    isTouchingRef,
+    currentIndex,
+    setTargetScrollTop,
+    calculateLengthScaleRatio,
+    resolveUseMeasuredScale,
+    calculateItemHeight,
+  })
 
   // 滚动到指定索引（供程序化对齐与无障碍步进复用）
   const scrollToIndex = React.useCallback((index: number, withRandomOffset = false) => {
@@ -685,6 +715,20 @@ export function PickerGroupDate(props: PickerGroupProps) {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
   }, [range.length]) // 只在range长度变化时重新计算
 
+  // 折叠 / 展开 / 旋转时同步缩放比例并重新对齐选中项
+  usePickerScaleSync({
+    scrollViewRef,
+    lengthScaleRatioRef,
+    useMeasuredScaleRef,
+    itemHeightRef,
+    isTouchingRef,
+    currentIndex,
+    setTargetScrollTop,
+    calculateLengthScaleRatio,
+    resolveUseMeasuredScale,
+    calculateItemHeight,
+  })
+
   // 滚动到指定索引（供程序化对齐与无障碍步进复用）
   const scrollToIndex = React.useCallback((index: number, withRandomOffset = false) => {
     const baseValue = index * itemHeightRef.current
@@ -924,6 +968,20 @@ export function PickerGroupRegion(props: PickerGroupProps) {
   React.useEffect(() => {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
   }, [range.length]) // 只在range长度变化时重新计算
+
+  // 折叠 / 展开 / 旋转时同步缩放比例并重新对齐选中项
+  usePickerScaleSync({
+    scrollViewRef,
+    lengthScaleRatioRef,
+    useMeasuredScaleRef,
+    itemHeightRef,
+    isTouchingRef,
+    currentIndex,
+    setTargetScrollTop,
+    calculateLengthScaleRatio,
+    resolveUseMeasuredScale,
+    calculateItemHeight,
+  })
 
   // 滚动到指定索引（供程序化对齐与无障碍步进复用）
   const scrollToIndex = React.useCallback((index: number, withRandomOffset = false) => {

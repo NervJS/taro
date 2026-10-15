@@ -253,6 +253,74 @@ export function PickerViewColumn(props: PickerViewColumnProps) {
     measureItemHeight()
   }, [measureItemHeight, itemCount, _itemHeight])
 
+  // iOS Duo 等折叠屏在打开期间折叠 / 展开 / 旋转：窗口尺寸与 lengthScaleRatio 随之变化，
+  // 挂载时缓存的比例和单项高度过期，scrollTop 与实际单项像素高度不再对应（选中项偏离高亮线）。
+  // 这里同步比例、等原生重新布局后再测单项高度，并把当前项重新对齐。
+  const currentIndexRef = React.useRef(currentIndex)
+  currentIndexRef.current = currentIndex
+  const scaleSignatureRef = React.useRef('')
+  const scaleSettleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const readScaleInfo = React.useCallback((): Taro.getSystemInfo.Result | null => {
+    try {
+      return Taro.getSystemInfoSync() as Taro.getSystemInfo.Result
+    } catch {
+      return null
+    }
+  }, [])
+
+  const scaleSignature = (info: any): string =>
+    [info?.lengthScaleRatio, info?.windowWidth, info?.windowHeight, info?.foldState, info?.deviceOrientation].join('|')
+
+  const syncScale = React.useCallback((remeasure: boolean) => {
+    const info = readScaleInfo()
+    if (!info) return
+    scaleSignatureRef.current = scaleSignature(info)
+    lengthScaleRatioRef.current = calculateLengthScaleRatio(info)
+    useMeasuredScaleRef.current = resolveUseMeasuredScale(info)
+    if (remeasure || process.env.TARO_PLATFORM === 'harmony') measureItemHeight()
+    if (isTouchingRef.current || !scrollViewRef.current || itemCount === 0) return
+    // 重新对齐不加动画，并标记为程序化滚动，避免 scrollEnd 里重复归中 / 上报
+    syncScrollFromPropsRef.current = true
+    setEnableAnim(false)
+    const baseValue = currentIndexRef.current * itemHeightRef.current
+    setTargetScrollTopWithScale(setTargetScrollTop, baseValue, Math.random() * 0.001, lengthScaleRatioRef.current)
+    setTimeout(() => {
+      syncScrollFromPropsRef.current = false
+    }, 400)
+  }, [itemCount, measureItemHeight, readScaleInfo])
+
+  const onScaleChanged = React.useCallback(() => {
+    if (process.env.TARO_ENV === 'h5' || process.env.TARO_ENV === 'weapp') return
+    syncScale(false)
+    if (scaleSettleTimerRef.current != null) clearTimeout(scaleSettleTimerRef.current)
+    scaleSettleTimerRef.current = setTimeout(() => {
+      scaleSettleTimerRef.current = null
+      syncScale(true)
+    }, 200)
+  }, [syncScale])
+
+  React.useEffect(() => {
+    scaleSignatureRef.current = scaleSignature(readScaleInfo())
+  }, [readScaleInfo])
+
+  // 兜底巡检：resize 回调可能漏发，或读到的是折叠过程中的中间态
+  React.useEffect(() => {
+    if (process.env.TARO_ENV === 'h5' || process.env.TARO_ENV === 'weapp') return
+    const timer = setInterval(() => {
+      if (scaleSignature(readScaleInfo()) !== scaleSignatureRef.current) onScaleChanged()
+    }, 300)
+    return () => {
+      clearInterval(timer)
+      if (scaleSettleTimerRef.current != null) {
+        clearTimeout(scaleSettleTimerRef.current)
+        scaleSettleTimerRef.current = null
+      }
+    }
+  }, [onScaleChanged, readScaleInfo])
+
+  Taro.useResize(onScaleChanged)
+
   // props selectedIndex 变化 / 实测高变化：编程式滚至对应项，400ms 内标记为程序化滚动
   React.useEffect(() => {
     if (scrollViewRef.current && itemCount > 0 && !isTouchingRef.current) {
