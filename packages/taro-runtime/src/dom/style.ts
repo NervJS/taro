@@ -169,7 +169,10 @@ export class Style {
   }
 
   public removeProperty (propertyName: string): string {
-    propertyName = isCssVariable(propertyName) ? propertyName : toCamelCase(propertyName)
+    // Prefer stored keys while preserving dashed access to registered camelCase vendor setters.
+    propertyName = isCssVariable(propertyName) || this._usedStyleProp.has(propertyName)
+      ? propertyName
+      : toCamelCase(propertyName)
     if (!this._usedStyleProp.has(propertyName)) {
       return ''
     }
@@ -180,7 +183,10 @@ export class Style {
   }
 
   public getPropertyValue (propertyName: string) {
-    propertyName = isCssVariable(propertyName) ? propertyName : toCamelCase(propertyName)
+    // CSS variables retain their spelling; other names resolve through a stored key or camelCase.
+    propertyName = isCssVariable(propertyName) || this._usedStyleProp.has(propertyName)
+      ? propertyName
+      : toCamelCase(propertyName)
     const value = this[propertyName]
     if (!value) {
       return ''
