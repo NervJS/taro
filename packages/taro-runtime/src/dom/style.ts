@@ -169,8 +169,10 @@ export class Style {
   }
 
   public removeProperty (propertyName: string): string {
-    // Match setProperty: vendor-prefixed names and CSS variables retain their original storage key.
-    propertyName = propertyName[0] === '-' ? propertyName : toCamelCase(propertyName)
+    // Prefer stored keys while preserving dashed access to registered camelCase vendor setters.
+    propertyName = isCssVariable(propertyName) || this._usedStyleProp.has(propertyName)
+      ? propertyName
+      : toCamelCase(propertyName)
     if (!this._usedStyleProp.has(propertyName)) {
       return ''
     }
@@ -181,8 +183,10 @@ export class Style {
   }
 
   public getPropertyValue (propertyName: string) {
-    // Read the same key installed by setProperty, including single-hyphen vendor prefixes.
-    propertyName = propertyName[0] === '-' ? propertyName : toCamelCase(propertyName)
+    // CSS variables retain their spelling; other names resolve through a stored key or camelCase.
+    propertyName = isCssVariable(propertyName) || this._usedStyleProp.has(propertyName)
+      ? propertyName
+      : toCamelCase(propertyName)
     const value = this[propertyName]
     if (!value) {
       return ''

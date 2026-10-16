@@ -2,7 +2,8 @@ import { describe, expect, test } from 'vitest'
 
 import { document, Style } from '../src/index'
 
-function createStyle () {
+/** Creates a detached style object so property tests do not schedule root updates. */
+function createStyle (): Style & { WebkitLineClamp?: string } {
   return new Style(document.createElement('view'))
 }
 
@@ -49,6 +50,56 @@ describe('style property names', () => {
     expect(style._usedStyleProp.size).toBe(1)
     expect(style.getPropertyValue('-webkit-line-clamp')).toBe('')
     expect(style.getPropertyValue('-moz-user-select')).toBe('')
+  })
+
+  test.each(['getPropertyValue', 'removeProperty'] as const)('%s resolves directly assigned vendor properties', (method) => {
+    const style = createStyle()
+    style.WebkitLineClamp = '2'
+
+    expect(style[method]('-webkit-line-clamp')).toBe('2')
+    expect(style._usedStyleProp.has('WebkitLineClamp')).toBe(method === 'getPropertyValue')
+    expect(style.cssText).toBe(method === 'getPropertyValue' ? '-webkit-line-clamp: 2;' : '')
+  })
+
+  test.each([false, true])('prefers the stored original key, then resolves the camelCase key (original first: %s)', (originalFirst) => {
+    const style = createStyle()
+    if (originalFirst) {
+      style.setProperty('-webkit-line-clamp', '3')
+      style.WebkitLineClamp = '2'
+    } else {
+      style.WebkitLineClamp = '2'
+      style.setProperty('-webkit-line-clamp', '3')
+    }
+
+    expect(style.getPropertyValue('-webkit-line-clamp')).toBe('3')
+    expect(style.getPropertyValue('WebkitLineClamp')).toBe('2')
+    expect(style.removeProperty('-webkit-line-clamp')).toBe('3')
+    expect(style.getPropertyValue('-webkit-line-clamp')).toBe('2')
+    expect(style.cssText).toBe('-webkit-line-clamp: 2;')
+    expect(style.removeProperty('-webkit-line-clamp')).toBe('2')
+    expect(style.cssText).toBe('')
+  })
+
+  test('resolves the camelCase value when an unused original-name accessor remains', () => {
+    const style = createStyle()
+    style.setProperty('-webkit-line-clamp', '3')
+    style.removeProperty('-webkit-line-clamp')
+    style.WebkitLineClamp = '2'
+
+    expect(Object.prototype.hasOwnProperty.call(style, '-webkit-line-clamp')).toBe(true)
+    expect(style.getPropertyValue('-webkit-line-clamp')).toBe('2')
+    expect(style.removeProperty('-webkit-line-clamp')).toBe('2')
+    expect(style._usedStyleProp.size).toBe(0)
+  })
+
+  test.each([null, undefined])('clears a directly assigned vendor property through setProperty with %s', (value) => {
+    const style = createStyle()
+    style.WebkitLineClamp = '2'
+    style.setProperty('-webkit-line-clamp', value)
+
+    expect(style.getPropertyValue('WebkitLineClamp')).toBe('')
+    expect(style.cssText).toBe('')
+    expect(style._usedStyleProp.size).toBe(0)
   })
 
   test('normalizes ordinary dashed and camelCase names to the same key', () => {
