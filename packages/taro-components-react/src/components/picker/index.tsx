@@ -17,7 +17,7 @@ import {
   verifyTime,
   verifyValue
 } from '../../utils'
-import { useDuoSheetLayout } from './duo-layout'
+import { resolveDuoMaskColor, useDuoSheetLayout } from './duo-layout'
 import { PickerGroup } from './picker-group'
 
 // 定义 RegionData 类型，与 Taro 官方保持一致
@@ -222,7 +222,10 @@ const Picker = React.forwardRef<PickerRef, IProps>((props, ref) => {
   })
 
   // iOS Duo：半弹面板按内容区（半折叠横屏为左半窗）限宽居中；非 Duo 为 undefined，样式不变
-  const duoSheetStyle = useDuoSheetLayout(!state.hidden)
+  const duoSheetStyle = useDuoSheetLayout(
+    !state.hidden,
+    resolveDuoMaskColor(colors.maskColor, theme)
+  )
 
   // 安全区域底部距离
   const [safeAreaBottom, setSafeAreaBottom] = React.useState(0)

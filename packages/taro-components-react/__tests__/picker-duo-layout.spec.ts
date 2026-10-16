@@ -1,4 +1,12 @@
-import { duoInfoSignature, HALF_SHEET_MAX_CSS_PX, resolveDuoSheetLayout } from '../src/components/picker/duo-layout'
+import {
+  DUO_MASK_COLOR_DARK,
+  DUO_MASK_COLOR_LIGHT,
+  duoInfoSignature,
+  HALF_SHEET_MAX_CSS_PX,
+  resolveDuoMaskColor,
+  resolveDuoSheetLayout,
+  toNativeMaskColor
+} from '../src/components/picker/duo-layout'
 
 const base = {
   platform: 'ios',
@@ -74,6 +82,25 @@ describe('resolveDuoSheetLayout', () => {
     expect(full.left).toBeCloseTo((867 / 0.929 - 653) / 2, 5)
   })
 
+  it('导航栏覆盖成功后全开横屏按screen居中，未覆盖保留window', () => {
+    const info = { ...base, foldState: 'fullyOpen', windowWidth: 867, screenWidth: 951, lengthScaleRatio: 0.929 }
+    const original = resolveDuoSheetLayout(info)!
+    const covered = resolveDuoSheetLayout(info, { navigationBarHidden: true })!
+    expect(original.left + original.width / 2).toBeCloseTo(867 / 0.929 / 2)
+    expect(covered.left + covered.width / 2).toBeCloseTo(951 / 0.929 / 2)
+    expect(covered.width).toBe(653)
+  })
+
+  it('导航栏覆盖不改变halfOpen横屏左半区和avoidAreas', () => {
+    const info = { ...base, foldState: 'halfOpen', windowWidth: 867, screenWidth: 951, lengthScaleRatio: 0.929, avoidAreas: [{ left: 470, width: 20 }] }
+    expect(resolveDuoSheetLayout(info, { navigationBarHidden: true })).toEqual(resolveDuoSheetLayout(info))
+  })
+
+  it.each([undefined, 0, NaN])('screenWidth=%s时覆盖布局回退到window', (screenWidth) => {
+    const info = { ...base, foldState: 'fullyOpen', screenWidth }
+    expect(resolveDuoSheetLayout(info, { navigationBarHidden: true })).toEqual(resolveDuoSheetLayout(info))
+  })
+
   it('avoidAreas 落在中缝右侧并压进内容区时收窄；在左侧则忽略', () => {
     const info = { ...base, foldState: 'halfOpen' }
     expect(
@@ -93,5 +120,24 @@ describe('duoInfoSignature', () => {
     expect(duoInfoSignature(a)).not.toBe(duoInfoSignature({ ...a, windowWidth: 400 }))
     expect(duoInfoSignature(a)).not.toBe(duoInfoSignature({ ...a, deviceOrientation: 'portrait' }))
     expect(duoInfoSignature(null)).toBe('')
+  })
+})
+
+describe('蒙层色转换（导航栏屏蔽时的原生背景色）', () => {
+  it('hex / rgba 转成 #RRGGBB(AA)，无法转换返回 undefined', () => {
+    expect(toNativeMaskColor('#000')).toBe('#000000')
+    expect(toNativeMaskColor('#0008')).toBe('#00000088')
+    expect(toNativeMaskColor('rgba(0, 0, 0, 0.6)')).toBe('#00000099')
+    expect(toNativeMaskColor('rgba(20,20,20,0.7)')).toBe('#141414B3')
+    expect(toNativeMaskColor('rgb(255,0,0)')).toBe('#FF0000')
+    expect(toNativeMaskColor('var(--x)')).toBeUndefined()
+    expect(toNativeMaskColor(undefined)).toBeUndefined()
+  })
+
+  it('默认按主题取 Picker 默认蒙层色，自定义优先', () => {
+    expect(resolveDuoMaskColor(undefined, 'light')).toBe(DUO_MASK_COLOR_LIGHT)
+    expect(resolveDuoMaskColor(undefined, 'dark')).toBe(DUO_MASK_COLOR_DARK)
+    expect(DUO_MASK_COLOR_LIGHT).toBe('#00000099')
+    expect(resolveDuoMaskColor('#112233', 'dark')).toBe('#112233')
   })
 })
