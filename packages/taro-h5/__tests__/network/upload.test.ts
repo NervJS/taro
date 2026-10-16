@@ -6,7 +6,7 @@ describe('uploadFile lifecycle', () => {
   let send: jest.SpyInstance
   let abort: jest.SpyInstance
   let resolveFile: (file: Blob) => void
-  let rejectFile: (error: Error) => void
+  let rejectFile: (error: unknown) => void
 
   beforeEach(() => {
     jest.useFakeTimers()
@@ -45,7 +45,7 @@ describe('uploadFile lifecycle', () => {
     expect(await result).toEqual({ errMsg: 'uploadFile:fail abort' })
 
     if (outcome === 'resolve') resolveFile(new Blob(['file']))
-    else rejectFile(new Error('conversion failed'))
+    else rejectFile({ status: 404 })
     await Promise.resolve()
     await Promise.resolve()
 
@@ -54,6 +54,17 @@ describe('uploadFile lifecycle', () => {
     expect(success).not.toHaveBeenCalled()
     expect(fail).toHaveBeenCalledTimes(1)
     expect(complete).toHaveBeenCalledTimes(1)
+    expect(jest.getTimerCount()).toBe(0)
+  })
+
+  test.each([403, 404, 500])('preserves a file conversion failure status of %s', async status => {
+    const { result, success, fail, complete } = createTask()
+    rejectFile({ status })
+    expect(await result).toEqual({ errMsg: `uploadFile:fail ${status}` })
+    expect(success).not.toHaveBeenCalled()
+    expect(fail).toHaveBeenCalledTimes(1)
+    expect(complete).toHaveBeenCalledTimes(1)
+    expect(send).not.toHaveBeenCalled()
     expect(jest.getTimerCount()).toBe(0)
   })
 

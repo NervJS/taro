@@ -95,7 +95,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
       form.append(name, fileObj as Blob, fileName || `file-${Date.now()}`)
       send()
     })
-    .catch(e => fail(e.message))
+    .catch(e => fail(String(e?.message ?? e?.status ?? 'file conversion failed')))
 
   /**
    * 监听 HTTP Response Header 事件。会比请求完成事件更早
