@@ -100,15 +100,19 @@ export const chooseMedia = async function (
       if (target) {
         const files = target.files || []
         const arr = [...files]
-        await Promise.all(
+        // 先收集再按 FileList 顺序写入，避免 tempFiles 按加载完成先后排序
+        const loaded = await Promise.all(
           arr.map(async item => {
             try {
-              res.tempFiles?.push(await loadMedia(item))
+              return await loadMedia(item)
             } catch (error) {
               console.error(error)
             }
           })
         )
+        loaded.forEach(item => {
+          if (item) res.tempFiles?.push(item)
+        })
       }
       handle.success(res, { resolve, reject })
       target.value = ''
