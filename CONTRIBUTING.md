@@ -37,7 +37,7 @@ $ pnpm --filter [package-name] run dev
 **使用 `yarn link` 的具体示例如下：**
 
 1. 进入需要调试的子包的根目录，然后执行 `yarn link`。
-2. 进入测试项目的根目录，然后执行 `yarn link`。（注意被调试的子包的版本要和测试项目中该依赖的版本保持一致）
+2. 进入测试项目的根目录，然后执行 `yarn link [package-name]`。（注意被调试的子包的版本要和测试项目中该依赖的版本保持一致）
 
 **使用 `pnpm link` 的具体示例如下：**
 
@@ -110,7 +110,7 @@ $ npm run clear-all
 
 **注意：**
 
-`@tarojs/webpack5-runner` 使用了 `snapshot`（测试结果快照）。在修改这两个包或其它一些包时，有可能导致这些快照失效，从而通过不了测试。当你修改了这两个包、或 Github CI 提示这些包的测试用例出错时，请运行 `pnpm --filter [package-name] run updateSnapshot` 更新 snapshot 后重新提交。
+`@tarojs/tests` 中的流程测试使用了 `snapshot`（测试结果快照）。修改构建相关包后，如果测试因快照变化而失败，请先确认产物变化符合预期，再运行 `pnpm --filter @tarojs/tests run updateSnapshot` 更新快照并提交。
 
 ### 5. 代码风格
 
@@ -157,7 +157,7 @@ $ pnpm version <version>
 
 当提交涉及新增特性、Breaking Changes 或重要修改时，请及时新增、修改对应的文档。
 
-关于文档的开发请阅读下一章节：《贡献文档》。
+文档位于独立的 [taro-docs 仓库](https://github.com/NervJS/taro-docs)。若需要修改网站文档，请在该仓库提交对应的 PR。
 
 ### 10. Rust 部分
 
@@ -169,7 +169,7 @@ Rust 代码存放在 `crates` 文件夹下，使用 Cargo workspace 管理，目
 
 #### NAPI bindings
 
-在根目录执行 `pnpm build:binding:debug` 或 `pnpm build:binding:release` 命令，会在 `crates/native-binding` 文件夹中编译出 binding 文件 `taro.[os-platform].node`。
+在根目录执行 `pnpm build:binding:debug` 或 `pnpm build:binding:release` 命令，会在 `crates/native_binding` 文件夹中编译出 binding 文件 `taro.[os-platform].node`。
 
 然后可以执行单元测试：
 
@@ -203,7 +203,7 @@ $ cargo build -p [package-name]
 
 Cargo workspace 会把编译产物输出到根目录的 `target` 文件夹中。进行集成测试时，需要手动把 `.wasm` 产物软链到目标文件夹，而 Github CI 在正式发布时会自动拷贝产物到正确的文件夹中。
 
-如对 `@taorjs/helper` 进行集成测试时，会把 `target/wasm32-wasip1/release/swc_plugin_xxx.wasm` 文件的软链到 `packages/taro-helper/swc/swc_plugin_xxx.wasm`。
+如对 `@tarojs/helper` 进行集成测试时，会把 `target/wasm32-wasip1/release/swc_plugin_xxx.wasm` 文件软链到 `packages/taro-helper/swc/swc_plugin_xxx.wasm`。
 
 ## Credits
 
