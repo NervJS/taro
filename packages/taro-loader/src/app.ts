@@ -66,6 +66,7 @@ if (typeof ${globalObject}[${JSON.stringify(options.sharedRuntimeGlobalKey)}] !=
   ${globalObject}[${JSON.stringify(options.sharedRuntimeGlobalKey)}].__currentPkgId = ${JSON.stringify(options.sharedRuntimePkgId)}
 }
 config.appId = ${JSON.stringify(options.sharedRuntimePkgId)}
+config.__taroSharedRuntimePkgId = ${JSON.stringify(options.sharedRuntimePkgId)}
 `
     : ''
 
