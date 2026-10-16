@@ -95,6 +95,52 @@ describe('event', () => {
     expect(spy2).toBeCalledTimes(2)
   })
 
+  test.each([1, 2])('移除未注册的 handler 保留已有的 %i 个监听器', (count) => {
+    const view = document.createElement('view')
+    const listeners = Array.from({ length: count }, () => vi.fn())
+    const unknown = vi.fn()
+
+    for (const listener of listeners) {
+      view.addEventListener('tap', listener, null)
+    }
+    const handlers = view.__handlers.tap
+    const registered = handlers.slice()
+    const enqueueUpdate = vi.spyOn(view, 'enqueueUpdate')
+
+    view.removeEventListener('tap', unknown)
+    view.dispatchEvent(runtime.createEvent('tap'))
+
+    for (const listener of listeners) {
+      expect(listener).toHaveBeenCalledOnce()
+    }
+    expect(unknown).not.toHaveBeenCalled()
+    expect(view.__handlers.tap).toBe(handlers)
+    expect(handlers).toEqual(registered)
+    expect(enqueueUpdate).not.toHaveBeenCalled()
+  })
+
+  test('重复移除同一个 handler 保留其它监听器', () => {
+    const view = document.createElement('view')
+    const first = vi.fn()
+    const second = vi.fn()
+
+    view.addEventListener('TaP', first, null)
+    view.addEventListener('tap', second, null)
+    view.removeEventListener('TAP', first)
+    view.removeEventListener('tap', first)
+    view.dispatchEvent(runtime.createEvent('tap'))
+
+    expect(first).not.toHaveBeenCalled()
+    expect(second).toHaveBeenCalledOnce()
+    expect(view.__handlers.tap).toHaveLength(1)
+
+    view.removeEventListener('tap', second)
+    view.dispatchEvent(runtime.createEvent('tap'))
+
+    expect(second).toHaveBeenCalledOnce()
+    expect(view.__handlers.tap).toHaveLength(0)
+  })
+
   test('添加事件名会被小写化', () => {
     const div = document.createElement('div')
     const spy = vi.fn()
