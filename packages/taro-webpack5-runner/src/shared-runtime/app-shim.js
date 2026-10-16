@@ -279,6 +279,8 @@ function install (shared, Current) {
   var reactDomBase = {}
   var reactDomReady = function () { return !!shared.__rtActivated }
   shared['react-dom'] = guardPlaceholder(reactDomBase, 'ReactDOM', null, reactDomReady)
+  // 保留业务在异步核就绪前缓存的 client 引用，由 react-dom 的 fill 一并补齐。
+  shared['react-dom/client'] = shared['react-dom']
 
   // provider 就绪后调用：用真身 framework 重跑 createReactApp + flush 队列。
   shared.__activateReal = function (realFramework) {

@@ -8,7 +8,7 @@ import { EMPTY_OBJ, ensure, hooks, isUndefined } from '@tarojs/shared'
 
 import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
-import { isClassComponent } from './utils'
+import { exposeSharedAppChildren, isClassComponent } from './utils'
 
 import type { Instance, TaroRootElement } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
 import type { MpInstance } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
@@ -185,6 +185,9 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
       app?.parentNode?.appendChild(nativeApp)
       app = nativeApp
     }
+  }
+  if (isNativeShared && pkgId && globalKey) {
+    exposeSharedAppChildren(app)
   }
   // eslint-disable-next-line react/no-deprecated
   ReactDOM.render(
