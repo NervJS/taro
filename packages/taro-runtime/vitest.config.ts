@@ -3,6 +3,9 @@ import { defineConfig } from 'vitest/config'
 
 // https://cn.vitest.dev/guide/
 export default defineConfig({
+  resolve: {
+    alias: { '@tarojs/runtime': resolve(__dirname, 'src/index.ts') }
+  },
   define: {
     ENABLE_INNER_HTML: true,
     ENABLE_ADJACENT_HTML: true,
