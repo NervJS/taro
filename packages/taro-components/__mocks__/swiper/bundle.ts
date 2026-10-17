@@ -150,7 +150,7 @@ export default class Swiper implements ISwiper {
   attachEvents (): void {}
 
   destroy (deleteInstance?: boolean | undefined, cleanStyles?: boolean | undefined): void {
-    if (this.initialized && this.params.loop) this.loopDestroy()
+    if (this.params.loop) this.loopDestroy()
     this.autoplay.stop()
     this.initialized = false
     this.destroyed = true

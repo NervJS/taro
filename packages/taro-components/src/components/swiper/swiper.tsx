@@ -314,8 +314,7 @@ export class Swiper implements ComponentInterface {
     let initialSlide = current
     if (reset) {
       initialSlide = this.#lastSwiperActiveIndex
-    }
-    if (currentItemId) {
+    } else if (currentItemId) {
       let itemIdIndex = 0
       this.getSlidersList().forEach((swiperItem, index) => {
         // @ts-ignore
@@ -405,11 +404,16 @@ export class Swiper implements ComponentInterface {
     }
     // 使用组件内的真实节点，避免全局选择器在脱离文档或重建时匹配失败
     const swiper = new SwiperJS(this.#container, options) as SwiperInstance
-    swiper.init()
-    if (!swiper.initialized) {
-      swiper.destroy()
-      return
+    try {
+      swiper.init()
+    } finally {
+      if (!swiper.initialized) {
+        // 初始化失败时跳过循环节点还原，释放实例并保留原始初始化异常
+        swiper.params.loop = false
+        swiper.destroy()
+      }
     }
+    if (!swiper.initialized) return
     this.swiper = swiper
     this.getNeedFixLoop() && swiper.loopFix()
 
