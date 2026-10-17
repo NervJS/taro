@@ -26,6 +26,26 @@ import { SwiperOptions } from 'swiper/types/swiper-options'
 import type ISwiper from 'swiper/types/swiper-class'
 
 export default class Swiper implements ISwiper {
+  initialized = false
+
+  constructor (el: string | HTMLElement, options: SwiperOptions = {}) {
+    this.params = options
+    this.el = typeof el === 'string' ? document.querySelector(el) as HTMLElement : el
+    this.realIndex = options.initialSlide || 0
+    this.activeIndex = this.realIndex
+    this.destroyed = false
+    this.autoplay = {
+      running: false,
+      paused: false,
+      timeLeft: 0,
+      start: () => { this.autoplay.running = true },
+      stop: () => { this.autoplay.running = false },
+      pause: () => { this.autoplay.paused = true },
+      resume: () => { this.autoplay.paused = false },
+    } as AutoplayMethods
+    if (options.init !== false) this.init()
+  }
+
   originalParams: SwiperOptions
   loopedSlides: number | null
   snapIndex: number
@@ -45,11 +65,21 @@ export default class Swiper implements ISwiper {
   }
 
   loopDestroy (): void {
-    throw new Error('Method not implemented.')
+    // Swiper 11 的 recalcSlides 从 slidesEl 读取子节点
+    Array.from(this.slidesEl.children)
   }
 
   init (el?: HTMLElement | undefined): ISwiper {
-    throw new Error('Method not implemented.')
+    if (el) this.el = el
+    if (!this.el) return this
+    this.wrapperEl = this.el.querySelector('.swiper-wrapper') as HTMLElement
+    if (!this.wrapperEl) return this
+    this.slidesEl = this.wrapperEl
+    this.slides = Array.from(this.slidesEl.querySelectorAll('taro-swiper-item-core'))
+    this.initialized = true
+    if (this.params.autoplay) this.autoplay.start()
+    this.params.on?.init?.call(this, this)
+    return this
   }
 
   creativeEffect: CreativeEffectMethods
@@ -58,6 +88,9 @@ export default class Swiper implements ISwiper {
   params: SwiperOptions
   el: HTMLElement
   wrapperEl: HTMLElement
+  slidesEl: HTMLElement
+  slidesGrid: number[]
+  slidesSizesGrid: number[]
   slides
   width: number
   height: number
@@ -82,17 +115,21 @@ export default class Swiper implements ISwiper {
 
   setProgress (progress: number, speed?: number | undefined): void {}
 
-  slideNext (speed?: number | undefined, runCallbacks?: boolean | undefined): void {}
+  slideNext (speed?: number | undefined, runCallbacks?: boolean | undefined): boolean { return true }
 
-  slidePrev (speed?: number | undefined, runCallbacks?: boolean | undefined): void {}
+  slidePrev (speed?: number | undefined, runCallbacks?: boolean | undefined): boolean { return true }
 
-  slideTo (index: number, speed?: number | undefined, runCallbacks?: boolean | undefined): void {}
+  slideTo (index: number, speed?: number | undefined, runCallbacks?: boolean | undefined): boolean { return true }
 
-  slideToLoop (index: number, speed?: number | undefined, runCallbacks?: boolean | undefined): void {}
+  slideToLoop (index: number, speed?: number | undefined, runCallbacks?: boolean | undefined): ISwiper { return this }
 
-  slideReset (speed?: number | undefined, runCallbacks?: boolean | undefined): void {}
+  slideReset (speed?: number | undefined, runCallbacks?: boolean | undefined): boolean { return true }
 
-  slideToClosest (speed?: number | undefined, runCallbacks?: boolean | undefined): void {}
+  slideToClosest (speed?: number | undefined, runCallbacks?: boolean | undefined): boolean { return true }
+
+  minTranslate (): number { return 0 }
+
+  maxTranslate (): number { return 0 }
 
   updateAutoHeight (speed?: number | undefined): void {}
 
@@ -112,7 +149,12 @@ export default class Swiper implements ISwiper {
 
   attachEvents (): void {}
 
-  destroy (deleteInstance?: boolean | undefined, cleanStyles?: boolean | undefined): void {}
+  destroy (deleteInstance?: boolean | undefined, cleanStyles?: boolean | undefined): void {
+    if (this.params.loop) this.loopDestroy()
+    this.autoplay.stop()
+    this.initialized = false
+    this.destroyed = true
+  }
 
   appendSlide (slides: string | HTMLElement | string[] | HTMLElement[]): void {}
 
