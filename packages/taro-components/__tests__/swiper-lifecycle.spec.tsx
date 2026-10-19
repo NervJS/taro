@@ -70,6 +70,60 @@ describe('Swiper lifecycle', () => {
     expect(component.swiper.autoplay.running).toBe(true)
   })
 
+  it.each([true, false])('applies the latest detached currentItemId once with circular=%s', async (circular) => {
+    const component = await mount()
+    page.root!.circular = circular
+    await page.waitForChanges()
+    component.swiper.realIndex = 1
+    page.root!.remove()
+    await page.waitForChanges()
+    const slideTo = jest.spyOn(SwiperJS.prototype, circular ? 'slideToLoop' : 'slideTo')
+
+    page.root!.currentItemId = 'second'
+    await page.waitForChanges()
+    page.root!.currentItemId = 'third'
+    await page.waitForChanges()
+
+    expect(component.swiper).toBeNull()
+    expect(slideTo).not.toHaveBeenCalled()
+    page.doc.body.appendChild(page.root!)
+    await page.waitForChanges()
+
+    expect(component.swiper.initialized).toBe(true)
+    expect(slideTo).toHaveBeenCalledTimes(1)
+    expect(slideTo).toHaveBeenCalledWith(2)
+    expect(slideTo.mock.instances[0]).toBe(component.swiper)
+
+    // 目标项只应用一次，后续重连仍保留用户后来滑到的位置
+    component.swiper.realIndex = 1
+    slideTo.mockClear()
+    page.root!.remove()
+    await page.waitForChanges()
+    page.doc.body.appendChild(page.root!)
+    await page.waitForChanges()
+
+    expect(component.swiper.realIndex).toBe(1)
+    expect(slideTo).not.toHaveBeenCalled()
+  })
+
+  it('keeps an empty currentItemId as the latest detached update', async () => {
+    const component = await mount()
+    component.swiper.realIndex = 1
+    page.root!.remove()
+    await page.waitForChanges()
+    const slideToLoop = jest.spyOn(SwiperJS.prototype, 'slideToLoop')
+
+    page.root!.currentItemId = 'third'
+    await page.waitForChanges()
+    page.root!.currentItemId = ''
+    await page.waitForChanges()
+    page.doc.body.appendChild(page.root!)
+    await page.waitForChanges()
+
+    expect(slideToLoop).toHaveBeenCalledTimes(1)
+    expect(slideToLoop).toHaveBeenCalledWith(0)
+  })
+
   it('allows child updates while detached after changing circular', async () => {
     const component = await mount()
     page.root!.remove()

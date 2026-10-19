@@ -64,6 +64,8 @@ export default class Swiper implements ISwiper {
     throw new Error('Method not implemented.')
   }
 
+  loopFix (): void {}
+
   loopDestroy (): void {
     // Swiper 11 的 recalcSlides 从 slidesEl 读取子节点
     Array.from(this.slidesEl.children)
@@ -76,6 +78,9 @@ export default class Swiper implements ISwiper {
     if (!this.wrapperEl) return this
     this.slidesEl = this.wrapperEl
     this.slides = Array.from(this.slidesEl.querySelectorAll('taro-swiper-item-core'))
+    if (this.params.loop) {
+      this.slides.forEach((slide, index) => slide.setAttribute('data-swiper-slide-index', String(index)))
+    }
     this.initialized = true
     if (this.params.autoplay) this.autoplay.start()
     this.params.on?.init?.call(this, this)

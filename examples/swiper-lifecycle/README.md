@@ -35,6 +35,8 @@ PR 分支：同一操作顺序没有捕获到异常；旧实例被销毁，重�
 
 ## 自动化回归
 
-`packages/taro-components/__tests__/swiper-lifecycle.spec.tsx` 使用现有 `newSpecPage` 和 Swiper mock 覆盖 8 个生命周期场景。最初 5 个场景在 main 基线失败；本轮新增索引覆盖回归，并将失效节点用例对齐真实 slidesEl 路径，两个针对用例在本轮修复前失败、修复后通过。当前 15 个 Swiper 用例及 7 个快照通过，新增旧实例事件隔离和子节点更新期间事件抑制回归。mock 场景与上面的真实浏览器结果分别记录。
+`packages/taro-components/__tests__/swiper-lifecycle.spec.tsx` 使用现有 `newSpecPage` 和 Swiper mock 覆盖 11 个生命周期场景。最初 5 个场景在 main 基线失败；本轮新增索引覆盖回归，并将失效节点用例对齐真实 slidesEl 路径，两个针对用例在本轮修复前失败、修复后通过。当前 18 个 Swiper 用例及 7 个快照通过，新增旧实例事件隔离和子节点更新期间事件抑制回归。mock 场景与上面的真实浏览器结果分别记录。
 
 当前实现仅在属性更新、外部子节点更新及连接/断开入口管理实例；不依赖 componentDidRender 重建。实例初始化成功后才保存引用，current 恢复索引显式传入 reset，不再维护额外 pending 标志。
+
+脱离文档期间更新 `currentItemId` 的回归分别覆盖 circular 开启和关闭，以及最新值为空字符串的情况；连续更新只应用最新目标，应用后再次重连应保留用户后来滑到的位置。临时移除重连后的目标应用逻辑时，这 3 个新增用例全部失败；恢复修复后通过。mock 按真实循环初始化写入 `data-swiper-slide-index`，循环快照同步更新。
