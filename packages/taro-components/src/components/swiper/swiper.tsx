@@ -20,6 +20,7 @@ export class Swiper implements ComponentInterface {
   #source = 'autoplay'
   #swiperResetting = false
   #lastSwiperActiveIndex = 0
+  #pendingCurrentItemId: string | null = null
   #didLoad = false
   #container: HTMLElement | null = null
   #sizeTimer: ReturnType<typeof setTimeout>
@@ -149,7 +150,11 @@ export class Swiper implements ComponentInterface {
   @Watch('currentItemId')
   watchCurrentItemId (newVal) {
     const swiper = this.getSwiper()
-    if (!swiper) return
+    if (!swiper) {
+      this.#pendingCurrentItemId = newVal
+      return
+    }
+    this.#pendingCurrentItemId = null
 
     let itemIdIndex = 0
     this.getSlidersList().forEach((swiperItem, index) => {
@@ -443,6 +448,8 @@ export class Swiper implements ComponentInterface {
     this.observer?.disconnect()
     this.observer = new MutationObserver(this.handleSwiperSizeDebounce)
     this.observer.observe(swiper.wrapperEl, { childList: true })
+    // 脱离文档期间更新的目标项，在实例恢复后应用一次
+    if (this.#pendingCurrentItemId !== null) this.watchCurrentItemId(this.#pendingCurrentItemId)
   }
 
   reset = (current?: number) => {
