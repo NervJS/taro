@@ -30,7 +30,6 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, opt
   const hideDefaultMessage = options?.hideDefaultMessage ?? false
   const handle = new MethodHandler({ name: 'setClipboardData', success, fail, complete })
   try {
-    setStorageSync(CLIPBOARD_STORAGE_NAME, data)
     /**
      * 已于 iPhone 6s Plus iOS 13.1.3 上的 Safari 测试通过
      * iOS < 10 的系统可能无法使用编程方式访问剪贴板，参考：
@@ -44,13 +43,19 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, opt
       textarea.style.width = '100px'
       textarea.style.left = '-10000px'
       document.body.appendChild(textarea)
-      textarea.select()
-      textarea.setSelectionRange(0, textarea.value.length)
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
+      try {
+        textarea.select()
+        textarea.setSelectionRange(0, textarea.value.length)
+        if (!document.execCommand('copy')) {
+          throw new Error('Failed to copy to clipboard')
+        }
+      } finally {
+        textarea.remove()
+      }
     } else {
       throw new Error('Unsupported Function: \'document.execCommand\'.')
     }
+    setStorageSync(CLIPBOARD_STORAGE_NAME, data)
     if (!hideDefaultMessage) {
       showToast({
         title: '内容已复制',
