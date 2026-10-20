@@ -62,12 +62,14 @@ export default function createFilter(include, exclude, options?) {
     const pathId = normalizePath(id)
     for (let i = 0; i < excludeMatchers.length; ++i) {
       const matcher = excludeMatchers[i]
+      if (matcher instanceof RegExp) matcher.lastIndex = 0
       if (matcher.test(pathId)) {
         return false
       }
     }
     for (let i = 0; i < includeMatchers.length; ++i) {
       const matcher = includeMatchers[i]
+      if (matcher instanceof RegExp) matcher.lastIndex = 0
       if (matcher.test(pathId)) {
         return true
       }
