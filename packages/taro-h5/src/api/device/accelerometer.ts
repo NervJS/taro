@@ -4,7 +4,7 @@ import throttle from 'lodash-es/throttle'
 import { CallbackManager, MethodHandler } from '../../utils/handler'
 
 const callbackManager = new CallbackManager()
-let devicemotionListener
+let devicemotionListener: ReturnType<typeof throttle> | undefined
 
 /**
  * 停止监听加速度数据。
@@ -13,7 +13,11 @@ export const stopAccelerometer: typeof Taro.stopAccelerometer = ({ success, fail
   const res: Partial<TaroGeneral.CallbackResult> = {}
   const handle = new MethodHandler({ name: 'stopAccelerometer', success, fail, complete })
   try {
-    window.removeEventListener('devicemotion', devicemotionListener, true)
+    if (devicemotionListener) {
+      window.removeEventListener('devicemotion', devicemotionListener, true)
+      devicemotionListener.cancel()
+      devicemotionListener = undefined
+    }
     return handle.success(res)
   } catch (e) {
     res.errMsg = e.message
