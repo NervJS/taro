@@ -323,4 +323,8 @@ export interface ICollectProjectFactsOptions {
   root: string
   captureContext?: ITaroCaptureContext
   contentSink?: IContentSink
+  /** Relative paths excluded in every workspace root, in addition to generated paths. */
+  excludedPaths?: string[]
+  /** Absolute owned paths excluded only where they overlap an actual workspace root. */
+  excludedAbsolutePaths?: string[]
 }

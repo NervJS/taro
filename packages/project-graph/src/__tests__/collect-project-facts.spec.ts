@@ -2,7 +2,8 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 
-import { collectProjectFacts } from '../collect-project-facts'
+import { collectProjectFacts, PROJECT_FACTS_COLLECTION_FEATURES } from '../collect-project-facts'
+import { PROJECT_FACTS_COLLECTION_FEATURES as PUBLIC_COLLECTION_FEATURES } from '../facts-api'
 
 describe('collectProjectFacts', () => {
   let root: string
@@ -65,6 +66,102 @@ describe('collectProjectFacts', () => {
     expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath === 'src/pages/index/index.tsx')).toBe(true)
     expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath.startsWith('dist/'))).toBe(false)
   }, 30_000)
+
+  it('exports the collection feature handshake through the public facts API', () => {
+    expect(PROJECT_FACTS_COLLECTION_FEATURES).toEqual(['excludedPaths', 'excludedAbsolutePaths'])
+    expect(PUBLIC_COLLECTION_FEATURES).toBe(PROJECT_FACTS_COLLECTION_FEATURES)
+  })
+
+  it('really excludes custom absolute directories before sending content to the sink', async () => {
+    const owned = path.join(root, 'custom-pilot-data')
+    for (const directory of [owned, path.join(root, 'custom-output'), path.join(root, 'dist')]) {
+      fs.mkdirSync(directory)
+      fs.writeFileSync(path.join(directory, 'data.txt'), 'generated')
+    }
+    fs.writeFileSync(path.join(root, 'config', 'index.ts'), "export default { sourceRoot: 'src', outputRoot: 'custom-output' }\n")
+    const captured: string[] = []
+    const snapshot = await collectProjectFacts({
+      root,
+      excludedAbsolutePaths: [owned, path.join(root, 'not-created-yet')],
+      contentSink: {
+        async begin(entry) {
+          captured.push(entry.relativePath)
+          return { async write() {}, async commit() {}, async abort() {} }
+        },
+      },
+    })
+    expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath.startsWith('custom-pilot-data/'))).toBe(false)
+    expect(captured.some(value => /^(custom-pilot-data|custom-output|dist)\//.test(value))).toBe(false)
+    expect(captured).toContain('src/pages/index/index.tsx')
+  })
+
+  it.each(['relative-external', 'absolute-external', 'relative-self', 'absolute-self', 'relative-internal', 'absolute-internal', 'dot-prefix-internal'])(
+    'keeps metadata and source files with a %s generated output root', async kind => {
+      const canonicalRoot = fs.realpathSync.native(root)
+      const outputRoots: Record<string, string> = {
+        'relative-external': '../dist',
+        'absolute-external': path.join(path.dirname(canonicalRoot), 'external-output'),
+        'relative-self': '.',
+        'absolute-self': canonicalRoot,
+        'relative-internal': 'custom-output',
+        'absolute-internal': path.join(canonicalRoot, 'custom-output'),
+        'dot-prefix-internal': '..foo',
+      }
+      const outputRoot = outputRoots[kind]
+      for (const directory of ['dist', 'custom-output', '..foo']) {
+        fs.mkdirSync(path.join(root, directory))
+        fs.writeFileSync(path.join(root, directory, 'data.txt'), 'generated')
+      }
+      fs.writeFileSync(path.join(root, 'config', 'index.ts'), `export default { sourceRoot: 'src', outputRoot: '${outputRoot}' }\n`)
+
+      const snapshot = await collectProjectFacts({ root })
+      const paths = snapshot.workspaceManifest.entries.map(entry => entry.relativePath)
+      expect(snapshot.project.outputRoot).toBe(outputRoot)
+      expect(paths).toContain('src/pages/index/index.tsx')
+      expect(paths).toContain('package.json')
+      expect(paths).not.toContain('dist/data.txt')
+      expect(paths.includes('custom-output/data.txt')).toBe(!['relative-internal', 'absolute-internal'].includes(kind))
+      expect(paths.includes('..foo/data.txt')).toBe(kind !== 'dot-prefix-internal')
+    }
+  )
+
+  it('excludes a native generated directory named ..foo without mistaking it for an ancestor', async () => {
+    fs.mkdirSync(path.join(root, '..foo'))
+    fs.writeFileSync(path.join(root, '..foo', 'data.txt'), 'generated')
+    fs.writeFileSync(path.join(root, 'config', 'index.ts'), "export default { sourceRoot: 'src', projectPath: path.resolve(__dirname, '..foo') }\n")
+    const snapshot = await collectProjectFacts({ root })
+    expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath === '..foo/data.txt')).toBe(false)
+    expect(snapshot.workspaceManifest.entries.some(entry => entry.relativePath === 'src/pages/index/index.tsx')).toBe(true)
+  })
+
+  it('combines caller relative exclusions with generated paths for every actual root', async () => {
+    localDependencyRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'collect-project-local-dependency-'))
+    fs.writeFileSync(path.join(localDependencyRoot, 'package.json'), '{"name":"external"}')
+    for (const directory of [root, localDependencyRoot]) {
+      fs.mkdirSync(path.join(directory, 'taro-pilot-callback-workspaces'))
+      fs.writeFileSync(path.join(directory, 'taro-pilot-callback-workspaces', 'data.txt'), 'owned')
+    }
+    fs.mkdirSync(path.join(root, 'dist'))
+    fs.writeFileSync(path.join(root, 'dist', 'bundle.js'), 'generated')
+    const snapshot = await collectProjectFacts({
+      root,
+      excludedPaths: ['taro-pilot-callback-workspaces'],
+      captureContext: { workspaceRoots: [{ rootId: 'external', role: 'external-project', originalPath: localDependencyRoot }] },
+    })
+    expect(snapshot.workspaceManifest.entries.some(entry => /^(taro-pilot-callback-workspaces|dist)\//.test(entry.relativePath))).toBe(false)
+    expect(snapshot.workspaceManifest.entries).toContainEqual(expect.objectContaining({ rootId: 'external', relativePath: 'package.json' }))
+  })
+
+  it.each(['absolute', 'ancestor'])('still rejects %s values in caller relative exclusions', async kind => {
+    const excludedPath = kind === 'absolute' ? path.join(root, 'owned') : '../dist'
+    await expect(collectProjectFacts({ root, excludedPaths: [excludedPath] }))
+      .rejects.toThrow('Excluded path must stay inside its workspace root')
+  })
+
+  it('rejects relative exclusions rather than treating them as generated paths', async () => {
+    await expect(collectProjectFacts({ root, excludedAbsolutePaths: ['custom-pilot-data'] }))
+      .rejects.toThrow('Excluded path must be absolute')
+  })
 
   it('preserves relative placement for a local dependency outside the project', async () => {
     localDependencyRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'collect-project-local-dependency-'))

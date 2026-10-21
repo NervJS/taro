@@ -1,4 +1,4 @@
-export { collectProjectFacts } from './collect-project-facts'
+export { collectProjectFacts, PROJECT_FACTS_COLLECTION_FEATURES } from './collect-project-facts'
 export * from './compatibility'
 export * from './facts'
 export * from './facts-serialization'

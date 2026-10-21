@@ -37,6 +37,8 @@ import {
 } from './workspace-facts'
 import { collectWorkspaceManifest } from './workspace-manifest'
 
+export const PROJECT_FACTS_COLLECTION_FEATURES = ['excludedPaths', 'excludedAbsolutePaths'] as const
+
 const execFileAsync = promisify(execFile)
 const CONFIG_CANDIDATES = [
   'config/index.ts',
@@ -112,7 +114,8 @@ export async function collectProjectFacts(options: ICollectProjectFactsOptions):
   const workspaceManifest = await collectWorkspaceManifest({
     roots: workspaceState.roots,
     contentSink: options.contentSink,
-    excludedPaths: collectGeneratedPaths(root, project, configText),
+    excludedPaths: [...collectGeneratedPaths(root, project, configText), ...(options.excludedPaths ?? [])],
+    excludedAbsolutePaths: options.excludedAbsolutePaths,
     includedPathsByRoot: workspaceState.includedPathsByRoot,
   })
   const dependencies = await collectDependencyFacts(
@@ -168,14 +171,12 @@ export async function collectProjectFacts(options: ICollectProjectFactsOptions):
 }
 
 function collectGeneratedPaths(root: string, project: IProjectFacts, configText: string): string[] {
-  const paths = ['dist', ...(project.outputRoot ? [project.outputRoot] : [])]
   const nativeProjectMatch = configText.match(/projectPath\s*:\s*path\.resolve\([^,]+,\s*['"]([^'"]+)['"]\s*\)/)
-  const nativeProjectPath = nativeProjectMatch?.[1]
-  if (nativeProjectPath) {
-    const absolutePath = path.isAbsolute(nativeProjectPath) ? nativeProjectPath : path.resolve(root, nativeProjectPath)
-    const relativePath = path.relative(root, absolutePath)
-    if (relativePath && !relativePath.startsWith('..') && !path.isAbsolute(relativePath)) paths.push(relativePath)
-  }
+  const candidates = ['dist', project.outputRoot, nativeProjectMatch?.[1]]
+  const paths = candidates
+    .filter((value): value is string => Boolean(value))
+    .map(value => path.relative(root, path.resolve(root, value)))
+    .filter(value => value && value !== '..' && !value.startsWith(`..${path.sep}`) && !path.isAbsolute(value))
   return uniqueStrings(paths.map(toPosixPath))
 }
 
