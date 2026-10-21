@@ -18,21 +18,31 @@ const CAPTURE_CONCURRENCY = 16
 export interface ICollectWorkspaceManifestOptions {
   roots: IWorkspaceRoot[]
   contentSink?: IContentSink
+  /** Relative paths excluded in every root. */
   excludedPaths?: string[]
+  /** Absolute paths excluded only in roots that overlap them, including canonical aliases. */
+  excludedAbsolutePaths?: string[]
   includedPathsByRoot?: Record<string, string[]>
 }
 
 export async function collectWorkspaceManifest(
   options: ICollectWorkspaceManifestOptions
 ): Promise<IWorkspaceContentManifest> {
+  const excludedPaths = normalizeRootPaths(options.excludedPaths ?? [], 'Excluded')
+  const absoluteExclusions = await normalizeAbsoluteExclusions(options.excludedAbsolutePaths ?? [])
   const roots = await normalizeRoots(options.roots)
   const entries: IWorkspaceContentEntry[] = []
 
   for (const root of roots) {
+    if (absoluteExclusions.some(excluded => isInsidePath(excluded, root.originalPath))) continue
+    const rootExclusions = absoluteExclusions
+      .filter(excluded => isInsidePath(root.originalPath, excluded))
+      .map(excluded => toPosixPath(path.relative(root.originalPath, excluded)))
     const rootEntries = await collectRootEntries(
       root,
       options.contentSink,
-      options.excludedPaths ?? [],
+      [...excludedPaths, ...rootExclusions],
+      absoluteExclusions,
       options.includedPathsByRoot?.[root.rootId]
     )
     for (const entry of rootEntries) entries.push(entry)
@@ -58,24 +68,25 @@ async function collectRootEntries(
   root: IWorkspaceRoot,
   contentSink: IContentSink | undefined,
   excludedPaths: string[],
+  absoluteExclusions: string[],
   includedPaths?: string[]
 ): Promise<IWorkspaceContentEntry[]> {
   const relativePaths = new Set<string>()
-  const normalizedExclusions = excludedPaths.map(normalizeRelativePath).filter(Boolean)
-
   if (includedPaths === undefined) {
-    await walkDirectory(root.originalPath, '', async relativePath => { relativePaths.add(relativePath) }, normalizedExclusions)
+    await walkDirectory(root.originalPath, '', async relativePath => { relativePaths.add(relativePath) }, excludedPaths, absoluteExclusions)
   } else {
-    for (const includedPath of normalizeIncludedPaths(includedPaths)) {
+    for (const includedPath of normalizeRootPaths(includedPaths, 'Included')) {
+      if (isExcluded(includedPath, excludedPaths)) continue
+      if (await isCanonicalExcluded(root.originalPath, includedPath, excludedPaths, absoluteExclusions)) continue
       const absolutePath = path.join(root.originalPath, includedPath)
       const entry = await lstat(absolutePath).catch(error => {
         if ((error as NodeJS.ErrnoException).code === 'ENOENT') return undefined
         throw error
       })
-      if (!entry || isExcluded(includedPath, normalizedExclusions)) continue
+      if (!entry) continue
 
       if (entry.isDirectory() && !entry.isSymbolicLink()) {
-        await walkDirectory(root.originalPath, includedPath, async relativePath => { relativePaths.add(relativePath) }, normalizedExclusions)
+        await walkDirectory(root.originalPath, includedPath, async relativePath => { relativePaths.add(relativePath) }, excludedPaths, absoluteExclusions)
       } else if (entry.isFile() || entry.isSymbolicLink()) {
         relativePaths.add(includedPath)
       }
@@ -92,23 +103,88 @@ async function collectRootEntries(
   return entries
 }
 
-function normalizeIncludedPaths(includedPaths: string[]): string[] {
-  return [...new Set(includedPaths.map(value => {
-    const normalized = normalizeRelativePath(value)
-    if (!normalized || path.isAbsolute(value) || normalized === '..' || normalized.startsWith('../')) {
-      throw new Error(`Included path must stay inside its workspace root: ${value}`)
+function normalizeRootPaths(paths: string[], label: 'Included' | 'Excluded'): string[] {
+  return [...new Set(paths.map(value => {
+    const normalized = typeof value === 'string' ? path.posix.normalize(normalizeRelativePath(value)) : ''
+    if (!normalized || value === '' || (label === 'Excluded' && normalized === '.') || path.posix.isAbsolute(normalized) || path.isAbsolute(value) ||
+      normalized === '..' || normalized.startsWith('../')) {
+      throw new Error(`${label} path must stay inside its workspace root: ${value}`)
     }
     return normalized
   }))].sort()
+}
+
+async function normalizeAbsoluteExclusions(paths: string[]): Promise<string[]> {
+  for (const value of paths) {
+    if (typeof value !== 'string' || !path.isAbsolute(value)) throw new Error(`Excluded path must be absolute: ${value}`)
+  }
+  const exclusions = await Promise.all(paths.map(async value => {
+    const canonicalPath = await canonicalizeDeclaredPath(value)
+    // A lexical alias containing .. may refer to a different path after symlink traversal.
+    return toPosixPath(value).split('/').includes('..') ? [canonicalPath] : [path.resolve(value), canonicalPath]
+  }))
+  return [...new Set(exclusions.flat())]
+}
+
+async function canonicalizeDeclaredPath(value: string, seen = new Set<string>()): Promise<string> {
+  // Strip only trailing separators: path.resolve would collapse .. before symlink traversal.
+  const rootLength = path.parse(value).root.length
+  while (value.length > rootLength && (value.endsWith(path.sep) || (path.sep === '\\' && value.endsWith('/')))) value = value.slice(0, -1)
+  try {
+    return await realpath(value)
+  } catch (error) {
+    const parent = path.dirname(value)
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT' || parent === value) throw error
+    if (seen.has(value)) throw Object.assign(new Error(`Symlink cycle while resolving: ${value}`), { code: 'ELOOP' })
+    seen.add(value)
+    const target = await readlink(value).catch(error => {
+      const code = (error as NodeJS.ErrnoException).code
+      if (code === 'ENOENT' || code === 'EINVAL') return undefined
+      throw error
+    })
+    const canonicalParent = await canonicalizeDeclaredPath(parent, seen)
+    if (target === undefined) return path.join(canonicalParent, path.basename(value))
+    // Keep .. components until realpath resolves any preceding symlinks.
+    const targetPath = path.isAbsolute(target) ? target : `${canonicalParent}${path.sep}${target}`
+    return canonicalizeDeclaredPath(targetPath, seen)
+  }
+}
+
+function isInsidePath(parent: string, value: string): boolean {
+  const relativePath = path.relative(parent, value)
+  return relativePath !== '..' && !relativePath.startsWith(`..${path.sep}`) && !path.isAbsolute(relativePath)
+}
+
+async function isCanonicalExcluded(root: string, relativePath: string, excludedPaths: string[], absoluteExclusions: string[]): Promise<boolean> {
+  if (excludedPaths.length === 0 && absoluteExclusions.length === 0) return false
+  const absolutePath = path.join(root, relativePath)
+  let canonicalPath: string
+  try {
+    canonicalPath = await canonicalizeDeclaredPath(absolutePath)
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code
+    // An unresolved symlink leaf can still be captured with lstat/readlink; invalid intermediate paths cannot.
+    if (['ELOOP', 'ENOTDIR', 'EACCES', 'EPERM'].includes(code ?? '') && (await lstat(absolutePath)).isSymbolicLink()) return false
+    throw error
+  }
+  return isExcludedCanonicalPath(root, canonicalPath, excludedPaths, absoluteExclusions)
+}
+
+function isExcludedCanonicalPath(root: string, canonicalPath: string, excludedPaths: string[], absoluteExclusions: string[]): boolean {
+  return absoluteExclusions.some(excluded => isInsidePath(excluded, canonicalPath)) ||
+    (isInsidePath(root, canonicalPath) && isExcluded(toPosixPath(path.relative(root, canonicalPath)), excludedPaths))
 }
 
 async function walkDirectory(
   root: string,
   relativeDirectory: string,
   onEntry: (relativePath: string) => Promise<void>,
-  excludedPaths: string[]
+  excludedPaths: string[],
+  absoluteExclusions: string[]
 ): Promise<void> {
   const absoluteDirectory = path.join(root, relativeDirectory)
+  const canonicalDirectory = excludedPaths.length > 0 || absoluteExclusions.length > 0
+    ? await canonicalizeDeclaredPath(absoluteDirectory) : absoluteDirectory
   const directory = await opendir(absoluteDirectory)
   const children: Dirent[] = []
 
@@ -116,11 +192,15 @@ async function walkDirectory(
   children.sort((left, right) => left.name.localeCompare(right.name))
 
   for (const child of children) {
-    const relativePath = path.posix.join(relativeDirectory.split(path.sep).join(path.posix.sep), child.name)
+    const relativePath = path.posix.join(toPosixPath(relativeDirectory), child.name)
     if (isExcluded(relativePath, excludedPaths)) continue
     if (EXCLUDED_DIRECTORIES.has(child.name)) continue
+    const excluded = child.isSymbolicLink()
+      ? await isCanonicalExcluded(root, relativePath, excludedPaths, absoluteExclusions)
+      : isExcludedCanonicalPath(root, path.join(canonicalDirectory, child.name), excludedPaths, absoluteExclusions)
+    if (excluded) continue
     if (child.isDirectory() && !child.isSymbolicLink()) {
-      await walkDirectory(root, relativePath, onEntry, excludedPaths)
+      await walkDirectory(root, relativePath, onEntry, excludedPaths, absoluteExclusions)
       continue
     }
     if (child.isFile() || child.isSymbolicLink()) await onEntry(relativePath)
@@ -207,6 +287,10 @@ function compareEntries(left: IWorkspaceContentEntry, right: IWorkspaceContentEn
 
 function isExcluded(relativePath: string, excludedPaths: string[]): boolean {
   return excludedPaths.some(excludedPath => relativePath === excludedPath || relativePath.startsWith(`${excludedPath}/`))
+}
+
+function toPosixPath(value: string): string {
+  return value.split(path.sep).join(path.posix.sep)
 }
 
 function normalizeRelativePath(value: string): string {
