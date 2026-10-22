@@ -57,7 +57,7 @@ if (typeof PRERENDER !== 'undefined') {
   ${globalObject}._prerender = inst
 }`
   return `${setReconciler}
-import { createPageConfig, window } from '@tarojs/runtime'
+import { createPageConfig, Current, window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
 ${setReconcilerPost}
 ${importFrameworkStatement}
@@ -65,7 +65,8 @@ var config = ${configString};
 var appConfig = ${JSON.stringify(appConfig)};
 window.__taroAppConfig = appConfig
 ${mockAppStatement}
-${creator}(App, ${frameworkArgsCopy})
+// Independent pages share one runtime. Loading another page must not replace the mounted app.
+if (!Current.app) ${creator}(App, ${frameworkArgsCopy})
 var component = require(${stringify(componentPath)}).default
 ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
