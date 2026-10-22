@@ -28,6 +28,49 @@ describe('setClipboardData', () => {
     else execCommand.mockImplementation(() => { throw new Error('copy denied') })
   }
 
+  test.each(['succeeds', 'returns false', 'throws'])('defers copy-event caching until the command %s', async mode => {
+    jest.spyOn(window, 'getSelection').mockReturnValue({ toString: () => 'selected content' } as Selection)
+    const setItem = jest.spyOn(Storage.prototype, 'setItem')
+    execCommand.mockImplementation(() => {
+      document.dispatchEvent(new Event('copy'))
+      expect(setItem).not.toHaveBeenCalled()
+      if (mode === 'throws') throw new Error('copy denied')
+      return mode === 'succeeds'
+    })
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+
+    const result = await setClipboardData({ data: 'new content', success, fail, complete })
+
+    expect(execCommand).toHaveBeenCalledTimes(1)
+    expect(result.errMsg).toBe(mode === 'succeeds'
+      ? 'setClipboardData:ok'
+      : `setClipboardData:fail ${mode === 'throws' ? 'copy denied' : 'Failed to copy to clipboard'}`)
+    expect(setItem).toHaveBeenCalledTimes(mode === 'succeeds' ? 1 : 0)
+    expect((await getClipboardData()).data).toBe(mode === 'succeeds' ? 'new content' : 'previous content')
+    expect(success).toHaveBeenCalledTimes(mode === 'succeeds' ? 1 : 0)
+    expect(fail).toHaveBeenCalledTimes(mode === 'succeeds' ? 0 : 1)
+    expect(complete).toHaveBeenCalledTimes(1)
+    expect(document.querySelector('textarea')).toBeNull()
+    expect(showToast).toHaveBeenCalledTimes(mode === 'succeeds' ? 1 : 0)
+
+    // Manual copies must resume caching after both successful and failed API calls.
+    document.dispatchEvent(new Event('copy'))
+    expect((await getClipboardData()).data).toBe('selected content')
+  })
+
+  test.each(['QuotaExceededError', 'SecurityError'])('catches synchronous %s from a manual copy', errorName => {
+    const error = new DOMException('Clipboard cache write failed', errorName)
+    jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw error })
+    const logError = jest.spyOn(console, 'error').mockImplementation(() => {})
+
+    document.dispatchEvent(new Event('copy'))
+
+    expect(logError).toHaveBeenCalledTimes(1)
+    expect(logError).toHaveBeenCalledWith(error)
+  })
+
   test.each(['succeeds', 'returns false', 'throws'])('cleans up without textarea.remove when copying %s', async mode => {
     jest.spyOn(HTMLTextAreaElement.prototype, 'select').mockImplementation(function () {
       Object.defineProperty(this, 'remove', { value: undefined })

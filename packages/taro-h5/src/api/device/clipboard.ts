@@ -9,18 +9,20 @@ import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from '../../utils/handler'
-import { getStorageSync, setStorage, setStorageSync } from '../storage/index'
+import { getStorageSync, setStorageSync } from '../storage/index'
 import { showToast } from '../ui/interaction'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
+let clipboardCopyDepth = 0
 
 document.addEventListener('copy', () => {
-  setStorage({
-    key: CLIPBOARD_STORAGE_NAME,
-    data: window.getSelection()?.toString()
-  }).catch(e => {
+  // Programmatic copies update the cache only after execCommand succeeds.
+  if (clipboardCopyDepth > 0) return
+  try {
+    setStorageSync(CLIPBOARD_STORAGE_NAME, window.getSelection()?.toString())
+  } catch (e) {
     console.error(e)
-  })
+  }
 })
 
 /**
@@ -43,6 +45,7 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, opt
       textarea.style.width = '100px'
       textarea.style.left = '-10000px'
       document.body.appendChild(textarea)
+      clipboardCopyDepth++
       try {
         textarea.select()
         textarea.setSelectionRange(0, textarea.value.length)
@@ -50,6 +53,7 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, opt
           throw new Error('Failed to copy to clipboard')
         }
       } finally {
+        clipboardCopyDepth--
         if (textarea.parentNode) {
           textarea.parentNode.removeChild(textarea)
         }
