@@ -61,7 +61,7 @@
 
 ## Introduction
 
-**Taro** is an open style cross-platform and -framework solution that supports users to develop WeChat/JD/Baidu/Alipay/ByteDance/QQ mini-programs/H5 and React Native applications with React/Vue/Nerv and other frameworks. Nowdays, there are various types of mini-programs on the market. Multiple platforms such as Web, React Native, and WeChat mini-programs are widely used by the developers. Different codes are written while we require to show features on different platforms. The ability to be compatible with multiple platforms within one code is extremely needed.
+**Taro** is an open style cross-platform and -framework solution that supports users to develop WeChat/JD/Baidu/Alipay/ByteDance/QQ mini-programs/H5 and React Native applications with React/Vue/Nerv and other frameworks. Nowadays, there are various types of mini-programs on the market. Multiple platforms such as Web, React Native, and WeChat mini-programs are widely used by the developers. Different codes are written while we require to show features on different platforms. The ability to be compatible with multiple platforms within one code is extremely needed.
 
 ### Version
 
