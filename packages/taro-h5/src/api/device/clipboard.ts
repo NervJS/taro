@@ -50,11 +50,14 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, opt
           throw new Error('Failed to copy to clipboard')
         }
       } finally {
-        textarea.remove()
+        if (textarea.parentNode) {
+          textarea.parentNode.removeChild(textarea)
+        }
       }
     } else {
       throw new Error('Unsupported Function: \'document.execCommand\'.')
     }
+    // Cache failures are reported even if the system clipboard was already updated.
     setStorageSync(CLIPBOARD_STORAGE_NAME, data)
     if (!hideDefaultMessage) {
       showToast({
