@@ -28,6 +28,72 @@ describe('setClipboardData', () => {
     else execCommand.mockImplementation(() => { throw new Error('copy denied') })
   }
 
+  test.each(['succeeds', 'returns false', 'throws'])('cleans up without textarea.remove when copying %s', async mode => {
+    jest.spyOn(HTMLTextAreaElement.prototype, 'select').mockImplementation(function () {
+      Object.defineProperty(this, 'remove', { value: undefined })
+    })
+    if (mode !== 'succeeds') failCopy(mode)
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+
+    const result = await setClipboardData({ data: 'new content', success, fail, complete })
+
+    expect(result).toEqual({
+      errMsg: mode === 'succeeds'
+        ? 'setClipboardData:ok'
+        : `setClipboardData:fail ${mode === 'returns false' ? 'Failed to copy to clipboard' : 'copy denied'}`
+    })
+    expect(execCommand).toHaveBeenCalledWith('copy')
+    expect(document.querySelector('textarea')).toBeNull()
+    expect(success).toHaveBeenCalledTimes(mode === 'succeeds' ? 1 : 0)
+    expect(fail).toHaveBeenCalledTimes(mode === 'succeeds' ? 0 : 1)
+    expect(complete).toHaveBeenCalledTimes(1)
+    expect(complete).toHaveBeenCalledWith(result)
+    expect(showToast).toHaveBeenCalledTimes(mode === 'succeeds' ? 1 : 0)
+    expect((await getClipboardData()).data).toBe(mode === 'succeeds' ? 'new content' : 'previous content')
+  })
+
+  describe.each(['QuotaExceededError', 'SecurityError'])('when caching throws %s after a successful copy', errorName => {
+    beforeEach(() => {
+      jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+        throw new DOMException('Clipboard cache write failed', errorName)
+      })
+    })
+
+    test('rejects and cleans up while leaving the readable cache unchanged', async () => {
+      await expect(setClipboardData({ data: 'new content' })).rejects.toEqual({
+        errMsg: 'setClipboardData:fail Clipboard cache write failed'
+      })
+
+      expect(execCommand).toHaveBeenCalledTimes(1)
+      expect(execCommand).toHaveBeenCalledWith('copy')
+      expect(document.querySelector('textarea')).toBeNull()
+      expect(showToast).not.toHaveBeenCalled()
+      expect((await getClipboardData()).data).toBe('previous content')
+    })
+
+    test('calls fail and complete once without reporting success', async () => {
+      const success = jest.fn()
+      const fail = jest.fn()
+      const complete = jest.fn()
+
+      const result = await setClipboardData({ data: 'new content', success, fail, complete })
+
+      expect(result).toEqual({ errMsg: 'setClipboardData:fail Clipboard cache write failed' })
+      expect(execCommand).toHaveBeenCalledTimes(1)
+      expect(execCommand).toHaveBeenCalledWith('copy')
+      expect(success).not.toHaveBeenCalled()
+      expect(fail).toHaveBeenCalledTimes(1)
+      expect(fail).toHaveBeenCalledWith(result)
+      expect(complete).toHaveBeenCalledTimes(1)
+      expect(complete).toHaveBeenCalledWith(result)
+      expect(document.querySelector('textarea')).toBeNull()
+      expect(showToast).not.toHaveBeenCalled()
+      expect((await getClipboardData()).data).toBe('previous content')
+    })
+  })
+
   test.each(['returns false', 'throws'])('rejects when copying %s and removes the temporary textarea', async mode => {
     failCopy(mode)
 
