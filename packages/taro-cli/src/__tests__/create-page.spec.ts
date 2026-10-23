@@ -60,6 +60,30 @@ describe.each(['object', 'defineAppConfig'])('create page config: %s', (format) 
   })
 
   it.each([
+    ['"pages"', 'pages'],
+    ['pages', '"pages"'],
+    ['pages', 'pages'],
+    ['"pages"', '"pages"']
+  ])('updates the last pages property: %s followed by %s', (firstKey, lastKey) => {
+    const result = updateConfig(wrap(`{ ${firstKey}: ["ignored"], ${lastKey}: ["pages/home/index"] }`))
+    expect(result.state).toBe(ConfigModificationState.Success)
+    expect(result.code).toContain(`${firstKey}:["ignored"]`)
+    expect(result.code).toContain(`${lastKey}:["pages/home/index","pages/new/index"]`)
+  })
+
+  it('checks duplicates in the last pages property', () => {
+    const result = updateConfig(wrap('{ "pages": [], pages: ["pages/new/index"] }'))
+    expect(result.state).toBe(ConfigModificationState.NeedLess)
+    expect(result.code).toBe(result.originalCode)
+  })
+
+  it('leaves a nonliteral last pages property unchanged', () => {
+    const result = updateConfig(wrap('{ "pages": [], pages: pageList }'))
+    expect(result.state).toBe(ConfigModificationState.Fail)
+    expect(result.code).toBe(result.originalCode)
+  })
+
+  it.each([
     '{}',
     '{ ...baseConfig }',
     '{ pages: pageList }',
@@ -88,6 +112,18 @@ describe.each(['object', 'defineAppConfig'])('create page config: %s', (format) 
     const result = updateConfig(wrap('{ "subPackages": [{ "root": "pkg/", "pages": ["new/index"] }] }'), 'pkg')
     expect(result.state).toBe(ConfigModificationState.NeedLess)
     expect(result.code).toBe(result.originalCode)
+  })
+
+  it.each([
+    '{ "subPackages": [{ root: "ignored/", pages: [] }], subPackages: [{ root: "pkg/", pages: ["home/index"] }] }',
+    '{ subPackages: [{ "root": "ignored/", root: "pkg/", pages: ["home/index"] }] }',
+    '{ subPackages: [{ root: "pkg/", "pages": ["ignored"], pages: ["home/index"] }] }'
+  ])('updates the effective subpackage properties: %s', (config) => {
+    const result = updateConfig(wrap(config), 'pkg')
+    expect(result.state).toBe(ConfigModificationState.Success)
+    expect(result.code).toContain('pages:["home/index","new/index"]')
+    expect(result.code).toContain('"ignored')
+    expect(result.code.match(/"pkg\/"/g)).toHaveLength(1)
   })
 
   it('matches the root property instead of an unrelated string value', () => {

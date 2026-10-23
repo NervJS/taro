@@ -9,11 +9,13 @@ const t = babelKit.types
 
 const getObjectProperty = (node: Node | null | undefined, name: string): ObjectProperty | undefined => {
   if (!t.isObjectExpression(node)) return
-  return node.properties.find((property): property is ObjectProperty =>
-    t.isObjectProperty(property) && !property.computed && (
+  // Later explicit properties override earlier properties with the same key.
+  for (let index = node.properties.length - 1; index >= 0; index--) {
+    const property = node.properties[index]
+    if (t.isObjectProperty(property) && !property.computed && (
       t.isIdentifier(property.key, { name }) || t.isStringLiteral(property.key, { value: name })
-    )
-  )
+    )) return property
+  }
 }
 
 const generateNewSubPackageItem = (subPackage: string) => {
