@@ -3,6 +3,7 @@ export const needPromiseApis = new Set([
   'canRateAwemeOrders',
   'checkFollowAwemeState',
   'checkFollowState',
+  'chooseMedia',
   'continueToPay',
   'createOrder',
   'exitMiniProgram',
