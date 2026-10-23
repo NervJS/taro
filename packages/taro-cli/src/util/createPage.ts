@@ -2,10 +2,21 @@ import { babelKit } from '@tarojs/helper'
 
 import { ConfigModificationState, ModifyCallback } from '../create/page'
 
-import type { ArrayExpression, ExportDefaultDeclaration, ObjectExpression, ObjectProperty } from '@babel/types'
+import type { ArrayExpression, ExportDefaultDeclaration, Node, ObjectExpression, ObjectProperty } from '@babel/types'
 import type { NodePath } from 'babel__traverse'
 
 const t = babelKit.types
+
+const getObjectProperty = (node: Node | null | undefined, name: string): ObjectProperty | undefined => {
+  if (!t.isObjectExpression(node)) return
+  // Later explicit properties override earlier properties with the same key.
+  for (let index = node.properties.length - 1; index >= 0; index--) {
+    const property = node.properties[index]
+    if (t.isObjectProperty(property) && !property.computed && (
+      t.isIdentifier(property.key, { name }) || t.isStringLiteral(property.key, { value: name })
+    )) return property
+  }
+}
 
 const generateNewSubPackageItem = (subPackage: string) => {
   const pageObject = t.objectProperty(t.identifier('pages'), t.arrayExpression([]))
@@ -15,16 +26,16 @@ const generateNewSubPackageItem = (subPackage: string) => {
 }
 
 const isValidSubPkgObject = (subPkgObject: ObjectExpression) => {
-  const properties = subPkgObject?.properties || {}
-  const rootProperty = properties.find((property: ObjectProperty) => (property.key as any)?.name === 'root') as ObjectProperty
-  const pagesProperty = properties.find((property: ObjectProperty) => (property.key as any)?.name === 'pages') as ObjectProperty
+  const rootProperty = getObjectProperty(subPkgObject, 'root')
+  const pagesProperty = getObjectProperty(subPkgObject, 'pages')
   const rootPropertyValueType = rootProperty?.value?.type
   const pagesPropertyValueType = pagesProperty?.value?.type
   return rootPropertyValueType === 'StringLiteral' && pagesPropertyValueType === 'ArrayExpression'
 }
 
 const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: string): ConfigModificationState => {
-  let subPackages = node?.properties.find(node => (node as any).key.name === 'subPackages') as ObjectProperty
+  if (!t.isObjectExpression(node)) return ConfigModificationState.Fail
+  let subPackages = getObjectProperty(node, 'subPackages')
   if (!subPackages) {
   // config 文件不存在 subPackages 字段的情况，给该字段赋予默认值
     const subPkgObject = t.objectProperty(t.identifier('subPackages'), t.arrayExpression([]))
@@ -35,7 +46,9 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
 
   // 文件格式不对的情况
   if (!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
-  let targetSubPkgObject: ObjectExpression = value.elements.find(node => (node as any)?.properties?.find(property => (property as any)?.value?.value === subPackage)) as ObjectExpression
+  let targetSubPkgObject = value.elements.find(node =>
+    t.isStringLiteral(getObjectProperty(node, 'root')?.value, { value: subPackage })
+  ) as ObjectExpression | undefined
 
   if (!targetSubPkgObject) {
     // 不存在 当前分包配置对象的情况
@@ -45,7 +58,7 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
   }
 
   if (targetSubPkgObject.type !== 'ObjectExpression' || !isValidSubPkgObject(targetSubPkgObject)) return ConfigModificationState.Fail
-  const pagesProperty: ObjectProperty = targetSubPkgObject.properties.find((property: ObjectProperty) => (property.key as any)?.name === 'pages') as ObjectProperty
+  const pagesProperty = getObjectProperty(targetSubPkgObject, 'pages')!
   const currentPages = (pagesProperty.value as ArrayExpression).elements
   const isPageExists = Boolean(currentPages.find(node => (node as any).value === page))
 
@@ -56,7 +69,7 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
 }
 
 const addNewPage = (node: ObjectExpression, page: string): ConfigModificationState => {
-  const pages = node?.properties.find(node => (node as any).key.name === 'pages') as ObjectProperty
+  const pages = getObjectProperty(node, 'pages')
   if (!pages) return ConfigModificationState.Fail
 
   const value = pages?.value
