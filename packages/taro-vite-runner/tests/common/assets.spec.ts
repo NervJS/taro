@@ -2,6 +2,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
+import { normalizePath } from 'vite'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import assetsPlugin from '../../src/common/vite-plugin-assets'
@@ -34,7 +35,7 @@ describe('asset inline limits', () => {
     const id = path.join(root, `asset.${extension}`)
     writeFileSync(id, Buffer.alloc(32, 1))
     const plugin = assetsPlugin({
-      sourceDir: root,
+      sourceDir: normalizePath(root),
       taroConfig: { [option]: { limit, esModule } }
     } as unknown as ViteH5CompilerContext) as unknown as {
       configResolved(config: ResolvedConfig): void
@@ -44,7 +45,8 @@ describe('asset inline limits', () => {
     plugin.configResolved({ assetsInclude: () => true } as unknown as ResolvedConfig)
     plugin.buildStart()
     const emitFile = vi.fn(() => 'test-asset')
-    const code = await plugin.load.call({ emitFile } as unknown as PluginContext, id)
+    // Vite passes normalized IDs to plugin hooks on every platform.
+    const code = await plugin.load.call({ emitFile } as unknown as PluginContext, normalizePath(id))
     return { code, emitFile }
   }
 
