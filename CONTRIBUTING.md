@@ -32,9 +32,9 @@ Taro 由一系列子 npm 包组成，整体项目组织基于 **pnpm workspace**
 $ pnpm --filter [package-name] run dev
 ```
 
-开发过程中，一般会使用 **link** 的方式把需要调试的包软链到一个测试项目中，然后便可进行断点调试。开发者可以根据测试项目的包管理器以及自己的喜好选择使用 [npm link](https://docs.npmjs.com/cli/v11/commands/npm-link) 或 [yarn link](https://yarnpkg.com/cli/link)（推荐）或 [pnpm link](https://pnpm.io/zh/cli/link) 。
+开发过程中，一般会使用 **link** 的方式把需要调试的包软链到一个测试项目中，然后便可进行断点调试。开发者可以根据测试项目的包管理器以及自己的喜好选择使用 [npm link](https://docs.npmjs.com/cli/v11/commands/npm-link) 或 [yarn link（Yarn Classic 1.x）](https://classic.yarnpkg.com/lang/en/docs/cli/link/) 或 [pnpm link](https://pnpm.io/zh/cli/link) 。
 
-**使用 `yarn link` 的具体示例如下：**
+**使用 Yarn Classic 1.x 的 `yarn link` 的具体示例如下（Yarn 2+ 请参阅[对应版本文档](https://yarnpkg.com/cli/link)）：**
 
 1. 进入需要调试的子包的根目录，然后执行 `yarn link`。
 2. 进入测试项目的根目录，然后执行 `yarn link [package-name]`。（注意被调试的子包的版本要和测试项目中该依赖的版本保持一致）
