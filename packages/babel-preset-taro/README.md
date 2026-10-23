@@ -197,7 +197,7 @@ import "core-js/modules/es.string.pad-end";
 
 **默认值**：`true`
 
-`@babel/plugin-proposal-decorators` 的 [lagacy](https://babeljs.io/docs/en/babel-plugin-proposal-decorators#legacy) 配置项。
+`@babel/plugin-proposal-decorators` 的 [legacy](https://babeljs.io/docs/en/babel-plugin-proposal-decorators#legacy) 配置项。
 
 ### absoluteRuntime
 

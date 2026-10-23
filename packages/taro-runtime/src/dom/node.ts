@@ -165,6 +165,10 @@ export class TaroNode extends TaroEventTarget {
    *   3. insert D before C, D has the different parent of C
    */
   public insertBefore<T extends TaroNode> (newChild: T, refChild?: TaroNode | null, isReplace?: boolean): T {
+    // Validate before detaching newChild or consuming a DocumentFragment.
+    if (refChild) this.findIndex(refChild)
+    if (newChild === refChild) return newChild
+
     if (newChild.nodeName === DOCUMENT_FRAGMENT) {
       newChild.childNodes.reduceRight((previousValue, currentValue) => {
         this.insertBefore(currentValue, previousValue)
@@ -275,6 +279,7 @@ export class TaroNode extends TaroEventTarget {
    */
   public replaceChild (newChild: TaroNode, oldChild: TaroNode) {
     if (oldChild.parentNode !== this) return
+    if (newChild === oldChild) return oldChild
 
     // Insert the newChild
     this.insertBefore(newChild, oldChild, true)

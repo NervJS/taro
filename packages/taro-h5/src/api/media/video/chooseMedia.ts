@@ -128,6 +128,13 @@ export const chooseMedia = async function (
 
   function loadMedia (file: File): Promise<Taro.chooseMedia.ChooseMedia> {
     const dataUrl = URL.createObjectURL(file)
+    return loadMediaFromUrl(file, dataUrl).catch(error => {
+      URL.revokeObjectURL(dataUrl)
+      throw error
+    })
+  }
+
+  async function loadMediaFromUrl (file: File, dataUrl: string): Promise<Taro.chooseMedia.ChooseMedia> {
     const res = {
       tempFilePath: dataUrl,
       size: file.size,

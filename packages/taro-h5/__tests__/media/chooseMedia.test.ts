@@ -31,10 +31,10 @@ function failLoading (index: number) {
 }
 
 /** 调用 chooseMedia，并让隐藏的 input 以 names 作为 FileList 触发 change */
-function chooseFiles (names: string[]) {
+function chooseFiles (names: string[], type = 'image/png') {
   const result = Taro.chooseMedia({ mediaType: ['image'], count: names.length })
   const input = document.getElementById('taroChooseMedia') as HTMLInputElement
-  const files = names.map(name => new File(['x'], name, { type: 'image/png' }))
+  const files = names.map(name => new File(['x'], name, { type }))
   Object.defineProperty(input, 'files', { value: files, configurable: true })
   input.dispatchEvent(new Event('change'))
   return result
@@ -45,11 +45,13 @@ const pathsOf = (res: Taro.chooseMedia.SuccessCallbackResult) => res.tempFiles.m
 describe('chooseMedia', () => {
   const OriginalImage = window.Image
   const originalCreateObjectURL = URL.createObjectURL
+  const originalRevokeObjectURL = URL.revokeObjectURL
 
   beforeEach(() => {
     FakeImage.created = []
     window.Image = FakeImage as unknown as typeof Image
     URL.createObjectURL = jest.fn((file: File) => `blob:${file.name}`)
+    URL.revokeObjectURL = jest.fn()
     jest.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
     jest.spyOn(HTMLCanvasElement.prototype, 'toDataURL').mockReturnValue('')
     jest.spyOn(console, 'error').mockImplementation(() => {})
@@ -58,6 +60,7 @@ describe('chooseMedia', () => {
   afterEach(() => {
     window.Image = OriginalImage
     URL.createObjectURL = originalCreateObjectURL
+    URL.revokeObjectURL = originalRevokeObjectURL
     jest.restoreAllMocks()
   })
 
@@ -68,6 +71,7 @@ describe('chooseMedia', () => {
       await flush()
     }
     expect(pathsOf(await result)).toEqual(['blob:A', 'blob:B', 'blob:C', 'blob:D'])
+    expect(URL.revokeObjectURL).not.toHaveBeenCalled()
   })
 
   test('should drop a file that fails to load and keep the others in order', async () => {
@@ -78,5 +82,55 @@ describe('chooseMedia', () => {
     await flush()
     finishLoading(0)
     expect(pathsOf(await result)).toEqual(['blob:A', 'blob:C'])
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:B')
+  })
+
+  test('releases each failed image once across repeated selections', async () => {
+    for (const name of ['first', 'second']) {
+      const result = chooseFiles([name])
+      const index = FakeImage.created.length - 1
+      failLoading(index)
+      failLoading(index)
+      expect(pathsOf(await result)).toEqual([])
+    }
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(2)
+    expect(URL.revokeObjectURL).toHaveBeenNthCalledWith(1, 'blob:first')
+    expect(URL.revokeObjectURL).toHaveBeenNthCalledWith(2, 'blob:second')
+  })
+
+  test('does not release a returned image on a late error', async () => {
+    const result = chooseFiles(['A'])
+    finishLoading(0)
+    expect(pathsOf(await result)).toEqual(['blob:A'])
+    failLoading(0)
+    await flush()
+    expect(URL.revokeObjectURL).not.toHaveBeenCalled()
+  })
+
+  test('releases the object URL when video decoding fails', async () => {
+    const createElement = document.createElement.bind(document)
+    let video: HTMLVideoElement
+    jest.spyOn(document, 'createElement').mockImplementation((tag: string) => {
+      const element = createElement(tag)
+      if (tag === 'video') video = element as HTMLVideoElement
+      return element
+    })
+    jest.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(() => {})
+    const result = chooseFiles(['broken.mp4'], 'video/mp4')
+    video!.dispatchEvent(new Event('error'))
+    expect(pathsOf(await result)).toEqual([])
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:broken.mp4')
+  })
+
+  test('releases the object URL when reading a video file fails', async () => {
+    jest.spyOn(FileReader.prototype, 'readAsDataURL').mockImplementation(function () {
+      this.dispatchEvent(new Event('error'))
+    })
+    const result = chooseFiles(['unreadable.mp4'], 'video/mp4')
+    expect(pathsOf(await result)).toEqual([])
+    expect(URL.revokeObjectURL).toHaveBeenCalledTimes(1)
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:unreadable.mp4')
   })
 })

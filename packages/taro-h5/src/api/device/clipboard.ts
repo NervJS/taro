@@ -9,18 +9,20 @@ import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from '../../utils/handler'
-import { getStorageSync, setStorage, setStorageSync } from '../storage/index'
+import { getStorageSync, setStorageSync } from '../storage/index'
 import { showToast } from '../ui/interaction'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
+let clipboardCopyDepth = 0
 
 document.addEventListener('copy', () => {
-  setStorage({
-    key: CLIPBOARD_STORAGE_NAME,
-    data: window.getSelection()?.toString()
-  }).catch(e => {
+  // Programmatic copies update the cache only after execCommand succeeds.
+  if (clipboardCopyDepth > 0) return
+  try {
+    setStorageSync(CLIPBOARD_STORAGE_NAME, window.getSelection()?.toString())
+  } catch (e) {
     console.error(e)
-  })
+  }
 })
 
 /**
@@ -30,7 +32,6 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, opt
   const hideDefaultMessage = options?.hideDefaultMessage ?? false
   const handle = new MethodHandler({ name: 'setClipboardData', success, fail, complete })
   try {
-    setStorageSync(CLIPBOARD_STORAGE_NAME, data)
     /**
      * 已于 iPhone 6s Plus iOS 13.1.3 上的 Safari 测试通过
      * iOS < 10 的系统可能无法使用编程方式访问剪贴板，参考：
@@ -44,13 +45,24 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, opt
       textarea.style.width = '100px'
       textarea.style.left = '-10000px'
       document.body.appendChild(textarea)
-      textarea.select()
-      textarea.setSelectionRange(0, textarea.value.length)
-      document.execCommand('copy')
-      document.body.removeChild(textarea)
+      clipboardCopyDepth++
+      try {
+        textarea.select()
+        textarea.setSelectionRange(0, textarea.value.length)
+        if (!document.execCommand('copy')) {
+          throw new Error('Failed to copy to clipboard')
+        }
+      } finally {
+        clipboardCopyDepth--
+        if (textarea.parentNode) {
+          textarea.parentNode.removeChild(textarea)
+        }
+      }
     } else {
       throw new Error('Unsupported Function: \'document.execCommand\'.')
     }
+    // Cache failures are reported even if the system clipboard was already updated.
+    setStorageSync(CLIPBOARD_STORAGE_NAME, data)
     if (!hideDefaultMessage) {
       showToast({
         title: '内容已复制',
