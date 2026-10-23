@@ -28,6 +28,7 @@ import type { TaroEvent } from './event'
 
 export class TaroElement extends TaroNode {
   public ctx?
+  public updateBatchId?: number
   public tagName: string
   public props: Record<string, any> = {}
   public style: Style
