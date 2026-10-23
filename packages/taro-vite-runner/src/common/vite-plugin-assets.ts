@@ -69,7 +69,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext | ViteMiniCo
       const isEsModule = isBoolean(options.esModule) ? options.esModule : true
 
       let url: string
-      if (limit === true || (!isBoolean(limit) && source.length < limit)) {
+      if (limit === true || (!isBoolean(limit) && source.length <= limit)) {
         const mimeType = mrmime.lookup(id) ?? 'application/octet-stream'
         url = `data:${mimeType};base64,${source.toString('base64')}`
       } else {

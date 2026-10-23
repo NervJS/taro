@@ -61,7 +61,7 @@ describe('asset inline limits', () => {
       [undefined, false],
       [0, false],
       [10, false],
-      [32, false],
+      [32, true],
       [33, true]
     ] as const)('limit=%s respects the byte threshold (inline=%s)', async (limit, inline) => {
       const { code, emitFile } = await loadAsset(extension, { [option]: { limit } })
@@ -75,6 +75,26 @@ describe('asset inline limits', () => {
           type: 'asset',
           fileName: `asset.${extension}`,
           source: Uint8Array.from(Buffer.alloc(32, 1))
+        })
+      }
+    })
+
+    test.each([
+      [true, true],
+      [false, false],
+      [undefined, false],
+      [0, true]
+    ] as const)('limit=%s handles empty assets (inline=%s)', async (limit, inline) => {
+      const { code, emitFile } = await loadAsset(extension, { [option]: { limit } }, 0)
+      if (inline) {
+        expect(code).toMatch(/^export default "data:[^;]+;base64,"$/)
+        expect(emitFile).not.toHaveBeenCalled()
+      } else {
+        expect(code).toBe('export default "__VITE_ASSET__test-asset__"')
+        expect(emitFile).toHaveBeenCalledWith({
+          type: 'asset',
+          fileName: `asset.${extension}`,
+          source: new Uint8Array(0)
         })
       }
     })
@@ -97,7 +117,7 @@ describe('asset inline limits', () => {
 
           expect(context.taroConfig[option]?.limit).toBe(defaultLimit)
 
-          for (const [size, inline] of [[defaultLimit - 1, true], [defaultLimit, false], [defaultLimit + 1, false]] as const) {
+          for (const [size, inline] of [[defaultLimit - 1, true], [defaultLimit, true], [defaultLimit + 1, false]] as const) {
             const { code, emitFile } = await loadAsset(extension, context.taroConfig, size)
             if (inline) {
               expect(code).toMatch(/^export default "data:/)
