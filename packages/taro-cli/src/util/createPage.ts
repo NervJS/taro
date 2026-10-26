@@ -7,14 +7,15 @@ import type { NodePath } from 'babel__traverse'
 
 const t = babelKit.types
 
-const getObjectProperty = (node: Node | null | undefined, name: string): ObjectProperty | undefined => {
-  if (node?.type !== 'ObjectExpression') return
-  // Later explicit properties override earlier properties with the same key.
+// undefined means absent; null means the effective property cannot be safely resolved.
+const getObjectProperty = (node: Node | null | undefined, name: string): ObjectProperty | null | undefined => {
+  if (node?.type !== 'ObjectExpression') return null
   for (let index = node.properties.length - 1; index >= 0; index--) {
     const property = node.properties[index]
-    if (t.isObjectProperty(property) && !property.computed && (
-      t.isIdentifier(property.key, { name }) || t.isStringLiteral(property.key, { value: name })
-    )) return property
+    if (property.type === 'SpreadElement' || property.computed) return null
+    if (t.isIdentifier(property.key, { name }) || t.isStringLiteral(property.key, { value: name })) {
+      return property.type === 'ObjectProperty' ? property : null
+    }
   }
 }
 
@@ -36,6 +37,7 @@ const isValidSubPkgObject = (subPkgObject: ObjectExpression) => {
 const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: string): ConfigModificationState => {
   if (!t.isObjectExpression(node)) return ConfigModificationState.Fail
   let subPackages = getObjectProperty(node, 'subPackages')
+  if (subPackages === null) return ConfigModificationState.Fail
   if (!subPackages) {
   // config 文件不存在 subPackages 字段的情况，给该字段赋予默认值
     const subPkgObject = t.objectProperty(t.identifier('subPackages'), t.arrayExpression([]))
@@ -46,9 +48,17 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
 
   // 文件格式不对的情况
   if (!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
-  let targetSubPkgObject = value.elements.find(node =>
-    t.isStringLiteral(getObjectProperty(node, 'root')?.value, { value: subPackage })
-  ) as ObjectExpression | undefined
+  let targetSubPkgObject: ObjectExpression | undefined
+  for (const element of value.elements) {
+    const rootProperty = getObjectProperty(element, 'root')
+    if (rootProperty === null) return ConfigModificationState.Fail
+    if (!rootProperty) continue
+    if (rootProperty.value.type !== 'StringLiteral') return ConfigModificationState.Fail
+    if (rootProperty.value.value === subPackage && element?.type === 'ObjectExpression') {
+      targetSubPkgObject = element
+      break
+    }
+  }
 
   if (!targetSubPkgObject) {
     // 不存在 当前分包配置对象的情况

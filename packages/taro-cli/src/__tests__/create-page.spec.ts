@@ -133,11 +133,80 @@ describe.each(['object', 'defineAppConfig'])('create page config: %s', (format) 
     expect(result.code).toContain('"root":"pkg/","pages":["home/index","new/index"]')
   })
 
-  it('adds a missing subPackages property after a spread', () => {
-    const result = updateConfig(wrap('{ ...baseConfig, pages: [] }'), 'pkg')
+  it('adds a missing subPackages property', () => {
+    const result = updateConfig(wrap('{ pages: [] }'), 'pkg')
     expect(result.state).toBe(ConfigModificationState.Success)
-    expect(result.code).toContain('...baseConfig')
     expect(result.code).toContain('subPackages:[{root:"pkg/",pages:["new/index"]}]')
+  })
+
+  it.each([
+    'pages() {}',
+    'get pages() { return [] }',
+    'set pages(value) {}',
+    '[key]: []',
+    '...baseConfig'
+  ])('does not update pages shadowed by %s', (member) => {
+    const result = updateConfig(wrap(`{ pages: [], ${member} }`))
+    expect(result.state).toBe(ConfigModificationState.Fail)
+    expect(result.code).toBe(result.originalCode)
+  })
+
+  it.each([
+    'subPackages() {}',
+    'get subPackages() { return [] }',
+    'set subPackages(value) {}',
+    '[key]: []',
+    '...baseConfig'
+  ])('does not update or add subPackages shadowed by %s', (member) => {
+    for (const properties of [member, `subPackages: [], ${member}`]) {
+      const result = updateConfig(wrap(`{ ${properties} }`), 'pkg')
+      expect(result.state).toBe(ConfigModificationState.Fail)
+      expect(result.code).toBe(result.originalCode)
+    }
+  })
+
+  it.each([
+    'root() {}',
+    'get root() { return "pkg/" }',
+    'set root(value) {}',
+    '[key]: "pkg/"',
+    '...subConfig'
+  ])('does not update or add a subpackage with root shadowed by %s', (member) => {
+    for (const properties of [`${member}, pages: []`, `root: "pkg/", ${member}, pages: []`]) {
+      const result = updateConfig(wrap(`{ subPackages: [{ ${properties} }] }`), 'pkg')
+      expect(result.state).toBe(ConfigModificationState.Fail)
+      expect(result.code).toBe(result.originalCode)
+    }
+  })
+
+  it.each([
+    'pages() {}',
+    'get pages() { return [] }',
+    'set pages(value) {}',
+    '[key]: []',
+    '...subConfig'
+  ])('does not update subpackage pages shadowed by %s', (member) => {
+    const result = updateConfig(wrap(`{ subPackages: [{ root: "pkg/", pages: [], ${member} }] }`), 'pkg')
+    expect(result.state).toBe(ConfigModificationState.Fail)
+    expect(result.code).toBe(result.originalCode)
+  })
+
+  it.each([
+    '{ pages() {}, pages: [] }',
+    '{ get pages() { return [] }, pages: [] }',
+    '{ set pages(value) {}, pages: [] }',
+    '{ [key]: [], pages: [] }',
+    '{ ...baseConfig, pages: [] }'
+  ])('updates pages when an explicit array overrides earlier members: %s', (config) => {
+    const result = updateConfig(wrap(config))
+    expect(result.state).toBe(ConfigModificationState.Success)
+    expect(result.code).toContain('pages:["pages/new/index"]')
+  })
+
+  it('does not add a subpackage when an existing root is dynamic', () => {
+    const result = updateConfig(wrap('{ subPackages: [{ root: packageRoot, pages: [] }] }'), 'pkg')
+    expect(result.state).toBe(ConfigModificationState.Fail)
+    expect(result.code).toBe(result.originalCode)
   })
 
   it.each([
