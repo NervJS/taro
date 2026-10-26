@@ -49,11 +49,14 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
   // 文件格式不对的情况
   if (!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
   let targetSubPkgObject: ObjectExpression | undefined
+  let hasUnresolvedRoot = false
   for (const element of value.elements) {
     const rootProperty = getObjectProperty(element, 'root')
-    if (rootProperty === null) return ConfigModificationState.Fail
-    if (!rootProperty) continue
-    if (rootProperty.value.type !== 'StringLiteral') return ConfigModificationState.Fail
+    if (rootProperty === undefined) continue
+    if (rootProperty === null || rootProperty.value.type !== 'StringLiteral') {
+      hasUnresolvedRoot = true
+      continue
+    }
     if (rootProperty.value.value === subPackage && element?.type === 'ObjectExpression') {
       targetSubPkgObject = element
       break
@@ -61,6 +64,7 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
   }
 
   if (!targetSubPkgObject) {
+    if (hasUnresolvedRoot) return ConfigModificationState.Fail
     // 不存在 当前分包配置对象的情况
     const subPkgItemObject = generateNewSubPackageItem(subPackage)
     targetSubPkgObject = subPkgItemObject

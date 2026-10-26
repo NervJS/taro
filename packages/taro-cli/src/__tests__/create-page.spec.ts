@@ -209,6 +209,36 @@ describe.each(['object', 'defineAppConfig'])('create page config: %s', (format) 
     expect(result.code).toBe(result.originalCode)
   })
 
+  const unresolvedSubPackages = [
+    '{ root: packageRoot, pages: [] }',
+    '{ get root() { return "pkg/" }, pages: [] }',
+    '{ [key]: "pkg/", pages: [] }',
+    '{ ...subConfig, pages: [] }',
+    '...otherPackages'
+  ]
+
+  it.each(unresolvedSubPackages)('updates an explicit subpackage alongside an unresolved entry: %s', (entry) => {
+    const target = '{ root: "pkg/", pages: ["home/index"] }'
+    for (const entries of [`${entry}, ${target}`, `${target}, ${entry}`]) {
+      const result = updateConfig(wrap(`{ subPackages: [${entries}] }`), 'pkg')
+      expect(result.state).toBe(ConfigModificationState.Success)
+      expect(result.code).toContain('root:"pkg/",pages:["home/index","new/index"]')
+      expect(result.code.replace(',"new/index"', '')).toBe(result.originalCode)
+    }
+  })
+
+  it.each(unresolvedSubPackages)('does not add a subpackage when no root matches and an entry is unresolved: %s', (entry) => {
+    const result = updateConfig(wrap(`{ subPackages: [${entry}, { root: "other/", pages: [] }] }`), 'pkg')
+    expect(result.state).toBe(ConfigModificationState.Fail)
+    expect(result.code).toBe(result.originalCode)
+  })
+
+  it('adds a subpackage when all existing roots are known and different', () => {
+    const result = updateConfig(wrap('{ subPackages: [{ root: "other/", pages: [] }] }'), 'pkg')
+    expect(result.state).toBe(ConfigModificationState.Success)
+    expect(result.code).toContain('subPackages:[{root:"other/",pages:[]},{root:"pkg/",pages:["new/index"]}]')
+  })
+
   it.each([
     '{ "subPackages": subPackages }',
     '{ "subPackages": [{ "root": "pkg/", "pages": pageList }] }'
