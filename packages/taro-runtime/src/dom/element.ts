@@ -246,6 +246,9 @@ export class TaroElement extends TaroNode {
         return
       }
       delete this.props[qualifiedName]
+      if (qualifiedName.startsWith('data-')) {
+        delete this.dataset[toCamelCase(qualifiedName.replace(/^data-/, ''))]
+      }
     }
 
     // Serialization
