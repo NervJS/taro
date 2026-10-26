@@ -4,9 +4,13 @@ import * as utils from '../../src/utils'
 describe('canvas export', () => {
   let container: HTMLDivElement
   let canvas: HTMLCanvasElement
+  let otherCanvas: HTMLCanvasElement
 
   beforeEach(() => {
     container = document.createElement('div')
+    otherCanvas = document.createElement('canvas')
+    otherCanvas.setAttribute('canvas-id', 'other')
+    container.appendChild(otherCanvas)
     canvas = document.createElement('canvas')
     canvas.setAttribute('canvas-id', 'test')
     container.appendChild(canvas)
@@ -48,6 +52,28 @@ describe('canvas export', () => {
     })
   })
 
+  test.each(['DOM lookup failure', 'invalid selector'])('calls failure callbacks once for a %s', async scenario => {
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+    const canvasId = scenario === 'invalid selector' ? '"]' : 'test'
+    if (scenario === 'DOM lookup failure') {
+      jest.mocked(utils.findDOM).mockImplementation(() => { throw new Error('Canvas lookup failed') })
+    }
+    const expected = {
+      errMsg: scenario === 'DOM lookup failure'
+        ? 'canvasToTempFilePath:fail Canvas lookup failed'
+        : expect.stringMatching(/^canvasToTempFilePath:fail /)
+    }
+
+    await expect(canvasToTempFilePath({ canvasId, success, fail, complete })).resolves.toEqual(expected)
+    expect(success).not.toHaveBeenCalled()
+    expect(fail).toHaveBeenCalledTimes(1)
+    expect(fail).toHaveBeenCalledWith(expected)
+    expect(complete).toHaveBeenCalledTimes(1)
+    expect(complete).toHaveBeenCalledWith(expected)
+  })
+
   test('reports security errors from exporting a tainted canvas', async () => {
     jest.spyOn(canvas, 'toDataURL').mockImplementation(() => {
       throw new DOMException('Canvas is tainted', 'SecurityError')
@@ -69,12 +95,15 @@ describe('canvas export', () => {
   ] as const)('exports %s with the requested quality', async (fileType, mimeType) => {
     const tempFilePath = `data:${mimeType};base64,test`
     const toDataURL = jest.spyOn(canvas, 'toDataURL').mockReturnValue(tempFilePath)
+    const otherToDataURL = jest.spyOn(otherCanvas, 'toDataURL').mockReturnValue(`data:${mimeType};base64,other`)
     const success = jest.fn()
     const fail = jest.fn()
     const complete = jest.fn()
     const expected = { errMsg: 'canvasToTempFilePath:ok', tempFilePath }
     await expect(canvasToTempFilePath({ canvasId: 'test', fileType, quality: 0.8, success, fail, complete })).resolves.toEqual(expected)
+    expect(toDataURL).toHaveBeenCalledTimes(1)
     expect(toDataURL).toHaveBeenCalledWith(mimeType, 0.8)
+    expect(otherToDataURL).not.toHaveBeenCalled()
     expect(success).toHaveBeenCalledTimes(1)
     expect(success).toHaveBeenCalledWith(expected)
     expect(fail).not.toHaveBeenCalled()
