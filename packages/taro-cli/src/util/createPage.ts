@@ -8,7 +8,7 @@ import type { NodePath } from 'babel__traverse'
 const t = babelKit.types
 
 const getObjectProperty = (node: Node | null | undefined, name: string): ObjectProperty | undefined => {
-  if (!t.isObjectExpression(node)) return
+  if (node?.type !== 'ObjectExpression') return
   // Later explicit properties override earlier properties with the same key.
   for (let index = node.properties.length - 1; index >= 0; index--) {
     const property = node.properties[index]
@@ -57,7 +57,7 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
     value.elements.push(subPkgItemObject)
   }
 
-  if (targetSubPkgObject.type !== 'ObjectExpression' || !isValidSubPkgObject(targetSubPkgObject)) return ConfigModificationState.Fail
+  if (!targetSubPkgObject || targetSubPkgObject.type !== 'ObjectExpression' || !isValidSubPkgObject(targetSubPkgObject)) return ConfigModificationState.Fail
   const pagesProperty = getObjectProperty(targetSubPkgObject, 'pages')!
   const currentPages = (pagesProperty.value as ArrayExpression).elements
   const isPageExists = Boolean(currentPages.find(node => (node as any).value === page))
