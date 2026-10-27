@@ -2,6 +2,7 @@ import { ScrollView, View } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import * as React from 'react'
 
+import { usePickerDateSync } from './picker-date-sync'
 import { usePickerScaleSync } from './picker-scale-sync'
 
 import type { PickerGroupProps } from './picker-group'
@@ -701,40 +702,53 @@ export function PickerGroupDate(props: PickerGroupProps) {
 
   const indicatorStyle = colors.lineColor ? getIndicatorStyle(colors.lineColor) : null
   const [targetScrollTop, setTargetScrollTop] = React.useState(0)
-  const [scrollIntoView, scrollToItemId] = usePickerItemScrollIntoView()
   const scrollViewRef = React.useRef<TaroScrollView>(null)
   const itemRefs = React.useRef<Array<TaroView | null>>([])
-  const selectedIndexPropRef = React.useRef(selectedIndex)
-  selectedIndexPropRef.current = selectedIndex
-  const syncScrollFromPropsRef = React.useRef(false)
-  const pendingScrollSettleFocusRef = React.useRef(false)
-  const [currentIndex, setCurrentIndex] = React.useState(selectedIndex)
   const isTouchingRef = React.useRef(false)
 
   const lengthScaleRatioRef = React.useRef(1)
   const useMeasuredScaleRef = React.useRef(false)
   const itemHeightRef = React.useRef(PICKER_LINE_HEIGHT)
 
-  // 初始化时计算 lengthScaleRatio 并判定缩放模式
+  const dateSync = usePickerDateSync({
+    range,
+    selectedIndex,
+    columnId,
+    updateDay,
+    scrollViewRef,
+    isTouchingRef,
+    readIndex: () => getSelectedIndex(scrollViewRef.current?.scrollTop ?? 0, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current),
+    align: (index) => setTargetScrollTopWithScale(setTargetScrollTop, index * itemHeightRef.current, Math.random() * 0.001, lengthScaleRatioRef.current),
+    onSelect: (index) => requestAccessibilityFocusOnView(itemRefs.current[index]),
+  })
+  const { currentIndex, alignmentIndexRef, alignTarget, selectIndex, handleTouchStart, handleScroll, handleScrollEnd } = dateSync
+
+  // 异步信息到达时仍对齐最新目标；关闭后的回调不得重新定位旧列。
   React.useEffect(() => {
+    let active = true
     Taro.getSystemInfo({
       success: (res) => {
+        if (!active) return
         lengthScaleRatioRef.current = calculateLengthScaleRatio(res)
         useMeasuredScaleRef.current = resolveUseMeasuredScale(res)
         itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
+        alignTarget()
       },
       fail: () => {
+        if (!active) return
         lengthScaleRatioRef.current = 1
         useMeasuredScaleRef.current = false
+        alignTarget()
       }
     })
-  }, [])
+    return () => { active = false }
+  }, [alignTarget])
 
   React.useEffect(() => {
     itemHeightRef.current = calculateItemHeight(scrollViewRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
-  }, [range.length]) // 只在range长度变化时重新计算
+    alignTarget()
+  }, [range.length, alignTarget])
 
-  // 折叠 / 展开 / 旋转时同步缩放比例并重新对齐选中项
   usePickerScaleSync({
     scrollViewRef,
     lengthScaleRatioRef,
@@ -742,91 +756,12 @@ export function PickerGroupDate(props: PickerGroupProps) {
     itemHeightRef,
     isTouchingRef,
     currentIndex,
+    alignmentIndexRef,
     setTargetScrollTop,
     calculateLengthScaleRatio,
     resolveUseMeasuredScale,
     calculateItemHeight,
   })
-
-  // props 的 selectedIndex 变化：滚至对应项并短时标记程序化滚动（syncScrollFromPropsRef）
-  React.useEffect(() => {
-    if (scrollViewRef.current && range.length > 0 && !isTouchingRef.current) {
-      syncScrollFromPropsRef.current = true
-      const baseValue = selectedIndex * itemHeightRef.current
-      setTargetScrollTopWithScale(setTargetScrollTop, baseValue, undefined, lengthScaleRatioRef.current)
-      setCurrentIndex(selectedIndex)
-      const tid = setTimeout(() => {
-        syncScrollFromPropsRef.current = false
-      }, 400)
-      return () => clearTimeout(tid)
-    }
-  }, [selectedIndex, range])
-
-  // 是否处于归中状态
-  const isCenterTimerId = React.useRef<NodeJS.Timeout | null>(null)
-
-  // 滚动静止后归中并同步选中
-  const handleScrollEnd = () => {
-    if (!scrollViewRef.current) return
-    if (isCenterTimerId.current) {
-      clearTimeout(isCenterTimerId.current)
-      isCenterTimerId.current = null
-    }
-
-    // 100ms 内无新滚动则归中并提交索引
-    isCenterTimerId.current = setTimeout(() => {
-      if (!scrollViewRef.current) return
-
-      const scrollTop = scrollViewRef.current.scrollTop
-      const newIndex = getSelectedIndex(scrollTop, itemHeightRef.current, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
-
-      const allowA11yFocus = !syncScrollFromPropsRef.current
-      const shouldFocusOnScrollSettle = pendingScrollSettleFocusRef.current
-
-      isTouchingRef.current = false
-      const baseValue = newIndex * itemHeightRef.current
-      const randomOffset = Math.random() * 0.001 // 随机数为了在一个项内滚动时强制刷新
-      setTargetScrollTopWithScale(setTargetScrollTop, baseValue, randomOffset, lengthScaleRatioRef.current)
-
-      // 更新日期值
-      if (updateDay) {
-        // 解析文本中的数字（移除年、月、日等后缀）
-        const valueText = range[newIndex] || ''
-        const numericValue = parseInt(valueText.replace(/[^0-9]/g, ''))
-        updateDay(isNaN(numericValue) ? 0 : numericValue, parseInt(columnId))
-      }
-      pendingScrollSettleFocusRef.current = false
-      if (allowA11yFocus && shouldFocusOnScrollSettle) {
-        requestAccessibilityFocusOnView(itemRefs.current[newIndex])
-      }
-      syncScrollFromPropsRef.current = false
-      isCenterTimerId.current = null
-    }, 100)
-  }
-
-  // 滚动中：按 scrollTop 更新高亮索引
-  const handleScroll = () => {
-    if (!scrollViewRef.current) return
-    if (isCenterTimerId.current) {
-      clearTimeout(isCenterTimerId.current)
-      isCenterTimerId.current = null
-    }
-    const scrollTop = scrollViewRef.current.scrollTop
-    const ih = itemHeightRef.current
-    const newIndex = getSelectedIndex(scrollTop, ih, lengthScaleRatioRef.current, useMeasuredScaleRef.current)
-    const spi = selectedIndexPropRef.current
-    if (newIndex !== spi) {
-      if (!syncScrollFromPropsRef.current || isTouchingRef.current) {
-        pendingScrollSettleFocusRef.current = true
-      }
-      if (isTouchingRef.current) {
-        syncScrollFromPropsRef.current = false
-      }
-    }
-    if (newIndex !== currentIndex) {
-      setCurrentIndex(newIndex)
-    }
-  }
 
   // 渲染选项
   const pickerItem = range.map((item, index) => {
@@ -837,7 +772,7 @@ export function PickerGroupDate(props: PickerGroupProps) {
         ref={(el) => (itemRefs.current[index] = el)}
         className={`taro-picker__item${index === currentIndex ? ' taro-picker__item--selected' : ''}`}
         {...(enableClickItemScroll
-          ? { onClick: () => scrollToItemId(`picker-item-${columnId}-${index}`) }
+          ? { onClick: () => selectIndex(index) }
           : {})}
         style={{
           height: PICKER_LINE_HEIGHT,
@@ -873,10 +808,6 @@ export function PickerGroupDate(props: PickerGroupProps) {
       )),
   ]
 
-  const clickScrollViewProps = enableClickItemScroll
-    ? { scrollIntoView, scrollIntoViewAlignment: 'center' as const }
-    : {}
-
   return (
     <View className="taro-picker__group">
       <View className="taro-picker__mask" ariaHidden />
@@ -892,9 +823,9 @@ export function PickerGroupDate(props: PickerGroupProps) {
         className="taro-picker__content"
         style={{ height: PICKER_LINE_HEIGHT * PICKER_VISIBLE_ITEMS }}
         scrollTop={targetScrollTop}
-        {...clickScrollViewProps}
         onScroll={handleScroll}
-        onTouchStart={() => { isTouchingRef.current = true }}
+        onTouchStart={handleTouchStart}
+        {...(process.env.TARO_ENV === 'h5' ? { onMouseDown: handleTouchStart, onWheel: handleTouchStart } : {})}
         onScrollEnd={handleScrollEnd}
         scrollWithAnimation
       >

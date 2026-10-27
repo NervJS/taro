@@ -228,16 +228,16 @@ describe('Picker appearance settle polling', () => {
   })
 })
 
-describe('Picker successful native appearance full-screen center', () => {
+describe('Picker native appearance does not expand interactive panel', () => {
   const screenInfo = { ...info, windowWidth: 867, screenWidth: 951, lengthScaleRatio: 0.929 }
 
-  it('first frame and settling center on the screen, not the old business window', () => {
+  it('first frame and settling center on the business window, independent of native coverage', () => {
     taro.getSystemInfoSync.mockReturnValue(screenInfo)
     const { result } = renderHook(() => useDuoSheetLayout(true, '#00000099'))
     const center = () => parseFloat(result.current!.left as string) + parseFloat(result.current!.width as string) / 2
-    expect(center()).toBeCloseTo(951 / 0.929 / 2)
+    expect(center()).toBeCloseTo(867 / 0.929 / 2)
     act(() => { jest.advanceTimersByTime(125) })
-    expect(center()).toBeCloseTo(951 / 0.929 / 2)
+    expect(center()).toBeCloseTo(867 / 0.929 / 2)
     taro.getSystemInfoSync.mockReturnValue({ ...screenInfo, foldState: 'halfOpen' })
     act(() => { jest.advanceTimersByTime(125) })
     expect(result.current).toEqual({ left: '0px', width: '511px' })
@@ -245,7 +245,7 @@ describe('Picker successful native appearance full-screen center', () => {
     taro.getSystemInfoSync.mockReturnValue(screenInfo)
     act(() => { jest.advanceTimersByTime(250) })
     act(() => { jest.advanceTimersByTime(300) })
-    expect(center()).toBeCloseTo(951 / 0.929 / 2)
+    expect(center()).toBeCloseTo(867 / 0.929 / 2)
   })
 
   it('API failure leaves original window center unchanged', () => {
@@ -255,13 +255,25 @@ describe('Picker successful native appearance full-screen center', () => {
     expect(parseFloat(result.current!.left as string) + parseFloat(result.current!.width as string) / 2).toBeCloseTo(867 / 0.929 / 2)
   })
 
-  it('reopen uses current screen center directly instead of old half-open location', () => {
+  it('reopen uses current business center directly instead of old half-open location', () => {
     taro.getSystemInfoSync.mockReturnValue({ ...screenInfo, foldState: 'halfOpen' })
     const { result, rerender } = renderHook(({ active }) => useDuoSheetLayout(active, '#00000099'), { initialProps: { active: true } })
     expect(result.current?.width).toBe('511px')
     rerender({ active: false })
     taro.getSystemInfoSync.mockReturnValue(screenInfo)
     rerender({ active: true })
-    expect(parseFloat(result.current!.left as string) + parseFloat(result.current!.width as string) / 2).toBeCloseTo(951 / 0.929 / 2)
+    expect(parseFloat(result.current!.left as string) + parseFloat(result.current!.width as string) / 2).toBeCloseTo(867 / 0.929 / 2)
+  })
+})
+
+describe('Picker native mask and business panel are independent', () => {
+  it.each(['closed', 'fullyOpen', 'halfOpen'])('%s窄窗口即使覆盖成功，也不扩宽面板', (foldState) => {
+    taro.getSystemInfoSync.mockReturnValue({ ...info, foldState, windowWidth: 400, screenWidth: 951, lengthScaleRatio: 0.929 })
+    const { result } = renderHook(() => useDuoSheetLayout(true, '#00000099'))
+    expect(nativeApi).toHaveBeenCalledWith({ active: true, viewBackgroundColor: '#00000099' })
+    expect(parseFloat(result.current!.left as string)).toBe(0)
+    expect(parseFloat(result.current!.width as string)).toBeCloseTo(400 / 0.929)
+    act(() => jest.advanceTimersByTime(500))
+    expect(parseFloat(result.current!.width as string)).toBeCloseTo(400 / 0.929)
   })
 })

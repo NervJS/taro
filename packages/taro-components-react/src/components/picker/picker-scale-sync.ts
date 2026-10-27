@@ -25,6 +25,8 @@ interface Options extends ScaleHelpers {
   itemHeightRef: React.MutableRefObject<number>
   isTouchingRef: React.MutableRefObject<boolean>
   currentIndex: number
+  /** 日期列使用稳定选择目标，其它消费者保留原行为。 */
+  alignmentIndexRef?: React.MutableRefObject<number>
   setTargetScrollTop: (value: number) => void
 }
 
@@ -50,7 +52,9 @@ export function usePickerScaleSync(options: Options): void {
   const snap = React.useCallback(() => {
     const o = optionsRef.current
     if (o.isTouchingRef.current || !o.scrollViewRef.current) return
-    const base = o.currentIndex * o.itemHeightRef.current
+    const index = o.alignmentIndexRef?.current ?? o.currentIndex
+    if (index < 0) return
+    const base = index * o.itemHeightRef.current
     // 随机微小偏移：保证即使数值相同也会触发 scrollTop 重新下发
     const offset = Math.random() * 0.001
     const value = process.env.TARO_PLATFORM === 'harmony' ? base : base * o.lengthScaleRatioRef.current

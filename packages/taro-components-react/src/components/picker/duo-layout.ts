@@ -6,7 +6,7 @@ import React from 'react'
  *
  * 规则（与 jdtaro-ui 的 Popup 底部半弹一致）：
  * - 仅 iOS 且 getSystemInfo 带有 foldState（closed / halfOpen / fullyOpen）时生效，否则返回 null，样式与改前一致；
- * - 内容区 base：半折叠横屏为折叠中缝左侧（screenWidth / 2），其余为整窗；
+ * - 内容区 base：正常半折叠横屏为中缝左侧，其余（含分屏窄窗）为业务窗口；
  * - 面板默认撑满 base 宽，超过 653 后限宽并在 base 内水平居中，贴底；
  * - 蒙层仍是整窗，不改。
  *
@@ -22,7 +22,7 @@ const LAYOUT_ANIM_MS = 250
 const WATCH_INTERVAL_MS = 250
 
 export interface DuoSheetLayout {
-  /** 面板左边缘（CSS px，相对整窗左边） */
+  /** 面板左边缘（CSS px，相对业务窗口左边） */
   left: number
   /** 面板宽度（CSS px） */
   width: number
@@ -55,7 +55,6 @@ function isLandscape(info: SystemInfoLike): boolean {
 /** 纯函数：由系统信息算出面板布局；非 Duo 返回 null */
 export function resolveDuoSheetLayout(
   info: SystemInfoLike | null | undefined,
-  options?: { navigationBarHidden?: boolean }
 ): DuoSheetLayout | null {
   if (!info) return null
   if (String(info.platform ?? '').toLowerCase() !== 'ios') return null
@@ -67,15 +66,15 @@ export function resolveDuoSheetLayout(
   const windowWidth = (info.windowWidth ?? 0) / ratio
   if (!(windowWidth > 0)) return null
 
-  // 原生覆盖成功后蒙层包含侧栏，而 windowWidth 仍可能只表示业务页宽。
-  // 只扩大横向全窗基准，半折叠仍按原物理中缝约束，失败/未覆盖保持原行为。
+  // 侧栏原生蒙层只改变外观，不代表业务页面获得侧栏的触摸区域。
+  // 外屏/全开（含半屏窗口）均以当前业务窗口限宽居中。
+  let baseWidth = windowWidth
   const screenWidth = info.screenWidth
-  const fullWidth = options?.navigationBarHidden && typeof screenWidth === 'number' &&
-    Number.isFinite(screenWidth) && screenWidth > (info.windowWidth ?? 0)
-    ? screenWidth / ratio
-    : windowWidth
-  let baseWidth = fullWidth
-  if (fold === 'halfopen' && isLandscape(info)) {
+  // 窄窗口可能位于物理中缝任意一侧，不能把screen/2当成本窗口的中缝。
+  // 与UI现有窄窗判定一致；正常半折横屏仍保留中缝左侧约束。
+  const narrowWindow = typeof screenWidth === 'number' && Number.isFinite(screenWidth) &&
+    screenWidth > 0 && (info.windowWidth ?? 0) / screenWidth < 0.75
+  if (fold === 'halfopen' && isLandscape(info) && !narrowWindow) {
     // 折叠中缝在整块屏幕的一半处；window 可能比 screen 窄（如右侧状态栏列）
     const screenWidth = info.screenWidth && info.screenWidth > 0 ? info.screenWidth / ratio : windowWidth
     const hingeX = Math.floor(screenWidth / 2)
@@ -222,7 +221,7 @@ export function acquireAppearance(color: string): AppearanceHandle {
   }
 }
 
-/** 屏蔽 / 恢复导航栏会改变窗口尺寸，其后的 resize 直接落位、不再插值 */
+/** 原生外观切换可能伴随resize，其后短期内直接落位、不再插值 */
 const APPEARANCE_SETTLE_MS = 500
 
 function shouldAnimate(from: DuoSheetLayout, to: DuoSheetLayout): boolean {
@@ -293,7 +292,7 @@ export function useDuoSheetLayout(active: boolean, maskColor?: string): React.CS
   const refresh = React.useCallback((animate: boolean) => {
     const info = readInfo()
     signatureRef.current = duoInfoSignature(info)
-    const next = resolveDuoSheetLayout(info, { navigationBarHidden: shared.applied })
+    const next = resolveDuoSheetLayout(info)
     const from = displayedRef.current
     cancelAnim()
     if (!animate || !from || !next || !shouldAnimate(from, next)) {
@@ -319,7 +318,7 @@ export function useDuoSheetLayout(active: boolean, maskColor?: string): React.CS
   }, [cancelAnim, show])
 
   // 仅 Duo：打开期间屏蔽导航栏并把原生背景设成蒙层色。排在「读取布局」effect 之前：
-  // 先改窗口，再按新窗口尺寸算布局；窗口更新可能晚于接口返回，落定后再读一次直接落位。
+  // 面板始终读取业务窗口；系统信息更新可能晚于接口返回，落定后再读一次直接落位。
   const appearanceHandleRef = React.useRef<AppearanceHandle | null>(null)
   const settleUntilRef = React.useRef(0)
   React.useLayoutEffect(() => {

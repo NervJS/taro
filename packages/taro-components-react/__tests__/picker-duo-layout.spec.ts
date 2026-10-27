@@ -82,23 +82,44 @@ describe('resolveDuoSheetLayout', () => {
     expect(full.left).toBeCloseTo((867 / 0.929 - 653) / 2, 5)
   })
 
-  it('导航栏覆盖成功后全开横屏按screen居中，未覆盖保留window', () => {
+  it('全开横屏按业务window居中，不把screen侧栏当内容区', () => {
     const info = { ...base, foldState: 'fullyOpen', windowWidth: 867, screenWidth: 951, lengthScaleRatio: 0.929 }
     const original = resolveDuoSheetLayout(info)!
-    const covered = resolveDuoSheetLayout(info, { navigationBarHidden: true })!
+    const covered = resolveDuoSheetLayout(info)!
     expect(original.left + original.width / 2).toBeCloseTo(867 / 0.929 / 2)
-    expect(covered.left + covered.width / 2).toBeCloseTo(951 / 0.929 / 2)
+    expect(covered.left + covered.width / 2).toBeCloseTo(867 / 0.929 / 2)
     expect(covered.width).toBe(653)
   })
 
-  it('导航栏覆盖不改变halfOpen横屏左半区和avoidAreas', () => {
+  it('halfOpen横屏仍按中缝左半区和avoidAreas限制', () => {
     const info = { ...base, foldState: 'halfOpen', windowWidth: 867, screenWidth: 951, lengthScaleRatio: 0.929, avoidAreas: [{ left: 470, width: 20 }] }
-    expect(resolveDuoSheetLayout(info, { navigationBarHidden: true })).toEqual(resolveDuoSheetLayout(info))
+    expect(resolveDuoSheetLayout(info)).toEqual(resolveDuoSheetLayout(info))
   })
 
   it.each([undefined, 0, NaN])('screenWidth=%s时覆盖布局回退到window', (screenWidth) => {
     const info = { ...base, foldState: 'fullyOpen', screenWidth }
-    expect(resolveDuoSheetLayout(info, { navigationBarHidden: true })).toEqual(resolveDuoSheetLayout(info))
+    expect(resolveDuoSheetLayout(info)).toEqual(resolveDuoSheetLayout(info))
+  })
+
+  it.each(['closed', 'fullyOpen', 'halfOpen'])('%s窄窗按业务窗口布局，不使用整屏/物理中缝居中', (foldState) => {
+    const info = { ...base, foldState, screenWidth: 951, windowWidth: 400, lengthScaleRatio: 0.929 }
+    expect(resolveDuoSheetLayout(info)).toEqual({ left: 0, width: 400 / 0.929 })
+  })
+
+  it('各折叠状态/方向/比例/窄窗组合面板边界均落在业务窗口内', () => {
+    for (const foldState of ['closed', 'fullyOpen', 'halfOpen']) {
+      for (const deviceOrientation of ['portrait', 'landscape']) {
+        for (const windowWidth of [306, 400, 500, 867, 1600]) {
+          for (const lengthScaleRatio of [0.5, 0.929, 1, 1.5]) {
+            const info = { ...base, foldState, deviceOrientation, windowWidth, screenWidth: 1800, lengthScaleRatio }
+            const layout = resolveDuoSheetLayout(info)!
+            expect(layout.left).toBeGreaterThanOrEqual(0)
+            expect(layout.width).toBeLessThanOrEqual(653)
+            expect((layout.left + layout.width) * lengthScaleRatio).toBeLessThanOrEqual(windowWidth + 1e-8)
+          }
+        }
+      }
+    }
   })
 
   it('avoidAreas 落在中缝右侧并压进内容区时收窄；在左侧则忽略', () => {
