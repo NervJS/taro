@@ -1,7 +1,9 @@
 import { DATASET, OBJECT, PROPS, STYLE } from '../constants'
+import { copyDatasetAttributeOrder } from '../dom/dataset'
 import { NodeType } from '../dom/node_types'
 import { parser } from '../dom-external/inner-html/parser'
 
+import type { TaroElement } from '../dom/element'
 import type { TaroNode } from '../dom/node'
 
 export type IPosition = 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
@@ -65,6 +67,10 @@ export function cloneNode (this: TaroNode, isDeep = false) {
 
   if (isDeep) {
     newNode.childNodes = this.childNodes.map(node => (node as any).cloneNode(true))
+  }
+
+  if (this.nodeType === NodeType.ELEMENT_NODE) {
+    copyDatasetAttributeOrder(this as TaroElement, newNode)
   }
 
   return newNode
