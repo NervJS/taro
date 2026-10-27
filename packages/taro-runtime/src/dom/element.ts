@@ -17,6 +17,7 @@ import {
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 import { extend, getComponentsAlias, isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { ClassList } from './class-list'
+import { recordDatasetAttribute, removeDatasetAttribute } from './dataset'
 import { eventSource } from './event-source'
 import { TaroNode } from './node'
 import { NodeType } from './node_types'
@@ -172,6 +173,7 @@ export class TaroElement extends TaroNode {
             this.dataset = Object.create(null)
           }
           this.dataset[toCamelCase(qualifiedName.replace(/^data-/, ''))] = value
+          recordDatasetAttribute(this, qualifiedName)
         }
         break
     }
@@ -246,6 +248,9 @@ export class TaroElement extends TaroNode {
         return
       }
       delete this.props[qualifiedName]
+      if (qualifiedName.startsWith('data-')) {
+        removeDatasetAttribute(this, qualifiedName)
+      }
     }
 
     // Serialization
