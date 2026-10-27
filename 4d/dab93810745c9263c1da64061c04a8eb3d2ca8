@@ -1,0 +1,174 @@
+packages/taro-rn-runner/package.json
+  h_ae6ef8e50926af 3
+npm/darwin-arm64/package.json
+  h_ae6ef8e50926af 4
+npm/linux-x64-gnu/package.json
+  h_ae6ef8e50926af 4
+packages/create-app/package.json
+  h_ae6ef8e50926af 3
+packages/stylelint-taro-rn/package.json
+  h_ae6ef8e50926af 3
+packages/project-graph/package.json
+  h_ae6ef8e50926af 3
+packages/taro-components-react/package.json
+  h_ae6ef8e50926af 3
+packages/taro-cli/package.json
+  h_ae6ef8e50926af 3
+packages/taro-components-library-react/package.json
+  h_ae6ef8e50926af 3
+crates/native_binding/package.json
+  h_ae6ef8e50926af 3
+packages/taro-plugin-html/package.json
+  h_ae6ef8e50926af 3
+packages/taro-plugin-http/package.json
+  h_ae6ef8e50926af 3
+packages/css-to-react-native/package.json
+  h_ae6ef8e50926af 4
+packages/babel-plugin-transform-solid-jsx/package.json
+  h_ae6ef8e50926af 4
+packages/taro-cli-convertor/package.json
+  h_ae6ef8e50926af 3
+packages/taro-components/package.json
+  h_ae6ef8e50926af 3
+packages/taro-vite-runner/package.json
+  h_ae6ef8e50926af 3
+packages/taro-webpack5-prebundle/package.json
+  h_ae6ef8e50926af 3
+packages/taro-plugin-vue-devtools/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-alipay/package.json
+  h_ae6ef8e50926af 3
+packages/taro-plugin-react-devtools/package.json
+  h_ae6ef8e50926af 3
+packages/taro-plugin-inject/package.json
+  h_ae6ef8e50926af 3
+packages/taro-components-library-solid/package.json
+  h_ae6ef8e50926af 3
+packages/taro-components-rn/package.json
+  h_ae6ef8e50926af 3
+packages/postcss-pxtransform/package.json
+  h_ae6ef8e50926af 3
+packages/taro-with-weapp/package.json
+  h_ae6ef8e50926af 3
+packages/babel-plugin-transform-react-jsx-to-rn-stylesheet/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-weapp/package.json
+  h_ae6ef8e50926af 3
+npm/linux-x64-musl/package.json
+  h_ae6ef8e50926af 3
+packages/taro-framework-solid/package.json
+  h_ae6ef8e50926af 3
+packages/taro-components-library-vue3/package.json
+  h_ae6ef8e50926af 3
+packages/jest-helper/package.json
+  h_ae6ef8e50926af 3
+packages/taro-loader/package.json
+  h_ae6ef8e50926af 3
+packages/stylelint-taro/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-jd/package.json
+  h_ae6ef8e50926af 3
+packages/eslint-plugin-taro/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-swan/package.json
+  h_ae6ef8e50926af 3
+packages/eslint-config-taro/package.json
+  h_ae6ef8e50926af 3
+packages/babel-plugin-transform-taroapi/package.json
+  h_ae6ef8e50926af 3
+npm/win32-x64-msvc/package.json
+  h_ae6ef8e50926af 4
+npm/darwin-x64/package.json
+  h_ae6ef8e50926af 4
+packages/taro-runtime/package.json
+  h_ae6ef8e50926af 3
+packages/taro-rn-transformer/package.json
+  h_ae6ef8e50926af 3
+packages/postcss-plugin-constparse/package.json
+  h_ae6ef8e50926af 3
+packages/rollup-plugin-copy/package.json
+  h_ae6ef8e50926af 3
+packages/shared/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-h5/package.json
+  h_ae6ef8e50926af 3
+packages/taro-plugin-generator/package.json
+  h_ae6ef8e50926af 3
+packages/taro-components-advanced/package.json
+  h_ae6ef8e50926af 3
+packages/taro-rn-style-transformer/package.json
+  h_ae6ef8e50926af 3
+packages/taro-rn/package.json
+  h_ae6ef8e50926af 3
+packages/postcss-unit-transform/package.json
+  h_ae6ef8e50926af 3
+packages/postcss-html-transform/package.json
+  h_ae6ef8e50926af 3
+package.json
+  h_ae6ef8e50926af 3
+packages/taro-service/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-harmony/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-harmony-cpp/package.json
+  h_ae6ef8e50926af 3
+packages/babel-preset-taro/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-ascf/package.json
+  h_ae6ef8e50926af 3
+packages/taro-framework-vue3/package.json
+  h_ae6ef8e50926af 3
+packages/taro-runner-utils/package.json
+  h_ae6ef8e50926af 3
+packages/taro-transformer-wx/package.json
+  h_ae6ef8e50926af 3
+packages/taro-router-rn/package.json
+  h_ae6ef8e50926af 3
+packages/taro-rn-supporter/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-qq/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-tt/package.json
+  h_ae6ef8e50926af 3
+packages/taro-h5/package.json
+  h_ae6ef8e50926af 3
+packages/taro-framework-react/package.json
+  h_ae6ef8e50926af 3
+packages/taro-runtime-rn/package.json
+  h_ae6ef8e50926af 3
+packages/taro-helper/package.json
+  h_ae6ef8e50926af 3
+packages/taro-react/package.json
+  h_ae6ef8e50926af 3
+packages/taro-router/package.json
+  h_ae6ef8e50926af 3
+packages/taro-platform-harmony-hybrid/package.json
+  h_ae6ef8e50926af 3
+packages/stylelint-config-taro-rn/package.json
+  h_ae6ef8e50926af 3
+packages/taro-webpack5-runner/package.json
+  h_ae6ef8e50926af 3
+packages/taroize/package.json
+  h_ae6ef8e50926af 3
+packages/taro-api/package.json
+  h_ae6ef8e50926af 3
+packages/taro-plugin-mini-ci/package.json
+  h_ae6ef8e50926af 3
+packages/taro/package.json
+  h_ae6ef8e50926af 3
+npm/linux-arm64-gnu/package.json
+  h_ae6ef8e50926af 4
+packages/taro-extend/package.json
+  h_ae6ef8e50926af 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "4ddab93810745c9263c1da64061c04a8eb3d2ca8",
+  "prompts": {},
+  "humans": {
+    "h_ae6ef8e50926af": {
+      "author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  }
+}
