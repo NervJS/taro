@@ -16,6 +16,9 @@ export function insertAdjacentHTML (
   html: string
 ) {
   const parsedNodes = parser(html, this.ownerDocument)
+  // Keep the insertion anchors stable while adding multiple parsed nodes.
+  const firstChild = this.firstChild
+  const nextSibling = this.nextSibling
 
   for (let i = 0; i < parsedNodes.length; i++) {
     const n = parsedNodes[i]
@@ -25,17 +28,13 @@ export function insertAdjacentHTML (
         this.parentNode?.insertBefore(n, this)
         break
       case 'afterbegin':
-        if (this.hasChildNodes()) {
-          this.insertBefore(n, this.childNodes[0])
-        } else {
-          this.appendChild(n)
-        }
+        this.insertBefore(n, firstChild)
         break
       case 'beforeend':
         this.appendChild(n)
         break
       case 'afterend':
-        this.parentNode?.appendChild(n)
+        this.parentNode?.insertBefore(n, nextSibling)
         break
     }
   }
