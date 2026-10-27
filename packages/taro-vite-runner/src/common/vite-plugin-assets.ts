@@ -83,11 +83,12 @@ export default function (viteCompilerContext: ViteH5CompilerContext | ViteMiniCo
         url = `__VITE_ASSET__${referenceId}__`
       }
 
-      cache?.set(id, url)
-
-      return isEsModule
+      const code = isEsModule
         ? `export default "${url}"`
         : `module.exports = "${url}"`
+
+      cache?.set(id, code)
+      return code
     },
   }
 }
