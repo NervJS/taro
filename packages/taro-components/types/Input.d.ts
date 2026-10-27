@@ -78,7 +78,8 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, alipay, swan, tt, qq, jd, rn, harmony
    */
   cursor?: number
-  /** 光标颜色。iOS 下的格式为十六进制颜色值 #000000，安卓下的只支持 default 和 green，Skyline 下无限制
+  /** 光标颜色。iOS 下的格式为十六进制颜色值 #000000，安卓下的只支持 default 和 green，Skyline 下无限制。
+   * 微信小程序应用配置 renderer: 'skyline' 时，未传或传空值的 Input 在模板中兜底 #07c160；同应用的 WebView 页面和自动回退页面也使用该兜底。
    * @supported weapp
    */
   cursorColor?: string
