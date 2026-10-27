@@ -1,0 +1,39 @@
+packages/taro-components-react/src/components/picker-view/index.tsx
+  s_64294116851673::t_5571d497a2b2b8 4
+packages/taro-components-react/src/components/picker/duo-layout.ts
+  s_64294116851673::t_d8b0239b8b7e7d 1-182
+  s_64294116851673::t_6635e10d26e492 183-213
+packages/taro-components-react/__tests__/picker-duo-layout.spec.ts
+  s_64294116851673::t_4e2460498ef8a5 1-97
+packages/taro-components-react/src/components/picker-view-column/index.tsx
+  s_64294116851673::t_30d86317cd11c5 256-323
+packages/taro-components-react/src/components/picker/index.tsx
+  s_64294116851673::t_b820059ad6b812 20,224-226,993
+packages/taro-components-react/src/components/picker/picker-group-legacy.tsx
+  s_64294116851673::t_0aa61fbd03c2e0 5-6,195-208,471-484,737-750,954-967
+packages/taro-components-react/src/components/picker/picker-group-slider.tsx
+  s_64294116851673::t_9bf76508f5a8cf 5-6,196-209,448-461,718-731,972-985
+packages/taro-components-react/src/components/picker/picker-scale-sync.ts
+  s_64294116851673::t_6510ce3204cc4f 1-109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "99bd971c6603ab514136ff2b875d4ca47751425a",
+  "prompts": {},
+  "humans": {
+    "h_ae6ef8e50926af": {
+      "author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_64294116851673": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "d1933154-b7c6-4d28-b2a2-f50a83d9dcce",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  }
+}

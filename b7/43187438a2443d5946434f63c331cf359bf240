@@ -1,0 +1,38 @@
+packages/taro-components-react/__tests__/picker-duo-appearance.spec.tsx
+  s_4948df13c03bd5::t_348c3f58f8caf2 1-267
+packages/taro-components-react/__tests__/picker-duo-layout.spec.ts
+  s_4948df13c03bd5::t_96a437723c947b 1-9,85-103,125-143
+packages/taro-components-react/src/components/picker/duo-layout.ts
+  s_4948df13c03bd5::t_13ab5c3e5c8953 56-59,70-77,99-227,271,296,321-345,361-363,373
+packages/taro-components-react/src/components/picker/index.tsx
+  s_64294116851673::t_8c3d79b1bf2e6d 20,225-228
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "b743187438a2443d5946434f63c331cf359bf240",
+  "prompts": {},
+  "humans": {
+    "h_ae6ef8e50926af": {
+      "author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_4948df13c03bd5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1428e-34b1-7921-ad12-8e63849d817d",
+        "model": "GPT-6.1-Sol-A-joybuilder"
+      },
+      "human_author": "Muyouz <muyouz.233@gmail.com>"
+    },
+    "s_64294116851673": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "d1933154-b7c6-4d28-b2a2-f50a83d9dcce",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  }
+}
