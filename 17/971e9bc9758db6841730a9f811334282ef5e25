@@ -1,0 +1,38 @@
+packages/taro-components-react/__tests__/picker-date-sync.spec.tsx
+  s_a391aa637a5fa1::t_67709b087f5c49 1-192
+packages/taro-components-react/__tests__/picker-duo-appearance.spec.tsx
+  s_a391aa637a5fa1::t_f6248dae9760fe 231,234,238,240,248,258,265-277
+packages/taro-components-react/__tests__/picker-duo-layout.spec.ts
+  s_a391aa637a5fa1::t_3cedc5f517d822 85,88,90,94,96,101-122
+packages/taro-components-react/src/components/picker/duo-layout.ts
+  s_a391aa637a5fa1::t_579702f5a11ec3 9,25,69-71,73-77,224,295,321
+packages/taro-components-react/src/components/picker/picker-date-sync.ts
+  s_a391aa637a5fa1::t_93f5d8cc328cf2 1-111
+packages/taro-components-react/src/components/picker/picker-group-legacy.tsx
+  s_a391aa637a5fa1::t_01382a1bfdb101 5,713-726,728,731,735,738,741,744-745,749-750,759,775,827-828
+packages/taro-components-react/src/components/picker/picker-group-slider.tsx
+  s_a391aa637a5fa1::t_6443c99ed64a3d 5,698-710,712,715,719,722,725,728-729,733-734,743,760,765,767,789,860-861
+packages/taro-components-react/src/components/picker/picker-scale-sync.ts
+  s_a391aa637a5fa1::t_078453ed507266 28-29,55-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "17971e9bc9758db6841730a9f811334282ef5e25",
+  "prompts": {},
+  "humans": {
+    "h_ae6ef8e50926af": {
+      "author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_a391aa637a5fa1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a15420-fd2f-7a71-b8e1-f620df37afbd",
+        "model": "GPT-6.1-Sol-A-joybuilder"
+      },
+      "human_author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  }
+}
