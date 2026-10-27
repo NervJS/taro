@@ -80,7 +80,7 @@ export default class WeappCI extends BaseCI {
     }
     printLog(processTypeEnum.START, '微信开发者工具...', this.projectPath)
 
-    shell.exec(`${cliPath} open --project ${this.projectPath}`)
+    shell.exec(`"${cliPath}" open --project "${this.projectPath}"`)
   }
 
   async preview () {
