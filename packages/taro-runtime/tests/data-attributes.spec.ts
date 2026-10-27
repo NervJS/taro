@@ -32,6 +32,55 @@ describe('removing data attributes', () => {
     expect(node.dataset.userId).toBe('new')
   })
 
+  test.each([
+    ['data-user-id', 'data-user--id'],
+    ['data-user--id', 'data-user-id']
+  ])('preserves the shared dataset key for %s and %s in either removal order', (first, second) => {
+    for (const removed of [first, second]) {
+      const node = document.createElement('view')
+      node.setAttribute(first, 'first')
+      node.setAttribute(second, 'second')
+      node.setAttribute('data-keep', 'retained')
+      const remaining = removed === first ? second : first
+      const value = removed === first ? 'second' : 'first'
+
+      node.removeAttribute(removed)
+
+      expect(node.hasAttribute(removed)).toBe(false)
+      expect(node.getAttribute(remaining)).toBe(value)
+      expect(node.dataset).toEqual({ userId: value, keep: 'retained' })
+
+      node.removeAttribute(remaining)
+      expect(Object.prototype.hasOwnProperty.call(node.dataset, 'userId')).toBe(false)
+      expect(node.dataset).toEqual({ keep: 'retained' })
+    }
+  })
+
+  test.each([false, true])('events preserve a colliding data attribute with a distinct currentTarget: %s', (distinct) => {
+    const target = document.createElement('view')
+    const currentTarget = distinct ? document.createElement('view') : target
+    if (distinct) currentTarget.appendChild(target)
+    for (const node of new Set([target, currentTarget])) {
+      node.setAttribute('data-user--id', 'retained')
+      node.setAttribute('data-user-id', 'removed')
+      node.removeAttribute('data-user-id')
+    }
+    const listener = vi.fn(event => {
+      expect(event.target.dataset).toEqual({ userId: 'retained' })
+      expect(event.currentTarget.dataset).toEqual({ userId: 'retained' })
+    })
+    currentTarget.addEventListener('tap', listener)
+    const event = createEvent({
+      type: 'tap',
+      detail: {},
+      target: { dataset: { sid: target.sid, userId: 'removed' }, id: '' },
+      currentTarget: { dataset: { sid: currentTarget.sid, userId: 'removed' }, id: '' }
+    }, currentTarget)
+
+    currentTarget.dispatchEvent(event)
+    expect(listener).toHaveBeenCalledTimes(1)
+  })
+
   test('removing an absent attribute preserves the shared empty dataset', () => {
     const node = document.createElement('view')
     const other = document.createElement('view')

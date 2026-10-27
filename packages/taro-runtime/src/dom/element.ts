@@ -247,7 +247,15 @@ export class TaroElement extends TaroNode {
       }
       delete this.props[qualifiedName]
       if (qualifiedName.startsWith('data-')) {
-        delete this.dataset[toCamelCase(qualifiedName.replace(/^data-/, ''))]
+        const datasetKey = toCamelCase(qualifiedName.replace(/^data-/, ''))
+        const remainingAttribute = Object.keys(this.props).find(
+          name => name.startsWith('data-') && toCamelCase(name.replace(/^data-/, '')) === datasetKey
+        )
+        if (remainingAttribute !== undefined) {
+          this.dataset[datasetKey] = this.props[remainingAttribute]
+        } else {
+          delete this.dataset[datasetKey]
+        }
       }
     }
 
