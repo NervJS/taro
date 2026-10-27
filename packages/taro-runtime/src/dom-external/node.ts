@@ -66,7 +66,11 @@ export function cloneNode (this: TaroNode, isDeep = false) {
   }
 
   if (isDeep) {
-    newNode.childNodes = this.childNodes.map(node => (node as any).cloneNode(true))
+    newNode.childNodes = this.childNodes.map(node => {
+      const child = (node as any).cloneNode(true)
+      child.parentNode = newNode
+      return child
+    })
   }
 
   if (this.nodeType === NodeType.ELEMENT_NODE) {
