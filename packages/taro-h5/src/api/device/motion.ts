@@ -4,7 +4,7 @@ import throttle from 'lodash-es/throttle'
 import { CallbackManager, MethodHandler } from '../../utils/handler'
 
 const callbackManager = new CallbackManager()
-let deviceMotionListener
+let deviceMotionListener: ReturnType<typeof throttle> | undefined
 
 const INTERVAL_MAP = {
   game: {
@@ -27,7 +27,11 @@ const INTERVAL_MAP = {
 export const stopDeviceMotionListening: typeof Taro.stopDeviceMotionListening = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'stopDeviceMotionListening', success, fail, complete })
   try {
-    window.removeEventListener('deviceorientation', deviceMotionListener, true)
+    if (deviceMotionListener) {
+      window.removeEventListener('deviceorientation', deviceMotionListener, true)
+      deviceMotionListener.cancel()
+      deviceMotionListener = undefined
+    }
     return handle.success()
   } catch (e) {
     return handle.fail({ errMsg: e.message })

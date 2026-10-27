@@ -7,7 +7,7 @@ Taro 微信小程序插件开发文档：https://docs.taro.zone/docs/miniprogram
 
 #### 1. 配置 appid
 
-修改 `project.config.json` 的 appid 字段和 `src/app.config.ts` 的 prodiver 字段为同一 appid。（不配置则使用微信小程序默认的测试 appid）
+修改 `project.config.json` 的 appid 字段和 `src/app.config.ts` 的 provider 字段为同一 appid。（不配置则使用微信小程序默认的测试 appid）
 
 #### 2. 编译运行
 

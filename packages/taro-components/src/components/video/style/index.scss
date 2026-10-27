@@ -18,11 +18,13 @@
 
   // NOTE: video 元素父节点设置该属性会导致 iOS 元素层级问题 https://stackoverflow.com/questions/49653475/video-and-z-index-inside-scaled-element-some-divs-disappear
   // overflow: hidden;
-  position: absolute;
-  left: 0;
-  top: 0;
+  // 容器类挂在组件宿主（taro-video-core）上，宿主即最终渲染节点：
+  // 使用 absolute 会使没有定位祖先的页面中视频相对视口定位、浮于页面顶部，
+  // 回归 .taro-video 约定的流内定位与 225px 默认高度
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: 225px;
+  line-height: 0;
   background-color: #000;
   object-position: inherit;
 }
@@ -33,6 +35,7 @@
   right: 0;
   top: 0;
   bottom: 0;
+  height: 100%;
   z-index: 999;
 }
 

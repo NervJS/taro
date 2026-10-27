@@ -153,7 +153,7 @@ class App extends Component {
 var _styleSheet = _mergeStyles(app1CssStyleSheet, app2CssStyleSheet);
 ```
 
-also suport inline style value is string
+also support inline style value is string
 ```js
 import { createElement, render } from 'rax';
 import './app.less';

@@ -43,10 +43,22 @@ export const getVideoInfo: typeof Taro.getVideoInfo = async function (options) {
   const video = document.createElement('video')
   video.crossOrigin = 'Anonymous'
   video.preload = 'metadata'
-  video.src = src
 
   return new Promise((resolve, reject) => {
+    const clearListeners = () => {
+      video.onloadedmetadata = null
+      video.onerror = null
+    }
+
+    video.onerror = () => {
+      clearListeners()
+      handle.fail({
+        errMsg: video.error?.message || 'Failed to load video'
+      }, { resolve, reject })
+    }
+
     video.onloadedmetadata = () => {
+      clearListeners()
       res.duration = video.duration
       res.height = video.videoHeight
       res.width = video.videoWidth
@@ -66,5 +78,7 @@ export const getVideoInfo: typeof Taro.getVideoInfo = async function (options) {
           }, { resolve, reject })
         })
     }
+
+    video.src = src
   })
 }
