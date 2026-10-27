@@ -21,7 +21,9 @@
   "scripts": {
     "prod": "pnpm run build",
     "build": "tsc",
-    "dev": "tsc -w"
+    "dev": "tsc -w",
+    "test": "jest",
+    "test:ci": "jest --ci -i"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
