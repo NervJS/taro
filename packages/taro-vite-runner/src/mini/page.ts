@@ -47,7 +47,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       }
       return null
     },
-    load (id) {
+    async load (id) {
       if (viteCompilerContext && id.endsWith(PAGE_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
         const page = viteCompilerContext.getPageById(rawId)
@@ -55,6 +55,11 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
         if (!page) {
           viteCompilerContext.logger.warn(`编译页面 ${rawId} 失败!`)
           process.exit(1)
+        }
+
+        if (typeof viteCompilerContext.loaderMeta.modifyConfig === 'function') {
+          const transformed = await this.load({ id: rawId })
+          viteCompilerContext.loaderMeta.modifyConfig(page.config, transformed?.code || '')
         }
 
         const pageConfig = prettyPrintJson(page.config)
