@@ -213,6 +213,7 @@ export default class AsyncSubPackagePlugin {
   private appliedCompilers: WeakSet<Compiler> = new WeakSet()
   private miniHooksApplied = false
   private asyncModuleCache = new WeakMap<any, string | null | undefined>()
+  private asyncModuleSourceRootCache = new WeakMap<any, Set<string>>()
   private asyncChunkRootCache = new WeakMap<any, string | null>()
   private asyncChunkSourceRoots = new Map<string, Set<string>>()
 
@@ -237,6 +238,7 @@ export default class AsyncSubPackagePlugin {
       this.appliedCompilers.add(compiler)
       compiler.hooks.compilation.tap(PLUGIN_NAME, () => {
         this.asyncModuleCache = new WeakMap()
+        this.asyncModuleSourceRootCache = new WeakMap()
         this.asyncChunkRootCache = new WeakMap()
         this.asyncChunkSourceRoots = new Map()
       })
@@ -384,16 +386,58 @@ export default class AsyncSubPackagePlugin {
     return asyncRoots.size === 1 ? Array.from(asyncRoots)[0] : null
   }
 
-  private getSourceRootsFromChunkGroupOrigins (chunk: any): Set<string> {
+  private getSourceRootsFromModule (module: any, moduleGraph: any, visited: Set<any> = new Set()): Set<string> {
+    if (!module || visited.has(module)) return new Set()
+    const cached = this.asyncModuleSourceRootCache.get(module)
+    if (cached) return cached
+    visited.add(module)
+
+    const sourceRoot = getSourceRootForResource(
+      getModuleResource(module),
+      this.miniPlugin.options.sourceDir,
+      this.asyncRootMap
+    )
+    if (sourceRoot) {
+      const result = new Set([sourceRoot])
+      this.asyncModuleSourceRootCache.set(module, result)
+      return result
+    }
+
+    // 动态 import 的调用点可能位于页面外的共享模块（如 components/Demo/index.tsx），
+    // 此时 origin 模块本身不属于任何 sourceRoot，需要沿 issuer 链回溯到真正使用它的页面。
+    const result = new Set<string>()
+    const issuerModules = new Set<any>()
+    const incomingConnections = moduleGraph?.getIncomingConnections?.(module)
+    if (incomingConnections) {
+      for (const connection of incomingConnections) {
+        if (connection?.originModule) issuerModules.add(connection.originModule)
+      }
+    }
+    const issuer = moduleGraph?.getIssuer?.(module)
+    if (issuer) issuerModules.add(issuer)
+
+    for (const issuerModule of issuerModules) {
+      const issuerSourceRoots = this.getSourceRootsFromModule(issuerModule, moduleGraph, new Set(visited))
+      for (const issuerSourceRoot of issuerSourceRoots) {
+        result.add(issuerSourceRoot)
+      }
+    }
+
+    this.asyncModuleSourceRootCache.set(module, result)
+    return result
+  }
+
+  private getSourceRootsFromChunkGroupOrigins (chunk: any, moduleGraph: any): Set<string> {
     const sourceRoots = new Set<string>()
-    const sourceDir = this.miniPlugin.options.sourceDir
 
     for (const group of chunk.groupsIterable || []) {
       for (const origin of group.origins || []) {
         const originModules = [origin?.module, origin?.originModule]
         for (const originModule of originModules) {
-          const sourceRoot = getSourceRootForResource(getModuleResource(originModule), sourceDir, this.asyncRootMap)
-          if (sourceRoot) sourceRoots.add(sourceRoot)
+          const moduleSourceRoots = this.getSourceRootsFromModule(originModule, moduleGraph)
+          for (const sourceRoot of moduleSourceRoots) {
+            sourceRoots.add(sourceRoot)
+          }
         }
       }
     }
@@ -413,7 +457,7 @@ export default class AsyncSubPackagePlugin {
           const jsModules = modules.filter(module => isJavaScriptModule(module))
           if (jsModules.length === 0) continue
 
-          const sourceRoots = this.getSourceRootsFromChunkGroupOrigins(chunk)
+          const sourceRoots = this.getSourceRootsFromChunkGroupOrigins(chunk, compilation.moduleGraph)
           let asyncRoot = this.asyncChunkRootCache.get(chunk)
           if (!this.asyncChunkRootCache.has(chunk)) {
             asyncRoot = getSingleAsyncRootForModules(
