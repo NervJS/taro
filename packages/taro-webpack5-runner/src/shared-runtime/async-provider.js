@@ -33,10 +33,10 @@ function activate () {
   // （如宿主 onLaunch 主动 require.async 预热），此时占位对象尚不存在——只登记，不 fill，
   // 真正 fill 仍由业务页同步核的 require.async().then(__activateAsync) 触发。
   if (!shared['@tarojs/runtime'] || !shared['@tarojs/taro']) {
-    return
+    return false
   }
   // 幂等：避免重复激活（预热 + 正常触发各调一次）
-  if (shared.__rtActivated) return
+  if (shared.__rtActivated) return true
 
   // 版本一致性校验 fail-fast：同步核与异步核必须同一运行时协议版本，否则接口可能错配。
   if (shared.__rtVersion !== __TARO_RUNTIME_VERSION__) {
@@ -145,6 +145,8 @@ function activate () {
   if (typeof shared.__flushNativeCompQueue === 'function') {
     shared.__flushNativeCompQueue()
   }
+
+  return true
 }
 
 // 被同步核 require.async 加载时，把 activate 挂到全局供同步核回调。

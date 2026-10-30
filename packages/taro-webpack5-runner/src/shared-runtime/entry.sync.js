@@ -52,6 +52,25 @@ if (!shared.__syncCoreInstalled) {
   // 首包设置，后续包因幂等跳过——多包版本不一时以首包为准。
   shared.__rtVersion = __TARO_RUNTIME_VERSION__
 
+  // provider 就绪信号：业务异步 chunk 的 loadScript 会等待该状态，避免在
+  // react-dom/framework/taro 真身 fill 之前执行依赖它们的模块。
+  // 不使用 __rtActivated：它在 fill 之前就置位，不能代表“真身已就绪”。
+  shared.__rtProviderState = 'pending'
+  shared.__rtProviderWaiters = []
+  shared.__rtProviderSettle = function (ok, error) {
+    if (shared.__rtProviderState !== 'pending') return
+    shared.__rtProviderState = ok ? 'ready' : 'error'
+    if (!ok) {
+      shared.__rtProviderError = error || new Error('[taro-shared] shared runtime provider failed to activate')
+    }
+    var waiters = shared.__rtProviderWaiters || []
+    shared.__rtProviderWaiters = []
+    for (var i = 0; i < waiters.length; i++) {
+      if (ok) waiters[i].resolve()
+      else waiters[i].reject(shared.__rtProviderError)
+    }
+  }
+
   // 多包 App 隔离表（共享运行时（split 模式） F5）：每个业务包的 realApp 存进 __pkgApps[pkgId],
   // page loader 产物在 onLoad 前查回本包 App,恢复非共享运行时下"页面永远 mount 到本包 App"
   // 的语义(见 packages/taro-webpack5-runner/docs/shared-runtime-scope.md)。
@@ -91,12 +110,20 @@ if (!shared.__syncCoreInstalled) {
   // 小程序只支持 require.async(注册过的分包路径)，不支持 import().then。
   // 该请求由 webpack config 配成 promise-external，编译成 require.async(相对路径)。
   require(__TARO_SHARED_ASYNC_REQUEST__).then(function () {
-    if (typeof shared.__activateAsync === 'function') {
-      shared.__activateAsync()
-    } else {
-      console.error('[taro-shared] shared-async 已加载但 __activateAsync 缺失')
+    if (typeof shared.__activateAsync !== 'function') {
+      var missingError = new Error('[taro-shared] shared-async 已加载但 __activateAsync 缺失')
+      console.error(missingError.message)
+      shared.__rtProviderSettle(false, missingError)
+      return
     }
+    var activated = shared.__activateAsync()
+    if (activated === false) {
+      shared.__rtProviderSettle(false, new Error('[taro-shared] shared-async 激活时占位对象未就绪'))
+      return
+    }
+    shared.__rtProviderSettle(true)
   }).catch(function (e) {
     console.error('[taro-shared] require.async shared-async 失败 >>>', (e && e.errMsg) || (e && e.message) || e)
+    shared.__rtProviderSettle(false, e)
   })
 }

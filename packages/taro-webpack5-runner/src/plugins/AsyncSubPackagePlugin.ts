@@ -3,12 +3,15 @@ import path from 'node:path'
 import { REG_SCRIPTS, REG_STYLE } from '@tarojs/helper'
 import postcss from 'postcss'
 
+import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
 import { createAsyncCommonChunkName, getAsyncRootAssetNames, getAsyncRootForModule, getSingleAsyncRootForModules, getSourceRootForResource, normalizePathForAsyncSubPackage } from '../utils/asyncSubPackage'
 import { allocateAsyncChunks, resolveAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
+import { createSharedRuntimeWaitSource } from '../utils/asyncSubPackageRuntime'
 
 import type { SubPackage } from '@tarojs/taro'
 import type { Compiler } from 'webpack'
 import type { NormalizedAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
+import type { SharedRuntimeGate } from '../utils/asyncSubPackageRuntime'
 import type TaroMiniPlugin from './MiniPlugin'
 import type { AsyncSubPackageRuntimeRoot } from './SubPackageIndiePlugin'
 
@@ -119,8 +122,34 @@ function createRequestResolverRuntimeSource (Template: any) {
   ]
 }
 
-function createRequireAsyncLoaderRuntimeSource (Template: any, loadScript: string) {
+function createRequireAsyncLoaderRuntimeSource (
+  Template: any,
+  loadScript: string,
+  sharedRuntimeGate?: SharedRuntimeGate | null
+) {
+  const waitSource = sharedRuntimeGate
+    ? createSharedRuntimeWaitSource(Template, sharedRuntimeGate)
+    : []
+  const loadThenSource = sharedRuntimeGate
+    ? [
+      'require.async(request).then(function() {',
+      Template.indent('return waitSharedRuntime();'),
+      '}).then(function() {',
+      Template.indent('finish({ type: "load", target: { src: request } });'),
+      '}, function(error) {',
+      Template.indent('finish({ type: "error", target: { src: request }, error: error });'),
+      '});'
+    ]
+    : [
+      'require.async(request).then(function() {',
+      Template.indent('finish({ type: "load", target: { src: request } });'),
+      '}, function(error) {',
+      Template.indent('finish({ type: "error", target: { src: request }, error: error });'),
+      '});'
+    ]
+
   return [
+    ...waitSource,
     'var asyncSubPackageInProgress = {};',
     `${loadScript} = function(url, done) {`,
     Template.indent([
@@ -135,11 +164,7 @@ function createRequireAsyncLoaderRuntimeSource (Template: any, loadScript: strin
         'handlers && handlers.forEach(function(handler) { handler(event); });'
       ]),
       '};',
-      'require.async(request).then(function() {',
-      Template.indent('finish({ type: "load", target: { src: request } });'),
-      '}, function(error) {',
-      Template.indent('finish({ type: "error", target: { src: request }, error: error });'),
-      '});'
+      ...loadThenSource
     ]),
     '};'
   ]
@@ -159,7 +184,8 @@ function createMiniCssRuntimeSource (Template: any, ensureChunkHandlers: string)
 function createMiniAsyncSubPackageRuntimeSource (
   Template: any,
   runtimeGlobals: { loadScript: string, ensureChunkHandlers: string, getChunkScriptFilename: string, publicPath: string },
-  asyncRootEntries: AsyncSubPackageRuntimeRoot[]
+  asyncRootEntries: AsyncSubPackageRuntimeRoot[],
+  sharedRuntimeGate?: SharedRuntimeGate | null
 ) {
   const { loadScript, ensureChunkHandlers, getChunkScriptFilename, publicPath } = runtimeGlobals
   const asyncRootRuntimeEntries = createNormalizedRuntimeRootEntries(asyncRootEntries)
@@ -169,7 +195,7 @@ function createMiniAsyncSubPackageRuntimeSource (
     `var asyncSubPackageRootEntries = ${JSON.stringify(asyncRootRuntimeEntries)};`,
     ...createChunkFilenameRuntimeSource(Template, getChunkScriptFilename),
     ...createRequestResolverRuntimeSource(Template),
-    ...createRequireAsyncLoaderRuntimeSource(Template, loadScript),
+    ...createRequireAsyncLoaderRuntimeSource(Template, loadScript, sharedRuntimeGate),
     ...createMiniCssRuntimeSource(Template, ensureChunkHandlers)
   ])
 }
@@ -184,7 +210,8 @@ type AsyncSubPackageRuntimeGlobals = {
 function createMiniAsyncSubPackageRuntimeModuleClass (
   webpack: any,
   Template: any,
-  runtimeGlobals: AsyncSubPackageRuntimeGlobals
+  runtimeGlobals: AsyncSubPackageRuntimeGlobals,
+  sharedRuntimeGate?: SharedRuntimeGate | null
 ) {
   const RuntimeModule = webpack.RuntimeModule
   const stageAttach = RuntimeModule.STAGE_ATTACH || 10
@@ -199,7 +226,7 @@ function createMiniAsyncSubPackageRuntimeModuleClass (
     }
 
     generate () {
-      return createMiniAsyncSubPackageRuntimeSource(Template, runtimeGlobals, this.asyncRootEntries)
+      return createMiniAsyncSubPackageRuntimeSource(Template, runtimeGlobals, this.asyncRootEntries, sharedRuntimeGate)
     }
   }
 }
@@ -697,10 +724,17 @@ export default class AsyncSubPackagePlugin {
     const publicPath = RuntimeGlobals?.publicPath
     if (!loadScript || !ensureChunkHandlers || !getChunkScriptFilename || !publicPath || !RuntimeModule) return
 
+    const sharedRuntimeGate: SharedRuntimeGate | null = this.miniPlugin.options.combination.config.sharedRuntime
+      ? {
+        globalObject: this.miniPlugin.options.combination.config.output?.globalObject || 'wx',
+        globalKey: SHARED_GLOBAL_ASYNC,
+      }
+      : null
     const MiniAsyncSubPackageRuntimeModule = createMiniAsyncSubPackageRuntimeModuleClass(
       webpack,
       Template,
-      { loadScript, ensureChunkHandlers, getChunkScriptFilename, publicPath }
+      { loadScript, ensureChunkHandlers, getChunkScriptFilename, publicPath },
+      sharedRuntimeGate
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
