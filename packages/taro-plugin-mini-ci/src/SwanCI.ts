@@ -34,7 +34,7 @@ export default class SwanCI extends BaseCI {
       printLog(processTypeEnum.ERROR, '命令行工具路径不存在', cliPath)
     }
     printLog(processTypeEnum.START, '百度开发者工具...', this.projectPath)
-    shell.exec(`${cliPath}  --project-path ${this.projectPath}`)
+    shell.exec(`"${cliPath}" --project-path "${this.projectPath}"`)
   }
 
   async preview () {

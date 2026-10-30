@@ -56,7 +56,8 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
             type: joi.string().valid('miniProgram', 'miniProgramPlugin', 'miniGame', 'miniGamePlugin'),
             ignores: joi.array().items(joi.string().required()),
             robot: joi.number(),
-            setting: joi.object()
+            setting: joi.object(),
+            devToolsInstallPath: joi.string()
           }),
           /** 抖音小程序上传配置 */
           tt: joi.object({
@@ -71,14 +72,16 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
               toolId: joi.string().required(),
               privateKeyPath: joi.string().required(),
               clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'health', 'koubei', 'alipayiot', 'cainiao', 'alihealth'),
-              deleteVersion: joi.string().regex(/^\d+\.\d+\.\d+$/)
+              deleteVersion: joi.string().regex(/^\d+\.\d+\.\d+$/),
+              devToolsInstallPath: joi.string()
             }),
             joi.object({
               appid: joi.string().required(),
               toolId: joi.string().required(),
               privateKey: joi.string().required(),
               clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'health', 'koubei', 'alipayiot', 'cainiao', 'alihealth'),
-              deleteVersion: joi.string().regex(/^\d+\.\d+\.\d+$/)
+              deleteVersion: joi.string().regex(/^\d+\.\d+\.\d+$/),
+              devToolsInstallPath: joi.string()
             }),
 
           ),
@@ -97,7 +100,8 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           /** 百度小程序上传配置 */
           swan: joi.object({
             token: joi.string().required(),
-            minSwanVersion: joi.string()
+            minSwanVersion: joi.string(),
+            devToolsInstallPath: joi.string()
           }),
           jd: joi.object({
             privateKey: joi.string().required(),
