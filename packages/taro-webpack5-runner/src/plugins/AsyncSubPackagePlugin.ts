@@ -4,9 +4,11 @@ import { REG_SCRIPTS, REG_STYLE } from '@tarojs/helper'
 import postcss from 'postcss'
 
 import { createAsyncCommonChunkName, getAsyncRootAssetNames, getAsyncRootForModule, getSingleAsyncRootForModules, getSourceRootForResource, normalizePathForAsyncSubPackage } from '../utils/asyncSubPackage'
+import { allocateAsyncChunks, resolveAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
 
 import type { SubPackage } from '@tarojs/taro'
 import type { Compiler } from 'webpack'
+import type { NormalizedAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
 import type TaroMiniPlugin from './MiniPlugin'
 import type { AsyncSubPackageRuntimeRoot } from './SubPackageIndiePlugin'
 
@@ -218,6 +220,9 @@ export default class AsyncSubPackagePlugin {
   private asyncModuleSourceRootCache = new WeakMap<any, Set<string>>()
   private asyncChunkRootCache = new WeakMap<any, string | null>()
   private asyncChunkSourceRoots = new Map<string, Set<string>>()
+  asyncRules: NormalizedAsyncSubPackageRule[] = []
+  private usedAsyncRoots = new Set<string>()
+  private asyncChunkConsumers = new Map<string, string[]>()
 
   constructor (miniPlugin: TaroMiniPlugin, asyncRootMap?: Map<string, string>) {
     this.miniPlugin = miniPlugin
@@ -235,6 +240,23 @@ export default class AsyncSubPackagePlugin {
     this.asyncRuntimeRoots = asyncRuntimeRoots.map(item => ({ ...item }))
   }
 
+  updateAsyncRules (rules: NormalizedAsyncSubPackageRule[]) {
+    this.asyncRules = rules.map(rule => ({ ...rule, matchedPages: [...rule.matchedPages] }))
+  }
+
+  private isEnabled (): boolean {
+    return this.asyncRootMap.size > 0 || this.asyncRules.length > 0
+  }
+
+  private getConfiguredAsyncRoots (): string[] {
+    const roots = new Set<string>()
+    for (const root of this.asyncRootMap.values()) roots.add(root)
+    for (const rule of this.asyncRules) {
+      for (const root of rule.asyncRoots) roots.add(root)
+    }
+    return Array.from(roots)
+  }
+
   apply (compiler?: Compiler) {
     if (compiler && !this.appliedCompilers.has(compiler)) {
       this.appliedCompilers.add(compiler)
@@ -243,6 +265,8 @@ export default class AsyncSubPackagePlugin {
         this.asyncModuleSourceRootCache = new WeakMap()
         this.asyncChunkRootCache = new WeakMap()
         this.asyncChunkSourceRoots = new Map()
+        this.usedAsyncRoots = new Set()
+        this.asyncChunkConsumers = new Map()
       })
       this.setupAsyncBabel(compiler)
       this.setupAsyncSplitChunks(compiler)
@@ -260,7 +284,7 @@ export default class AsyncSubPackagePlugin {
   private setupAsyncBabel (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (_compilation, { normalModuleFactory }) => {
       normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, data => {
-        if (this.asyncRootMap.size === 0) return
+        if (!this.isEnabled()) return
         const { loaders } = data.createData
         if (!loaders) return
 
@@ -333,6 +357,13 @@ export default class AsyncSubPackagePlugin {
       priority: 20,
       enforce: true,
       name: (_module: any, chunks: any[]) => {
+        if (this.asyncRules.length > 0) {
+          const key = chunks
+            .map(chunk => chunk?.name || String(chunk?.id ?? chunk?.debugId ?? 'chunk'))
+            .sort()
+            .join('~')
+          return `taro-async-shared-${key.replace(/[^a-zA-Z0-9_~-]/g, '_')}`
+        }
         const asyncRoot = getAsyncRootFromChunks(chunks, this.asyncRootMap)
         if (!asyncRoot) return false
         return createAsyncSplitChunkName(asyncRoot, chunks)
@@ -350,21 +381,22 @@ export default class AsyncSubPackagePlugin {
   }
 
   private isAsyncSubPackageModule (module: any, context: any): boolean {
-    if (this.asyncRootMap.size === 0) return false
+    if (!this.isEnabled()) return false
     if (!isJavaScriptModule(module)) return false
-
+    if (this.asyncRules.length > 0) return this.isPureAsyncModule(module, context)
     const asyncRoot = this.getCachedAsyncRootForModule(module, context)
     return Boolean(asyncRoot)
   }
 
+  private isPureAsyncModule (module: any, context: any): boolean {
+    const chunks = Array.from(context?.chunkGraph?.getModuleChunksIterable?.(module) || [])
+    if (chunks.length === 0) return false
+    return chunks.every((chunk: any) => !chunk.canBeInitial?.())
+  }
+
   private isPureAsyncSubPackageModule (module: any, context: any): boolean {
     if (!this.isAsyncSubPackageModule(module, context)) return false
-
-    const chunks = Array.from(context?.chunkGraph?.getModuleChunksIterable?.(module) || [])
-    // splitChunks test 没有 chunkGraph 时不要过度排除，交回默认 common cacheGroup。
-    if (chunks.length === 0) return false
-
-    return chunks.every((chunk: any) => !chunk.canBeInitial?.())
+    return this.isPureAsyncModule(module, context)
   }
 
   // ==================== Async Chunk Optimization ====================
@@ -450,7 +482,18 @@ export default class AsyncSubPackagePlugin {
   private setupAsyncChunkOptimization (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
       compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, chunks => {
-        if (this.asyncRootMap.size === 0) return
+        if (!this.isEnabled()) return
+
+        if (this.asyncRules.length > 0) {
+          try {
+            this.assignAsyncChunksByRules(compilation, chunks)
+          } catch (error) {
+            // webpack 5 的 seal 不会捕获 SyncHook tap 抛出的异常，compiler.run 回调不会触发；
+            // 必须把 [taro asyncSubPackage] 错误写入 compilation.errors 才能进入 stats。
+            compilation.errors.push(error instanceof Error ? error : new Error(String(error)))
+          }
+          return
+        }
 
         for (const chunk of chunks) {
           // 入口 chunk 名要在 app.json/页面注册中保持稳定，不能被改成 asyncRoot 路径。
@@ -482,11 +525,160 @@ export default class AsyncSubPackagePlugin {
           chunk.name = asyncChunkName
 
           if (sourceRoots.size > 0) {
+            this.usedAsyncRoots.add(asyncRoot)
             this.asyncChunkSourceRoots.set(asyncChunkName, new Set(sourceRoots))
+            this.asyncChunkConsumers.set(
+              asyncChunkName,
+              Array.from(sourceRoots).map(root => `${root}/index`)
+            )
           }
         }
       })
     })
+  }
+
+  private getChunkKey (chunk: any): string {
+    return chunk?.name || String(chunk?.id ?? chunk?.debugId ?? 'chunk')
+  }
+
+  private getChunkSize (chunk: any, chunkGraph: any): number {
+    let size = 0
+    for (const module of chunkGraph.getChunkModulesIterable(chunk)) {
+      if (typeof module.size === 'function') size += module.size() || 0
+    }
+    return size
+  }
+
+  private getDeclaredPageSet (): Set<string> {
+    const appConfig: any = this.miniPlugin.appConfig || {}
+    const pages = new Set<string>(appConfig.pages || [])
+    for (const subPackage of (appConfig.subPackages || appConfig.subpackages || [])) {
+      for (const page of (subPackage.pages || [])) {
+        pages.add(`${subPackage.root}/${page}`.replace(/\/{2,}/g, '/'))
+      }
+    }
+    return pages
+  }
+
+  private getPageEntryModules (compilation: any): Map<any, string> {
+    const declared = this.getDeclaredPageSet()
+    const result = new Map<any, string>()
+    for (const chunk of compilation.chunks) {
+      if (!chunk.name || !declared.has(chunk.name)) continue
+      if (!chunk.canBeInitial?.()) continue
+      for (const module of compilation.chunkGraph.getChunkEntryModulesIterable(chunk)) {
+        result.set(module, chunk.name)
+      }
+    }
+    return result
+  }
+
+  private getPagePathsFromModule (
+    module: any,
+    moduleGraph: any,
+    pageEntryModules: Map<any, string>,
+    cache: WeakMap<any, Set<string>>,
+    visiting: Set<any> = new Set()
+  ): Set<string> {
+    if (!module) return new Set()
+    const cached = cache.get(module)
+    if (cached) return cached
+    const direct = pageEntryModules.get(module)
+    if (direct) {
+      const set = new Set([direct])
+      cache.set(module, set)
+      return set
+    }
+    if (visiting.has(module)) return new Set()
+    visiting.add(module)
+    const result = new Set<string>()
+    const connections = moduleGraph.getIncomingConnections?.(module)
+    if (connections) {
+      for (const connection of connections) {
+        const origin = connection?.originModule
+        if (!origin) continue
+        for (const page of this.getPagePathsFromModule(origin, moduleGraph, pageEntryModules, cache, visiting)) {
+          result.add(page)
+        }
+      }
+    }
+    visiting.delete(module)
+    cache.set(module, result)
+    return result
+  }
+
+  private getConsumerPagesForChunk (
+    chunk: any,
+    compilation: any,
+    pageEntryModules: Map<any, string>,
+    cache: WeakMap<any, Set<string>>
+  ): string[] {
+    const pages = new Set<string>()
+    const origins = new Set<any>()
+    for (const group of chunk.groupsIterable || []) {
+      for (const origin of group.origins || []) {
+        if (origin?.module) origins.add(origin.module)
+        if (origin?.originModule) origins.add(origin.originModule)
+      }
+    }
+    for (const origin of origins) {
+      for (const page of this.getPagePathsFromModule(origin, compilation.moduleGraph, pageEntryModules, cache)) {
+        pages.add(page)
+      }
+    }
+    if (pages.size === 0) {
+      for (const module of compilation.chunkGraph.getChunkModulesIterable(chunk)) {
+        for (const page of this.getPagePathsFromModule(module, compilation.moduleGraph, pageEntryModules, cache)) {
+          pages.add(page)
+        }
+      }
+    }
+    return Array.from(pages).sort()
+  }
+
+  private assignAsyncChunksByRules (compilation: any, chunks: Iterable<any>) {
+    const pageEntryModules = this.getPageEntryModules(compilation)
+    const pageCache = new WeakMap<any, Set<string>>()
+    const pending: Array<{ chunk: any, rule: NormalizedAsyncSubPackageRule, consumers: string[] }> = []
+
+    for (const chunk of chunks) {
+      if (chunk.hasRuntime?.() || chunk.canBeInitial?.()) continue
+      const modules = Array.from(compilation.chunkGraph.getChunkModulesIterable(chunk))
+      if (!modules.some(isJavaScriptModule)) continue
+
+      const consumers = this.getConsumerPagesForChunk(chunk, compilation, pageEntryModules, pageCache)
+      if (consumers.length === 0) continue
+
+      const rule = resolveAsyncSubPackageRule(this.asyncRules, consumers)
+      if (!rule) continue
+
+      pending.push({ chunk, rule, consumers })
+    }
+
+    const byRule = new Map<NormalizedAsyncSubPackageRule, typeof pending>()
+    for (const item of pending) {
+      const list = byRule.get(item.rule) || []
+      list.push(item)
+      byRule.set(item.rule, list)
+    }
+
+    for (const [rule, items] of byRule) {
+      const allocation = allocateAsyncChunks(
+        rule,
+        items.map(item => ({
+          name: this.getChunkKey(item.chunk),
+          size: this.getChunkSize(item.chunk, compilation.chunkGraph),
+        }))
+      )
+      for (const item of items) {
+        const asyncRoot = allocation.get(this.getChunkKey(item.chunk))
+        if (!asyncRoot) continue
+        const asyncChunkName = createAsyncCommonChunkName(asyncRoot, this.getChunkKey(item.chunk))
+        item.chunk.name = asyncChunkName
+        this.usedAsyncRoots.add(asyncRoot)
+        this.asyncChunkConsumers.set(asyncChunkName, item.consumers)
+      }
+    }
   }
 
   // ==================== Async Chunk Runtime ====================
@@ -509,7 +701,7 @@ export default class AsyncSubPackagePlugin {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
       const runtimeAppliedChunks = new WeakSet<any>()
       const addMiniAsyncRuntimeModule = (chunk: any) => {
-        if (this.asyncRootMap.size === 0 || runtimeAppliedChunks.has(chunk)) return
+        if (!this.isEnabled() || runtimeAppliedChunks.has(chunk)) return
         runtimeAppliedChunks.add(chunk)
         compilation.addRuntimeModule(chunk, new MiniAsyncSubPackageRuntimeModule(this.asyncRuntimeRoots))
         return true
@@ -532,10 +724,10 @@ export default class AsyncSubPackagePlugin {
       compilation.hooks.processAssets.tapPromise(
         { name: PLUGIN_NAME, stage },
         async () => {
-          if (this.asyncRootMap.size === 0) return
+          if (!this.isEnabled()) return
           const { RawSource } = compilation.compiler.webpack.sources
-          await this.moveAsyncRootStylesToSourceRoots(compilation, RawSource)
-          this.moveAsyncRootTemplatesToSourceRoots(compilation)
+          await this.moveAsyncRootStylesToConsumers(compilation, RawSource)
+          this.moveAsyncRootTemplatesToConsumers(compilation)
           this.createAsyncRootEntries(compilation, RawSource)
         }
       )
@@ -547,7 +739,10 @@ export default class AsyncSubPackagePlugin {
     const configExt = this.miniPlugin.options.fileType.config || '.json'
 
     // 多个 sourceRoot 可能指向同一个 asyncRoot；同一 asyncRoot 的 index 占位只需要生成一次。
-    const uniqueAsyncRoots = new Set(this.asyncRootMap.values())
+    // 规则模式只生成真正被使用的 asyncRoot；legacy 模式保持“配置即生成”的旧行为。
+    const uniqueAsyncRoots = this.asyncRules.length > 0
+      ? new Set(this.usedAsyncRoots)
+      : new Set(this.asyncRootMap.values())
     for (const asyncRoot of uniqueAsyncRoots) {
       const jsAssets = getAsyncRootAssetNames(compilation.assets, asyncRoot)
         .filter(assetName => assetName !== `${asyncRoot}/${ASYNC_SUBPACKAGE_ENTRY}.js`)
@@ -566,60 +761,82 @@ export default class AsyncSubPackagePlugin {
     }
   }
 
-  private moveAsyncRootTemplatesToSourceRoots (compilation: any) {
+  private moveAsyncRootTemplatesToConsumers (compilation: any) {
     const templateExt = this.miniPlugin.options.fileType.templ || '.wxml'
-    const asyncRoots = new Set(this.asyncRootMap.values())
+    const isRulesMode = this.asyncRules.length > 0
 
-    for (const asyncRoot of asyncRoots) {
+    for (const asyncRoot of this.getConfiguredAsyncRoots()) {
       const templateAssets = Object.keys(compilation.assets)
         .filter(assetName => assetName.startsWith(`${asyncRoot}/`) && assetName.endsWith(`-templates${templateExt}`))
 
       for (const assetName of templateAssets) {
         const templateName = path.posix.basename(assetName)
         const chunkName = `${asyncRoot}/${templateName.slice(0, -`-templates${templateExt}`.length)}`
-        const sourceRoots = this.asyncChunkSourceRoots.get(chunkName)
-        const sourceRoot = sourceRoots ? this.getSingleSourceRoot(sourceRoots) : null
-        if (!sourceRoot) continue
+        const consumers = this.asyncChunkConsumers.get(chunkName)
+        if (!consumers?.length) continue
 
-        compilation.assets[`${sourceRoot}/${templateName}`] = compilation.assets[assetName]
+        if (!isRulesMode) {
+          const sourceRoots = this.asyncChunkSourceRoots.get(chunkName)
+          const sourceRoot = sourceRoots ? this.getSingleSourceRoot(sourceRoots) : null
+          // legacy 保持旧产物：仅单一 sourceRoot 的模板回填，多消费方模板留在 asyncRoot 下。
+          if (!sourceRoot) continue
+          compilation.assets[`${sourceRoot}/${templateName}`] = compilation.assets[assetName]
+          delete compilation.assets[assetName]
+          continue
+        }
+
+        for (const consumer of consumers) {
+          const dir = path.posix.dirname(consumer)
+          compilation.assets[`${dir}/${templateName}`] = compilation.assets[assetName]
+        }
         delete compilation.assets[assetName]
       }
     }
   }
 
-  private async moveAsyncRootStylesToSourceRoots (compilation: any, RawSource: any): Promise<void> {
+  private async moveAsyncRootStylesToConsumers (compilation: any, RawSource: any): Promise<void> {
     const styleExt = this.miniPlugin.options.fileType.style || '.wxss'
     const styleAssetReg = new RegExp(`\\${styleExt}$`)
-    const asyncRoots = new Set(this.asyncRootMap.values())
+    const isRulesMode = this.asyncRules.length > 0
     const warnedGroups = new Set<string>()
 
-    for (const asyncRoot of asyncRoots) {
+    for (const asyncRoot of this.getConfiguredAsyncRoots()) {
       const asyncStyleAssets = Object.keys(compilation.assets)
         .filter(assetName => assetName.startsWith(`${asyncRoot}/`) && styleAssetReg.test(assetName))
       if (asyncStyleAssets.length === 0) continue
 
       for (const assetName of asyncStyleAssets) {
         const chunkName = assetName.slice(0, -styleExt.length)
-        const sourceRoots = this.asyncChunkSourceRoots.get(chunkName)
-        if (!sourceRoots?.size) continue
-
-        // 共享样式在每个已知组的 common 中保留一份；私有样式和未知组沿用 sourceRoot 回迁。
         const asyncStyle = compilation.assets[assetName]?.source?.().toString() || ''
         const targets = new Map<string, string | null>()
-        for (const sourceRoot of sourceRoots) {
-          const mainRoot = sourceRoots.size > 1
-            ? this.miniPlugin.subPackageIndiePlugin?.getSubPackageIndieMatch(sourceRoot)?.config.mainPackageRoot
-            : undefined
-          targets.set(mainRoot ? `${mainRoot}/common${styleExt}` : `${sourceRoot}/index${styleExt}`, mainRoot || null)
+
+        if (isRulesMode) {
+          const consumers = this.asyncChunkConsumers.get(chunkName)
+          if (!consumers?.length) continue
+          for (const consumer of consumers) {
+            targets.set(`${consumer}${styleExt}`, null)
+          }
+        } else {
+          const sourceRoots = this.asyncChunkSourceRoots.get(chunkName)
+          if (!sourceRoots?.size) continue
+
+          // 共享样式在每个已知组的 common 中保留一份；私有样式和未知组沿用 sourceRoot 回迁。
+          for (const sourceRoot of sourceRoots) {
+            const mainRoot = sourceRoots.size > 1
+              ? this.miniPlugin.subPackageIndiePlugin?.getSubPackageIndieMatch(sourceRoot)?.config.mainPackageRoot
+              : undefined
+            targets.set(mainRoot ? `${mainRoot}/common${styleExt}` : `${sourceRoot}/index${styleExt}`, mainRoot || null)
+          }
+          const mainRoots = Array.from(new Set(targets.values())).filter((root): root is string => root !== null).sort()
+          const warningKey = JSON.stringify([asyncRoot, mainRoots])
+          if (mainRoots.length > 1 && !warnedGroups.has(warningKey)) {
+            warnedGroups.add(warningKey)
+            compilation.warnings.push(new compilation.compiler.webpack.WebpackError(
+              `${PLUGIN_NAME}: async root "${asyncRoot}" shares styles across subPackageIndie groups (${mainRoots.join(', ')}); each group retains one copy.`
+            ))
+          }
         }
-        const mainRoots = Array.from(new Set(targets.values())).filter((root): root is string => root !== null).sort()
-        const warningKey = JSON.stringify([asyncRoot, mainRoots])
-        if (mainRoots.length > 1 && !warnedGroups.has(warningKey)) {
-          warnedGroups.add(warningKey)
-          compilation.warnings.push(new compilation.compiler.webpack.WebpackError(
-            `${PLUGIN_NAME}: async root "${asyncRoot}" shares styles across subPackageIndie groups (${mainRoots.join(', ')}); each group retains one copy.`
-          ))
-        }
+
         for (const [targetStyleAsset, mainRoot] of targets) {
           const origin = compilation.assets[targetStyleAsset]?.source?.().toString() || ''
           const relocatedStyle = mainRoot
@@ -680,7 +897,7 @@ export default class AsyncSubPackagePlugin {
 
   private setupSubPackageRegistration () {
     this.miniPlugin.hooks.afterGenerateFiles.tap(PLUGIN_NAME, (compilation: any) => {
-      if (this.asyncRootMap.size === 0) return
+      if (!this.isEnabled()) return
       const { RawSource } = (compilation.compiler?.webpack?.sources || require('webpack').sources) as any
 
       const appConfig = this.miniPlugin.appConfig
@@ -688,7 +905,10 @@ export default class AsyncSubPackagePlugin {
       const news: SubPackage[] = []
       // 多个 sourceRoot 可以指向同一个 asyncRoot，app.json 中只能注册一次。
       // pages 固定为 index，避免把每个 webpack chunk 当成小程序页面。
-      const asyncRoots = new Set(this.asyncRootMap.values())
+      // 规则模式只注册真正被使用的 asyncRoot；legacy 模式保持旧行为。
+      const asyncRoots = this.asyncRules.length > 0
+        ? new Set(this.usedAsyncRoots)
+        : new Set(this.asyncRootMap.values())
       for (const asyncRoot of asyncRoots) {
         news.push({ root: asyncRoot, pages: [ASYNC_SUBPACKAGE_ENTRY], independent: false })
       }
