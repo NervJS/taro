@@ -25,6 +25,7 @@ import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
 import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
+import { assertDeclaredPages } from '../utils/asyncSubPackageRules'
 import { componentConfig } from '../utils/component'
 import { computeForceCustomWrapperForIndependentPackage } from '../utils/forceCustomWrapper'
 import { isWeappSubPackageIndieEnabled, shouldProcessCommonStyles } from '../utils/platform'
@@ -536,12 +537,14 @@ export default class TaroMiniPlugin {
   applyAsyncSubPackagePlugin (compiler: Compiler) {
     if (!this.subPackageIndiePlugin) return
     const asyncRootMap = this.subPackageIndiePlugin.getAsyncSubPackageRootMap()
-    if (asyncRootMap.size === 0 && !this.asyncSubPackagePlugin) return
+    const asyncRules = this.subPackageIndiePlugin.getAsyncSubPackageRules()
+    if (asyncRootMap.size === 0 && asyncRules.length === 0 && !this.asyncSubPackagePlugin) return
 
     if (!this.asyncSubPackagePlugin) {
       this.asyncSubPackagePlugin = new AsyncSubPackagePlugin(this)
     }
     this.asyncSubPackagePlugin.updateAsyncRootMap(asyncRootMap)
+    this.asyncSubPackagePlugin.updateAsyncRules(asyncRules)
     this.asyncSubPackagePlugin.updateAsyncRuntimeRoots(this.subPackageIndiePlugin.getAsyncSubPackageRuntimeRoots())
     this.asyncSubPackagePlugin.apply(compiler)
   }
@@ -787,10 +790,10 @@ export default class TaroMiniPlugin {
       throw new Error('缺少 app 全局配置文件，请检查！')
     }
 
-    const appPages = this.appConfig.pages
-    if (!appPages || !appPages.length) {
-      throw new Error('全局配置缺少 pages 字段，请检查！')
-    }
+    const appPages = this.appConfig.pages || []
+    assertDeclaredPages(this.appConfig, {
+      allowEmptyMainPages: this.isWeappSubPackageIndieEnabled(),
+    })
 
     if (!this.isWatch && this.options.logger?.quiet === false) {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
