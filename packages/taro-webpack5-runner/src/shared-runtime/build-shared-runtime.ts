@@ -31,7 +31,10 @@ export async function buildSharedRuntime (combination: MiniCombination): Promise
   const shimDir = path.resolve(__dirname) // dist/shared-runtime（运行时模板所在）
   const userNodeModules = path.resolve(appPath, 'node_modules')
 
-  const asyncRequest = getAsyncRequest(config)
+  const asyncOnly =
+    !!combination.subPackageIndiePlugin &&
+    combination.subPackageIndiePlugin.getAllMainPackageRoots().length === 0
+  const asyncRequest = getAsyncRequest(config, asyncOnly)
 
   // 共享运行时模板子构建的 DefinePlugin 常量：按 config 重建 runtime 分支常量（保 DOM 分支与主构建一致），
   // 叠加运行时模板所需的宏。
@@ -369,11 +372,12 @@ function reverseExternals (globalObject: string) {
   return result
 }
 
-function getAsyncRequest (config: any): string {
+export function getAsyncRequest (config: any, asyncOnly: boolean): string {
   // 允许接入方通过 config.mini.sharedRuntimeAsyncRequest 覆盖（业务独立编译不预知宿主布局）
   const custom = config.sharedRuntimeAsyncRequest
   if (typeof custom === 'string' && custom) return custom
-  // 默认值：相对路径（业务被拷进宿主子包后由接入方按实际布局配置覆盖）
+  if (asyncOnly) return `./${SHARED_ASYNC_ROOT}/index`
+  // indie 模式默认值保持原有行为（业务被拷进宿主子包后由接入方按实际布局配置覆盖）
   return `${SHARED_ASYNC_ROOT}/index`
 }
 
