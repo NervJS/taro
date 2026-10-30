@@ -15,6 +15,18 @@ export default (ctx: IPluginContext, options: IOptions) => {
     useConfigName: 'mini',
     async fn ({ config }) {
       const program = new Weapp(ctx, config, options || {})
+      let originalCursorColor: string | undefined
+      await ctx.modifyAppConfig(({ appConfig }) => {
+        const template = program.template
+        if (originalCursorColor === undefined) {
+          originalCursorColor = template.internalComponents.Input['cursor-color']
+        }
+        let cursorColor = originalCursorColor
+        if (appConfig.renderer === 'skyline') {
+          cursorColor = "'#07c160'"
+        }
+        template.setInputCursorColor(cursorColor)
+      })
       await program.start()
     }
   })

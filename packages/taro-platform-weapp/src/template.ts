@@ -25,6 +25,21 @@ export class Template extends UnRecursiveTemplate {
     this.nestElements.set('root-portal', 3)
   }
 
+  setInputCursorColor (cursorColor: string) {
+    if (this.internalComponents.Input['cursor-color'] === cursorColor) return
+
+    this.internalComponents = {
+      ...this.internalComponents,
+      Input: {
+        ...this.internalComponents.Input,
+        'cursor-color': cursorColor
+      }
+    }
+    if (this.miniComponents) {
+      this.miniComponents = this.createMiniComponents(this.internalComponents)
+    }
+  }
+
   buildXsTemplate (filePath = './utils') {
     return `<wxs module="xs" src="${filePath}.wxs" />`
   }
