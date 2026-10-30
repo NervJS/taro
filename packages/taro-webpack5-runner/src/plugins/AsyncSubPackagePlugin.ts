@@ -1,6 +1,7 @@
 import path from 'node:path'
 
 import { REG_SCRIPTS, REG_STYLE } from '@tarojs/helper'
+import postcss from 'postcss'
 
 import { createAsyncCommonChunkName, getAsyncRootAssetNames, getAsyncRootForModule, getSingleAsyncRootForModules, getSourceRootForResource, normalizePathForAsyncSubPackage } from '../utils/asyncSubPackage'
 
@@ -12,6 +13,7 @@ import type { AsyncSubPackageRuntimeRoot } from './SubPackageIndiePlugin'
 const PLUGIN_NAME = 'TaroAsyncSubPackagePlugin'
 const ASYNC_SUBPACKAGE_ENTRY = 'index'
 const COMMON_CACHE_GROUP_PATCHED = Symbol.for('taroAsyncSubPackageCommonCacheGroupPatched')
+const STYLE_IMPORT_REQUEST_REG = /^\s*(?:url\(\s*)?(?:"([^"]*)"|'([^']*)'|([^'")\s]+))/i
 
 function getModuleResource (module: any): string {
   return (module?.resource || module?.nameForCondition?.() || '').replace(/\?.*$/, '')
@@ -527,12 +529,12 @@ export default class AsyncSubPackagePlugin {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
       // PROCESS_ASSETS_STAGE_OPTIMIZE_TRANSFER 在 webpack 5 中为 300；fallback 仅保留极旧版本兼容。
       const stage = (compilation.constructor as any).PROCESS_ASSETS_STAGE_OPTIMIZE_TRANSFER ?? 300
-      compilation.hooks.processAssets.tap(
+      compilation.hooks.processAssets.tapPromise(
         { name: PLUGIN_NAME, stage },
-        () => {
+        async () => {
           if (this.asyncRootMap.size === 0) return
           const { RawSource } = compilation.compiler.webpack.sources
-          this.moveAsyncRootStylesToSourceRoots(compilation, RawSource)
+          await this.moveAsyncRootStylesToSourceRoots(compilation, RawSource)
           this.moveAsyncRootTemplatesToSourceRoots(compilation)
           this.createAsyncRootEntries(compilation, RawSource)
         }
@@ -585,10 +587,11 @@ export default class AsyncSubPackagePlugin {
     }
   }
 
-  private moveAsyncRootStylesToSourceRoots (compilation: any, RawSource: any) {
+  private async moveAsyncRootStylesToSourceRoots (compilation: any, RawSource: any): Promise<void> {
     const styleExt = this.miniPlugin.options.fileType.style || '.wxss'
     const styleAssetReg = new RegExp(`\\${styleExt}$`)
     const asyncRoots = new Set(this.asyncRootMap.values())
+    const warnedGroups = new Set<string>()
 
     for (const asyncRoot of asyncRoots) {
       const asyncStyleAssets = Object.keys(compilation.assets)
@@ -600,17 +603,77 @@ export default class AsyncSubPackagePlugin {
         const sourceRoots = this.asyncChunkSourceRoots.get(chunkName)
         if (!sourceRoots?.size) continue
 
-        // asyncRoot 下只保留 JS 与 index 占位页面；动态组件样式仍在父包页面上下文生效。
-        // 单一页面使用的 async style 只并回该 sourceRoot；多个页面共用的 async style 复制到所有使用它的 sourceRoot。
+        // 共享样式在每个已知组的 common 中保留一份；私有样式和未知组沿用 sourceRoot 回迁。
         const asyncStyle = compilation.assets[assetName]?.source?.().toString() || ''
+        const targets = new Map<string, string | null>()
         for (const sourceRoot of sourceRoots) {
-          const targetStyleAsset = `${sourceRoot}/index${styleExt}`
+          const mainRoot = sourceRoots.size > 1
+            ? this.miniPlugin.subPackageIndiePlugin?.getSubPackageIndieMatch(sourceRoot)?.config.mainPackageRoot
+            : undefined
+          targets.set(mainRoot ? `${mainRoot}/common${styleExt}` : `${sourceRoot}/index${styleExt}`, mainRoot || null)
+        }
+        const mainRoots = Array.from(new Set(targets.values())).filter((root): root is string => root !== null).sort()
+        const warningKey = JSON.stringify([asyncRoot, mainRoots])
+        if (mainRoots.length > 1 && !warnedGroups.has(warningKey)) {
+          warnedGroups.add(warningKey)
+          compilation.warnings.push(new compilation.compiler.webpack.WebpackError(
+            `${PLUGIN_NAME}: async root "${asyncRoot}" shares styles across subPackageIndie groups (${mainRoots.join(', ')}); each group retains one copy.`
+          ))
+        }
+        for (const [targetStyleAsset, mainRoot] of targets) {
           const origin = compilation.assets[targetStyleAsset]?.source?.().toString() || ''
-          compilation.assets[targetStyleAsset] = new RawSource([origin, asyncStyle].filter(Boolean).join('\n'))
+          const relocatedStyle = mainRoot
+            ? await this.rebaseAsyncStyle(compilation, asyncStyle, assetName, targetStyleAsset)
+            : asyncStyle
+          compilation.assets[targetStyleAsset] = new RawSource([origin, relocatedStyle].filter(Boolean).join('\n'))
+          if (mainRoot) this.ensureMainRootCommonStyleImport(compilation, RawSource, mainRoot, styleExt)
         }
         delete compilation.assets[assetName]
       }
     }
+  }
+
+  private async rebaseAsyncStyle (compilation: any, css: string, fromAsset: string, toAsset: string): Promise<string> {
+    const from = path.resolve(compilation.outputOptions.path, fromAsset)
+    const to = path.resolve(compilation.outputOptions.path, toAsset)
+    const styles = postcss.parse(css, { from })
+    styles.walkAtRules('import', rule => {
+      const match = rule.params.match(STYLE_IMPORT_REQUEST_REG)
+      const request = match?.[1] || match?.[2] || match?.[3]
+      if (!request || /^(?:[a-z][a-z\d+.-]*:|[/#])/i.test(request)) return
+      const [, requestPath, suffix] = request.match(/^([^?#]*)(.*)$/)!
+      if (!requestPath) return
+
+      const relativePath = path.relative(path.dirname(to), path.resolve(path.dirname(from), requestPath)).split(path.sep).join('/')
+      const rebasedRequest = `${relativePath.startsWith('.') ? relativePath : `./${relativePath}`}${suffix}`
+      const requestOffset = match![0].lastIndexOf(request)
+      rule.params = `${rule.params.slice(0, requestOffset)}${rebasedRequest}${rule.params.slice(requestOffset + request.length)}`
+    })
+    const result = await postcss([require('postcss-url')({
+      url: 'rebase',
+      filter: (asset: { url: string }) => !/^(?:[a-z][a-z\d+.-]*:|[/#])/i.test(asset.url),
+    })]).process(styles, { from, to })
+    return result.css
+  }
+
+  private ensureMainRootCommonStyleImport (compilation: any, RawSource: any, mainRoot: string, styleExt: string): void {
+    const appStyleAsset = `${mainRoot}/app${styleExt}`
+    const commonStylePath = path.posix.resolve('/', mainRoot, `common${styleExt}`)
+    const origin = compilation.assets[appStyleAsset]?.source?.().toString() || ''
+    let imported = false
+    postcss.parse(origin).walkAtRules('import', rule => {
+      const match = rule.params.match(STYLE_IMPORT_REQUEST_REG)
+      const request = match?.[1] || match?.[2] || match?.[3]
+      if (request && path.posix.resolve('/', path.posix.dirname(appStyleAsset), request.split(/[?#]/)[0]) === commonStylePath) {
+        imported = true
+      }
+    })
+    if (imported) return
+
+    // Encoding markers must stay ahead of generated imports.
+    const prefix = origin.match(/^\uFEFF?(?:@charset\s+(?:"[^"]*"|'[^']*')\s*;\s*)?/i)?.[0] || ''
+    const content = [`@import "./common${styleExt}";`, origin.slice(prefix.length)].filter(Boolean).join('\n')
+    compilation.assets[appStyleAsset] = new RawSource(`${prefix}${content}`)
   }
 
   // ==================== app.json Registration ====================
