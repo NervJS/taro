@@ -98,15 +98,15 @@ exports[`Swiper should be circular 1`] = `
               .taro-swiper-2 > .swiper-container > .swiper-pagination { display: none;font-size: 0; }
     </style>
     <div class="swiper-wrapper">
-      <taro-swiper-item-core class="swiper-slide">
+      <taro-swiper-item-core class="swiper-slide" data-swiper-slide-index="0">
         <!---->
         <div></div>
       </taro-swiper-item-core>
-      <taro-swiper-item-core class="swiper-slide">
+      <taro-swiper-item-core class="swiper-slide" data-swiper-slide-index="1">
         <!---->
         <div></div>
       </taro-swiper-item-core>
-      <taro-swiper-item-core class="swiper-slide">
+      <taro-swiper-item-core class="swiper-slide" data-swiper-slide-index="2">
         <!---->
         <div></div>
       </taro-swiper-item-core>

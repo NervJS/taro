@@ -10,6 +10,7 @@ import {
 
 const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout, fileName, withCredentials = true, success, error }): Taro.UploadTask => {
   let timeoutInter: ReturnType<typeof setTimeout>
+  let settled = false
   let formKey
   const apiName = 'uploadFile'
   const xhr = new XMLHttpRequest()
@@ -17,6 +18,23 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
   const callbackManager = {
     headersReceived: new CallbackManager(),
     progressUpdate: new CallbackManager()
+  }
+
+  const cleanup = () => {
+    settled = true
+    clearTimeout(timeoutInter)
+    xhr.onload = null
+    xhr.onabort = null
+    xhr.onerror = null
+    xhr.upload.onprogress = null
+    xhr.onreadystatechange = null
+  }
+
+  const fail = (message: string | undefined, abortRequest = false) => {
+    if (settled) return
+    cleanup()
+    if (abortRequest) xhr.abort()
+    error({ errMsg: `${apiName}:fail ${message}` })
   }
 
   xhr.open('POST', url)
@@ -44,8 +62,9 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
   }
 
   xhr.onload = () => {
+    if (settled) return
     const status = xhr.status
-    clearTimeout(timeoutInter)
+    cleanup()
     success({
       errMsg: `${apiName}:ok`,
       statusCode: status,
@@ -53,56 +72,30 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
     })
   }
 
-  xhr.onabort = () => {
-    clearTimeout(timeoutInter)
-    error({
-      errMsg: `${apiName}:fail abort`
-    })
-  }
+  xhr.onabort = () => fail('abort')
 
-  xhr.onerror = (e: ProgressEvent<EventTarget> & { message?: string }) => {
-    clearTimeout(timeoutInter)
-    error({
-      errMsg: `${apiName}:fail ${e.message}`
-    })
-  }
+  xhr.onerror = (e: ProgressEvent<EventTarget> & { message?: string }) => fail(e.message)
 
   /**
    * 中断任务
    */
-  const abort = () => {
-    clearTimeout(timeoutInter)
-    xhr.abort()
-  }
+  const abort = () => fail('abort', true)
 
   const send = () => {
+    timeoutInter = setTimeout(() => fail('timeout', true), timeout || NETWORK_TIMEOUT)
     xhr.send(form)
-    timeoutInter = setTimeout(() => {
-      xhr.onabort = null
-      xhr.onload = null
-      xhr.upload.onprogress = null
-      xhr.onreadystatechange = null
-      xhr.onerror = null
-      abort()
-      error({
-        errMsg: `${apiName}:fail timeout`
-      })
-    }, timeout || NETWORK_TIMEOUT)
   }
 
   convertObjectUrlToBlob(filePath)
     .then((fileObj: string | (Blob & { name?: string })) => {
+      if (settled) return
       if (!fileName) {
         fileName = typeof fileObj !== 'string' && fileObj.name
       }
       form.append(name, fileObj as Blob, fileName || `file-${Date.now()}`)
       send()
     })
-    .catch(e => {
-      error({
-        errMsg: `${apiName}:fail ${e.message}`
-      })
-    })
+    .catch(e => fail(String(e?.message ?? e?.status ?? 'file conversion failed')))
 
   /**
    * 监听 HTTP Response Header 事件。会比请求完成事件更早
