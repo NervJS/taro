@@ -24,13 +24,44 @@ afterAll(() => {
 
 const PAD = `/* ${'x'.repeat(2000)} */\n`
 
-function createFixture () {
+function createFixture (options: { splitShared?: boolean } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'taro-async-rules-'))
   tempDirs.push(dir)
   const write = (relative: string, content: string) => {
     const file = path.join(dir, relative)
     fs.mkdirSync(path.dirname(file), { recursive: true })
     fs.writeFileSync(file, content)
+  }
+
+  if (options.splitShared) {
+    // 两个页面各自动态引入自己的页面模块，页面模块再静态引入同一个 shared-u：
+    // async chunk 为 {only1, shared-u} 与 {only2, shared-u}，模块集合不同不会被合并，
+    // SplitChunksPlugin 会在 STAGE_ADVANCED 把 shared-u 抽成 taro-async-shared-*。
+    write('pages/sub1/index.js', `
+export function load () {
+  return import('./only1')
+}
+`)
+    write('pages/sub2/index.js', `
+export function load () {
+  return import('./only2')
+}
+`)
+    write('pages/sub3/index.js', `
+export function load () {
+  return import('./only3')
+}
+`)
+    write('pages/sub1/only1.js', `import '../shared-u'\nimport './only1.css'\nexport default 'only1'\n`)
+    write('pages/sub1/only1.css', '.only1 { color: red; }\n')
+    write('pages/sub2/only2.js', `import '../shared-u'\nimport './only2.css'\nexport default 'only2'\n`)
+    write('pages/sub2/only2.css', '.only2 { color: green; }\n')
+    write('pages/sub3/only3.js', `import './only3.css'\nexport default 'only3'\n`)
+    write('pages/sub3/only3.css', '.only3 { color: blue; }\n')
+    // 唯一标记：development 模式的 pathinfo 注释里会出现文件名，不能用 'shared-u' 判断归属。
+    write('pages/shared-u.js', `import './shared-u.css'\nexport const SHARED_U_MARKER = 'shared-u-marker'\nexport default 'shared-u'\n`)
+    write('pages/shared-u.css', '.shared-u { color: gray; }\n')
+    return dir
   }
 
   write('pages/sub1/index.js', `
@@ -73,8 +104,15 @@ function createRules (maxSize: number) {
   ], PAGES)
 }
 
-function compile (options: { maxSize: number, appConfig?: any }) {
-  const fixtureDir = createFixture()
+function compile (options: { maxSize: number, appConfig?: any, splitShared?: boolean }) {
+  const fixtureDir = createFixture(options)
+  const cacheGroups: any = {
+    // splitShared fixture 把 common 限定在 initial chunk，避免共享 async 样式
+    // 被抽到主包 common.wxss；async 共享模块交给 asyncSubPackage cacheGroup 抽取。
+    common: options.splitShared
+      ? { chunks: 'initial', minChunks: 2, name: 'common' }
+      : { chunks: 'all', minChunks: 2, name: 'common' },
+  }
   const appConfig = options.appConfig || {
     pages: [],
     subPackages: [
@@ -106,9 +144,7 @@ function compile (options: { maxSize: number, appConfig?: any }) {
         splitChunks: {
           chunks: 'all',
           minSize: 0,
-          cacheGroups: {
-            common: { chunks: 'all', minChunks: 2, name: 'common' },
-          },
+          cacheGroups,
         },
       },
       module: {
@@ -211,8 +247,24 @@ describe('async subpackage rules mode', () => {
     expect(roots).not.toContain('pages/shared-async-2')
   }, 60000)
 
+  test('不同相对请求指向同一模块时，splitChunks 产物仍归属到覆盖规则', async () => {
+    const { assets, errors } = await compile({ maxSize: 1_000_000, splitShared: true })
+    expect(errors).toEqual([])
+
+    // shared-u 由 SplitChunksPlugin 在 stage 10 抽出成独立 chunk（此时 chunk 还没有名字），
+    // 必须被 stage 20 的规则归属重新命名并放到覆盖两个消费页面的 asyncRoot 下。
+    const sharedJsAssets = Object.keys(assets)
+      .filter(name => name.endsWith('.js') && assets[name].includes('shared-u-marker'))
+    expect(sharedJsAssets.length).toBeGreaterThan(0)
+    expect(sharedJsAssets.every(name => name.startsWith('pages/shared-async/'))).toBe(true)
+    expect(Object.keys(assets).some(name => name.startsWith('taro-async-shared-'))).toBe(false)
+
+    expect(assets['pages/sub1/index.wxss']).toContain('.shared-u')
+    expect(assets['pages/sub2/index.wxss']).toContain('.shared-u')
+  }, 60000)
+
   test('共享 chunk 超过 maxSize 且无法拆分时报错', async () => {
     const { errors } = await compile({ maxSize: 100 })
-    expect(errors.join('\n')).toMatch(/超过 maxSize/)
+    expect(errors.join('\n')).toMatch(/\[taro asyncSubPackage\].*超过 maxSize/)
   }, 60000)
 })
