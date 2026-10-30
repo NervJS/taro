@@ -19,6 +19,7 @@ const testsRequire = createRequire(path.resolve(__dirname, '../../../tests/packa
 const { createFsFromVolume, Volume } = testsRequire('memfs')
 
 const fixtureDir = path.resolve(__dirname, 'fixtures/async-subpackage-styles')
+let injectedTemplateName = ''
 const sameGroup: SubPackageIndieConfig[] = [{
   mainPackageRoot: 'pages/index/index',
   subPackageRoots: ['pages/list/index', 'pages/detail/index'],
@@ -75,6 +76,7 @@ type CompileOptions = {
   asyncRootMap?: Map<string, string>
   cssLoaderOptions?: { url?: boolean, import?: boolean }
   onBeforeStyleMove?: (compilation: any) => void
+  injectTemplate?: boolean
 }
 
 type CompileResult = {
@@ -144,6 +146,18 @@ function createCompiler (options: CompileOptions = {}) {
     plugins: [new MiniCssExtractPlugin({ filename: '[name].wxss' })],
   })
   compiler.outputFileSystem = createFsFromVolume(new Volume())
+  if (options.injectTemplate) {
+    compiler.hooks.compilation.tap('InjectAsyncTemplate', (compilation: any) => {
+      compilation.hooks.processAssets.tap({ name: 'InjectAsyncTemplate', stage: 0 }, () => {
+        const chunk = Array.from(compilation.chunks).find((item: any) =>
+          item.name?.startsWith('async/detail/') && item.name !== 'async/detail/index'
+        )
+        if (!chunk) return
+        injectedTemplateName = `${chunk.name}-templates.wxml`
+        compilation.assets[injectedTemplateName] = new compilation.compiler.webpack.sources.RawSource('<view class="demo" />')
+      })
+    })
+  }
 
   const miniPlugin: any = {
     options: {
@@ -626,4 +640,31 @@ describe('async subpackage styles from a shared module', () => {
       }
     })
   }, 30000)
+})
+
+describe('async subpackage legacy template relocation', () => {
+  test('keeps a shared async template under the asyncRoot when multiple pages consume it', async () => {
+    const { assets } = await compile({ injectTemplate: true })
+    expect(injectedTemplateName).toMatch(/^async\/detail\/async-.+-templates\.wxml$/)
+    expect(assets[injectedTemplateName]).toBeTruthy()
+
+    const copiedTemplates = Object.keys(assets).filter(name =>
+      (name.startsWith('pages/detail/') || name.startsWith('pages/list/')) && name.endsWith('-templates.wxml')
+    )
+    expect(copiedTemplates).toEqual([])
+  }, 30000)
+
+  test('moves a single-consumer async template back to its sourceRoot', () => {
+    const plugin = new AsyncSubPackagePlugin({
+      options: { fileType: { templ: '.wxml' } },
+    } as any, new Map([['pages/detail', 'async/detail']]))
+    ;(plugin as any).asyncChunkSourceRoots.set('async/detail/async-demo', new Set(['pages/detail']))
+    ;(plugin as any).asyncChunkConsumers.set('async/detail/async-demo', ['pages/detail/index'])
+    const assets: Record<string, any> = {
+      'async/detail/async-demo-templates.wxml': { source: () => '<view />' },
+    }
+    ;(plugin as any).moveAsyncRootTemplatesToConsumers({ assets })
+    expect(assets['pages/detail/async-demo-templates.wxml']).toBeTruthy()
+    expect(assets['async/detail/async-demo-templates.wxml']).toBeUndefined()
+  })
 })

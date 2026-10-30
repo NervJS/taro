@@ -481,19 +481,11 @@ export default class AsyncSubPackagePlugin {
 
   private setupAsyncChunkOptimization (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
+      // legacy 模式保持 stage 0 的旧行为：此时 chunk 尚未被 SplitChunksPlugin 合并/抽取。
       compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, chunks => {
         if (!this.isEnabled()) return
-
-        if (this.asyncRules.length > 0) {
-          try {
-            this.assignAsyncChunksByRules(compilation, chunks)
-          } catch (error) {
-            // webpack 5 的 seal 不会捕获 SyncHook tap 抛出的异常，compiler.run 回调不会触发；
-            // 必须把 [taro asyncSubPackage] 错误写入 compilation.errors 才能进入 stats。
-            compilation.errors.push(error instanceof Error ? error : new Error(String(error)))
-          }
-          return
-        }
+        // 规则模式统一在 SplitChunksPlugin 之后归属，见下方 stage 20 tap。
+        if (this.asyncRules.length > 0) return
 
         for (const chunk of chunks) {
           // 入口 chunk 名要在 app.json/页面注册中保持稳定，不能被改成 asyncRoot 路径。
@@ -532,6 +524,19 @@ export default class AsyncSubPackagePlugin {
               Array.from(sourceRoots).map(root => `${root}/index`)
             )
           }
+        }
+      })
+
+      // SplitChunksPlugin 在 STAGE_ADVANCED(10) 才把跨页共享模块抽成 taro-async-shared-*；
+      // 规则模式必须在它之后归属，否则抽出的 chunk 不会被重命名、记录消费页面或回填样式。
+      compilation.hooks.optimizeChunks.tap({ name: PLUGIN_NAME, stage: 20 }, chunks => {
+        if (this.asyncRules.length === 0) return
+        try {
+          this.assignAsyncChunksByRules(compilation, chunks)
+        } catch (error) {
+          // webpack 5 的 seal 不会捕获 SyncHook tap 抛出的异常，compiler.run 回调不会触发；
+          // 必须把 [taro asyncSubPackage] 错误写入 compilation.errors 才能进入 stats。
+          compilation.errors.push(error instanceof Error ? error : new Error(String(error)))
         }
       })
     })
@@ -774,6 +779,8 @@ export default class AsyncSubPackagePlugin {
         const chunkName = `${asyncRoot}/${templateName.slice(0, -`-templates${templateExt}`.length)}`
         const consumers = this.asyncChunkConsumers.get(chunkName)
         if (!consumers?.length) continue
+        // legacy 保持旧产物：仅单一 sourceRoot 的模板回填，多消费方模板留在 asyncRoot 下。
+        if (!isRulesMode && consumers.length !== 1) continue
 
         if (!isRulesMode) {
           const sourceRoots = this.asyncChunkSourceRoots.get(chunkName)
