@@ -130,6 +130,18 @@ function isLoaderExist (loaders, loaderName: string) {
   return loaders.some(item => item.loader === loaderName)
 }
 
+/**
+ * chunk 是否包含可执行的 JS 模块。
+ * 纯样式 chunk（例如 sharedRuntime 下只剩 CSS 的 common）不会 emit JS 文件，
+ * 不能作为 require 依赖注入到入口，否则运行时报 "module is not defined"。
+ */
+export function chunkHasScriptModules (chunk: any): boolean {
+  const modules = typeof chunk?.getModules === 'function' ? chunk.getModules() : []
+  // 0 模块：可能是 runtime chunk（RuntimeModule 在 render 阶段才装配），保守保留。
+  if (modules.length === 0) return true
+  return modules.some((module: any) => !String(module?.type || '').startsWith('css'))
+}
+
 export default class TaroMiniPlugin {
   /** 插件配置选项 */
   options: IOptions
@@ -488,6 +500,9 @@ export default class TaroMiniPlugin {
             group.chunks.forEach(chunk => {
               const currentChunkId = getChunkIdOrName(chunk)
               if (id === currentChunkId) return
+              // 纯样式 chunk（如 sharedRuntime 下 @tarojs/* 全 external 后只剩 CSS 的 common）
+              // 不会产出 JS 文件，注入 require 会在运行时抛 "module is not defined"。
+              if (!chunkHasScriptModules(chunk)) return
               deps.push({
                 name: currentChunkId
               })
