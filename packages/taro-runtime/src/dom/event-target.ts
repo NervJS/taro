@@ -24,18 +24,6 @@ export class TaroEventTarget {
       isOnce = Boolean(options.once)
     }
 
-    if (isOnce) {
-      const wrapper = function () {
-        handler.apply(this, arguments) // this 指向 Element
-        this.removeEventListener(type, wrapper)
-      }
-      this.addEventListener(type, wrapper, {
-        ...(options as AddEventListenerOptions),
-        once: false
-      })
-      return
-    }
-
     process.env.NODE_ENV !== 'production' && warn(isCapture, 'Taro 暂未实现 event 的 capture 特性。')
 
     // 某些框架，如 PReact 有委托的机制，handler 始终是同一个函数
@@ -44,6 +32,8 @@ export class TaroEventTarget {
     // 因此每次绑定事件都新建一个函数，如果带来了性能问题，可以把这段逻辑抽取到 PReact 插件中。
     const oldHandler = handler
     handler = function () {
+      // Remove this registration before invoking user code, including reentrant or throwing callbacks.
+      if (isOnce) this.removeEventListener(type, handler)
       return oldHandler.apply(this, arguments) // this 指向 Element
     }
     ;(handler as any).oldHandler = oldHandler
