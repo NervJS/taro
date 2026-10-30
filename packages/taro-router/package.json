@@ -16,6 +16,8 @@
   ],
   "sideEffects": [],
   "scripts": {
+    "test": "jest",
+    "test:ci": "jest --ci --runInBand",
     "prod": "pnpm run build",
     "prebuild": "pnpm run clean",
     "build": "pnpm run rollup --environment NODE_ENV:production",
