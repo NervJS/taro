@@ -2,7 +2,11 @@ import path from 'node:path'
 
 import { fs, META_TYPE, printLog, processTypeEnum, promoteRelativePath, resolveMainFilePath, taroJsComponents } from '@tarojs/helper'
 
-import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
+import { SHARED_ASYNC_ROOT, SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
+import {
+  collectDeclaredPagePaths,
+  normalizeAsyncSubPackageRules,
+} from '../utils/asyncSubPackageRules'
 import { componentConfig } from '../utils/component'
 import { addRequireToSource, buildRootStyleImport } from '../utils/webpack'
 import {
@@ -15,6 +19,7 @@ import {
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
 import type { Compilation, Compiler } from 'webpack'
+import type { NormalizedAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
 import type {
   IOptions,
 } from './MiniPlugin'
@@ -24,11 +29,16 @@ export const subPackageIndieCustomWrapperRootsKey = '__taroSubPackageIndieCustom
 
 export type SubPackageIndieConfig = NonNullable<AppConfig['subPackageIndie']>[number]
 export type NormalizedSubPackageIndieConfig = {
-  mainPackageRoot: string
+  /** async-only 模式下为 null */
+  mainPackageRoot: string | null
   subPackageRoots: string[]
   disableRecursiveComponentRoots: Set<string>
-  /** sourceRoot -> asyncRoot 映射，仅包含配置了 asyncSubPackage 的 root */
+  /** 旧模式：sourceRoot -> asyncRoot */
   asyncSubPackageRootMap: Map<string, string>
+  /** 是否 async-only 模式 */
+  asyncOnly: boolean
+  /** async-only 模式：异步归属规则 */
+  asyncRules: NormalizedAsyncSubPackageRule[]
 }
 export type AsyncSubPackageRuntimeRoot = {
   sourceRoot: string
@@ -350,9 +360,15 @@ export default class SubPackageIndiePlugin {
     return root
   }
 
-  parseIndieRootConfig (rootConfig: string | { path: string, disableRecursiveComponent?: boolean, asyncSubPackage?: { asyncRoot: string } }): { path: string, originalPath: string, disableRecursiveComponent: boolean, asyncRoot?: string } {
+  parseIndieRootConfig (rootConfig: string | { path: string | RegExp | Array<string | RegExp>, disableRecursiveComponent?: boolean, asyncSubPackage?: { asyncRoot: string | string[], maxSize?: number } }): { path: string, originalPath: string, disableRecursiveComponent: boolean, asyncRoot?: string } {
     if (typeof rootConfig === 'string') {
       return { path: this.normalizeIndieRoot(rootConfig), originalPath: rootConfig, disableRecursiveComponent: false }
+    }
+    if (typeof rootConfig.path !== 'string') {
+      throw new Error('[taro asyncSubPackage] 配置了 mainPackageRoot 时，path 只支持字符串')
+    }
+    if (Array.isArray(rootConfig.asyncSubPackage?.asyncRoot)) {
+      throw new Error('[taro asyncSubPackage] 配置了 mainPackageRoot 时，asyncRoot 只支持字符串')
     }
     return {
       path: this.normalizeIndieRoot(rootConfig.path),
@@ -373,8 +389,25 @@ export default class SubPackageIndiePlugin {
     }
 
     const appPages = new Set(appConfig?.pages || [])
+    const declaredPages = collectDeclaredPagePaths(appConfig)
 
     this.subPackageIndieConfigsCache = subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => {
+      if (mainPackageRoot == null) {
+        const asyncRules = normalizeAsyncSubPackageRules(
+          subPackageRoots as any,
+          declaredPages,
+          { reservedRoots: [SHARED_ASYNC_ROOT] }
+        )
+        return {
+          mainPackageRoot: null,
+          subPackageRoots: [],
+          disableRecursiveComponentRoots: new Set<string>(),
+          asyncSubPackageRootMap: new Map<string, string>(),
+          asyncOnly: true,
+          asyncRules,
+        }
+      }
+
       const mainParsed = this.parseIndieRootConfig(mainPackageRoot)
       if (!appPages.has(mainParsed.originalPath) && this.options.logger?.quiet === false) {
         printLog(processTypeEnum.WARNING, 'subPackageIndie', `mainPackageRoot.path "${mainParsed.originalPath}" 未配置在 app.config 的 pages 中，请补充 pages: [..., "${mainParsed.originalPath}"]，否则主包入口页面文件不会生成。`)
@@ -388,6 +421,9 @@ export default class SubPackageIndiePlugin {
         disableRecursiveComponentRoots.add(mainParsed.path)
       }
       if (mainParsed.asyncRoot) {
+        if (mainParsed.asyncRoot === SHARED_ASYNC_ROOT) {
+          throw new Error(`[taro asyncSubPackage] asyncRoot "${SHARED_ASYNC_ROOT}" 与框架保留目录冲突，请换一个目录名`)
+        }
         asyncSubPackageRootMap.set(mainParsed.path, mainParsed.asyncRoot)
       }
 
@@ -396,6 +432,9 @@ export default class SubPackageIndiePlugin {
           disableRecursiveComponentRoots.add(sub.path)
         }
         if (sub.asyncRoot) {
+          if (sub.asyncRoot === SHARED_ASYNC_ROOT) {
+            throw new Error(`[taro asyncSubPackage] asyncRoot "${SHARED_ASYNC_ROOT}" 与框架保留目录冲突，请换一个目录名`)
+          }
           asyncSubPackageRootMap.set(sub.path, sub.asyncRoot)
         }
       })
@@ -405,6 +444,8 @@ export default class SubPackageIndiePlugin {
         subPackageRoots: Array.from(new Set(subParsedList.map(sub => sub.path))),
         disableRecursiveComponentRoots,
         asyncSubPackageRootMap,
+        asyncOnly: false,
+        asyncRules: [],
       }
     })
 
@@ -414,11 +455,21 @@ export default class SubPackageIndiePlugin {
   getAllIndieRoots (): string[] {
     if (!this.allIndieRootsCache) {
       this.allIndieRootsCache = Array.from(new Set(
-        this.getSubPackageIndieConfigs().flatMap(({ mainPackageRoot, subPackageRoots }) => [mainPackageRoot, ...subPackageRoots])
+        this.getSubPackageIndieConfigs().flatMap(({ mainPackageRoot, subPackageRoots }) => [
+          ...(mainPackageRoot ? [mainPackageRoot] : []),
+          ...subPackageRoots,
+        ])
       ))
     }
 
     return this.allIndieRootsCache
+  }
+
+  /**
+   * async-only 模式下的异步归属规则。
+   */
+  getAsyncSubPackageRules (): NormalizedAsyncSubPackageRule[] {
+    return this.getSubPackageIndieConfigs().flatMap(config => config.asyncRules)
   }
 
   /**
@@ -452,9 +503,17 @@ export default class SubPackageIndiePlugin {
     }
 
     for (const config of this.getSubPackageIndieConfigs()) {
+      if (config.asyncOnly) {
+        for (const rule of config.asyncRules) {
+          for (const asyncRoot of rule.asyncRoots) {
+            push('', asyncRoot)
+          }
+        }
+        continue
+      }
       const asyncRoots = new Set(config.asyncSubPackageRootMap.values())
       for (const asyncRoot of asyncRoots) {
-        push(config.mainPackageRoot, asyncRoot)
+        push(config.mainPackageRoot!, asyncRoot)
       }
     }
 
@@ -463,7 +522,11 @@ export default class SubPackageIndiePlugin {
 
   getAllMainPackageRoots (): string[] {
     if (!this.allMainPackageRootsCache) {
-      this.allMainPackageRootsCache = Array.from(new Set(this.getSubPackageIndieConfigs().map(item => item.mainPackageRoot)))
+      this.allMainPackageRootsCache = Array.from(new Set(
+        this.getSubPackageIndieConfigs()
+          .map(item => item.mainPackageRoot)
+          .filter((root): root is string => !!root)
+      ))
     }
 
     return this.allMainPackageRootsCache
@@ -486,6 +549,8 @@ export default class SubPackageIndiePlugin {
     const configs = this.getSubPackageIndieConfigs()
 
     for (const config of configs) {
+      if (!config.mainPackageRoot) continue
+
       if (pageName.startsWith(config.mainPackageRoot + '/') || pageName === config.mainPackageRoot) {
         const match = {
           config,
