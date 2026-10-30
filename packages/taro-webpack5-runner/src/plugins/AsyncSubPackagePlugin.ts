@@ -724,9 +724,9 @@ export default class AsyncSubPackagePlugin {
     const publicPath = RuntimeGlobals?.publicPath
     if (!loadScript || !ensureChunkHandlers || !getChunkScriptFilename || !publicPath || !RuntimeModule) return
 
-    const sharedRuntimeGate: SharedRuntimeGate | null = this.miniPlugin.options.combination.config.sharedRuntime
+    const sharedRuntimeGate: SharedRuntimeGate | null = this.miniPlugin.options.combination?.config?.sharedRuntime
       ? {
-        globalObject: this.miniPlugin.options.combination.config.output?.globalObject || 'wx',
+        globalObject: this.miniPlugin.options.combination?.config?.output?.globalObject || 'wx',
         globalKey: SHARED_GLOBAL_ASYNC,
       }
       : null
