@@ -189,7 +189,8 @@ describe('asset inline limits', () => {
         root,
         configFile: false,
         logLevel: 'silent',
-        plugins: [assetsPlugin({ sourceDir: normalizePath(root), taroConfig: { [option]: { limit: inline } } } as unknown as ViteH5CompilerContext)],
+        // Keep fixture output names relative without relying on platform-specific path stripping.
+        plugins: [assetsPlugin({ sourceDir: normalizePath(root), taroConfig: { [option]: { limit: inline, name: () => `asset.${extension}` } } } as unknown as ViteH5CompilerContext)],
         build: { write: false, lib: { entry, formats: ['es'] } }
       }) as RollupOutput | RollupOutput[]
       const output = Array.isArray(result) ? result[0].output : result.output
