@@ -28,7 +28,6 @@ export default class WeappCI extends BaseCI {
       process.exit(1)
     }
     this.devToolsInstallPath = this.pluginOpts.weapp.devToolsInstallPath || (process.platform === 'darwin' ? '/Applications/wechatwebdevtools.app' : 'C:\\Program Files (x86)\\Tencent\\微信web开发者工具')
-    delete this.pluginOpts.weapp.devToolsInstallPath
 
     const weappConfig = {
       type: 'miniProgram' as ProjectType,

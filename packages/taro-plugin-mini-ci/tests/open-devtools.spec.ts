@@ -52,6 +52,24 @@ function setup () {
   return { root, projectPath, argsFile, ctx, createCli }
 }
 
+describe('weapp devToolsInstallPath', () => {
+  it('keeps the configured path for the next build in watch mode', () => {
+    const { root, ctx } = setup()
+    const installPath = path.join(root, 'devtools')
+    // watch 模式下每次构建都会用同一份插件配置创建新的 WeappCI
+    const pluginOpts = {
+      weapp: { appid: 'wx0000000000000000', privateKeyPath: 'private.key', devToolsInstallPath: installPath }
+    }
+
+    for (let build = 0; build < 2; build++) {
+      const ci = new WeappCI(ctx as any, pluginOpts)
+      ci.init()
+      expect((ci as any).devToolsInstallPath).toBe(installPath)
+    }
+    expect(pluginOpts.weapp.devToolsInstallPath).toBe(installPath)
+  })
+})
+
 const describeOnWindows = process.platform === 'win32' ? describe : describe.skip
 
 describeOnWindows('open devtools on Windows', () => {
