@@ -53,20 +53,36 @@ export const setHeader = (xhr, header) => {
  * @param {string} url 要转换的 blob url
  * @returns {Promise<File>}
  */
-export const convertObjectUrlToBlob = url => {
+export const convertObjectUrlToBlob = (url, timeout = NETWORK_TIMEOUT) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
-    xhr.open('GET', url, true)
-    xhr.responseType = 'blob'
-    xhr.withCredentials = true
-    xhr.onload = function () {
-      if (this.status === 200) {
-        resolve(this.response)
-      } else {
-        /* eslint-disable prefer-promise-reject-errors */
-        reject({ status: this.status })
-      }
+    let settled = false
+    const settle = (success: boolean, value: unknown) => {
+      if (settled) return
+      settled = true
+      xhr.onload = null
+      xhr.onerror = null
+      xhr.onabort = null
+      xhr.ontimeout = null
+      if (success) resolve(value)
+      else reject(value)
     }
-    xhr.send()
+
+    try {
+      xhr.open('GET', url, true)
+      xhr.responseType = 'blob'
+      xhr.withCredentials = true
+      xhr.timeout = timeout
+      xhr.onload = () => {
+        if (xhr.status === 200) settle(true, xhr.response)
+        else settle(false, { status: xhr.status })
+      }
+      xhr.onerror = () => settle(false, { status: xhr.status, message: 'file conversion failed' })
+      xhr.onabort = () => settle(false, { status: xhr.status, message: 'abort' })
+      xhr.ontimeout = () => settle(false, { status: xhr.status, message: 'timeout' })
+      xhr.send()
+    } catch (error) {
+      settle(false, error)
+    }
   })
 }
