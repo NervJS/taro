@@ -61,20 +61,20 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
       }
       const delta = to - from
 
-      const frameCnt = duration / FRAME_DURATION
-      const easeFunc = getTimingFunc(easeInOut, frameCnt)
+      const frameCnt = Math.ceil(duration / FRAME_DURATION)
+      const easeFunc = getTimingFunc(easeInOut, frameCnt + 1)
 
       const scroll = (frame = 0) => {
-        const dest = from + delta * easeFunc(frame)
-        scrollFunc(dest)
-        if (frame < frameCnt) {
-          timer && clearTimeout(timer)
-          timer = setTimeout(() => {
-            scroll(frame + 1)
-          }, FRAME_DURATION)
-        } else {
+        if (frame >= frameCnt) {
+          scrollFunc(to)
           return handle.success({}, { resolve, reject })
         }
+        const dest = from + delta * easeFunc(frame)
+        scrollFunc(dest)
+        timer && clearTimeout(timer)
+        timer = setTimeout(() => {
+          scroll(frame + 1)
+        }, FRAME_DURATION)
       }
       scroll()
     } catch (e) {
