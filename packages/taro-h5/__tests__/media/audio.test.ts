@@ -8,6 +8,7 @@ describe('InnerAudioContext', () => {
   test('removes the router listener and callbacks when destroyed', () => {
     const audio = {
       addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
       pause: jest.fn(),
       removeAttribute: jest.fn(),
       currentTime: 0,
