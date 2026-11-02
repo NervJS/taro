@@ -99,9 +99,9 @@ export class CallbackManager<T extends unknown[] = unknown[]> {
     return this.callbacks.length
   }
 
-  /** 触发回调 */
+  /** 触发当前回调的快照，分发期间的增删在下次触发时生效 */
   trigger = (...args: T) => {
-    this.callbacks.forEach(opt => {
+    this.callbacks.slice().forEach(opt => {
       if (isFunction(opt)) {
         opt(...args)
       } else {
