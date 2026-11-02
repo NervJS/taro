@@ -124,6 +124,15 @@ export class TaroNode extends TaroEventTarget {
     return childNodes[childNodes.length - 1] || null
   }
 
+  public getRootNode (_options?: { composed?: boolean }): TaroNode {
+    // Mini programs have no shadow trees, so composed does not change the root.
+    let root: TaroNode = this
+    while (root.parentNode) {
+      root = root.parentNode
+    }
+    return root
+  }
+
   /**
    * @textContent 目前只能置空子元素
    * @TODO 等待完整 innerHTML 实现

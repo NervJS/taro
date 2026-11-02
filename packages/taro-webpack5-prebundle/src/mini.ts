@@ -116,6 +116,8 @@ export class MiniPrebundle extends BasePrebundle<IMiniPrebundleConfig> {
       requestAnimationFrame: [taroRuntimeBundlePath, '_raf'],
       cancelAnimationFrame: [taroRuntimeBundlePath, '_caf'],
       Element: [taroRuntimeBundlePath, 'TaroElement'],
+      Document: [taroRuntimeBundlePath, 'TaroDocument'],
+      ShadowRoot: [taroRuntimeBundlePath, 'ShadowRoot'],
       SVGElement: [taroRuntimeBundlePath, 'SVGElement'],
       MutationObserver: [taroRuntimeBundlePath, 'MutationObserver'],
       history: [taroRuntimeBundlePath, 'history'],
