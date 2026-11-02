@@ -86,7 +86,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
     xhr.send(form)
   }
 
-  convertObjectUrlToBlob(filePath)
+  convertObjectUrlToBlob(filePath, timeout || NETWORK_TIMEOUT)
     .then((fileObj: string | (Blob & { name?: string })) => {
       if (settled) return
       if (!fileName) {
