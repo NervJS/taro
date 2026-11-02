@@ -327,8 +327,11 @@ export class TaroElement extends TaroNode {
       return false
     }
 
-    for (let i = listeners.length; i--;) {
-      const listener = listeners[i]
+    // Freeze this dispatch's registrations while respecting removals before invocation.
+    const dispatchListeners = listeners.slice()
+    for (let i = dispatchListeners.length; i--;) {
+      const listener = dispatchListeners[i]
+      if (!listeners.includes(listener)) continue
       let result: unknown
       if (listener._stop) {
         listener._stop = false
