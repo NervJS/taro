@@ -2723,7 +2723,12 @@ require("./runtime");
             }
         });
         mergeReconciler(hostConfig);
-        mergeInternalComponents(components);
+        const runtime_internalComponents = mergeInternalComponents(components);
+        const slider = runtime_internalComponents.Slider;
+        if (slider) {
+            delete slider["block-size"];
+            delete slider["block-color"];
+        }
         var taro_runtime = __webpack_require__("../../mocks/taro-runtime.ts");
         function setReconciler() {}
         function connectReactPage() {}
