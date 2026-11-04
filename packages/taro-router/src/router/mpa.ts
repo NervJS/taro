@@ -25,12 +25,17 @@ const launchStampId = createStampId()
  * - 应用生命周期可能多次触发
  * - TabBar 会多次加载
  * - 不支持路由动画
+ *
+ * @param framework 框架运行时对象，由编译产物注入（见 `taro-loader` 的 `importFrameworkName`），
+ * 仅用于转发给 `createPullDownComponent` hook。React 为 react 命名空间对象，
+ * Vue 3 为 `createElement`（`h`），Solid 下为 `undefined`。
+ * 各框架的类型互不兼容，且 `@tarojs/router` 自身不消费它，故不在此收窄。
  */
 export async function createMultiRouter (
   history: History,
   app: AppInstance,
   config: MpaRouterConfig,
-  framework?: string
+  framework?: any
 ) {
   if (typeof app.onUnhandledRejection === 'function') {
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
