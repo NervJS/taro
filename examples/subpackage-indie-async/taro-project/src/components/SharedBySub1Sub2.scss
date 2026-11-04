@@ -1,0 +1,20 @@
+.shared-sub1sub2-panel {
+  background: #f9f0ff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 10px;
+
+  .shared-sub1sub2-title {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #722ed1;
+    margin-bottom: 6px;
+  }
+
+  .shared-sub1sub2-desc {
+    display: block;
+    font-size: 12px;
+    color: #666;
+  }
+}
