@@ -1,0 +1,30 @@
+.sub1-page {
+  background-color: #e8f4fd;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px;
+
+  .header {
+    margin-bottom: 10px;
+
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1890ff;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .status {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "pages": ["pages/entry/index"],
+  "subPackages": [
+    {
+      "root": "pages/order/pages/sub1",
+      "pages": ["index"]
+    },
+    {
+      "root": "pages/order/pages/sub2",
+      "pages": ["index"]
+    },
+    {
+      "root": "pages/order/pages/sub1-async",
+      "pages": ["index"],
+      "independent": false
+    },
+    {
+      "root": "pages/order/pages/sub2-async",
+      "pages": ["index"],
+      "independent": false
+    },
+    {
+      "root": "pages/order/pages/shared-async",
+      "pages": ["index"],
+      "independent": false
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Async SubPackage 宿主",
+    "navigationBarTextStyle": "black"
+  },
+  "lazyCodeLoading": "requiredComponents"
+}

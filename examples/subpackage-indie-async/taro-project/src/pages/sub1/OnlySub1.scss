@@ -1,0 +1,20 @@
+.only-sub1-panel {
+  background: #f6ffed;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 10px;
+
+  .only-sub1-title {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #389e0d;
+    margin-bottom: 6px;
+  }
+
+  .only-sub1-desc {
+    display: block;
+    font-size: 12px;
+    color: #666;
+  }
+}
