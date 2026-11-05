@@ -356,7 +356,11 @@ declare module './index' {
        * 传数组时表示多个物理目标，必须同时配置 maxSize。
        */
       asyncRoot: string | string[]
-      /** 每个物理目标的字节预算；asyncRoot 为数组时必填。 */
+      /**
+       * 每个物理目标的字节预算；asyncRoot 为数组时必填。
+       * 预算口径是 chunk 内模块的未压缩体积估算（module.size 累加），
+       * 与压缩后最终产物字节数不是同一口径；构建结束时会按最终产物字节复核并输出 warning。
+       */
       maxSize?: number
     }
   }
