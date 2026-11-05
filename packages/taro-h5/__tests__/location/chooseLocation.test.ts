@@ -90,4 +90,75 @@ describe('chooseLocation coordinates', () => {
     expect(success).not.toHaveBeenCalled()
     expect(fail).toHaveBeenCalledTimes(1)
   })
+
+  test('ignores a popstate that arrives after the point has been confirmed', async () => {
+    const { result, success, fail, complete } = openChooser()
+    confirm(1, 2)
+    expect(await result).toEqual(expect.objectContaining({ errMsg: 'chooseLocation:ok' }))
+
+    // 选择器要到 300ms 后才会被移除，这期间用户仍可能按下浏览器返回
+    window.dispatchEvent(new PopStateEvent('popstate'))
+    jest.runOnlyPendingTimers()
+
+    expect(success).toHaveBeenCalledTimes(1)
+    expect(fail).not.toHaveBeenCalled()
+    expect(complete).toHaveBeenCalledTimes(1)
+  })
+
+  test('ignores a second click on 返回 after cancellation', async () => {
+    const { result, fail, complete } = openChooser()
+    const back = document.querySelector<HTMLElement>('.taro_choose_location_back')!
+    back.click()
+    expect(await result).toEqual({ errMsg: 'chooseLocation:fail cancel' })
+
+    back.click()
+    jest.runOnlyPendingTimers()
+
+    expect(fail).toHaveBeenCalledTimes(1)
+    expect(complete).toHaveBeenCalledTimes(1)
+  })
+
+  test('a chooser opened while the previous one is being torn down still works', async () => {
+    const first = openChooser()
+    confirm(1, 2)
+    expect(await first.result).toEqual(expect.objectContaining({ errMsg: 'chooseLocation:ok' }))
+
+    // 上一个选择器的移除定时器（300ms）还没到点就再次打开
+    jest.advanceTimersByTime(100)
+    const second = openChooser()
+    expect(document.querySelector('.taro_choose_location_submit')).not.toBeNull()
+
+    // 上一个选择器的移除定时器到点，不应影响这一个
+    jest.advanceTimersByTime(400)
+    expect(document.querySelector('.taro_choose_location_submit')).not.toBeNull()
+
+    confirm(3, 4)
+    expect(await second.result).toEqual({
+      errMsg: 'chooseLocation:ok', latitude: 3, longitude: 4, name: 'place', address: 'address'
+    })
+    expect(second.success).toHaveBeenCalledTimes(1)
+    expect(second.complete).toHaveBeenCalledTimes(1)
+    // 第一次调用的回调不应被第二次的交互再次触发
+    expect(first.success).toHaveBeenCalledTimes(1)
+    expect(first.complete).toHaveBeenCalledTimes(1)
+  })
+
+  test('detaches its window listeners once a choice has been made', async () => {
+    const addSpy = jest.spyOn(window, 'addEventListener')
+    const removeSpy = jest.spyOn(window, 'removeEventListener')
+    try {
+      const { result } = openChooser()
+      confirm(1, 2)
+      await result
+      jest.runOnlyPendingTimers()
+
+      const count = (spy: jest.SpyInstance, type: string) =>
+        spy.mock.calls.filter(call => call[0] === type).length
+      expect(count(removeSpy, 'message')).toBe(count(addSpy, 'message'))
+      expect(count(removeSpy, 'popstate')).toBe(count(addSpy, 'popstate'))
+    } finally {
+      addSpy.mockRestore()
+      removeSpy.mockRestore()
+    }
+  })
 })
