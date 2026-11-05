@@ -104,7 +104,7 @@ function createRules (maxSize: number) {
   ], PAGES)
 }
 
-function compile (options: { maxSize: number, appConfig?: any, splitShared?: boolean }) {
+function compile (options: { maxSize: number, appConfig?: any, splitShared?: boolean, onApply?: (compiler: any, plugin: AsyncSubPackagePlugin) => void }) {
   const fixtureDir = createFixture(options)
   const cacheGroups: any = {
     // splitShared fixture 把 common 限定在 initial chunk，避免共享 async 样式
@@ -182,6 +182,7 @@ function compile (options: { maxSize: number, appConfig?: any, splitShared?: boo
       { sourceRoot: '', asyncRoot: 'pages/shared-async-2' },
     ])
     plugin.apply(compiler)
+    options.onApply?.(compiler, plugin)
 
     compiler.run((error, stats) => {
       if (error) return reject(error)
@@ -266,5 +267,70 @@ describe('async subpackage rules mode', () => {
   test('共享 chunk 超过 maxSize 且无法拆分时报错', async () => {
     const { errors } = await compile({ maxSize: 100 })
     expect(errors.join('\n')).toMatch(/\[taro asyncSubPackage\].*超过 maxSize/)
+  }, 60000)
+
+  test('最终产物字节超过预算时产出 warning 且不阻断构建', async () => {
+    const plugin = new AsyncSubPackagePlugin({} as any)
+    plugin.updateAsyncRules([
+      { id: 'r', index: 0, selectors: [], asyncRoots: ['pages/shared-async'], maxSize: 10, matchedPages: [] } as any,
+    ])
+    const compilation: any = {
+      assets: {
+        'pages/shared-async/async-a.js': { size: () => 25 },
+        'pages/sub1-async/async-b.js': { size: () => 999 },
+      },
+      warnings: [],
+      compiler: { webpack: { WebpackError: Error } },
+    }
+    ;(plugin as any).warnWhenFinalAssetsExceedBudget(compilation)
+    expect(compilation.warnings).toHaveLength(1)
+    expect(String(compilation.warnings[0].message ?? compilation.warnings[0])).toMatch(/pages\/shared-async.*25.*10/)
+  }, 60000)
+
+  test('createChildCompiler 继承 hooks 时，rules 归属与 runtime 注入只在主编译生效', async () => {
+    let childCompilation: any = null
+    const { assets, errors } = await compile({
+      maxSize: 1_000_000,
+      onApply: (compiler) => {
+        // webpack 5 createChildCompiler 会把 compilation 等 hooks 复制给子编译器（AsyncSubPackagePlugin
+        // 的全部 compilation taps 都在继承之列），这里构造一个含动态 import 的子编译来验证守卫。
+        // make 是 AsyncParallelHook，可以等待 runAsChild 完成。
+        compiler.hooks.make.tapPromise('CHILD_COMPILER_TEST', (compilation: any) => {
+          const childCompiler = compilation.createChildCompiler('async-subpackage-child', {
+            filename: '[name].js',
+            chunkFilename: '[name].js',
+          })
+          const EntryPlugin = compilation.compiler.webpack.EntryPlugin
+          new EntryPlugin(
+            compilation.options.context,
+            path.join(compilation.options.context, 'pages/sub1/index.js'),
+            { name: 'child/pages/sub1/index' }
+          ).apply(childCompiler)
+          return new Promise<void>((resolve, reject) => {
+            childCompiler.runAsChild((error: any, _entries: any, comp: any) => {
+              if (error) return reject(error)
+              childCompilation = comp
+              resolve()
+            })
+          })
+        })
+      },
+    })
+    expect(errors).toEqual([])
+
+    // 主编译内 rules 生效：asyncRoot 产物存在且 runtime 注入完成。
+    expect(Object.keys(assets).some(name => name.startsWith('pages/sub1-async/'))).toBe(true)
+    expect(Object.keys(assets)
+      .filter(name => name.endsWith('.js'))
+      .some(name => assets[name].includes('asyncSubPackageInProgress'))).toBe(true)
+
+    // runAsChild 会把子编译产物 emit 回主编译；子编译产物必须保留原名（不归属 asyncRoot），
+    // 且子编译 runtime 不被注入 async 分包 loader。
+    expect(childCompilation).toBeTruthy()
+    const childAssets = Object.keys(assets).filter(name => name.startsWith('child/'))
+    expect(childAssets.length).toBeGreaterThan(0)
+    expect(childAssets.some(name => name.includes('-async/'))).toBe(false)
+    expect(assets['child/pages/sub1/index.js']).toBeTruthy()
+    expect(assets['child/pages/sub1/index.js']).not.toContain('asyncSubPackageInProgress')
   }, 60000)
 })
