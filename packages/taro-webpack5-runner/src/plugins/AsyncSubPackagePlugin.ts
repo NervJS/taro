@@ -275,6 +275,16 @@ export default class AsyncSubPackagePlugin {
     return this.asyncRootMap.size > 0 || this.asyncRules.length > 0
   }
 
+  /**
+   * webpack 5 的 childCompiler 会继承父编译器除 make/compile/emit/afterEmit/invalid/done/thisCompilation
+   * 之外的 hooks（含 compilation，见 webpack/lib/Compiler.js createChildCompiler）。
+   * 本插件的 chunk 归属、样式/模板搬迁和 runtime 注入只对主编译生效，
+   * independent 分包等子编译必须跳过，否则会在子编译里重复执行归属与产物搬迁。
+   */
+  private isChildCompilation (compilation: any): boolean {
+    return Boolean(compilation?.compiler?.isChild?.())
+  }
+
   private getConfiguredAsyncRoots (): string[] {
     const roots = new Set<string>()
     for (const root of this.asyncRootMap.values()) roots.add(root)
@@ -287,13 +297,16 @@ export default class AsyncSubPackagePlugin {
   apply (compiler?: Compiler) {
     if (compiler && !this.appliedCompilers.has(compiler)) {
       this.appliedCompilers.add(compiler)
-      compiler.hooks.compilation.tap(PLUGIN_NAME, () => {
+      compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
+        if (this.isChildCompilation(compilation)) return
         this.asyncModuleCache = new WeakMap()
         this.asyncModuleSourceRootCache = new WeakMap()
         this.asyncChunkRootCache = new WeakMap()
         this.asyncChunkSourceRoots = new Map()
         this.usedAsyncRoots = new Set()
         this.asyncChunkConsumers = new Map()
+        this.unnamedChunkKeys = new WeakMap()
+        this.unnamedChunkKeySeq = 0
       })
       this.setupAsyncBabel(compiler)
       this.setupAsyncSplitChunks(compiler)
@@ -310,6 +323,7 @@ export default class AsyncSubPackagePlugin {
 
   private setupAsyncBabel (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (_compilation, { normalModuleFactory }) => {
+      if (this.isChildCompilation(_compilation)) return
       normalModuleFactory.hooks.afterResolve.tap(PLUGIN_NAME, data => {
         if (!this.isEnabled()) return
         const { loaders } = data.createData
@@ -359,6 +373,12 @@ export default class AsyncSubPackagePlugin {
 
   // ==================== Async SplitChunks ====================
 
+  // ==================== Async SplitChunks ====================
+
+  // 此处直接改写共享的 compiler.options.optimization.splitChunks.cacheGroups，
+  // 生效前提是 SplitChunksPlugin 在其 normalizeCacheGroups 阶段（compiler.thisCompilation 前）
+  // 读取并且引用同一组对象；webpack 升级时请确认该读取时机没有发生变化，
+  // 并顺带核对 SplitChunksPlugin README 中 cacheGroups 归一化文档。
   private setupAsyncSplitChunks (compiler: Compiler) {
     const splitChunks = compiler.options.optimization?.splitChunks
     if (!splitChunks) return
@@ -508,6 +528,7 @@ export default class AsyncSubPackagePlugin {
 
   private setupAsyncChunkOptimization (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
+      if (this.isChildCompilation(compilation)) return
       // legacy 模式保持 stage 0 的旧行为：此时 chunk 尚未被 SplitChunksPlugin 合并/抽取。
       compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, chunks => {
         if (!this.isEnabled()) return
@@ -569,8 +590,20 @@ export default class AsyncSubPackagePlugin {
     })
   }
 
+  // 同一条规则下 chunk.name/id/debugId 皆空时不能用固定字面量兜底（会互相覆盖装箱结果），
+  // 用 WeakMap 递增序号保证同一 compilation 内键值唯一。
+  private unnamedChunkKeys = new WeakMap<any, string>()
+  private unnamedChunkKeySeq = 0
+
   private getChunkKey (chunk: any): string {
-    return chunk?.name || String(chunk?.id ?? chunk?.debugId ?? 'chunk')
+    const directKey = chunk?.name || (chunk?.id != null ? String(chunk.id) : chunk?.debugId != null ? String(chunk.debugId) : null)
+    if (directKey != null) return directKey
+    let fallbackKey = this.unnamedChunkKeys.get(chunk)
+    if (!fallbackKey) {
+      fallbackKey = `unnamed-chunk-${++this.unnamedChunkKeySeq}`
+      this.unnamedChunkKeys.set(chunk, fallbackKey)
+    }
+    return fallbackKey
   }
 
   private getChunkSize (chunk: any, chunkGraph: any): number {
@@ -738,6 +771,7 @@ export default class AsyncSubPackagePlugin {
     )
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
+      if (this.isChildCompilation(compilation)) return
       const runtimeAppliedChunks = new WeakSet<any>()
       const addMiniAsyncRuntimeModule = (chunk: any) => {
         if (!this.isEnabled() || runtimeAppliedChunks.has(chunk)) return
@@ -758,6 +792,7 @@ export default class AsyncSubPackagePlugin {
 
   private setupAsyncChunkAssetExtraction (compiler: Compiler) {
     compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation: any) => {
+      if (this.isChildCompilation(compilation)) return
       // PROCESS_ASSETS_STAGE_OPTIMIZE_TRANSFER 在 webpack 5 中为 300；fallback 仅保留极旧版本兼容。
       const stage = (compilation.constructor as any).PROCESS_ASSETS_STAGE_OPTIMIZE_TRANSFER ?? 300
       compilation.hooks.processAssets.tapPromise(
@@ -768,9 +803,38 @@ export default class AsyncSubPackagePlugin {
           await this.moveAsyncRootStylesToConsumers(compilation, RawSource)
           this.moveAsyncRootTemplatesToConsumers(compilation)
           this.createAsyncRootEntries(compilation, RawSource)
+          this.warnWhenFinalAssetsExceedBudget(compilation)
         }
       )
     })
+  }
+
+  /**
+   * 产物阶段预算复核：装箱按未压缩模块体积估算（module.size），minify 前后体积口径不同。
+   * 这里按最终 asset 字节再检查一次，与估算偏差大到超限的给出 warning（不阻断构建）。
+   */
+  private warnWhenFinalAssetsExceedBudget (compilation: any) {
+    if (this.asyncRules.length === 0) return
+    for (const rule of this.asyncRules) {
+      const maxSize = rule.maxSize
+      if (maxSize == null) continue
+      for (const asyncRoot of rule.asyncRoots) {
+        const jsAssets = Object.keys(compilation.assets)
+          .filter(name => name.startsWith(`${asyncRoot}/`) && name.endsWith('.js'))
+        if (jsAssets.length === 0) continue
+        let totalSize = 0
+        for (const assetName of jsAssets) {
+          const info = compilation.assetsInfo?.get(assetName)
+          const source = compilation.assets[assetName]
+          totalSize += info?.size ?? source?.size?.() ?? 0
+        }
+        if (totalSize > maxSize) {
+          compilation.warnings.push(new compilation.compiler.webpack.WebpackError(
+            `[${PLUGIN_NAME}] async root "${asyncRoot}" 最终产物 ${totalSize} 字节超过预算 ${maxSize} 字节（装箱按未压缩估算，实际已超限）。`
+          ))
+        }
+      }
+    }
   }
 
   private createAsyncRootEntries (compilation: any, RawSource: any) {
