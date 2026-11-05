@@ -381,7 +381,7 @@ export function createRecursiveComponentConfig (
           return
         }
 
-        const componentId = this.data?.i?.sid || this.props?.i?.sid
+        const componentId = this.data?.rd?.sid || this.data?.i?.sid || this.props?.i?.sid
         if (isString(componentId)) {
           if (isCustomWrapper) {
             customWrapperCache.set(componentId, this)
@@ -398,7 +398,7 @@ export function createRecursiveComponentConfig (
           return
         }
 
-        const componentId = this.data?.i?.sid || this.props?.i?.sid
+        const componentId = this.data?.rd?.sid || this.data?.i?.sid || this.props?.i?.sid
         if (isString(componentId)) {
           if (isCustomWrapper) {
             customWrapperCache.delete(componentId)
@@ -425,8 +425,22 @@ export function createRecursiveComponentConfig (
         i: {
           type: Object,
           value: {
-            [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
-          }
+            [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num,
+            ...(isCustomWrapper ? { ubid: 0 } : {})
+          },
+          ...(isCustomWrapper
+            ? {
+              observer (nextProps) {
+                if (!nextProps) return
+
+                const { ubid: nextUpdateBatchId = 0, sid: nextSid } = nextProps
+                const { ubid: curUpdateBatchId = -1, sid: curSid } = this.data.rd || {}
+
+                if (curSid === nextSid && nextUpdateBatchId <= curUpdateBatchId) return
+                this.setData({ rd: nextProps })
+              }
+            }
+            : {})
         },
         l: {
           type: String,
@@ -440,6 +454,17 @@ export function createRecursiveComponentConfig (
       methods: {
         eh: eventHandler
       },
+      ...(isCustomWrapper
+        ? {
+          data: {
+            rd: {
+              [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num,
+              [Shortcuts.Childnodes]: [],
+              ubid: -1
+            }
+          }
+        }
+        : {}),
       ...lifeCycles
     }, { isCustomWrapper, forceCustomWrapper })
 }
