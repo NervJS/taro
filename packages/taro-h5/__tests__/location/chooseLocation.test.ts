@@ -23,16 +23,29 @@ describe('chooseLocation coordinates', () => {
     const fail = jest.fn()
     const complete = jest.fn()
     const result = chooseLocation({ mapOpts, success, fail, complete }).catch(error => error)
-    return { result, success, fail, complete }
+    return { result, success, fail, complete, scope: currentChooser() }
   }
 
-  function confirm (latitude?: number, longitude?: number) {
+  // 最后打开的那个选择器才是当前可交互的那个（上一个可能还在 300ms 的移除窗口里）
+  function currentChooser () {
+    const mains = document.querySelectorAll<HTMLElement>('.taro_choose_location')
+    return mains[mains.length - 1]
+  }
+
+  // 选点消息必须带上发出它的 iframe，否则会被其它调用的选择器误收
+  function selectPoint (scope: HTMLElement, latitude?: number, longitude?: number) {
+    const iframe = scope.querySelector<HTMLIFrameElement>('.taro_choose_location_frame')!
     window.dispatchEvent(new MessageEvent('message', {
+      source: iframe.contentWindow,
       data: {
         module: 'locationPicker', poiname: 'place', poiaddress: 'address', latlng: { lat: latitude, lng: longitude }
       }
     }))
-    document.querySelector<HTMLElement>('.taro_choose_location_submit')!.click()
+  }
+
+  function confirm (latitude?: number, longitude?: number, scope: HTMLElement = currentChooser()) {
+    selectPoint(scope, latitude, longitude)
+    scope.querySelector<HTMLElement>('.taro_choose_location_submit')!.click()
   }
 
   test.each([[-33.86, 151.21], [37.77, -122.42], [-33.45, -70.66], [0, 0], [90, 180], [-90, -180]])('passes initial coordinates %s,%s to the map iframe', (latitude, longitude) => {
@@ -141,6 +154,38 @@ describe('chooseLocation coordinates', () => {
     // 第一次调用的回调不应被第二次的交互再次触发
     expect(first.success).toHaveBeenCalledTimes(1)
     expect(first.complete).toHaveBeenCalledTimes(1)
+  })
+
+  test('keeps every concurrent chooser bound to its own map iframe', async () => {
+    const first = openChooser()
+    const second = openChooser()
+
+    // 两个选择器各自选点，互不干扰
+    selectPoint(first.scope, 1, 2)
+    selectPoint(second.scope, 3, 4)
+    first.scope.querySelector<HTMLElement>('.taro_choose_location_submit')!.click()
+
+    expect(await first.result).toEqual({
+      errMsg: 'chooseLocation:ok', latitude: 1, longitude: 2, name: 'place', address: 'address'
+    })
+    expect(first.success).toHaveBeenCalledTimes(1)
+  })
+
+  test('ignores a late message coming from the previous chooser iframe', async () => {
+    const first = openChooser()
+    confirm(1, 2)
+    expect(await first.result).toEqual(expect.objectContaining({ errMsg: 'chooseLocation:ok' }))
+
+    // 上一个选择器的 iframe 要到 300ms 后才移除，期间它仍可能 post 消息
+    jest.advanceTimersByTime(100)
+    const second = openChooser()
+    selectPoint(first.scope, 1, 2)
+    second.scope.querySelector<HTMLElement>('.taro_choose_location_submit')!.click()
+
+    // 第二次调用自己没有选过点，不应该拿到第一次的坐标
+    expect(await second.result).toEqual({ errMsg: 'chooseLocation:fail' })
+    expect(second.success).not.toHaveBeenCalled()
+    expect(second.fail).toHaveBeenCalledTimes(1)
   })
 
   test('detaches its window listeners once a choice has been made', async () => {
