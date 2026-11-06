@@ -200,7 +200,7 @@ describe('websocket', () => {
         const { listeners } = task.ws
         expect(listeners.open.length).toBe(1)
         expect(listeners.message.length).toBe(1)
-        expect(listeners.close.length).toBe(1)
+        expect(listeners.close.length).toBe(2)
         expect(listeners.error.length).toBe(1)
         task.close()
       })

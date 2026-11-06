@@ -175,8 +175,8 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
               reject(res)
             }
           }
-          return targetApi(opts)
         })
+        return targetApi(opts)
       })
     } else if (isFunction(standardMethod)) {
       return standardMethod(opts)

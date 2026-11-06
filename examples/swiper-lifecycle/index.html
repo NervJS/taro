@@ -1,0 +1,6 @@
+<!doctype html><meta charset="utf-8"><title>Swiper 手工复现 — H5 生命周期</title>
+<style>body{font:16px system-ui;margin:32px;max-width:900px}button{padding:12px;margin:6px}taro-swiper-core{display:block;width:600px;height:200px}taro-swiper-item-core{display:block;height:200px;text-align:center;line-height:200px;background:#d6e9f1}pre{white-space:pre-wrap;background:#eee;padding:16px}</style>
+<h1>Swiper 手工复现 — H5 生命周期</h1><p>Taro main 4.3.0 / Swiper 11.1.15。此页用于手工演示生命周期。请分别使用 main 基线及 PR 分支构建产物验证。</p>
+<button id="mount">1. 挂载三图</button><button id="detach">2. 卸载保留节点</button><button id="circular">3. 切换 circular</button><button id="autoplay">4. 切换 autoplay</button><button id="add">5. 追加一图</button><button id="reconnect">6. 重新挂载</button>
+<div id="stage"></div><p id="state">尚未挂载</p><pre id="log"></pre>
+<script src="./bundle.js"></script>

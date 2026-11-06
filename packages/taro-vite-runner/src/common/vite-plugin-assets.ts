@@ -69,7 +69,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext | ViteMiniCo
       const isEsModule = isBoolean(options.esModule) ? options.esModule : true
 
       let url: string
-      if (limit || (!isBoolean(limit) && source.length < limit)) {
+      if (limit === true || (!isBoolean(limit) && source.length <= limit)) {
         const mimeType = mrmime.lookup(id) ?? 'application/octet-stream'
         url = `data:${mimeType};base64,${source.toString('base64')}`
       } else {
@@ -83,11 +83,12 @@ export default function (viteCompilerContext: ViteH5CompilerContext | ViteMiniCo
         url = `__VITE_ASSET__${referenceId}__`
       }
 
-      cache?.set(id, url)
-
-      return isEsModule
+      const code = isEsModule
         ? `export default "${url}"`
         : `module.exports = "${url}"`
+
+      cache?.set(id, code)
+      return code
     },
   }
 }

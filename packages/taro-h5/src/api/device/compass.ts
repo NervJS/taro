@@ -5,7 +5,7 @@ import { CallbackManager, MethodHandler } from '../../utils/handler'
 import { getDeviceInfo } from '../base/system'
 
 const callbackManager = new CallbackManager()
-let compassListener
+let compassListener: ReturnType<typeof throttle> | undefined
 
 /**
  * Note: 按系统类型获取对应绝对 orientation 事件名，因为安卓系统中直接监听 deviceorientation 事件得到的不是绝对 orientation
@@ -22,7 +22,11 @@ const deviceorientationEventName = ['absolutedeviceorientation', 'deviceorientat
 export const stopCompass: typeof Taro.stopCompass = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'stopCompass', success, fail, complete })
   try {
-    window.removeEventListener(deviceorientationEventName, compassListener, true)
+    if (compassListener) {
+      window.removeEventListener(deviceorientationEventName, compassListener, true)
+      compassListener.cancel()
+      compassListener = undefined
+    }
     return handle.success()
   } catch (e) {
     return handle.fail({ errMsg: e.message })

@@ -1,21 +1,22 @@
-import { Component, ComponentInterface, Element, Event, EventEmitter, Host, h, Prop, State, Watch } from '@stencil/core'
+import { Component, ComponentInterface, Element, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core'
 import classNames from 'classnames'
+
 import {
+  LINE_HEIGHT,
+  TOP
+} from './constant'
+import {
+  compareTime,
+  formatValue,
+  getDayRange,
+  getMonthRange,
+  getYearRange,
   hoursRange,
   minutesRange,
-  compareTime,
-  verifyValue,
-  verifyTime,
   verifyDate,
-  getYearRange,
-  getMonthRange,
-  getDayRange,
-  formatValue
+  verifyTime,
+  verifyValue
 } from './utils'
-import {
-  TOP,
-  LINE_HEIGHT
-} from './constant'
 
 export type Mode = 'selector' | 'multiSelector' | 'time' | 'date'
 export type Fields = 'day' | 'month' | 'year'
@@ -41,6 +42,7 @@ export class Picker implements ComponentInterface {
   private index: number[] = []
   private pickerDate: PickerDate
   private overlay?: HTMLElement
+  private hideTimer?: ReturnType<typeof setTimeout>
 
   @Element() el: HTMLElement
 
@@ -85,6 +87,7 @@ export class Picker implements ComponentInterface {
   }
 
   disconnectedCallback () {
+    this.clearHideTimer()
     if (this.overlay) {
       this.overlay.parentNode?.removeChild(this.overlay)
     }
@@ -190,6 +193,8 @@ export class Picker implements ComponentInterface {
   showPicker = () => {
     if (this.disabled) return
 
+    this.clearHideTimer()
+    this.fadeOut = false
     this.height = this.getHeightByIndex()
     this.hidden = false
   }
@@ -205,10 +210,19 @@ export class Picker implements ComponentInterface {
     return height
   }
 
+  private clearHideTimer () {
+    if (this.hideTimer !== undefined) {
+      clearTimeout(this.hideTimer)
+      this.hideTimer = undefined
+    }
+  }
+
   // 隐藏 picker
   hidePicker = () => {
+    this.clearHideTimer()
     this.fadeOut = true
-    setTimeout(() => {
+    this.hideTimer = setTimeout(() => {
+      this.hideTimer = undefined
       this.hidden = true
       this.fadeOut = false
     }, 350)

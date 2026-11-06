@@ -9,11 +9,12 @@ import { MethodHandler } from '../../utils/handler'
  */
 export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = ({ canvasId, fileType, quality, success, fail, complete }, inst) => {
   const handle = new MethodHandler({ name: 'canvasToTempFilePath', success, fail, complete })
-  const el = findDOM(inst) as HTMLElement
-  const canvas = el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement
-
   try {
-    const dataURL = canvas?.toDataURL(`image/${(fileType === 'jpg' ? 'jpeg' : fileType) || 'png'}`, quality)
+    const el = findDOM(inst) as HTMLElement
+    const canvas = el?.querySelector(`canvas[canvas-id="${canvasId}"]`) as HTMLCanvasElement
+    if (!canvas) throw new Error(`canvas ${canvasId} is not available`)
+
+    const dataURL = canvas.toDataURL(`image/${(fileType === 'jpg' ? 'jpeg' : fileType) || 'png'}`, quality)
     return handle.success({
       tempFilePath: dataURL
     })

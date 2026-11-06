@@ -5,13 +5,18 @@ import queryString from 'query-string'
 
 import { MethodHandler } from '../../utils/handler'
 
+function isValidCoordinates (latitude: unknown, longitude: unknown) {
+  return typeof latitude === 'number' && latitude >= -90 && latitude <= 90 &&
+    typeof longitude === 'number' && longitude >= -180 && longitude <= 180
+}
+
 let container: HTMLDivElement | null = null
 function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
   const { latitude, longitude, ...opts } = mapOpt
   const query = {
     key,
     type: 1,
-    coord: mapOpt.coord ?? [latitude, longitude].every(e => Number(e) >= 0) ? `${latitude},${longitude}` : undefined,
+    coord: isValidCoordinates(latitude, longitude) ? `${latitude},${longitude}` : undefined,
     referer: 'myapp',
     ...opts
   }
@@ -106,7 +111,7 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
       if (res) {
         return handle.fail(res, { resolve, reject })
       } else {
-        if (chooseLocation.latitude && chooseLocation.longitude) {
+        if (isValidCoordinates(chooseLocation.latitude, chooseLocation.longitude)) {
           return handle.success(chooseLocation, { resolve, reject })
         } else {
           return handle.fail({}, { resolve, reject })

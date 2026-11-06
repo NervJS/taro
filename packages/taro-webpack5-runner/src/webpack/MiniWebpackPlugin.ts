@@ -55,6 +55,8 @@ export class MiniWebpackPlugin {
       requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
       cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
       Element: ['@tarojs/runtime', 'TaroElement'],
+      Document: ['@tarojs/runtime', 'TaroDocument'],
+      ShadowRoot: ['@tarojs/runtime', 'ShadowRoot'],
       SVGElement: ['@tarojs/runtime', 'SVGElement'],
       MutationObserver: ['@tarojs/runtime', 'MutationObserver'],
       history: ['@tarojs/runtime', 'history'],

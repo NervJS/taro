@@ -2,42 +2,45 @@ import { Current } from '@tarojs/runtime'
 
 import type { PageInstance } from '@tarojs/runtime'
 
-const pageScrollFn = {}
-let pageDOM: Element | Window = window
+const pageScrollBindings = new Map<string, {
+  target: HTMLElement | Window
+  listener: EventListener
+}>()
 
 export function bindPageScroll (page: PageInstance, scrollEl: HTMLElement | Window, distance = 50) {
   const pagePath = (page ? page?.path : Current.router?.path) as string
-  pageScrollFn[pagePath] && scrollEl.removeEventListener('scroll', pageScrollFn[pagePath])
-  pageDOM = scrollEl
+  const previous = pageScrollBindings.get(pagePath)
+  previous?.target.removeEventListener('scroll', previous.listener)
 
   let isReachBottom = false
 
-  pageScrollFn[pagePath] = function () {
+  const listener = function () {
     page.onPageScroll?.({
-      scrollTop: pageDOM instanceof Window ? window.scrollY : pageDOM.scrollTop
+      scrollTop: scrollEl instanceof Window ? scrollEl.scrollY : scrollEl.scrollTop
     })
 
-    if (isReachBottom && getOffset() > distance) {
+    if (isReachBottom && getOffset(scrollEl) > distance) {
       isReachBottom = false
     }
 
     if (
       page.onReachBottom &&
       !isReachBottom &&
-      getOffset() < distance
+      getOffset(scrollEl) < distance
     ) {
       isReachBottom = true
       page.onReachBottom()
     }
   }
 
-  pageDOM.addEventListener('scroll', pageScrollFn[pagePath], false)
+  pageScrollBindings.set(pagePath, { target: scrollEl, listener })
+  scrollEl.addEventListener('scroll', listener, false)
 }
 
-function getOffset () {
-  if (pageDOM instanceof Window) {
-    return document.documentElement.scrollHeight - window.scrollY - window.innerHeight
+function getOffset (scrollEl: HTMLElement | Window) {
+  if (scrollEl instanceof Window) {
+    return scrollEl.document.documentElement.scrollHeight - scrollEl.scrollY - scrollEl.innerHeight
   } else {
-    return pageDOM.scrollHeight - pageDOM.scrollTop - pageDOM.clientHeight
+    return scrollEl.scrollHeight - scrollEl.scrollTop - scrollEl.clientHeight
   }
 }

@@ -141,7 +141,7 @@ transform(
 }
 ```
 
-You can also speficy a platform as the media query type ("android", "dom", "ios", "macos", "web", "windows"):
+You can also specify a platform as the media query type ("android", "dom", "ios", "macos", "web", "windows"):
 
 ```js
 transform(
