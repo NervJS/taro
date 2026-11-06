@@ -99,6 +99,27 @@ describe('createAnimation', () => {
     expect(el.getAttribute('animation')).toBe(`${data}--1`)
   })
 
+  it('使用 data-animation 的多帧动画应保持两个属性逐帧同步', () => {
+    const data = buildAnimation(3)
+    const el = mount('data-animation', data)
+
+    fireTransitionEnd(el)
+    expect(el.getAttribute('data-animation')).toBe(`${data}--1`)
+    expect(el.getAttribute('animation')).toBe(`${data}--1`)
+
+    // 第一帧之后元素同时带上了 animation；若此后只更新 animation，
+    // data-animation 会停在上一帧，而生成的 CSS 同时匹配两个属性，
+    // 旧帧规则会把后续帧的样式盖掉。
+    fireTransitionEnd(el)
+    expect(el.getAttribute('data-animation')).toBe(`${data}--2`)
+    expect(el.getAttribute('animation')).toBe(`${data}--2`)
+
+    // 已是最后一帧，两个属性都不再推进
+    fireTransitionEnd(el)
+    expect(el.getAttribute('data-animation')).toBe(`${data}--2`)
+    expect(el.getAttribute('animation')).toBe(`${data}--2`)
+  })
+
   it('无关元素的 transitionend 不应影响后续动画的推进', () => {
     const data = buildAnimation(2)
     // 页面上任意一个不带动画属性的元素先触发一次 transitionend
