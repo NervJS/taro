@@ -169,7 +169,7 @@ Rust 代码存放在 `crates` 文件夹下，使用 Cargo workspace 管理，目
 
 #### NAPI bindings
 
-在根目录执行 `pnpm build:binding:debug` 或 `pnpm build:binding:release` 命令，会在 `crates/native_binding` 文件夹中编译出 binding 文件 `taro.[os-platform].node`。
+在根目录执行 `pnpm build:binding:debug` 或 `pnpm build:binding:release` 命令，会在 `crates/native_binding` 文件夹中编译出 binding 文件 `taro.[platform]-[arch][-abi].node`，例如 macOS 上为 `taro.darwin-arm64.node`，Linux 上为 `taro.linux-x64-gnu.node`。
 
 然后可以执行单元测试：
 
