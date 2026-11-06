@@ -98,11 +98,13 @@ function handleTransitionEnd (e: Event) {
   const animStepsMaxIndex = animStepsCount - 1
   if (stepIndex < animStepsMaxIndex) {
     // 播放下一个关键帧（因为 nerv 和 react 有差异所以 animation & data-animation 都需要写）
-    target.setAttribute(animAttr, `${animName}__${animIndex}--${stepIndex + 1}`)
-    if (animAttr === 'data-animation') {
-      // Nerv 环境，animation & data-animation 双重保险
-      target.setAttribute('animation', `${animName}__${animIndex}--${stepIndex + 1}`)
+    const nextAnimData = `${animName}__${animIndex}--${stepIndex + 1}`
+    // 两个属性必须同步推进：生成的 CSS 规则同时匹配 [animation] 和 [data-animation]，
+    // 只更新其中一个的话，另一个会停在上一帧，旧帧规则仍然命中并盖掉后续帧的样式。
+    if (target.getAttribute('data-animation') !== null) {
+      target.setAttribute('data-animation', nextAnimData)
     }
+    target.setAttribute('animation', nextAnimData)
   }
 }
 
