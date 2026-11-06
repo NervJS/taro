@@ -1,3 +1,1 @@
-export default {
-  forceCustomWrapper: true,
-}
+export default {}
