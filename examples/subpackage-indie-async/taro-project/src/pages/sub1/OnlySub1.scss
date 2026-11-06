@@ -16,5 +16,37 @@
     display: block;
     font-size: 12px;
     color: #666;
+    margin-bottom: 10px;
+  }
+
+  /* 深层后代选择器（3 层）验证异步 chunk 样式命中 */
+  .only-sub1-deep {
+    border: 2px dashed #b7eb8f;
+    border-radius: 8px;
+    padding: 10px;
+
+    .only-sub1-deep-title {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #237804;
+      margin-bottom: 6px;
+    }
+
+    .only-sub1-deep-inner {
+      margin-left: 12px;
+      border-left: 3px solid #95de64;
+      padding-left: 8px;
+      margin-top: 6px;
+
+      .only-sub1-deep-leaf {
+        display: block;
+        font-size: 12px;
+        color: #135200;
+        background: #f6ffed;
+        border-radius: 6px;
+        padding: 6px 8px;
+      }
+    }
   }
 }
