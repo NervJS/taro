@@ -4,7 +4,7 @@ import { Current } from '@tarojs/runtime'
 import { easeInOut, getTimingFunc } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
-let timer: ReturnType<typeof setTimeout>
+const activeScrolls: WeakMap<Window | HTMLElement, () => void> = new WeakMap()
 const FRAME_DURATION = 17
 
 /**
@@ -14,11 +14,17 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
   let scrollFunc
   const handle = new MethodHandler({ name: 'pageScrollTo', success, fail, complete })
   return new Promise((resolve, reject) => {
+    const failScroll = (errMsg: string) => {
+      try {
+        handle.fail({ errMsg }, { resolve, reject })
+      } catch (error) {
+        reject(error)
+      }
+    }
+
     try {
       if (scrollTop === undefined && !selector) {
-        return handle.fail({
-          errMsg: 'scrollTop" 或 "selector" 需要其之一'
-        }, { resolve, reject })
+        return failScroll('scrollTop" 或 "selector" 需要其之一')
       }
 
       const usingWindowScroll = (window as any).__taroAppConfig?.usingWindowScroll
@@ -64,23 +70,41 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
       const frameCnt = Math.ceil(duration / FRAME_DURATION)
       const easeFunc = getTimingFunc(easeInOut, frameCnt + 1)
 
-      const scroll = (frame = 0) => {
-        if (frame >= frameCnt) {
-          scrollFunc(to)
-          return handle.success({}, { resolve, reject })
-        }
-        const dest = from + delta * easeFunc(frame)
-        scrollFunc(dest)
-        timer && clearTimeout(timer)
-        timer = setTimeout(() => {
-          scroll(frame + 1)
-        }, FRAME_DURATION)
+      const scrollTarget = usingWindowScroll ? window : el
+      let timer: ReturnType<typeof setTimeout> | undefined
+      const interrupt = () => {
+        clearTimeout(timer)
+        failScroll('interrupted by another scroll')
       }
+
+      const scroll = (frame = 0) => {
+        if (activeScrolls.get(scrollTarget) !== interrupt) return
+        const atTarget = frame >= frameCnt
+        try {
+          scrollFunc(atTarget ? to : from + delta * easeFunc(frame))
+        } catch (error) {
+          activeScrolls.delete(scrollTarget)
+          return failScroll(error.message)
+        }
+        if (atTarget) {
+          activeScrolls.delete(scrollTarget)
+          try {
+            handle.success({}, { resolve, reject })
+          } catch (error) {
+            reject(error)
+          }
+          return
+        }
+        timer = setTimeout(() => scroll(frame + 1), FRAME_DURATION)
+      }
+
+      const previous = activeScrolls.get(scrollTarget)
+      // Cancellation callbacks may start another scroll on this target.
+      activeScrolls.set(scrollTarget, interrupt)
+      previous?.()
       scroll()
-    } catch (e) {
-      return handle.fail({
-        errMsg: e.message
-      }, { resolve, reject })
+    } catch (error) {
+      failScroll(error.message)
     }
   })
 }
