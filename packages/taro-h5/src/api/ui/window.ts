@@ -7,8 +7,8 @@ const callbackManager = new CallbackManager()
 
 const resizeListener = () => {
   callbackManager.trigger({
-    windowWidth: window.screen.width,
-    windowHeight: window.screen.height
+    windowWidth: document.documentElement.clientWidth,
+    windowHeight: document.documentElement.clientHeight
   })
 }
 
