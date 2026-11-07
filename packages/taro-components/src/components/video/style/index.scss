@@ -182,6 +182,9 @@
   padding: 14px;
   width: 16px;
   height: 16px;
+
+  // NOTE: 避免拖动进度条时触发外层 ScrollView 等容器的滚动
+  touch-action: none;
 }
 
 .taro-video-inner {
