@@ -146,6 +146,93 @@ describe.each([false, true])('pageScrollTo target (window scroll: %s)', usingWin
     expect(positions.every(value => value === 200)).toBe(true)
   })
 
+  test('fails without moving when the selector does not match', async () => {
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+    position = 100
+
+    await expect(pageScrollTo({ selector: '#missing', offsetTop: 20, duration: 0, success, fail, complete }))
+      .resolves.toEqual({ errMsg: 'pageScrollTo:fail selector not found' })
+
+    expect(position).toBe(100)
+    expect(positions).toHaveLength(0)
+    expect(success).not.toHaveBeenCalled()
+    expect(fail).toHaveBeenCalledTimes(1)
+    expect(fail).toHaveBeenCalledWith({ errMsg: 'pageScrollTo:fail selector not found' })
+    expect(complete).toHaveBeenCalledTimes(1)
+    expect(complete).toHaveBeenCalledWith({ errMsg: 'pageScrollTo:fail selector not found' })
+  })
+
+  test('rejects when no failure callbacks are supplied', async () => {
+    await expect(pageScrollTo({ selector: '#missing', duration: 0 }))
+      .rejects.toEqual({ errMsg: 'pageScrollTo:fail selector not found' })
+    expect(positions).toHaveLength(0)
+  })
+
+  test('uses the current page when an earlier page has a matching selector', async () => {
+    page.id = 'pages/current'
+    Current.page = { path: page.id }
+    page.insertAdjacentHTML('beforebegin', '<div class="taro_page"><div id="target"></div></div>')
+    const [otherTarget, currentTarget] = document.querySelectorAll('#target')
+    Object.defineProperty(otherTarget, 'offsetTop', { value: 400 })
+    Object.defineProperty(currentTarget, 'offsetTop', { value: 0 })
+    position = 100
+
+    await expect(pageScrollTo({ selector: '#target', offsetTop: 25, duration: 0 }))
+      .resolves.toEqual({ errMsg: 'pageScrollTo:ok' })
+
+    expect(position).toBe(25)
+  })
+
+  test('fails when a selector only matches outside the current page', async () => {
+    page.id = 'pages/current'
+    Current.page = { path: page.id }
+    page.insertAdjacentHTML('beforebegin', '<div class="taro_page"><div id="previous-target"></div></div>')
+    position = 100
+
+    await expect(pageScrollTo({ selector: '#previous-target', duration: 0 }))
+      .rejects.toEqual({ errMsg: 'pageScrollTo:fail selector not found' })
+
+    expect(position).toBe(100)
+    expect(positions).toHaveLength(0)
+  })
+
+  test('reports invalid selectors through the failure path', async () => {
+    await expect(pageScrollTo({ selector: '[', duration: 0 }))
+      .rejects.toEqual({ errMsg: expect.stringMatching(/^pageScrollTo:fail /) })
+    expect(positions).toHaveLength(0)
+  })
+
+  test('can still select the current page container itself', async () => {
+    page.id = 'current-page'
+    Current.page = { path: page.id }
+    Object.defineProperty(page, 'offsetTop', { value: 40 })
+
+    await pageScrollTo({ selector: '#current-page', duration: 0 })
+
+    expect(position).toBe(40)
+  })
+
+  if (usingWindowScroll) {
+    test('does not select an earlier page while the current one is absent', async () => {
+      Current.page = { path: 'pages/not-mounted' }
+
+      await expect(pageScrollTo({ selector: '#target', duration: 0 }))
+        .rejects.toEqual({ errMsg: 'pageScrollTo:fail selector not found' })
+      expect(positions).toHaveLength(0)
+    })
+
+    test('can find document targets before a page is registered', async () => {
+      page.className = ''
+      Object.defineProperty(document.querySelector('#target'), 'offsetTop', { value: 150 })
+
+      await pageScrollTo({ selector: '#target', duration: 0 })
+
+      expect(position).toBe(150)
+    })
+  }
+
   test('reaches a selector target including its offset', async () => {
     Object.defineProperty(document.querySelector('#target'), 'offsetTop', { value: 150 })
     const result = pageScrollTo({ selector: '#target', offsetTop: 50, duration: 34 })
