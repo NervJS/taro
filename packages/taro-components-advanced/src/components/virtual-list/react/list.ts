@@ -61,13 +61,31 @@ export default class List extends React.PureComponent<IProps, IState> {
     }
   }
 
+  _isRendering = false
+
+  _hasPendingRefresh = false
+
   refresh = () => {
+    // Note: ListSet records the size of newly measured items while rendering and asks for a refresh,
+    // updating state at that point is illegal, so wait until the current render has been committed.
+    if (this._isRendering) {
+      this._hasPendingRefresh = true
+      return
+    }
+
     if (process.env.FRAMEWORK === 'preact') {
       this.forceUpdate()
     } else {
       this.setState(({ refreshCount }) => ({
         refreshCount: ++refreshCount
       }))
+    }
+  }
+
+  _flushPendingRefresh () {
+    if (this._hasPendingRefresh) {
+      this._hasPendingRefresh = false
+      this.refresh()
     }
   }
 
@@ -333,6 +351,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     this._callPropsCallbacks()
     this.preset.boundaryDetection()
+    this._flushPendingRefresh()
   }
 
   componentDidUpdate (prevProps: IProps, prevState: IState) {
@@ -370,6 +389,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     }
 
     this._callPropsCallbacks(prevProps, prevState)
+    this._flushPendingRefresh()
   }
 
   componentWillUnmount () {
@@ -464,6 +484,15 @@ export default class List extends React.PureComponent<IProps, IState> {
   }
 
   render () {
+    this._isRendering = true
+    try {
+      return this._renderList()
+    } finally {
+      this._isRendering = false
+    }
+  }
+
+  _renderList () {
     const {
       className,
       direction,
