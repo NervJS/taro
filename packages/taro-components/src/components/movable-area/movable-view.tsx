@@ -1,4 +1,6 @@
-import { Component, h, Host, Prop, Event, EventEmitter, Element, Watch, Method } from '@stencil/core'
+import { Component, Element, Event, EventEmitter, h, Host, Method, Prop, Watch } from '@stencil/core'
+
+import { snapTarget } from './snap-target'
 
 @Component({
   tag: 'taro-movable-view-core',
@@ -57,6 +59,10 @@ export class MovableView {
    * 是否使用动画
    */
   @Prop() animation: boolean = true
+  /** X 轴吸附阈值；有限非负数启用，0 有效。 */
+  @Prop() snapThresholdX?: number | null
+  /** Y 轴吸附阈值，规则同 X。 */
+  @Prop() snapThresholdY?: number | null
 
   /**
    * 拖动过程中触发的事件，event.detail = {x, y, source}
@@ -90,17 +96,65 @@ export class MovableView {
 
   @Watch('x')
   watchX (newValue: number | string) {
-    this.setTransform(parseFloat(`${newValue || 0}`), this.translateY)
+    const x = parseFloat(`${newValue || 0}`)
+    if (this.snapEnabled) {
+      if (this.touching || this.snapFrame !== undefined) {
+        const index = this.findEcho(this.emittedX, this.echoX, x)
+        if (index !== -1) {
+          this.echoX = index + 1
+          return
+        }
+        // React may write the latest emitted position again after it was consumed.
+        if (Math.abs(x - (this.translateX - this.scaleOffset.x)) <= 0.05) return
+        if (this.echoX > 0 && Math.abs(this.emittedX[this.echoX - 1] - x) <= 0.1) return
+      }
+      this.cancelSnap()
+      this.clearEmittedX()
+      this.setTransform(x, this.translateY, undefined, '')
+    } else {
+      this.setTransform(x, this.translateY)
+    }
   }
 
   @Watch('y')
   watchY (newValue: number | string) {
-    this.setTransform(this.translateX, parseFloat(`${newValue || 0}`))
+    const y = parseFloat(`${newValue || 0}`)
+    if (this.snapEnabled) {
+      if (this.touching || this.snapFrame !== undefined) {
+        const index = this.findEcho(this.emittedY, this.echoY, y)
+        if (index !== -1) {
+          this.echoY = index + 1
+          return
+        }
+        if (Math.abs(y - (this.translateY - this.scaleOffset.y)) <= 0.05) return
+        if (this.echoY > 0 && Math.abs(this.emittedY[this.echoY - 1] - y) <= 0.1) return
+      }
+      this.cancelSnap()
+      this.clearEmittedY()
+      this.setTransform(this.translateX, y, undefined, '')
+    } else {
+      this.setTransform(this.translateX, y)
+    }
+  }
+
+  @Watch('snapThresholdX')
+  @Watch('snapThresholdY')
+  watchSnapThreshold () {
+    this.cancelSnap()
+  }
+
+  @Watch('disabled')
+  watchDisabled (disabled: boolean) {
+    if (disabled) {
+      this.touching = false
+      this.cancelSnap()
+    }
   }
 
   @Watch('scaleMin')
   @Watch('scaleMax')
   watchScaleMinOrMax () {
+    this.cancelSnap()
     if (!this.scale) return false
     this.updateScale(this.currentScale, true)
     this.setOriginScale(this.currentScale)
@@ -108,6 +162,7 @@ export class MovableView {
 
   @Watch('scaleValue')
   watchScaleValue (scale) {
+    this.cancelSnap()
     if (!this.scale) {
       return false
     }
@@ -123,13 +178,21 @@ export class MovableView {
   @Method()
   async setParent ({ element, area }: { element: HTMLElement, area: { width: number; height: number; } }) {
     const scale = this.scale ? this.scaleValue : 1
+    const initialized = !!this.parent
+    const bounds = [this.minX, this.maxX, this.minY, this.maxY]
     this.area = area
     this.parent = element
 
     this.updateOffset()
     this.updateScaleOffset(scale)
     this.updateBoundary()
-    this.setTransform(Number(this.x) + this.scaleOffset.x, Number(this.y) + this.scaleOffset.y, scale, "", true)
+    if (this.snapTarget && this.boundsChanged(bounds)) this.cancelSnap()
+    if (this.snapEnabled && initialized) {
+      const { x, y } = this.getLimitXY(this.translateX, this.translateY)
+      this.setTransform(x, y, scale)
+    } else {
+      this.setTransform(Number(this.x) + this.scaleOffset.x, Number(this.y) + this.scaleOffset.y, scale, "", true)
+    }
     this.setOriginScale(scale)
   }
 
@@ -166,7 +229,7 @@ export class MovableView {
           }
           const filter = (input: string | null) => {
             return input?.split(";").filter((item) => {
-              return !["transform", "will-change"].find((key) => {
+              return !["transform", "-webkit-transform", "will-change"].find((key) => {
                 return item.trim().startsWith(key)
               })
             }).join(";")
@@ -175,10 +238,17 @@ export class MovableView {
             return
           }
 
+          const bounds = [this.minX, this.maxX, this.minY, this.maxY]
           this.updateOffset()
           this.updateScaleOffset()
           this.updateBoundary()
-          this.setTransform(this.translateX, this.translateY)
+          if (this.snapTarget && this.boundsChanged(bounds)) this.cancelSnap()
+          if (this.snapEnabled) {
+            const { x, y } = this.getLimitXY(this.translateX, this.translateY)
+            this.setTransform(x, y)
+          } else {
+            this.setTransform(this.translateX, this.translateY)
+          }
         }
       })
     })
@@ -191,6 +261,7 @@ export class MovableView {
 
   disconnectedCallback () {
     this.observer?.disconnect()
+    this.cancelSnap()
   }
 
   /** 观察者 */
@@ -236,6 +307,95 @@ export class MovableView {
   /** 偏移量 */
   private offset: { x: number; y: number; } = { x: 0, y: 0 }
   private scaleOffset: { x: number; y: number; } = { x: 0, y: 0 }
+  private multiTouched: boolean = false
+  private snapFrame?: number
+  private snapTarget?: { x: number; y: number }
+  private emittedX: number[] = []
+  private emittedY: number[] = []
+  private echoX = 0
+  private echoY = 0
+
+  private get snapEnabled () {
+    return this.validThreshold(this.snapThresholdX) || this.validThreshold(this.snapThresholdY)
+  }
+
+  private validThreshold (value?: number | null): boolean {
+    return typeof value === 'number' && Number.isFinite(value) && value >= 0
+  }
+
+  /** 未消费位置和最近一次已消费位置可作为回填；更早的位置视为代码定位。 */
+  private findEcho (values: number[], start: number, value: number): number {
+    for (let index = start; index < values.length; index++) {
+      if (Math.abs(values[index] - value) <= 0.1) return index
+    }
+    return -1
+  }
+
+  private clearEmittedX () {
+    this.emittedX = []
+    this.echoX = 0
+  }
+
+  private clearEmittedY () {
+    this.emittedY = []
+    this.echoY = 0
+  }
+
+  private clearEmitted () {
+    this.clearEmittedX()
+    this.clearEmittedY()
+  }
+
+  private boundsChanged (before: number[]): boolean {
+    const current = [this.minX, this.maxX, this.minY, this.maxY]
+    return before.some((value, index) => value !== current[index])
+  }
+
+  private cancelSnap (keepTarget = false) {
+    if (this.snapFrame !== undefined) cancelAnimationFrame(this.snapFrame)
+    this.snapFrame = undefined
+    if (!keepTarget) this.snapTarget = undefined
+  }
+
+  private moveToSnap (x: number, y: number) {
+    this.snapTarget = { x, y }
+    if (!this.animation) {
+      this.setTransform(x, y, undefined, 'snap')
+      this.snapTarget = undefined
+      return
+    }
+
+    const activeTarget = this.snapTarget
+    const startX = this.translateX
+    const startY = this.translateY
+    const damping = this.damping > 0 && Number.isFinite(this.damping) ? this.damping : 20
+    const duration = Math.max(120, Math.min(450, 6000 / damping))
+    let startTime: number | undefined
+    const step = (time: number) => {
+      if (startTime === undefined) startTime = time
+      const progress = Math.min((time - startTime) / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      this.setTransform(startX + (x - startX) * eased, startY + (y - startY) * eased, undefined, 'snap')
+      if (this.snapTarget !== activeTarget) return
+      if (progress < 1) {
+        this.snapFrame = requestAnimationFrame(step)
+      } else {
+        this.snapFrame = undefined
+        this.snapTarget = undefined
+      }
+    }
+    this.snapFrame = requestAnimationFrame(step)
+  }
+
+  private setTouchTransform (x: number, y: number) {
+    let nextX = this.xMove ? x + this.baseX : 0
+    let nextY = this.yMove ? y + this.baseY : 0
+    if (this.snapEnabled) {
+      if (!this.xMove) nextX = this.baseX
+      if (!this.yMove) nextY = this.baseY
+    }
+    this.setTransform(nextX, nextY)
+  }
 
   getLimitXY = (x: number, y: number) => {
     let outOfBounds = false
@@ -271,12 +431,9 @@ export class MovableView {
 
     const realX = subtract(x, this.scaleOffset.x)
     const realY = subtract(y, this.scaleOffset.y)
-    if (this.translateX !== x || this.translateY !== y) {
-      !noEmitChange && this.onChange.emit({
-        x: realX,
-        y: realY,
-        source
-      })
+    const changed = this.translateX !== x || this.translateY !== y
+    if (changed && !noEmitChange && !this.snapEnabled) {
+      this.onChange.emit({ x: realX, y: realY, source })
     }
 
     if (scale !== this.currentScale) {
@@ -293,6 +450,11 @@ export class MovableView {
     this.translateX = x
     this.translateY = y
     this.currentScale = scale
+    if (changed && !noEmitChange && this.snapEnabled) {
+      this.emittedX.push(realX)
+      this.emittedY.push(realY)
+      this.onChange.emit({ x: realX, y: realY, source })
+    }
   }
 
   updateOffset = () => {
@@ -377,44 +539,38 @@ export class MovableView {
     if (this.x || this.y) {
       const x = parseFloat(`${this.x || 0}`)
       const y = parseFloat(`${this.y || 0}`)
-      this.setTransform(x, y)
+      this.setTransform(x, y, undefined, this.snapEnabled ? '' : undefined)
     }
   }
 
   handleTouchStart = (e: TouchEvent) => {
+    if (this.snapEnabled && e.touches.length > 1) this.multiTouched = true
     const touches = e.touches
-    if (this.disabled || touches.length > 1 || !this.element) {
-      return
-    }
+    if (this.disabled || touches.length > 1 || !this.element) return
     const touch = touches[0]
 
+    if (this.snapFrame !== undefined) this.cancelSnap(true)
+    this.clearEmitted()
+    this.multiTouched = false
     this.touching = true
     this.firstMoveFireEvent = false
     this.origin.x = touch.screenX
     this.origin.y = touch.screenY
-
     this.baseX = this.translateX
     this.baseY = this.translateY
-
     this.element.style.willChange = "transform"
   }
 
   handleTouchMove = (e: TouchEvent) => {
     const touches = e.touches
-    if (this.disabled || !this.element || this.scaling || !this.touching || touches.length > 1) {
-      return
-    }
+    if (this.snapEnabled && (touches.length > 1 || this.scaling)) this.multiTouched = true
+    if (this.disabled || !this.element || this.scaling || !this.touching || touches.length > 1) return
 
-    if (this.direction !== "horizontal") {
-      e.preventDefault()
-    }
-
+    if (this.direction !== "horizontal") e.preventDefault()
     const touch = touches[0]
-
     const x = touch.screenX - this.origin.x
     const y = touch.screenY - this.origin.y
-
-    this.setTransform(this.xMove ? (x + this.baseX) : 0, this.yMove ? (y + this.baseY) : 0)
+    this.setTouchTransform(x, y)
 
     if (!this.firstMoveFireEvent) {
       this.firstMoveFireEvent = true
@@ -434,15 +590,40 @@ export class MovableView {
 
   handleTouchEnd = (e: TouchEvent) => {
     const touch = e.changedTouches[0]
-    if (this.disabled || !this.touching || !touch) {
+    if (this.disabled || !this.touching || !touch) return
+    if (this.snapEnabled && (this.multiTouched || this.scaling || e.touches.length > 0)) {
+      this.touching = false
+      this.multiTouched = false
+      this.cancelSnap()
       return
     }
     this.touching = false
 
     const x = touch.screenX - this.origin.x
     const y = touch.screenY - this.origin.y
+    this.setTouchTransform(x, y)
+    if (!this.snapEnabled) return
 
-    this.setTransform(this.xMove ? (x + this.baseX) : 0, this.yMove ? (y + this.baseY) : 0)
+    const start = this.getLimitXY(this.baseX, this.baseY)
+    const end = this.getLimitXY(this.translateX, this.translateY)
+    const moved = Math.abs(start.x - end.x) >= 0.05 || Math.abs(start.y - end.y) >= 0.05
+    if (!moved) {
+      if (this.snapTarget) this.moveToSnap(this.snapTarget.x, this.snapTarget.y)
+      return
+    }
+
+    this.snapTarget = undefined
+    const targetX = this.xMove ? snapTarget(this.baseX, this.translateX, this.minX, this.maxX, this.snapThresholdX) : null
+    const targetY = this.yMove ? snapTarget(this.baseY, this.translateY, this.minY, this.maxY, this.snapThresholdY) : null
+    if (targetX !== null || targetY !== null) {
+      this.moveToSnap(targetX ?? this.translateX, targetY ?? this.translateY)
+    }
+  }
+
+  handleTouchCancel = () => {
+    this.touching = false
+    this.multiTouched = false
+    this.cancelSnap()
   }
 
   render () {
@@ -451,6 +632,7 @@ export class MovableView {
         onTouchStart={this.handleTouchStart}
         onTouchMove={this.handleTouchMove}
         onTouchEnd={this.handleTouchEnd}
+        onTouchCancel={this.handleTouchCancel}
       />
     )
   }
