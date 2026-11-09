@@ -2078,7 +2078,7 @@ declare module '../../index' {
     createCanvasContext(
       /** 要获取上下文的 [canvas](/docs/components/canvas) 组件 canvas-id 属性 */
       canvasId: string,
-      /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](/docs/components/canvas) ，如果省略则不在任何自定义组件内查找 */
+      /** 在自定义组件下，当前组件实例的this，表示在这个自定义组件下查找拥有 canvas-id 的 [canvas](/docs/components/canvas) ，如果省略则不在任何自定义组件内查找；weapp 也接受已挂载 Taro 节点（React ref.current），使用最近原生作用域 */
       component?: TaroGeneral.IAnyObject,
     ): CanvasContext
 
@@ -2107,7 +2107,7 @@ declare module '../../index' {
      */
     canvasToTempFilePath(
       option: canvasToTempFilePath.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件；weapp 也接受已挂载 Taro 节点（React ref.current），使用最近原生作用域 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<canvasToTempFilePath.SuccessCallbackResult>
 
@@ -2129,7 +2129,7 @@ declare module '../../index' {
      */
     canvasPutImageData(
       option: canvasPutImageData.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件；weapp 也接受已挂载 Taro 节点（React ref.current），使用最近原生作用域 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<TaroGeneral.CallbackResult>
 
@@ -2155,7 +2155,7 @@ declare module '../../index' {
      */
     canvasGetImageData(
       option: canvasGetImageData.Option,
-      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
+      /** 在自定义组件下，当前组件实例的this，以操作组件内 [canvas](/docs/components/canvas) 组件；weapp 也接受已挂载 Taro 节点（React ref.current），使用最近原生作用域 */
       component?: TaroGeneral.IAnyObject,
     ): Promise<canvasGetImageData.SuccessCallbackResult>
   }

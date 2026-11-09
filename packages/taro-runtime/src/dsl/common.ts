@@ -338,6 +338,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
         safeExecute(path, ON_LOAD)
         if (process.env.TARO_PLATFORM !== 'web') {
           componentElement.ctx = this
+          bumpNearestCtxEpochForRoot(componentElement)
           if (process.env.TARO_ENV !== 'tt' || !isEnableTTDom()) {
             componentElement.performUpdate(true)
           }
@@ -351,6 +352,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
         instances.delete(path)
         if (componentElement) {
           componentElement.ctx = null
+          bumpNearestCtxEpochForRoot(componentElement)
         }
       })
     },

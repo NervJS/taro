@@ -413,7 +413,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/SelectorQuery.in.html
      */
     in(
-        /** 自定义组件实例 */
+        /** 自定义组件实例；weapp 也接受已挂载 Taro 节点（React ref.current），使用其最近原生作用域而非 DOM 子树 */
         component: TaroGeneral.IAnyObject,
     ): SelectorQuery
     /** 在当前页面下选择第一个匹配选择器 `selector` 的节点。返回一个 `NodesRef` 对象实例，可以用于获取节点信息。
@@ -514,7 +514,7 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createIntersectionObserver.html
      */
     createIntersectionObserver(
-      /** 自定义组件实例 */
+      /** 自定义组件实例；weapp 也接受已挂载 Taro 节点（React ref.current），使用其最近原生作用域而非 DOM 子树 */
       component: TaroGeneral.IAnyObject,
       /** 选项 */
       options?: createIntersectionObserver.Option,

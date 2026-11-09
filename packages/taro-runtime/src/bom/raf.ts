@@ -24,7 +24,9 @@ const _hasNativeRaf = process.env.TARO_PLATFORM === 'web' &&
   typeof requestAnimationFrame !== 'undefined' &&
   typeof cancelAnimationFrame !== 'undefined'
 
-const _raf = _hasNativeRaf
+// Keep this check inline so Webpack prunes native globals before ProvidePlugin
+// can inject an import of this module's own RAF exports on non-web platforms.
+const _raf = process.env.TARO_PLATFORM === 'web' && _hasNativeRaf
   ? requestAnimationFrame
   : function (callback) {
     const _now = now()
@@ -32,7 +34,7 @@ const _raf = _hasNativeRaf
     return setTimeout(function () { callback(lastTime = nextTime) }, nextTime - _now)
   }
 
-const _caf = _hasNativeRaf
+const _caf = process.env.TARO_PLATFORM === 'web' && _hasNativeRaf
   ? cancelAnimationFrame
   : function (seed) {
     // fix https://github.com/NervJS/taro/issues/7749
