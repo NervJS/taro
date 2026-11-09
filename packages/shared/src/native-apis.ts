@@ -1,4 +1,5 @@
 import { isFunction, isString } from './is'
+import { hooks } from './runtime-hooks'
 import { nonsupport, setUniqueKeyToRoute } from './utils'
 
 declare const getCurrentPages: () => any
@@ -224,6 +225,24 @@ function getNormalRequest (global) {
   }
 }
 
+// Only native selector/id scope parameters with verified weapp contracts.
+const nativeScopeApis = new Set([
+  'createCanvasContext', 'canvasToTempFilePath', 'canvasPutImageData', 'canvasGetImageData',
+  'createAudioContext', 'createVideoContext', 'createMapContext', 'createLivePlayerContext'
+])
+const scopedQueries = new WeakSet<object>()
+
+function resolveNativeScopeArgs (api: string, args: any[]): any[] {
+  if (process.env.TARO_ENV !== 'weapp') return args
+  const index = api === 'createIntersectionObserver' ? 0 : nativeScopeApis.has(api) ? 1 : -1
+  if (index < 0 || args.length <= index) return args
+  const scope = hooks.call('getNativeScope', args[index])
+  if (scope === args[index]) return args
+  const resolved = args.slice()
+  resolved[index] = scope
+  return resolved
+}
+
 function processApis (taro, global, config: IProcessApisIOptions = {}) {
   const patchNeedPromiseApis = config.needPromiseApis || []
   const _needPromiseApis = new Set<string>([...patchNeedPromiseApis, ...needPromiseApis])
@@ -259,7 +278,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
         // 第一个参数 options 为字符串，单独处理
         if (typeof options === 'string') {
           if (args.length) {
-            return global[key](options, ...args)
+            return global[key](...resolveNativeScopeArgs(key, [options, ...args]))
           }
           return global[key](options)
         }
@@ -301,11 +320,16 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
           obj.complete = res => {
             options.complete?.(res)
           }
-          if (args.length) {
-            task = global[key](obj, ...args)
-          } else {
-            task = global[key](obj)
+          let nativeArgs: any[]
+          try {
+            nativeArgs = resolveNativeScopeArgs(key, [obj, ...args])
+          } catch (error) {
+            const result = { errMsg: `${key}:fail ${error instanceof Error ? error.message : error}` }
+            obj.fail(result)
+            obj.complete(result)
+            return
           }
+          task = global[key](...nativeArgs)
         })
 
         // 给 promise 对象挂载属性
@@ -342,6 +366,7 @@ function processApis (taro, global, config: IProcessApisIOptions = {}) {
       }
       if (isFunction(global[key])) {
         taro[key] = (...args) => {
+          args = resolveNativeScopeArgs(key, args)
           if (config.handleSyncApis) {
             return config.handleSyncApis(key, global, args)
           } else {
@@ -412,7 +437,15 @@ function equipTaskMethodsIntoPromise (task, promise) {
 
 function delayRef (taro, global, name: string, method: string) {
   return function (...args) {
-    const res = global[name](...args)
+    const res = global[name](...resolveNativeScopeArgs(name, args))
+    if (process.env.TARO_ENV === 'weapp' && name === 'createSelectorQuery' && isFunction(res.in) && !scopedQueries.has(res)) {
+      const rawIn = res.in
+      res.in = function (...scopeArgs) {
+        if (scopeArgs.length) scopeArgs[0] = hooks.call('getNativeScope', scopeArgs[0])
+        return rawIn.apply(this, scopeArgs)
+      }
+      scopedQueries.add(res)
+    }
     const raw = res[method].bind(res)
     res[method] = function (...methodArgs) {
       taro.nextTick(() => raw(...methodArgs))

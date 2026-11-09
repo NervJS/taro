@@ -5,7 +5,13 @@ import type { TaroElement } from './element'
 import type { TaroNode } from './node'
 import type { TaroRootElement } from './root'
 
-const nearestCtxCache = new WeakMap<TaroNode, { value: MpInstance | null, nearestCtxEpoch: number }>()
+// Tokens identify roots without keeping a moved node's previous root alive.
+const nearestCtxRootTokens = new WeakMap<TaroRootElement, object>()
+const nearestCtxCache = new WeakMap<TaroNode, {
+  value: MpInstance | null
+  rootToken: object
+  nearestCtxEpoch: number
+}>()
 
 export function isNearestCtxEnv (): boolean {
   return process.env.TARO_ENV === 'weapp' || process.env.TARO_ENV === 'jd'
@@ -19,12 +25,17 @@ export function getNearestCtx (node: TaroNode): MpInstance | null | undefined {
   if (root == null) {
     return null
   }
+  let rootToken = nearestCtxRootTokens.get(root)
+  if (rootToken === undefined) {
+    rootToken = {}
+    nearestCtxRootTokens.set(root, rootToken)
+  }
   const cached = nearestCtxCache.get(node)
-  if (cached && cached.nearestCtxEpoch === root.nearestCtxEpoch) {
+  if (cached && cached.rootToken === rootToken && cached.nearestCtxEpoch === root.nearestCtxEpoch) {
     return cached.value
   }
   const value = resolveNearestCtxValue(node, root)
-  nearestCtxCache.set(node, { value, nearestCtxEpoch: root.nearestCtxEpoch })
+  nearestCtxCache.set(node, { value, rootToken, nearestCtxEpoch: root.nearestCtxEpoch })
   return value
 }
 

@@ -184,6 +184,8 @@ export class TaroHooks<T extends Record<string, TFunc> = any> extends Events {
 }
 
 type ITaroHooks = {
+  /** Resolve a native component scope without introducing a shared -> runtime dependency. */
+  getNativeScope: (scope: unknown) => unknown
   /** 小程序端 App、Page 构造对象的生命周期方法名称 */
   getMiniLifecycle: (defaultConfig: MiniLifecycle) => MiniLifecycle
   getMiniLifecycleImpl: () => MiniLifecycle
@@ -272,6 +274,8 @@ type ITaroHooks = {
 }
 
 export const hooks = new TaroHooks<ITaroHooks>({
+  getNativeScope: TaroHook(HOOK_TYPE.SINGLE, scope => scope),
+
   getMiniLifecycle: TaroHook(HOOK_TYPE.SINGLE, defaultConfig => defaultConfig),
 
   getMiniLifecycleImpl: TaroHook(HOOK_TYPE.SINGLE, function (this: TaroHooks<ITaroHooks>) {
