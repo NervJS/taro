@@ -1,0 +1,29 @@
+packages/taro-helper/package.json
+  s_42be67d3074043::t_e8d7927386434c 3
+packages/taro-loader/package.json
+  s_42be67d3074043::t_d384d19655c06f 3
+packages/taro-platform-alipay/package.json
+  s_42be67d3074043::t_3df71d7b3ca18f 3
+packages/taro-platform-ascf/package.json
+  s_42be67d3074043::t_97b1a23604a43d 3
+packages/taro-platform-harmony-hybrid/package.json
+  s_42be67d3074043::t_feb85209db52fa 3
+packages/taro-platform-harmony/package.json
+  s_42be67d3074043::t_1a06c6fd1b57af 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "7e1dbf857229f517015137cb746bf38dfa07937b",
+  "prompts": {},
+  "sessions": {
+    "s_42be67d3074043": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1be31-b61b-7062-acd0-1e3b2d130983",
+        "model": "GPT-6.1-Sol-A-joybuilder"
+      },
+      "human_author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  }
+}
