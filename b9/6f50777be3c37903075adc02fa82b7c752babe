@@ -1,0 +1,67 @@
+packages/taro/types/api/wxml/index.d.ts
+  s_b7524bab3323c9::t_49a20ea30b043c 416,517
+packages/taro-webpack5-runner/vitest.config.ts
+  s_b7524bab3323c9::t_1aa8327deac683 1-7
+packages/shared/src/runtime-hooks.ts
+  s_b7524bab3323c9::t_773916f8287e22 187-188,277-278
+packages/taro-runtime/src/dom/nearest-ctx.ts
+  s_b7524bab3323c9::t_752a875733daf4 8-9,12,28-32,34,38
+  s_b7524bab3323c9::t_59dc06720b0016 10-11,13-14
+packages/shared/src/native-apis.ts
+  s_b7524bab3323c9::t_49a20ea30b043c 441
+  s_b7524bab3323c9::t_773916f8287e22 2,228-245,281,323-330,332,369,440,442-448
+packages/taro-runtime/tests/native-scope-apis.spec.ts
+  s_b7524bab3323c9::t_084149a7dd23e4 1,3-29,31-32,34-50,52-53,59-78,80-82,84-130,132-134,137-142,144,146-232,259-260,356-378,380,382-383,386-388,390-392,395,397-398
+  s_b7524bab3323c9::t_49a20ea30b043c 30,79,261-355,393
+  s_b7524bab3323c9::t_1123bed78f1e9d 33,51,54-58,83,131,135-136,143,145,379,381,384-385,389,394,396
+  s_b7524bab3323c9::t_c75edf9f8a0fc4 2,233-258
+packages/taro/types/api/media/map.d.ts
+  s_b7524bab3323c9::t_49a20ea30b043c 634
+packages/taro/types/api/media/live.d.ts
+  s_b7524bab3323c9::t_49a20ea30b043c 457
+packages/taro-runtime/src/dsl/common.ts
+  s_b7524bab3323c9::t_59dc06720b0016 341,355
+packages/taro-webpack5-runner/src/__tests__/raf-webpack.spec.ts
+  s_b7524bab3323c9::t_1aa8327deac683 1-63
+packages/taro-runtime/src/bom/raf.ts
+  s_b7524bab3323c9::t_c5aa7dd33be3d8 27-29,37
+packages/taro/types/api/canvas/index.d.ts
+  s_b7524bab3323c9::t_49a20ea30b043c 2081,2110,2132,2158
+packages/taro-runtime/README.md
+  s_b7524bab3323c9::t_86ffb08f9a2aca 70-71,73-78,80-81
+  s_b7524bab3323c9::t_49a20ea30b043c 51-61,64,72,79,82-90
+  s_b7524bab3323c9::t_752a875733daf4 62-63
+  s_b7524bab3323c9::t_4086d7f63b998b 65-69
+packages/taro-runtime/tests/nearest-ctx.spec.ts
+  s_b7524bab3323c9::t_7d25563be7a129 87-114
+  s_b7524bab3323c9::t_fb2595a4195f7e 1-54,64-86,115-268,271-272,277-313
+  s_b7524bab3323c9::t_ebd18720917b37 55-62
+  s_b7524bab3323c9::t_59dc06720b0016 63,269-270,273-276
+packages/taro/types/api/media/video.d.ts
+  s_b7524bab3323c9::t_49a20ea30b043c 455
+packages/taro-runtime/src/dom-external/index.ts
+  s_b7524bab3323c9::t_49a20ea30b043c 1,3,18-35
+  s_b7524bab3323c9::t_4fbe58b44c411e 36
+packages/taro/types/api/media/audio.d.ts
+  s_b7524bab3323c9::t_49a20ea30b043c 1009
+packages/taro-runtime/vitest.config.ts
+  s_b7524bab3323c9::t_caa2c19aff73e4 6-10
+packages/taro-webpack5-runner/package.json
+  s_b7524bab3323c9::t_c8cdef0eb921c4 15-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "b96f50777be3c37903075adc02fa82b7c752babe",
+  "prompts": {},
+  "sessions": {
+    "s_b7524bab3323c9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1be2d-1c78-7430-b667-d04e42a6635b",
+        "model": "GPT-6.1-Sol-A-joybuilder"
+      },
+      "human_author": "Muyouz <muyouz.233@gmail.com>"
+    }
+  }
+}
