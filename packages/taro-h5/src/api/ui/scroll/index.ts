@@ -57,14 +57,18 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
       if (scrollTop && selector) {
         console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
       }
-      const from = scrollFunc()
       let to: number
       if (selector) {
-        const el = document.querySelector(selector) as HTMLElement
-        to = (el?.offsetTop || 0) + offsetTop
+        const root = el ?? (id ? null : document)
+        const target = el?.matches(selector) ? el : root?.querySelector<HTMLElement>(selector)
+        if (!target) {
+          throw new Error('selector not found')
+        }
+        to = (target.offsetTop || 0) + offsetTop
       } else {
         to = typeof scrollTop === 'number' ? scrollTop : 0
       }
+      const from = scrollFunc()
       const delta = to - from
 
       const frameCnt = Math.ceil(duration / FRAME_DURATION)
