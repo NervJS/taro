@@ -195,6 +195,11 @@ interface ScrollViewProps extends StandardProps {
    * @default 'start'
    */
   scrollIntoViewAlignment?: 'start' | 'center' | 'end' | 'nearest'
+  /** 跳转到 scroll-into-view 目标节点时的额外偏移。skyline 自基础库 3.1.0 起支持，webview 自基础库 3.6.0 起支持
+   * @supported weapp
+   * @default 0
+   */
+  scrollIntoViewOffset?: number
   /** 开启下拉二级能力
    * @supported weapp
    * @default false
