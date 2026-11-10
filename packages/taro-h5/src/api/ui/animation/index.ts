@@ -63,6 +63,51 @@ if ($detect.style['animation-name'] === 'standard') {
 
 let animId = 0
 
+/**
+ * 所有动画的关键帧总数，key 为 createAnimationData() 产出的动画标识。
+ * 动画标识里已经包含各自实例的 id，因此不会相互覆盖。
+ */
+const animationStepsMap: Record<string, number> = {}
+
+/**
+ * transitionend 监听器全局只注册一次。
+ * 此前每个 Animation 实例都会往 document.body 上挂一个监听器，
+ * 而 createAnimation 通常在渲染或事件回调里反复调用，监听器会无限累积；
+ * 同时监听器闭包持有实例本身，导致实例与其动画数据也无法被回收。
+ */
+let isTransitionEndListened = false
+
+function handleTransitionEnd (e: Event) {
+  const target = e.target as HTMLElement | null
+  if (!target || typeof target.getAttribute !== 'function') return
+  // atom 环境下，animation 属性不会显示，所以要改成 data-animation。
+  // 这里按每次事件的目标元素判断：若缓存成实例状态，任意一个不带动画属性的
+  // 元素冒泡上来就会把它永久翻转，导致之后真正的动画再也无法推进。
+  const animAttr = target.getAttribute('animation') !== null ? 'animation' : 'data-animation'
+  const animData = target.getAttribute(animAttr)
+  // 没有动画存在
+  if (animData === null) return
+  const [animName, animPath] = animData.split('__')
+  if (!animPath) return
+  const [animIndex, __stepIndex = 0] = animPath.split('--')
+  // 动画总的关键帧
+  const animStepsCount = animationStepsMap[`${animName}__${animIndex}`]
+  // 不是 Taro 创建的动画
+  if (animStepsCount === undefined) return
+  const stepIndex = Number(__stepIndex)
+  const animStepsMaxIndex = animStepsCount - 1
+  if (stepIndex < animStepsMaxIndex) {
+    // 播放下一个关键帧（因为 nerv 和 react 有差异所以 animation & data-animation 都需要写）
+    const nextAnimData = `${animName}__${animIndex}--${stepIndex + 1}`
+    // 两个属性必须同步推进：生成的 CSS 规则同时匹配 [animation] 和 [data-animation]，
+    // 只更新其中一个的话，另一个会停在上一帧，旧帧规则仍然命中并盖掉后续帧的样式。
+    if (target.getAttribute('data-animation') !== null) {
+      target.setAttribute('data-animation', nextAnimData)
+    }
+    target.setAttribute('animation', nextAnimData)
+  }
+}
+
 interface IAnimationAttr {
   duration: number
   delay: number
@@ -97,36 +142,13 @@ class Animation implements Taro.Animation {
     // 默认值
     this.setDefault(duration, delay, timingFunction, transformOrigin)
     this.unit = unit
-    // atom 环境下，animation 属性不会显示，所以要改成 data-animation
-    let animAttr = 'animation'
     // 动画 id
     this.id = ++animId
-    // 监听事件
-    document.body.addEventListener(TRANSITION_END, (e: TransitionEvent) => {
-      const target = e.target as HTMLElement
-      if (target.getAttribute(animAttr) === null) {
-        animAttr = 'data-animation'
-      }
-      const animData = target.getAttribute(animAttr)
-      // 没有动画存在
-      if (animData === null) return
-      const [animName, animPath] = animData.split('__')
-      if (animName === `taro-h5-poly-fill/${this.id}/create-animation`) {
-        const [animIndex, __stepIndex = 0] = animPath.split('--')
-        const stepIndex = Number(__stepIndex)
-        // 动画总的关键帧
-        const animStepsCount = this.animationMap[`${animName}__${animIndex}`]
-        const animStepsMaxIndex = animStepsCount - 1
-        if (stepIndex < animStepsMaxIndex) {
-          // 播放下一个关键帧（因为 nerv 和 react 有差异所以 animation & data-animation 都需要写）
-          target.setAttribute(animAttr, `${animName}__${animIndex}--${stepIndex + 1}`)
-          if (animAttr === 'data-animation') {
-            // Nerv 环境，animation & data-animation 双重保险
-            target.setAttribute('animation', `${animName}__${animIndex}--${stepIndex + 1}`)
-          }
-        }
-      }
-    })
+    // 监听事件：全局只注册一次，避免监听器随 createAnimation 调用次数累积
+    if (!isTransitionEndListened) {
+      isTransitionEndListened = true
+      document.body.addEventListener(TRANSITION_END, handleTransitionEnd)
+    }
   }
 
   transformUnit (...args) {
@@ -148,9 +170,7 @@ class Animation implements Taro.Animation {
   transform: ITransform[] = []
   // 组合动画
   steps: string[] = []
-  // 动画 map ----- 永久保留
-  animationMap = {}
-  // animationMap 的长度
+  // 已产出的动画数量，用于生成动画标识
   animationMapCount = 0
   // 历史动画
   historyAnimations: ITransform[] = []
@@ -368,8 +388,8 @@ class Animation implements Taro.Animation {
   // 创建底层数据
   createAnimationData () {
     const animIndex = `taro-h5-poly-fill/${this.id}/create-animation__${this.animationMapCount++}`
-    // 记录动画分几个 step
-    this.animationMap[animIndex] = this.steps.length
+    // 记录动画分几个 step ----- 永久保留
+    animationStepsMap[animIndex] = this.steps.length
     // 吐出 step
     this.steps.forEach((step, index) => {
       const selector =
