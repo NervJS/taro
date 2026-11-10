@@ -190,4 +190,51 @@ describe('selectorQuery', () => {
       done()
     })
   })
+
+  describe.each(['select', 'selectAll'] as const)('%s descendant selectors', method => {
+    beforeEach(() => {
+      jest.useFakeTimers()
+      pageDOM.innerHTML = `
+        <div class="outer">
+          <section>
+            <div class="middle">
+              <section>
+                <div id="first" class="target first"></div>
+                <div id="second" class="target second"></div>
+              </section>
+            </div>
+          </section>
+          <div id="direct" class="target"></div>
+        </div>
+      `
+    })
+
+    afterEach(() => {
+      jest.useRealTimers()
+    })
+
+    test.each([
+      ['.outer >>> .target', ['first', 'second', 'direct']],
+      ['.outer>>>.target', ['first', 'second', 'direct']],
+      ['.outer >>> .middle >>> .target', ['first', 'second']],
+      ['.outer>>>.middle>>>.target', ['first', 'second']],
+      ['.outer >>> .first, .outer >>> .second', ['first', 'second']],
+      ['.outer .target', ['first', 'second', 'direct']],
+      ['.outer > .target', ['direct']],
+      ['.outer >>> .missing', []]
+    ])('queries %s', (selector, ids) => {
+      const callback = jest.fn()
+      const complete = jest.fn()
+      const matches = ids.map(id => ({ id }))
+      const expected = method === 'select' ? matches[0] || null : matches
+
+      Taro.createSelectorQuery()[method](selector).fields({ id: true }, callback).exec(complete)
+      jest.runAllTimers()
+
+      expect(callback).toHaveBeenCalledTimes(1)
+      expect(callback).toHaveBeenCalledWith(expected)
+      expect(complete).toHaveBeenCalledTimes(1)
+      expect(complete).toHaveBeenCalledWith([expected])
+    })
+  })
 })
