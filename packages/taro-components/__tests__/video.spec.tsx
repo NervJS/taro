@@ -3,6 +3,7 @@ import { AnyHTMLElement } from '@stencil/core/internal'
 import { newSpecPage, SpecPage } from '@stencil/core/testing'
 
 import { Video } from '../src/components/video/video'
+import { VideoControl } from '../src/components/video/video-control'
 
 describe('Video', () => {
   const videoUrl = 'http://storage.jd.com/cjj-pub-images/bear.mp4'
@@ -283,5 +284,17 @@ describe('Video', () => {
     // expect(danmu.children[1].style.color === danmuList[1].color)
 
     expect(page.root).toMatchSnapshot()
+  })
+})
+
+describe('VideoControl', () => {
+  it('listens for touchmove on document in the capture phase so ScrollView cannot block dragging the progress ball', async () => {
+    const page = await newSpecPage({ components: [VideoControl] })
+    const addEventListener = jest.spyOn(page.doc, 'addEventListener')
+
+    await page.setContent('<taro-video-control controls show-progress></taro-video-control>')
+
+    const [, , options] = addEventListener.mock.calls.find(([type]) => type === 'touchmove') as any[]
+    expect(options === true || options?.capture === true).toBe(true)
   })
 })
