@@ -62,6 +62,82 @@ describe.each([false, true])('pageScrollTo target (window scroll: %s)', usingWin
     expect(positions.every(value => value >= 0 && value <= 400)).toBe(true)
   })
 
+  test.each([0, 34])('settles a scroll superseded by a %sms scroll', async duration => {
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+    const settled = jest.fn()
+    const first = pageScrollTo({ scrollTop: 200, success, fail, complete }).then(settled)
+    jest.advanceTimersByTime(17)
+    const second = pageScrollTo({ scrollTop: 300, duration })
+
+    jest.runAllTimers()
+    await expect(second).resolves.toEqual({ errMsg: 'pageScrollTo:ok' })
+    const failure = { errMsg: 'pageScrollTo:fail interrupted by another scroll' }
+    expect(settled).toHaveBeenCalledTimes(1)
+    expect(settled).toHaveBeenCalledWith(failure)
+    expect(success).not.toHaveBeenCalled()
+    expect(fail).toHaveBeenCalledTimes(1)
+    expect(fail).toHaveBeenCalledWith(failure)
+    expect(complete).toHaveBeenCalledTimes(1)
+    expect(complete).toHaveBeenCalledWith(failure)
+    expect(position).toBe(300)
+    expect(jest.getTimerCount()).toBe(0)
+    await first
+  })
+
+  test('rejects a superseded scroll without failure callbacks', async () => {
+    const rejected = jest.fn()
+    const first = pageScrollTo({ scrollTop: 200 }).catch(rejected)
+    const second = pageScrollTo({ scrollTop: 300 })
+
+    jest.runAllTimers()
+    await second
+    expect(rejected).toHaveBeenCalledWith({ errMsg: 'pageScrollTo:fail interrupted by another scroll' })
+    await first
+  })
+
+  test('honors a newer scroll started from a cancellation callback', async () => {
+    let latest: ReturnType<typeof pageScrollTo> | undefined
+    const onInterrupted = () => {
+      latest = pageScrollTo({ scrollTop: 400, duration: 0 })
+    }
+    const first = pageScrollTo({ scrollTop: 200, fail: onInterrupted })
+    const rejected = jest.fn()
+    const second = pageScrollTo({ scrollTop: 300 }).catch(rejected)
+
+    jest.runAllTimers()
+    await Promise.resolve()
+    expect(latest).toBeDefined()
+    await latest
+    expect(rejected).toHaveBeenCalledWith({ errMsg: 'pageScrollTo:fail interrupted by another scroll' })
+    expect(position).toBe(400)
+    await first
+    await second
+  })
+
+  if (!usingWindowScroll) {
+    test('keeps animations on independent page containers running', async () => {
+      page.id = 'pages/first'
+      Current.page = { path: page.id }
+      const nextPage = document.createElement('div')
+      nextPage.className = 'taro_page'
+      nextPage.id = 'pages/second'
+      document.body.appendChild(nextPage)
+      const firstComplete = jest.fn()
+      const first = pageScrollTo({ scrollTop: 200, complete: firstComplete })
+      Current.page = { path: nextPage.id }
+      const second = pageScrollTo({ scrollTop: 300 })
+
+      jest.runAllTimers()
+      await second
+      expect(firstComplete).toHaveBeenCalledWith({ errMsg: 'pageScrollTo:ok' })
+      expect(position).toBe(200)
+      expect(nextPage.scrollTop).toBe(300)
+      await first
+    })
+  }
+
   test('preserves the position when already at the target', async () => {
     position = 200
     const result = pageScrollTo({ scrollTop: 200 })
