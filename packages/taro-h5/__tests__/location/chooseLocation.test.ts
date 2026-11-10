@@ -10,7 +10,7 @@ describe('chooseLocation coordinates', () => {
   })
 
   afterEach(() => {
-    document.querySelector<HTMLElement>('.taro_choose_location_back')?.click()
+    document.querySelectorAll<HTMLElement>('.taro_choose_location_back').forEach(back => back.click())
     jest.runOnlyPendingTimers()
     document.body.innerHTML = ''
     if (apiKey) Object.defineProperty(globalThis, 'LOCATION_APIKEY', apiKey)
@@ -156,19 +156,49 @@ describe('chooseLocation coordinates', () => {
     expect(first.complete).toHaveBeenCalledTimes(1)
   })
 
-  test('keeps every concurrent chooser bound to its own map iframe', async () => {
+  test('ignores a location message with a null source', async () => {
+    const { result, success, fail, complete, scope } = openChooser()
+    window.dispatchEvent(new MessageEvent('message', {
+      source: null,
+      data: {
+        module: 'locationPicker', poiname: 'place', poiaddress: 'address', latlng: { lat: 1, lng: 2 }
+      }
+    }))
+    scope.querySelector<HTMLElement>('.taro_choose_location_submit')!.click()
+
+    expect(await result).toEqual({ errMsg: 'chooseLocation:fail' })
+    expect(success).not.toHaveBeenCalled()
+    expect(fail).toHaveBeenCalledTimes(1)
+    expect(complete).toHaveBeenCalledTimes(1)
+  })
+
+  test.each(['forward', 'reverse'])('keeps both concurrent choosers isolated with messages in %s order', async order => {
     const first = openChooser()
     const second = openChooser()
 
-    // 两个选择器各自选点，互不干扰
-    selectPoint(first.scope, 1, 2)
-    selectPoint(second.scope, 3, 4)
+    // 消息无论按什么顺序到达，两个选择器都应保留各自的选点
+    if (order === 'forward') {
+      selectPoint(first.scope, 1, 2)
+      selectPoint(second.scope, 3, 4)
+    } else {
+      selectPoint(second.scope, 3, 4)
+      selectPoint(first.scope, 1, 2)
+    }
     first.scope.querySelector<HTMLElement>('.taro_choose_location_submit')!.click()
+    second.scope.querySelector<HTMLElement>('.taro_choose_location_submit')!.click()
 
-    expect(await first.result).toEqual({
-      errMsg: 'chooseLocation:ok', latitude: 1, longitude: 2, name: 'place', address: 'address'
-    })
-    expect(first.success).toHaveBeenCalledTimes(1)
+    const responses = await Promise.all([first.result, second.result])
+    expect(responses).toEqual([
+      { errMsg: 'chooseLocation:ok', latitude: 1, longitude: 2, name: 'place', address: 'address' },
+      { errMsg: 'chooseLocation:ok', latitude: 3, longitude: 4, name: 'place', address: 'address' }
+    ])
+    for (const [index, chooser] of [first, second].entries()) {
+      expect(chooser.success).toHaveBeenCalledTimes(1)
+      expect(chooser.success).toHaveBeenCalledWith(responses[index])
+      expect(chooser.fail).not.toHaveBeenCalled()
+      expect(chooser.complete).toHaveBeenCalledTimes(1)
+      expect(chooser.complete).toHaveBeenCalledWith(responses[index])
+    }
   })
 
   test('ignores a late message coming from the previous chooser iframe', async () => {
