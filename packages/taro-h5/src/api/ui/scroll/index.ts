@@ -10,7 +10,9 @@ const FRAME_DURATION = 17
 /**
  * 将页面滚动到目标位置
  */
-export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '', offsetTop = 0, duration = 300, success, fail, complete }) => {
+export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector: requestedSelector = '', offsetTop = 0, duration = 300, success, fail, complete }) => {
+  const hasScrollTop = typeof scrollTop === 'number'
+  const selector = hasScrollTop ? '' : requestedSelector
   let scrollFunc
   const handle = new MethodHandler({ name: 'pageScrollTo', success, fail, complete })
   return new Promise((resolve, reject) => {
@@ -54,7 +56,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
         }
       }
 
-      if (scrollTop && selector) {
+      if (hasScrollTop && requestedSelector) {
         console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
       }
       let to: number
@@ -66,7 +68,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
         }
         to = (target.offsetTop || 0) + offsetTop
       } else {
-        to = typeof scrollTop === 'number' ? scrollTop : 0
+        to = hasScrollTop ? scrollTop : 0
       }
       const from = scrollFunc()
       const delta = to - from

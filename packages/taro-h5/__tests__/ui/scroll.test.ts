@@ -53,6 +53,17 @@ describe.each([false, true])('pageScrollTo target (window scroll: %s)', usingWin
     expect(jest.getTimerCount()).toBe(0)
   })
 
+  test.each([0, 200])('prefers scrollTop=%s over a selector and its offset', async scrollTop => {
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+    Object.defineProperty(document.querySelector('#target'), 'offsetTop', { value: 500 })
+
+    await expect(pageScrollTo({ scrollTop, selector: '#target', offsetTop: 25, duration: 0 }))
+      .resolves.toEqual({ errMsg: 'pageScrollTo:ok' })
+
+    expect(position).toBe(scrollTop)
+    expect(console.warn).toHaveBeenCalledTimes(1)
+  })
+
   test('scrolls upwards from a nonzero position to exactly zero', async () => {
     position = 400
     const result = pageScrollTo({ scrollTop: 0, duration: 34 })
