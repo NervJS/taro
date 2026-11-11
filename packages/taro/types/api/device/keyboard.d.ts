@@ -57,7 +57,7 @@ declare module '../../index' {
     hideKeyboard(option?: hideKeyboard.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 在input、textarea等focus之后，获取输入框的光标位置。注意：只有在focus的时候调用此接口才有效。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.getSelectedTextRange({
