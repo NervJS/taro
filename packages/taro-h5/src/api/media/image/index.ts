@@ -9,10 +9,10 @@ export const previewMedia: typeof Taro.previewMedia = /* @__PURE__ */ temporaril
 export * from './getImageInfo'
 export * from './previewImage'
 
-export const compressImage = /* @__PURE__ */ temporarilyNotSupport('compressImage')
 export const chooseMessageFile = /* @__PURE__ */ permanentlyNotSupport('chooseMessageFile')
 
 export * from './chooseImage'
+export * from './compressImage'
 
 export const editImage = /* @__PURE__ */ temporarilyNotSupport('editImage')
 export const cropImage = /* @__PURE__ */ temporarilyNotSupport('cropImage')
