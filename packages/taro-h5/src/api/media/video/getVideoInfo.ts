@@ -64,8 +64,11 @@ export const getVideoInfo: typeof Taro.getVideoInfo = async function (options) {
       res.width = video.videoWidth
 
       fetch(src)
-        .then(async e => {
-          const blob = await e.blob()
+        .then(async response => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`)
+          }
+          const blob = await response.blob()
           res.type = blob.type
           res.size = blob.size
           res.bitrate = blob.size / video.duration
