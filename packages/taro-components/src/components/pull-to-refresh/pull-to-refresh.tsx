@@ -85,7 +85,8 @@ export class PullToRefresh implements ComponentInterface {
   componentDidLoad () {
     this.init()
     this._isMounted = true
-    Taro.eventCenter.on('__taroStartPullDownRefresh', ({ successHandler, errorHandler }) => {
+    Taro.eventCenter.on('__taroStartPullDownRefresh', ({ claim, successHandler, errorHandler }) => {
+      if (!claim(this.el)) return
       try {
         this.triggerPullDownRefresh(true)
         successHandler({
@@ -98,7 +99,8 @@ export class PullToRefresh implements ComponentInterface {
       }
     })
 
-    Taro.eventCenter.on('__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
+    Taro.eventCenter.on('__taroStopPullDownRefresh', ({ claim, successHandler, errorHandler }) => {
+      if (!claim(this.el)) return
       setTimeout(() => {
         try {
           this.triggerPullDownRefresh(false)
