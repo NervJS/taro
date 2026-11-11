@@ -146,6 +146,7 @@ export const components = {
     'min-drag-distance': '18',
     'scroll-into-view-within-extent': _false,
     'scroll-into-view-alignment': "'start'",
+    'scroll-into-view-offset': '0',
     padding: '[0,0,0,0]',
     'refresher-two-level-enabled': _false,
     'refresher-two-level-triggered': _false,
