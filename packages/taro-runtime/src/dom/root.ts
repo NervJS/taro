@@ -110,8 +110,25 @@ export class TaroRootElement extends TaroElement {
     setTimeout(fn)
   }
 
-  public enqueueUpdate (payload: UpdatePayload): void {
-    this.updatePayloads.push(payload)
+  public enqueueUpdate(payload: UpdatePayload): void {
+    // 入队时保存受影响的 CustomWrapper 节点引用，避免执行前列表结构变化导致旧路径指向其他节点。
+    // 执行批次时通过这些引用更新节点批次号，确保新内容携带对应的新版本。
+    const customWrapperNodes = (() => {
+      const dataPath = payload.path.split('.')
+
+      const { wrapperChain = [] } = resolveCustomWrapperPath(this, dataPath) || {}
+
+      const includesWrapper = wrapperChain.filter((wrapper) => {
+        const relativePath = dataPath.slice(wrapper.pathIndex + 1).join('.')
+        // 空路径表示更新整个 Wrapper，cn 路径表示更新其子节点；两者都需要更新批次号。
+        // Wrapper 自身属性的更新不在其内部渲染数据域中，不在这里推进批次号。
+        return relativePath === '' || isChildNodesPath(relativePath)
+      })
+
+      return includesWrapper.map((wrapper) => wrapper.node)
+    })()
+
+    this.updatePayloads.push({ ...payload, customWrapperNodes })
 
     if (!this.pendingUpdate && this.ctx) {
       this.performUpdate()
@@ -128,22 +145,13 @@ export class TaroRootElement extends TaroElement {
       const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`
       perf.start(setDataMark)
       const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
-      const resetPaths = new Set<string>(
-        initRender
-          ? ['root.cn.[0]', 'root.cn[0]']
-          : []
-      )
+      const resetPaths = new Set<string>(initRender ? ['root.cn.[0]', 'root.cn[0]'] : [])
 
       while (this.updatePayloads.length > 0) {
-        const { path, value } = this.updatePayloads.shift()!
-        const dataPath = path.split('.')
-        const pathInfo = resolveCustomWrapperPath(this, dataPath)
-        pathInfo?.wrapperChain.forEach((wrapper) => {
-          const relativePath = dataPath.slice(wrapper.pathIndex + 1).join('.')
-
-          if (!isChildNodesPath(relativePath)) return
-
-          wrapper.node.updateBatchId = updateBatchId
+        const { path, value, customWrapperNodes } = this.updatePayloads.shift()!
+        customWrapperNodes?.forEach((node) => {
+          if (node._root !== this) return
+          node.updateBatchId = updateBatchId
         })
         if (path.endsWith(Shortcuts.Childnodes)) {
           resetPaths.add(path)
