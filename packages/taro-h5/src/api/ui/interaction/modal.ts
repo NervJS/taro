@@ -89,6 +89,9 @@ export default class Modal {
       this.el.className = 'taro__modal'
       this.el.style.opacity = '0'
       this.el.style.transition = 'opacity 0.2s linear'
+      // Note: 渐显渐隐期间 opacity 小于 1 会使容器形成层叠上下文，需给容器设置层级，避免显示与隐藏时层级跳变
+      this.el.style.position = 'relative'
+      this.el.style.zIndex = modalStyle['z-index']
 
       const eventHandler = (e) => {
         e.stopPropagation()

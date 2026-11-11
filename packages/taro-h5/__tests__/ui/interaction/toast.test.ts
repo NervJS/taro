@@ -130,6 +130,20 @@ describe('toast', () => {
     expect(mask).toBeVisible()
   })
 
+  test('should keep its stacking level while fading in and out', () => {
+    Taro.showToast({
+      title: 'hello',
+      mask: true
+    })
+
+    const toast: any = document.body.lastChild
+    const content = toast.lastChild
+
+    // opacity < 1 turns the wrapper into a stacking context, so the wrapper itself has to sit on the content's level
+    expect(toast).toHaveStyle({ position: 'relative', zIndex: '5000' })
+    expect(toast.style.zIndex).toBe(content.style.zIndex)
+  })
+
   test('should close after 5 second', async () => {
     Taro.showToast({
       title: 'hello',

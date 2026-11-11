@@ -129,6 +129,22 @@ describe('actionSheet', () => {
     }, 200)
   })
 
+  test('should keep its stacking level while fading in and out', done => {
+    Taro.showActionSheet({
+      itemList: ['A', 'B']
+    })
+      .then(() => done())
+
+    const actionSheet: any = document.body.lastChild
+    const content = actionSheet.lastChild
+
+    // opacity < 1 turns the wrapper into a stacking context, so the wrapper itself has to sit on the content's level
+    expect(actionSheet).toHaveStyle({ position: 'relative', zIndex: '4999' })
+    expect(actionSheet.style.zIndex).toBe(content.style.zIndex)
+
+    content.firstChild.childNodes[1].click()
+  })
+
   test('should hide actionSheet when cancel was clicked', done => {
     const success = jest.fn()
     const fail = jest.fn()

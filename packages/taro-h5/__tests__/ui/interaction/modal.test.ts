@@ -192,6 +192,23 @@ describe('modal', () => {
     }, 200)
   })
 
+  test('should keep its stacking level while fading in and out', done => {
+    Taro.showModal({
+      title: 'hello',
+      content: 'world'
+    })
+      .then(() => done())
+
+    const modal: any = document.body.lastChild
+    const content = modal.lastChild
+
+    // opacity < 1 turns the wrapper into a stacking context, so the wrapper itself has to sit on the content's level
+    expect(modal).toHaveStyle({ position: 'relative', zIndex: '4999' })
+    expect(modal.style.zIndex).toBe(content.style.zIndex)
+
+    content.lastChild.lastChild.click()
+  })
+
   test('should res.cancel be true', done => {
     const success = jest.fn()
     const complete = jest.fn()
