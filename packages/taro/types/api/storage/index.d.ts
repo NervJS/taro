@@ -14,17 +14,24 @@ declare module '../../index' {
     | Float64Array
 
   namespace setStorage {
+    interface Result extends TaroGeneral.CallbackResult {
+      /** 是否执行成功
+       * @supported alipay
+       */
+      success?: boolean
+    }
+
     interface Option {
       /** 需要存储的内容。只支持原生类型、Date、及能够通过`JSON.stringify`序列化的对象。 */
       data: any
       /** 本地缓存中指定的 key */
       key: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
+      complete?: (res: Result) => void
       /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
+      fail?: (res: Result) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: TaroGeneral.CallbackResult) => void
+      success?: (res: Result) => void
     }
   }
 
@@ -179,7 +186,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.setStorage.html
      */
-    setStorage(option: setStorage.Option): Promise<TaroGeneral.CallbackResult>
+    setStorage(option: setStorage.Option): Promise<setStorage.Result>
 
     /** 根据 URL 销毁存在内存中的数据
      * @supported weapp
