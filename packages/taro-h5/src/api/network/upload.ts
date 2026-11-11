@@ -1,10 +1,10 @@
 import Taro from '@tarojs/api'
 
 import { CallbackManager } from '../../utils/handler'
+import { parseResponseHeaders } from './response-headers'
 import {
   convertObjectUrlToBlob,
   NETWORK_TIMEOUT,
-  parseResponseHeaders,
   setHeader,
   XHR_STATS
 } from './utils'

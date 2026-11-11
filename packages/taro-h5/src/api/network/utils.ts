@@ -48,16 +48,6 @@ export const setHeader = (xhr, header) => {
   }
 }
 
-export const parseResponseHeaders = (rawHeaders: string) => {
-  const headers: Record<string, string> = Object.create(null)
-  for (const line of rawHeaders.split(/\r?\n/)) {
-    const separator = line.indexOf(':')
-    if (separator <= 0) continue
-    headers[line.slice(0, separator).trim()] = line.slice(separator + 1).trim()
-  }
-  return headers
-}
-
 /**
  * 将 blob url 转化为文件
  * @param {string} url 要转换的 blob url
