@@ -4,6 +4,7 @@ import { CallbackManager } from '../../utils/handler'
 import {
   convertObjectUrlToBlob,
   NETWORK_TIMEOUT,
+  parseResponseHeaders,
   setHeader,
   XHR_STATS
 } from './utils'
@@ -57,7 +58,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
   xhr.onreadystatechange = () => {
     if (xhr.readyState !== XHR_STATS.HEADERS_RECEIVED) return
     callbackManager.headersReceived.trigger({
-      header: xhr.getAllResponseHeaders()
+      header: parseResponseHeaders(xhr.getAllResponseHeaders())
     })
   }
 
