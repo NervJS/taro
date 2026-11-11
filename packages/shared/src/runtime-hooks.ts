@@ -204,8 +204,22 @@ type ITaroHooks = {
   mergePageInstance: (prev, next) => void
   /** 用于修改传递给小程序 Page 构造器的对象 */
   modifyPageObject: (config: Record<any, any>) => void
-  /** H5 下拉刷新 wrapper */
-  createPullDownComponent: (el, path: string, framework, customWrapper?: any, stampId?: string) => void
+  /**
+   * H5 下拉刷新 wrapper
+   *
+   * 由 `@tarojs/router` 在页面开启 `enablePullDownRefresh` 时调用，返回值会作为页面组件
+   * 传给 `createPageConfig`，所以返回类型不是 `void`：`@tarojs/plugin-framework-react`
+   * 返回 `React.forwardRef(...)` 的结果，`@tarojs/plugin-framework-vue3` 返回带 `render`
+   * 的组件选项对象。
+   *
+   * @param el 页面组件，具体形态由框架决定（React 组件、Vue 组件选项对象等）
+   * @param path 页面路径
+   * @param framework 框架运行时对象，由编译产物注入（见 `taro-loader` 的 `importFrameworkName`）：
+   * React 为 react 命名空间对象，Vue 3 为 `createElement`（`h`），Solid 下为 `undefined`
+   * @returns 包裹后的页面组件。各框架的组件类型互不兼容，且 `@tarojs/shared` 不依赖任何
+   * 具体框架，故此处不收窄
+   */
+  createPullDownComponent: (el: any, path: string, framework: any, customWrapper?: any, stampId?: string) => any
   /** H5 获取原生 DOM 对象 */
   getDOMNode: (instance) => any
   /**

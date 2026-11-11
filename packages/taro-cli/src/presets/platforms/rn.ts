@@ -4,6 +4,7 @@ import * as path from 'node:path'
 
 import { chalk } from '@tarojs/helper'
 import * as child_process from 'child_process'
+import * as semver from 'semver'
 
 import { printDevelopmentTip } from '../../util'
 
@@ -11,7 +12,7 @@ import type { IPluginContext } from '@tarojs/service'
 
 function checkReactNativeDependencies (packageInfo): boolean {
   const packageNames = ['react', 'react-native', '@tarojs/taro-rn', '@tarojs/rn-runner']
-  const { dependencies, devDependencies } = packageInfo
+  const { dependencies = {}, devDependencies = {} } = packageInfo
   for (let i = 0; i < packageNames.length; i++) {
     if (!dependencies[packageNames[i]] && !devDependencies[packageNames[i]]) {
       return false
@@ -20,30 +21,58 @@ function checkReactNativeDependencies (packageInfo): boolean {
   return true
 }
 
+function hasReactNativeBabelPreset (packageInfo): boolean {
+  const presets = ['@react-native/babel-preset', 'metro-react-native-babel-preset']
+  return ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies'].some(group =>
+    presets.some(preset => Object.prototype.hasOwnProperty.call(packageInfo[group] || {}, preset))
+  )
+}
+
+function usesReactNative073 (packageInfo): boolean {
+  const ranges = ['dependencies', 'devDependencies']
+    .filter(group => Object.prototype.hasOwnProperty.call(packageInfo[group] || {}, 'react-native'))
+    .map(group => packageInfo[group]['react-native'])
+
+  return ranges.length > 0 && ranges.every(range => {
+    if (typeof range !== 'string' || !range.trim()) return false
+    const validRange = semver.validRange(range)
+    if (!validRange) return false
+    const minimum = semver.minVersion(validRange)
+    return minimum !== null && minimum.prerelease.length === 0 &&
+      semver.subset(validRange, '>=0.73.0 <0.74.0')
+  })
+}
+
 function makeSureReactNativeInstalled (workspaceRoot: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const packageInfo = JSON.parse(fs.readFileSync(path.join(workspaceRoot, 'package.json'), {
       encoding: 'utf8'
     }))
 
-    if (checkReactNativeDependencies(packageInfo)) {
+    const coreInstalled = checkReactNativeDependencies(packageInfo)
+    const presetDeclared = hasReactNativeBabelPreset(packageInfo)
+    if (coreInstalled && (presetDeclared || !usesReactNative073(packageInfo))) {
       resolve()
     } else {
       // 便于开发时切换版本
       const devTag = process.env.DEVTAG || ''
       console.log('Installing React-Native related packages:')
-      let packages = `react@^18.2.0 react-dom@^18.2.0 react-native@^0.73.1 @react-native/metro-config@^0.73.2 expo@~50.0.2 @tarojs/taro-rn${devTag} @tarojs/components-rn${devTag} @tarojs/rn-runner${devTag} @tarojs/rn-supporter${devTag} @tarojs/runtime-rn${devTag}`
+      const babelPreset = '@react-native/babel-preset@^0.73.18'
+      let packages = coreInstalled
+        ? babelPreset
+        : `react@^18.2.0 react-dom@^18.2.0 react-native@^0.73.1 @react-native/metro-config@^0.73.2 expo@~50.0.2 @tarojs/taro-rn${devTag} @tarojs/components-rn${devTag} @tarojs/rn-runner${devTag} @tarojs/rn-supporter${devTag} @tarojs/runtime-rn${devTag}`
+      if (!coreInstalled && !presetDeclared) packages += ` ${babelPreset}`
       console.log(packages)
       // windows下不加引号的话，package.json中添加的依赖不会自动带上^
       packages = packages.split(' ').map(str => `"${str}"`).join(' ')
       let installCmd = `npm install ${packages} --save`
       if (fs.existsSync(path.join(workspaceRoot, 'yarn.lock'))) {
-        installCmd = `yarn add ${packages} --force`
+        installCmd = `yarn add ${packages}${coreInstalled ? '' : ' --force'}`
       }
       if (fs.existsSync(path.join(workspaceRoot, 'pnpm-lock.yaml'))) {
         installCmd = `pnpm add ${packages}`
       }
-      child_process.exec(installCmd, error => {
+      child_process.exec(installCmd, { cwd: workspaceRoot }, error => {
         if (error) {
           reject(error)
           return

@@ -16,6 +16,9 @@ export class SocketTask {
     } else {
       this.ws = new WebSocket(url)
     }
+    this.ws.addEventListener('close', () => {
+      this._destroyWhenClose && this._destroyWhenClose()
+    })
     this.CONNECTING = 0
     this.OPEN = 1
     this.CLOSING = 2
@@ -78,8 +81,6 @@ export class SocketTask {
 
   onClose (func) {
     this.ws.onclose = () => {
-      // 若服务器方断掉也需要重置链接数
-      this._destroyWhenClose && this._destroyWhenClose()
       func(this.closeDetail || { code: 1006, reason: 'abnormal closure' })
     }
   }

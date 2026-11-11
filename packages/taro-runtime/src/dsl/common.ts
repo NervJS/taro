@@ -9,7 +9,7 @@ import {
 import { raf } from '../bom/raf'
 import { taroWindowProvider } from '../bom/window'
 import { BEHAVIORS, CONTEXT_ACTIONS, CUSTOM_WRAPPER, EXTERNAL_CLASSES, ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, OPTIONS, PAGE_INIT, VIEW } from '../constants'
-import { Current } from '../current'
+import { Current, getCurrentInstance } from '../current'
 import { eventHandler } from '../dom/event'
 import { bumpNearestCtxEpochForRoot } from '../dom/nearest-ctx'
 import { eventCenter } from '../emitter/emitter'
@@ -143,6 +143,9 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       }
 
       setCurrentRouter(this)
+
+      // 鸿蒙ASCF小程序特殊处理，完成 _taroInstance 初始化绑定
+      getCurrentInstance()
 
       // 初始化当前页面的上下文信息
       if (process.env.TARO_PLATFORM !== 'web') {

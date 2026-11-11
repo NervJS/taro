@@ -61,7 +61,11 @@ export const setStorage: typeof Taro.setStorage = (options) => {
     })
   }
 
-  setStorageSync(key, data)
+  try {
+    setStorageSync(key, data)
+  } catch (e) {
+    return handle.fail({ errMsg: e?.message || String(e) })
+  }
   return handle.success()
 }
 
@@ -101,7 +105,11 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
     })
   }
 
-  removeStorageSync(key)
+  try {
+    removeStorageSync(key)
+  } catch (e) {
+    return handle.fail({ errMsg: e?.message || String(e) })
+  }
   return handle.success()
 }
 
@@ -132,7 +140,13 @@ export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
 
 export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler<Taro.getStorageInfo.SuccessCallbackOption>({ name: 'getStorageInfo', success, fail, complete })
-  return handle.success(getStorageInfoSync())
+  let res: ReturnType<typeof getStorageInfoSync>
+  try {
+    res = getStorageInfoSync()
+  } catch (e) {
+    return handle.fail({ errMsg: e?.message || String(e) })
+  }
+  return handle.success(res)
 }
 
 export const getStorage: typeof Taro.getStorage = <T>(options) => {
@@ -175,7 +189,11 @@ export const clearStorageSync: typeof Taro.clearStorageSync = () => {
 
 export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'clearStorage', success, fail, complete })
-  clearStorageSync()
+  try {
+    clearStorageSync()
+  } catch (e) {
+    return handle.fail({ errMsg: e?.message || String(e) })
+  }
   return handle.success()
 }
 

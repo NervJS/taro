@@ -37,9 +37,13 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       // Note: 等待图片加载完后返回，会导致轮播被卡住
       resolve(item)
       if (isFunction(loadFail)) {
-        image.addEventListener('error', (err) => {
-          loadFail({ errMsg: err.message })
-        })
+        // Note: <img> 加载失败时派发的是普通 Event，不存在 message 字段，
+        // 直接读取 err.message 只会得到 undefined，因此用出错的 url 描述失败原因。
+        // 该失败发生在预览框打开（handle.success）之后，不能再走 MethodHandler，
+        // 否则 complete 会被重复触发，所以这里自行补齐 errMsg 前缀。
+        image.addEventListener('error', () => {
+          loadFail({ errMsg: `previewImage:fail image load failed: ${url}` })
+        }, { once: true })
       }
     })
   }

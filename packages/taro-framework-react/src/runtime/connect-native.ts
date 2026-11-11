@@ -1,6 +1,6 @@
 import {
   addLeadingSlash, CONTEXT_ACTIONS, Current, document, eventCenter,
-  eventHandler, getOnHideEventKey, getOnReadyEventKey, getOnShowEventKey, getPageInstance, getPath,
+  eventHandler, getCurrentInstance, getOnHideEventKey, getOnReadyEventKey, getOnShowEventKey, getPageInstance, getPath,
   incrementId, injectPageInstance, ON_HIDE, ON_READY, ON_SHOW,
   removePageInstance, requestAnimationFrame, safeExecute, window
 } from '@tarojs/runtime'
@@ -210,6 +210,8 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
       }
 
       setCurrentRouter(this)
+      // 鸿蒙ASCF小程序特殊处理，完成 _taroInstance 初始化绑定
+      getCurrentInstance()
       window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
 
       const mountCallback = () => {

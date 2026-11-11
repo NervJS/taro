@@ -70,9 +70,11 @@ export class TaroEvent {
       // Note：优先判断冒泡场景alipay的targetDataset的sid, 不然冒泡场景target属性吐出不对，其余拿取当前绑定id
       const element = env.document.getElementById(target.targetDataset?.sid || target.dataset?.sid || target.id || null)
 
+      // Keep logical data authoritative, falling back per source when an index is unavailable.
+      // Preserve Alipay's merge order: the actual target overrides the wrapper's dataset.
       target.dataset = {
-        ...(currentEle !== null ? currentEle.dataset : EMPTY_OBJ),
-        ...(element !== null ? element.dataset : EMPTY_OBJ)
+        ...(currentEle !== null ? currentEle.dataset : target.dataset || EMPTY_OBJ),
+        ...(element !== null ? element.dataset : target.targetDataset || EMPTY_OBJ)
       }
 
       for (const key in this.mpEvent?.detail) {
@@ -97,12 +99,14 @@ export class TaroEvent {
       const element = doc.getElementById(currentTarget.dataset?.sid || currentTarget.id || null)
       const targetElement = doc.getElementById(this.mpEvent?.target?.dataset?.sid as string || this.mpEvent?.target?.id as string || null)
 
-      if (element === null || (element && element === targetElement)) {
+      // Missing indexes do not imply identical targets. Without a logical match,
+      // only the same native object (or absent targets on a manual event) shares the wrapper.
+      if (element !== null ? element === targetElement : !this.mpEvent || this.mpEvent.currentTarget === this.mpEvent.target) {
         this.cacheCurrentTarget = this.target
         return this.target
       }
 
-      currentTarget.dataset = element.dataset
+      currentTarget.dataset = element !== null ? element.dataset : currentTarget.dataset || EMPTY_OBJ
 
       for (const key in this.mpEvent?.detail) {
         currentTarget[key] = this.mpEvent!.detail[key]

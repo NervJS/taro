@@ -34,6 +34,7 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
   }
 
   xhr.onload = () => {
+    clearTimeout(timeoutInter)
     const response = xhr.response
     const status = xhr.status
     success({
@@ -51,6 +52,7 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
   }
 
   xhr.onerror = (e: ProgressEvent<EventTarget> & { message?: string }) => {
+    clearTimeout(timeoutInter)
     error({
       errMsg: `${apiName}:fail ${e.message}`
     })

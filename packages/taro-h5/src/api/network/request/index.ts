@@ -130,13 +130,6 @@ function _request (options: Partial<Taro.request.Option> = {}) {
   params.credentials = credentials
   const p: RequestTask<Taro.request.SuccessCallbackResult> = fetch(url, params)
     .then(response => {
-      if (timeoutTimer) {
-        clearTimeout(timeoutTimer)
-        timeoutTimer = null
-      }
-      if (controller) {
-        controller = null
-      }
       if (!response) {
         const errorResponse = { ok: false }
         throw errorResponse
@@ -151,8 +144,13 @@ function _request (options: Partial<Taro.request.Option> = {}) {
       }
       if (res.statusCode !== 204) {
         if (dataType === 'json' || typeof dataType === 'undefined') {
-          return response.json().catch(() => {
-            return null
+          return response.text().then(text => {
+            // Only tolerate JSON parsing errors, not response body read failures.
+            try {
+              return JSON.parse(text)
+            } catch {
+              return null
+            }
           })
         }
       }
@@ -162,6 +160,13 @@ function _request (options: Partial<Taro.request.Option> = {}) {
       return Promise.resolve(null)
     })
     .then(data => {
+      if (timeoutTimer) {
+        clearTimeout(timeoutTimer)
+        timeoutTimer = null
+      }
+      if (controller) {
+        controller = null
+      }
       res.data = data
       isFunction(success) && success!(res as Taro.request.SuccessCallbackResult)
       isFunction(complete) && complete!(res as Partial<Taro.request.SuccessCallbackResult> & TaroGeneral.CallbackResult)
