@@ -21,19 +21,20 @@ function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) 
 }
 
 export class MediaQueryObserver implements Taro.MediaQueryObserver {
-  private _mediaQueryObserver: MediaQueryList
-  private _listener: (ev: MediaQueryListEvent) => void
+  private _mediaQueryObserver?: MediaQueryList
+  private _listener?: (ev: MediaQueryListEvent) => void
 
   // 监听页面媒体查询变化情况
   public observe (descriptor: Taro.MediaQueryObserver.descriptor, callback: Taro.MediaQueryObserver.observeCallback): void {
     if (isFunction(callback)) {
       // 创建媒体查询对象
-      this._mediaQueryObserver = window.matchMedia(generateMediaQueryStr(descriptor))
+      const mediaQueryObserver = window.matchMedia(generateMediaQueryStr(descriptor))
+      this.disconnect()
+      this._mediaQueryObserver = mediaQueryObserver
       // 监听器
       this._listener = (ev: MediaQueryListEvent) => {
         callback({ matches: ev.matches })
       }
-      callback({ matches: this._mediaQueryObserver.matches })
       // 兼容旧浏览器中 MediaQueryList 尚未继承于 EventTarget 导致不存在 'addEventListener'
       if ('addEventListener' in this._mediaQueryObserver) {
         this._mediaQueryObserver.addEventListener('change', this._listener)
@@ -41,6 +42,8 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
         // @ts-ignore
         this._mediaQueryObserver.addListener(this._listener)
       }
+      // 先注册监听器，确保首次回调中的 disconnect 或 observe 不会被后续注册覆盖
+      callback({ matches: mediaQueryObserver.matches })
     }
   }
 
@@ -54,6 +57,8 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
         // @ts-ignore
         this._mediaQueryObserver.removeListener(this._listener)
       }
+      this._mediaQueryObserver = undefined
+      this._listener = undefined
     }
   }
 }
