@@ -17,7 +17,7 @@ function requestPullDownRefresh (
     let claimed = false
     Taro.eventCenter.trigger(event, {
       claim: (element: HTMLElement | null) => {
-        if (claimed || !element?.isConnected || (path && (!page || element.closest('.taro_page') !== page))) return false
+        if (claimed || !page || !element?.isConnected || element.closest('.taro_page') !== page) return false
         claimed = true
         return true
       },
