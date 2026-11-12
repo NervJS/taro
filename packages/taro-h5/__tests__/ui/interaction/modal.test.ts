@@ -168,7 +168,7 @@ describe('modal', () => {
     const modal: any = document.body.lastChild
     const mask = modal.firstChild
     expect(modal.childNodes.length).toBe(2)
-    expect(modal).not.toBeVisible()
+    expect(modal.lastChild).not.toBeVisible()
 
     const title = modal.lastChild.firstChild
     const content = modal.lastChild.children[1]
@@ -186,10 +186,29 @@ describe('modal', () => {
     expect(confirm).toHaveStyle({ color: 'rgb(60, 197, 31)' })
 
     setTimeout(() => {
-      expect(modal).toBeVisible()
+      expect(modal.lastChild).toBeVisible()
       expect(mask).toBeVisible()
       confirm.click()
     }, 200)
+  })
+
+  test('should fade its mask and content instead of the wrapper to keep global stacking levels', done => {
+    Taro.showModal({
+      title: 'hello',
+      content: 'world'
+    })
+      .then(() => done())
+
+    const modal: any = document.body.lastChild
+    const [mask, content]: any = modal.childNodes
+
+    // opacity < 1 turns an element into a stacking context, so the wrapper must not be faded
+    expect(modal.style.opacity).toBe('')
+    expect(modal.style.zIndex).toBe('')
+    expect(mask.style.zIndex).toBe('1000')
+    expect(content.style.zIndex).toBe('4999')
+
+    content.lastChild.lastChild.click()
   })
 
   test('should res.cancel be true', done => {

@@ -101,8 +101,6 @@ export default class Toast {
     // wrapper
     this.el = document.createElement('div')
     this.el.className = 'taro__toast'
-    this.el.style.opacity = '0'
-    this.el.style.transition = 'opacity 0.1s linear'
     this.el.ontouchmove = (e) => {
       e.stopPropagation()
       e.preventDefault()
@@ -149,9 +147,13 @@ export default class Toast {
     this.el.appendChild(this.mask)
     this.el.appendChild(this.toast)
 
+    // Note: 渐隐渐显作用在固定定位的内容上而非容器上，容器带 opacity 会形成层叠上下文，使遮罩与内容无法分别参与全局层级
+    this.toast.style.opacity = '0'
+    this.toast.style.transition = 'opacity 0.1s linear'
+
     // show immediately
     document.body.appendChild(this.el)
-    setTimeout(() => { this.el.style.opacity = '1' }, 0)
+    setTimeout(() => { this.toast.style.opacity = '1' }, 0)
     this.type = config._type
 
     // disappear after duration
@@ -197,6 +199,7 @@ export default class Toast {
     }
 
     // toast
+    const { opacity, transition } = this.toast.style
     this.toast.setAttribute('style', inlineStyle({
       ...toastStyle,
       ...(config.icon === 'none' ? {
@@ -204,10 +207,12 @@ export default class Toast {
         padding: '10px 15px'
       } : {})
     }))
+    this.toast.style.opacity = opacity
+    this.toast.style.transition = transition
 
     // show
     this.el.style.display = 'block'
-    setTimeout(() => { this.el.style.opacity = '1' }, 0)
+    setTimeout(() => { this.toast.style.opacity = '1' }, 0)
     this.type = config._type
 
     // disappear after duration
@@ -228,7 +233,7 @@ export default class Toast {
     this.currentPath = null
 
     this.hideOpacityTimer = setTimeout(() => {
-      this.el.style.opacity = '0'
+      this.toast.style.opacity = '0'
       this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 100)
     }, duration)
   }
