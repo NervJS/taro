@@ -244,6 +244,11 @@ export default class PageHandler {
     const param = this.getQuery(page['$taroParams']['stamp'], '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
+      // 返回正在等待隐藏的页面时，取消旧任务，避免它再次隐藏当前页。
+      if (this.hideTimer && this.lastHidePage === pageEl) {
+        clearTimeout(this.hideTimer)
+        this.hideTimer = null
+      }
       pageEl.classList.remove('taro_page_shade')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
