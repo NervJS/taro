@@ -4,7 +4,8 @@ import throttle from 'lodash-es/throttle'
 import { CallbackManager, MethodHandler } from '../../utils/handler'
 
 const callbackManager = new CallbackManager()
-let gyroscopeListener: ReturnType<typeof throttle> | undefined
+let gyroscopeListener: ((evt: DeviceMotionEvent) => void) | undefined
+let gyroscopeThrottled: ReturnType<typeof throttle> | undefined
 
 const INTERVAL_MAP = {
   game: {
@@ -30,8 +31,9 @@ let startToken = 0
 function removeGyroscopeListener () {
   if (gyroscopeListener) {
     window.removeEventListener('devicemotion', gyroscopeListener, true)
-    gyroscopeListener.cancel()
+    gyroscopeThrottled?.cancel()
     gyroscopeListener = undefined
+    gyroscopeThrottled = undefined
   }
 }
 
@@ -59,6 +61,9 @@ export const startGyroscope: typeof Taro.startGyroscope = ({ interval = 'normal'
       throw new Error('gyroscope is not supported')
     }
     const intervalObj = INTERVAL_MAP[interval]
+    if (!intervalObj) {
+      throw new Error('invalid interval')
+    }
     const token = ++startToken
 
     const listen = () => {
@@ -67,16 +72,20 @@ export const startGyroscope: typeof Taro.startGyroscope = ({ interval = 'normal'
        * Note: rotationRate 的 alpha、beta、gamma 分别为设备绕 x、y、z 轴旋转的角速度
        * @see https://w3c.github.io/deviceorientation/#devicemotioneventrotationrate
        */
-      gyroscopeListener = throttle((evt: DeviceMotionEvent) => {
-        const rotationRate = evt.rotationRate
-        // 设备无法提供陀螺仪数据时 rotationRate 为 null，此时不应当作静止读数上报
-        if (!rotationRate) return
+      gyroscopeThrottled = throttle((rotationRate: DeviceMotionEventRotationRate) => {
         callbackManager.trigger({
           x: (rotationRate.alpha || 0) * DEG_TO_RAD,
           y: (rotationRate.beta || 0) * DEG_TO_RAD,
           z: (rotationRate.gamma || 0) * DEG_TO_RAD
         })
       }, intervalObj.interval)
+      const throttled = gyroscopeThrottled
+      gyroscopeListener = (evt: DeviceMotionEvent) => {
+        // 设备无法提供陀螺仪数据时 rotationRate 为 null，此时不应当作静止读数上报。
+        // 需要在节流之前过滤，否则空读数会顶掉节流窗口内待派发的有效读数
+        if (!evt.rotationRate) return
+        throttled(evt.rotationRate)
+      }
       window.addEventListener('devicemotion', gyroscopeListener, true)
     }
 

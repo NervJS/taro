@@ -128,6 +128,30 @@ describe('gyroscope', () => {
     expect(callback).toHaveBeenCalledWith({ x: 0, y: 0, z: 0 })
   })
 
+  test('keeps a pending reading when an empty one follows within the throttle window', async () => {
+    const callback = jest.fn()
+    api.onGyroscopeChange(callback)
+    await api.startGyroscope()
+    dispatch({ alpha: 1, beta: 1, gamma: 1 })
+    dispatch({ alpha: 2, beta: 0, gamma: 0 })
+    dispatch(null)
+    expect(callback).toHaveBeenCalledTimes(1)
+
+    jest.advanceTimersByTime(200)
+    expect(callback).toHaveBeenCalledTimes(2)
+    expect(callback.mock.calls[1][0].x).toBeCloseTo(2 * Math.PI / 180)
+  })
+
+  test('fails on an unsupported interval without requesting permission', async () => {
+    const requestPermission = jest.fn()
+    Object.defineProperty(window, 'DeviceMotionEvent', {
+      configurable: true,
+      value: Object.assign(function () {}, { requestPermission })
+    })
+    await expect(api.startGyroscope({ interval: 'fast' as any })).rejects.toEqual({ errMsg: 'startGyroscope:fail invalid interval' })
+    expect(requestPermission).not.toHaveBeenCalled()
+  })
+
   test('throttles callbacks according to the interval option', async () => {
     const callback = jest.fn()
     api.onGyroscopeChange(callback)
