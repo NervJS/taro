@@ -8,6 +8,7 @@ describe('getVideoInfo', () => {
     video = document.createElement('video')
     jest.spyOn(document, 'createElement').mockReturnValue(video)
     fetchMock = jest.spyOn(globalThis, 'fetch').mockResolvedValue({
+      ok: true,
       blob: async () => new Blob(['video'], { type: 'video/mp4' })
     } as Response)
   })
@@ -80,6 +81,24 @@ describe('getVideoInfo', () => {
     expect(success).toHaveBeenCalledTimes(1)
     expect(success).toHaveBeenCalledWith(response)
     expect(complete).toHaveBeenCalledTimes(1)
+  })
+
+  test.each([404, 503])('fails when the metadata fetch returns HTTP %s', async status => {
+    const blob = jest.fn(async () => new Blob(['error page'], { type: 'text/html' }))
+    fetchMock.mockResolvedValue({ ok: false, status, blob })
+    const success = jest.fn()
+    const fail = jest.fn()
+    const complete = jest.fn()
+    const result = getVideoInfo({ src: '/video.mp4', success, fail, complete })
+
+    video.dispatchEvent(new Event('loadedmetadata'))
+
+    const failure = { errMsg: `getVideoInfo:fail Error: HTTP ${status}` }
+    await expect(result).resolves.toEqual(failure)
+    expect(blob).not.toHaveBeenCalled()
+    expect(success).not.toHaveBeenCalled()
+    expect(fail.mock.calls).toEqual([[failure]])
+    expect(complete.mock.calls).toEqual([[failure]])
   })
 
   test('still rejects when fetching the video fails after metadata loads', async () => {
