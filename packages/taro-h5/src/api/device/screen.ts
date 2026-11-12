@@ -32,6 +32,8 @@ async function requestWakeLock () {
  */
 function handleVisibilityChange () {
   if (keepScreenOnEnabled && !wakeLock && document.visibilityState === 'visible') {
+    // Note: 视为一次新的请求，避免更早发起的请求失败后关闭这次已获取的 wake lock
+    keepScreenOnCallId++
     requestWakeLock().catch(e => {
       console.warn(`setKeepScreenOn: failed to reacquire the screen wake lock, ${e.message}`)
     })

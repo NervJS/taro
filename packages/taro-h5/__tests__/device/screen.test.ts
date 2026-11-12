@@ -123,6 +123,30 @@ describe('setKeepScreenOn', () => {
     expect(sentinels[0].released).toBe(true)
   })
 
+  test('does not let an outdated failed request release a newer wake lock', async () => {
+    let rejectOutdated: (reason: Error) => void = () => {}
+    request.mockImplementationOnce(() => new Promise((_resolve, reject) => {
+      rejectOutdated = reject
+    }))
+
+    const enabling = setKeepScreenOn({ keepScreenOn: true })
+    setVisibility('hidden')
+    setVisibility('visible')
+    await flushPromises()
+    expect(request).toHaveBeenCalledTimes(2)
+
+    rejectOutdated(new Error('Wake Lock permission request denied'))
+    await expect(enabling).rejects.toEqual({ errMsg: 'setKeepScreenOn:fail Wake Lock permission request denied' })
+
+    expect(sentinels[0].released).toBe(false)
+    // Note: 可见性监听仍然保留，页面再次隐藏后可以重新申请
+    await sentinels[0].release()
+    setVisibility('hidden')
+    setVisibility('visible')
+    await flushPromises()
+    expect(request).toHaveBeenCalledTimes(3)
+  })
+
   test('fails and stays off when the wake lock request is rejected', async () => {
     request.mockRejectedValueOnce(new Error('Wake Lock permission request denied'))
     const fail = jest.fn()
