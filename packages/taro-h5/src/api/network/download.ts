@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 
 import { CallbackManager } from '../../utils/handler'
-import { NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
+import { inactiveTransferTask, NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
 const createDownloadTask = ({ url, header, withCredentials = true, timeout, success, error }): Taro.DownloadTask => {
   let timeoutInter: ReturnType<typeof setTimeout>
@@ -120,22 +120,28 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
 export const downloadFile: typeof Taro.downloadFile = ({ url, header, withCredentials, timeout, success, fail, complete }) => {
   let task!: Taro.DownloadTask
   const result: ReturnType<typeof Taro.downloadFile> = new Promise((resolve, reject) => {
-    task = createDownloadTask({
-      url,
-      header,
-      withCredentials,
-      timeout,
-      success: res => {
-        success && success(res)
-        complete && complete(res)
-        resolve(res)
-      },
-      error: res => {
-        fail && fail(res)
-        complete && complete(res)
-        reject(res)
-      }
-    })
+    const onError = (res: { errMsg: string }) => {
+      fail && fail(res)
+      complete && complete(res)
+      reject(res)
+    }
+    try {
+      task = createDownloadTask({
+        url,
+        header,
+        withCredentials,
+        timeout,
+        success: res => {
+          success && success(res)
+          complete && complete(res)
+          resolve(res)
+        },
+        error: onError
+      })
+    } catch (cause) {
+      task = inactiveTransferTask
+      onError({ errMsg: `downloadFile:fail ${cause?.message ?? String(cause)}` })
+    }
   }) as any
 
   result.headersReceive = task.onHeadersReceived.bind(task)

@@ -3,6 +3,7 @@ import Taro from '@tarojs/api'
 import { CallbackManager } from '../../utils/handler'
 import {
   convertObjectUrlToBlob,
+  inactiveTransferTask,
   NETWORK_TIMEOUT,
   setHeader,
   XHR_STATS
@@ -134,26 +135,32 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
 export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header, formData, timeout, fileName, withCredentials, success, fail, complete }) => {
   let task!: Taro.UploadTask
   const result: ReturnType<typeof Taro.uploadFile> = new Promise((resolve, reject) => {
-    task = createUploadTask({
-      url,
-      header,
-      name,
-      filePath,
-      formData,
-      timeout,
-      fileName,
-      withCredentials,
-      success: res => {
-        success && success(res)
-        complete && complete(res)
-        resolve(res)
-      },
-      error: res => {
-        fail && fail(res)
-        complete && complete(res)
-        reject(res)
-      }
-    })
+    const onError = (res: { errMsg: string }) => {
+      fail && fail(res)
+      complete && complete(res)
+      reject(res)
+    }
+    try {
+      task = createUploadTask({
+        url,
+        header,
+        name,
+        filePath,
+        formData,
+        timeout,
+        fileName,
+        withCredentials,
+        success: res => {
+          success && success(res)
+          complete && complete(res)
+          resolve(res)
+        },
+        error: onError
+      })
+    } catch (cause) {
+      task = inactiveTransferTask
+      onError({ errMsg: `uploadFile:fail ${cause?.message ?? String(cause)}` })
+    }
   }) as any
 
   result.headersReceive = task.onHeadersReceived.bind(task)
