@@ -24,17 +24,25 @@ const INTERVAL_MAP = {
 /** Note: devicemotion 事件中 rotationRate 的单位为 deg/s，小程序端陀螺仪数据的单位为 rad/s */
 const DEG_TO_RAD = Math.PI / 180
 
+/** 每次 start / stop 递增，用于丢弃等待授权期间已被取代的 startGyroscope 请求 */
+let startToken = 0
+
+function removeGyroscopeListener () {
+  if (gyroscopeListener) {
+    window.removeEventListener('devicemotion', gyroscopeListener, true)
+    gyroscopeListener.cancel()
+    gyroscopeListener = undefined
+  }
+}
+
 /**
  * 停止监听陀螺仪数据。
  */
 export const stopGyroscope: typeof Taro.stopGyroscope = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'stopGyroscope', success, fail, complete })
   try {
-    if (gyroscopeListener) {
-      window.removeEventListener('devicemotion', gyroscopeListener, true)
-      gyroscopeListener.cancel()
-      gyroscopeListener = undefined
-    }
+    startToken++
+    removeGyroscopeListener()
     return handle.success()
   } catch (e) {
     return handle.fail({ errMsg: e.message })
@@ -47,28 +55,51 @@ export const stopGyroscope: typeof Taro.stopGyroscope = ({ success, fail, comple
 export const startGyroscope: typeof Taro.startGyroscope = ({ interval = 'normal', success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'startGyroscope', success, fail, complete })
   try {
-    if (window.DeviceMotionEvent) {
-      const intervalObj = INTERVAL_MAP[interval]
-      if (gyroscopeListener) {
-        stopGyroscope()
-      }
+    if (!window.DeviceMotionEvent) {
+      throw new Error('gyroscope is not supported')
+    }
+    const intervalObj = INTERVAL_MAP[interval]
+    const token = ++startToken
+
+    const listen = () => {
+      removeGyroscopeListener()
       /**
-       * Note: rotationRate 的 alpha、beta、gamma 分别为设备绕 z、x、y 轴旋转的角速度
-       * @see https://w3c.github.io/deviceorientation/#devicemotion
+       * Note: rotationRate 的 alpha、beta、gamma 分别为设备绕 x、y、z 轴旋转的角速度
+       * @see https://w3c.github.io/deviceorientation/#devicemotioneventrotationrate
        */
       gyroscopeListener = throttle((evt: DeviceMotionEvent) => {
         const rotationRate = evt.rotationRate
+        // 设备无法提供陀螺仪数据时 rotationRate 为 null，此时不应当作静止读数上报
+        if (!rotationRate) return
         callbackManager.trigger({
-          x: (rotationRate?.beta || 0) * DEG_TO_RAD,
-          y: (rotationRate?.gamma || 0) * DEG_TO_RAD,
-          z: (rotationRate?.alpha || 0) * DEG_TO_RAD
+          x: (rotationRate.alpha || 0) * DEG_TO_RAD,
+          y: (rotationRate.beta || 0) * DEG_TO_RAD,
+          z: (rotationRate.gamma || 0) * DEG_TO_RAD
         })
       }, intervalObj.interval)
       window.addEventListener('devicemotion', gyroscopeListener, true)
-    } else {
-      throw new Error('gyroscope is not supported')
     }
-    return handle.success()
+
+    // iOS 13+ Safari 需要在用户交互中调用 requestPermission，授权后才会派发 devicemotion 事件
+    const requestPermission = (window.DeviceMotionEvent as unknown as { requestPermission?: () => Promise<string> }).requestPermission
+    if (typeof requestPermission !== 'function') {
+      listen()
+      return handle.success()
+    }
+
+    return requestPermission.call(window.DeviceMotionEvent).then(
+      state => {
+        if (state !== 'granted') {
+          return handle.fail({ errMsg: 'permission denied' })
+        }
+        if (token !== startToken) {
+          return handle.fail({ errMsg: 'start was interrupted by a later start or stop call' })
+        }
+        listen()
+        return handle.success()
+      },
+      (e: Error) => handle.fail({ errMsg: e?.message || 'permission request failed' })
+    )
   } catch (e) {
     return handle.fail({ errMsg: e.message })
   }

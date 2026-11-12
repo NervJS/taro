@@ -110,21 +110,22 @@ describe('gyroscope', () => {
 
     expect(callback).toHaveBeenCalledTimes(1)
     const { x, y, z } = callback.mock.calls[0][0]
-    expect(x).toBeCloseTo(Math.PI / 2)
-    expect(y).toBeCloseTo(-Math.PI / 4)
-    expect(z).toBeCloseTo(Math.PI)
+    expect(x).toBeCloseTo(Math.PI)
+    expect(y).toBeCloseTo(Math.PI / 2)
+    expect(z).toBeCloseTo(-Math.PI / 4)
   })
 
-  test('reports zero when the rotation rate is unavailable', async () => {
+  test('ignores events without rotation rate and zero-fills missing fields', async () => {
     const callback = jest.fn()
     api.onGyroscopeChange(callback)
     await api.startGyroscope({ interval: 'game' })
     dispatch(null)
+    expect(callback).not.toHaveBeenCalled()
+
     jest.advanceTimersByTime(20)
     dispatch({ alpha: null, beta: null, gamma: null })
-
-    expect(callback).toHaveBeenNthCalledWith(1, { x: 0, y: 0, z: 0 })
-    expect(callback).toHaveBeenNthCalledWith(2, { x: 0, y: 0, z: 0 })
+    expect(callback).toHaveBeenCalledTimes(1)
+    expect(callback).toHaveBeenCalledWith({ x: 0, y: 0, z: 0 })
   })
 
   test('throttles callbacks according to the interval option', async () => {
@@ -164,5 +165,77 @@ describe('gyroscope', () => {
 
     await expect(api.startGyroscope({ fail })).resolves.toEqual({ errMsg: 'startGyroscope:fail gyroscope is not supported' })
     expect(fail).toHaveBeenCalledWith({ errMsg: 'startGyroscope:fail gyroscope is not supported' })
+  })
+
+  describe('motion permission', () => {
+    function mockPermission () {
+      const resolvers: ((state: string) => void)[] = []
+      const rejecters: ((e: Error) => void)[] = []
+      const requestPermission = jest.fn(() => new Promise<string>((resolve, reject) => {
+        resolvers.push(resolve)
+        rejecters.push(reject)
+      }))
+      delete (window as any).DeviceMotionEvent
+      Object.defineProperty(window, 'DeviceMotionEvent', {
+        configurable: true,
+        value: Object.assign(function () {}, { requestPermission })
+      })
+      return { requestPermission, resolvers, rejecters }
+    }
+
+    test('starts listening only after the permission is granted', async () => {
+      const { requestPermission, resolvers } = mockPermission()
+      const callback = jest.fn()
+      api.onGyroscopeChange(callback)
+
+      const result = api.startGyroscope({ interval: 'game' })
+      expect(requestPermission).toHaveBeenCalledTimes(1)
+      dispatch({ alpha: 1, beta: 1, gamma: 1 })
+      expect(callback).not.toHaveBeenCalled()
+
+      resolvers[0]('granted')
+      await expect(result).resolves.toEqual({ errMsg: 'startGyroscope:ok' })
+      dispatch({ alpha: 1, beta: 1, gamma: 1 })
+      expect(callback).toHaveBeenCalledTimes(1)
+    })
+
+    test('fails when the permission is denied or the request throws', async () => {
+      const { resolvers, rejecters } = mockPermission()
+      const callback = jest.fn()
+      api.onGyroscopeChange(callback)
+
+      const denied = api.startGyroscope()
+      resolvers[0]('denied')
+      await expect(denied).rejects.toEqual({ errMsg: 'startGyroscope:fail permission denied' })
+
+      const errored = api.startGyroscope()
+      rejecters[1](new Error('not allowed'))
+      await expect(errored).rejects.toEqual({ errMsg: 'startGyroscope:fail not allowed' })
+
+      dispatch({ alpha: 1, beta: 1, gamma: 1 })
+      expect(callback).not.toHaveBeenCalled()
+    })
+
+    test('does not attach a listener when stop or another start happens while waiting', async () => {
+      const { resolvers } = mockPermission()
+      const callback = jest.fn()
+      api.onGyroscopeChange(callback)
+
+      const stopped = api.startGyroscope()
+      await api.stopGyroscope()
+      resolvers[0]('granted')
+      await expect(stopped).rejects.toMatchObject({ errMsg: expect.stringContaining('startGyroscope:fail') })
+      dispatch({ alpha: 1, beta: 1, gamma: 1 })
+      expect(callback).not.toHaveBeenCalled()
+
+      const first = api.startGyroscope()
+      const second = api.startGyroscope()
+      resolvers[2]('granted')
+      resolvers[1]('granted')
+      await expect(first).rejects.toMatchObject({ errMsg: expect.stringContaining('startGyroscope:fail') })
+      await expect(second).resolves.toEqual({ errMsg: 'startGyroscope:ok' })
+      dispatch({ alpha: 1, beta: 1, gamma: 1 })
+      expect(callback).toHaveBeenCalledTimes(1)
+    })
   })
 })
