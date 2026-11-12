@@ -10,8 +10,22 @@ export const setScreenBrightness = /* @__PURE__ */ temporarilyNotSupport('setScr
 let keepScreenOnEnabled = false
 let keepScreenOnCallId = 0
 let wakeLock: WakeLockSentinel | null = null
+let pendingRequest: Promise<void> | null = null
 
-async function requestWakeLock () {
+function requestWakeLock () {
+  // Note: 复用尚未完成的申请，避免并发调用各自申请后，一方失败时误释放另一方已获取的 wake lock
+  if (!pendingRequest) {
+    const request = acquireWakeLock().finally(() => {
+      if (pendingRequest === request) {
+        pendingRequest = null
+      }
+    })
+    pendingRequest = request
+  }
+  return pendingRequest
+}
+
+async function acquireWakeLock () {
   const sentinel = await navigator.wakeLock.request('screen')
   // Note: 申请期间可能已经取消了常亮，或者已经由其他调用持有了 wake lock
   if (!keepScreenOnEnabled || wakeLock) {
@@ -49,7 +63,7 @@ function disableKeepScreenOn () {
 }
 
 /**
- * 设置是否保持常亮状态。基于 Screen Wake Lock API 实现，需要在安全上下文（HTTPS）中使用。
+ * 设置是否保持常亮状态。基于 Screen Wake Lock API 实现，需要在安全上下文（如 HTTPS 或 localhost）中使用。
  */
 export const setKeepScreenOn: typeof Taro.setKeepScreenOn = async (options) => {
   const name = 'setKeepScreenOn'
