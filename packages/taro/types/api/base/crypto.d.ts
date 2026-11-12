@@ -88,7 +88,8 @@ declare module '../../index' {
     getUserCryptoManager(): UserCryptoManager
 
     /** 获取密码学安全随机数
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 基于 crypto.getRandomValues 实现
      * @example
      * ```tsx
      * Taro.getRandomValues({
