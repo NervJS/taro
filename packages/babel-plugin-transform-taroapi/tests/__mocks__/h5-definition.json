@@ -2266,6 +2266,8 @@
       "scaleValue": "number",
       "setParent": "({ element, area }: { element: HTMLElement; area: { width: number; height: number; }; }) => Promise<void>",
       "setScale": "(scale: number) => Promise<void>",
+      "snapThresholdX": "number",
+      "snapThresholdY": "number",
       "x": "string | number",
       "y": "string | number"
     },
