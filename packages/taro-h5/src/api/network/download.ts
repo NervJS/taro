@@ -18,9 +18,9 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
   setHeader(xhr, header)
 
   xhr.onprogress = e => {
-    const { loaded, total } = e
+    const { lengthComputable, loaded, total } = e
     callbackManager.progressUpdate.trigger({
-      progress: Math.round(loaded / total * 100),
+      progress: lengthComputable && total > 0 ? Math.round(loaded / total * 100) : 0,
       totalBytesWritten: loaded,
       totalBytesExpectedToWrite: total
     })
