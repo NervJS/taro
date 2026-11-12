@@ -1,0 +1,89 @@
+.sub2-page {
+  background-color: #fff7e6;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px;
+
+  .header {
+    margin-bottom: 10px;
+
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #d46b08;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .status {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+
+  .deep-case {
+    background: linear-gradient(180deg, #fff7e6 0%, #ffe7ba 100%);
+    border: 2px solid #ffd591;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+
+    .deep-case-title {
+      display: block;
+      font-size: 15px;
+      font-weight: bold;
+      color: #ad4e00;
+      margin-bottom: 6px;
+    }
+
+    .deep-case-note {
+      display: block;
+      font-size: 12px;
+      color: #874d00;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .deep-node {
+      background: rgba(255, 255, 255, 0.72);
+      border: 2px dashed rgba(212, 107, 8, 0.35);
+      border-radius: 8px;
+      margin-top: 8px;
+      padding: 10px;
+
+      .deep-title {
+        color: #d46b08;
+        display: block;
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+
+      .deep-copy {
+        color: #7a4b17;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      &.deep-leaf {
+        background: #ffffff;
+        border-color: rgba(173, 78, 0, 0.55);
+        box-shadow: inset 6px 0 0 #d46b08;
+      }
+    }
+
+    .level-0 { margin-left: 0; }
+    .level-1 { margin-left: 12px; }
+    .level-2 { margin-left: 24px; }
+    .level-3 { margin-left: 36px; }
+    .level-4 { margin-left: 48px; }
+    .level-5 { margin-left: 60px; }
+  }
+}

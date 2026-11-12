@@ -2,6 +2,7 @@ packages:
   - 'packages/**'
   - 'tests'
   - 'examples/subpackage-indie/taro-project'
+  - 'examples/subpackage-indie-async/taro-project'
   - '!packages/taro-cli/templates/**'
   - '!**/__tests__/**'
   - '!**/dist/**'

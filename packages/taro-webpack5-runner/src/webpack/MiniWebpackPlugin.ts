@@ -6,6 +6,8 @@ import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniCompileModePlugin from '../plugins/MiniCompileModePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
+import TaroInjectSyncCorePlugin from '../plugins/TaroInjectSyncCorePlugin'
+import { SHARED_SYNC_CORE_NAME } from '../shared-runtime/constants'
 import WebpackPlugin, { PluginArgs } from './WebpackPlugin'
 
 import type { MiniCombination } from './MiniCombination'
@@ -41,6 +43,19 @@ export class MiniWebpackPlugin {
     if (this.combination.config.experimental?.compileMode === true) {
       plugins.taroCompileModePlugin = WebpackPlugin.getPlugin(MiniCompileModePlugin, [{
         combination: this.combination,
+      }])
+    }
+
+    // 共享运行时（split 模式）：给 app 入口头部注入 require('taro-shared-sync')，
+    // 使同步核先于页面注册执行（填共享全局 + 装占位 shim + 触发异步核加载）。
+    // F6 native-components 场景:BuildNativePlugin 删了 ENTRY dep,没有 app.js;
+    // 每个 native-component 是 META_TYPE.PAGE,需在 PAGE chunk 顶部也注入同步核 require。
+    // new-blended(--new-blended)也是本地化组件独立编译,组件顶层同步调 createNativeComponentConfig,
+    // 同样需要同步核先就位;此前只按 isBuildNativeComp 判断,漏掉 newBlended 增量,导致组件白屏。
+    if (this.combination.config.sharedRuntime) {
+      plugins.taroInjectSyncCorePlugin = WebpackPlugin.getPlugin(TaroInjectSyncCorePlugin, [{
+        syncCoreName: SHARED_SYNC_CORE_NAME,
+        injectOnPage: !!this.combination.isBuildNativeComp || !!this.combination.newBlended,
       }])
     }
 
@@ -153,13 +168,17 @@ export class MiniWebpackPlugin {
 
   getCommonChunks () {
     const { buildNativePlugin, config } = this.combination
-    const { commonChunks } = config
+    const { commonChunks, sharedRuntime } = config
     const defaultCommonChunks = buildNativePlugin?.commonChunks || ['runtime', 'vendors', 'taro', 'common']
     let customCommonChunks: string[] = defaultCommonChunks
     if (isFunction(commonChunks)) {
       customCommonChunks = commonChunks(defaultCommonChunks.concat()) || defaultCommonChunks
     } else if (isArray(commonChunks) && commonChunks.length) {
       customCommonChunks = commonChunks
+    }
+    // sharedRuntime 下不再产出 taro chunk，从 commonChunks 过滤，否则页面 require 头会引用不存在的 taro.js
+    if (sharedRuntime) {
+      customCommonChunks = customCommonChunks.filter(name => name !== 'taro')
     }
     return customCommonChunks
   }

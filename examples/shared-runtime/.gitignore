@@ -1,0 +1,12 @@
+miniapp/pages/shared-runtime
+miniapp/pages/shared-native-comp
+miniapp/pages/shared-async-v1
+taro-project/dist
+native-comp-project/dist
+native-comp-project/node_modules
+**/node_modules
+.DS_Store
+
+# 微信开发者工具打开目录时自动生成的本地/私有配置（可能写入真实 appid，勿入库）
+project.private.config.json
+/project.config.json

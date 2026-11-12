@@ -24,6 +24,8 @@ import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
+import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
+import { assertDeclaredPages } from '../utils/asyncSubPackageRules'
 import { componentConfig } from '../utils/component'
 import { computeForceCustomWrapperForIndependentPackage } from '../utils/forceCustomWrapper'
 import { isWeappSubPackageIndieEnabled, shouldProcessCommonStyles } from '../utils/platform'
@@ -126,6 +128,18 @@ export interface IComponentObj {
 
 function isLoaderExist (loaders, loaderName: string) {
   return loaders.some(item => item.loader === loaderName)
+}
+
+/**
+ * chunk 是否包含可执行的 JS 模块。
+ * 纯样式 chunk（例如 sharedRuntime 下只剩 CSS 的 common）不会 emit JS 文件，
+ * 不能作为 require 依赖注入到入口，否则运行时报 "module is not defined"。
+ */
+export function chunkHasScriptModules (chunk: any): boolean {
+  const modules = typeof chunk?.getModules === 'function' ? chunk.getModules() : []
+  // 0 模块：可能是 runtime chunk（RuntimeModule 在 render 阶段才装配），保守保留。
+  if (modules.length === 0) return true
+  return modules.some((module: any) => !String(module?.type || '').startsWith('css'))
 }
 
 export default class TaroMiniPlugin {
@@ -336,6 +350,14 @@ export default class TaroMiniPlugin {
        */
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext, module:/** TaroNormalModule */ any) => {
         const { framework, loaderMeta, pxTransformConfig } = this.options
+        // 共享运行时（split 模式）：把 sharedRuntime 开关、pkgId(取 output.chunkLoadingGlobal,
+        // 每业务包已必须唯一)、全局对象键名(constants.ts 单一来源)透传给 app/page loader,
+        // 用于在产物里注入多包 App 隔离逻辑。
+        const sharedRuntime = !!this.options.combination.config.sharedRuntime
+        const sharedRuntimePkgId = sharedRuntime
+          ? (compiler.options.output?.chunkLoadingGlobal as string) || 'webpackJsonp'
+          : undefined
+        const sharedRuntimeGlobalKey = sharedRuntime ? SHARED_GLOBAL_ASYNC : undefined
 
         if (module.miniType === META_TYPE.ENTRY) {
           const loaderName = '@tarojs/taro-loader'
@@ -351,7 +373,10 @@ export default class TaroMiniPlugin {
                 behaviorsName: this.options.behaviorsName,
                 blended: this.options.blended,
                 newBlended: this.options.newBlended,
-                pxTransformConfig
+                pxTransformConfig,
+                sharedRuntime,
+                sharedRuntimePkgId,
+                sharedRuntimeGlobalKey,
               }
             })
           }
@@ -382,7 +407,10 @@ export default class TaroMiniPlugin {
                 appConfig: this.appConfig,
                 runtimePath: this.options.runtimePath,
                 behaviorsName: this.options.behaviorsName,
-                hot: this.options.hot
+                hot: this.options.hot,
+                sharedRuntime,
+                sharedRuntimePkgId,
+                sharedRuntimeGlobalKey,
               }
             })
           }
@@ -472,6 +500,9 @@ export default class TaroMiniPlugin {
             group.chunks.forEach(chunk => {
               const currentChunkId = getChunkIdOrName(chunk)
               if (id === currentChunkId) return
+              // 纯样式 chunk（如 sharedRuntime 下 @tarojs/* 全 external 后只剩 CSS 的 common）
+              // 不会产出 JS 文件，注入 require 会在运行时抛 "module is not defined"。
+              if (!chunkHasScriptModules(chunk)) return
               deps.push({
                 name: currentChunkId
               })
@@ -521,12 +552,14 @@ export default class TaroMiniPlugin {
   applyAsyncSubPackagePlugin (compiler: Compiler) {
     if (!this.subPackageIndiePlugin) return
     const asyncRootMap = this.subPackageIndiePlugin.getAsyncSubPackageRootMap()
-    if (asyncRootMap.size === 0 && !this.asyncSubPackagePlugin) return
+    const asyncRules = this.subPackageIndiePlugin.getAsyncSubPackageRules()
+    if (asyncRootMap.size === 0 && asyncRules.length === 0 && !this.asyncSubPackagePlugin) return
 
     if (!this.asyncSubPackagePlugin) {
       this.asyncSubPackagePlugin = new AsyncSubPackagePlugin(this)
     }
     this.asyncSubPackagePlugin.updateAsyncRootMap(asyncRootMap)
+    this.asyncSubPackagePlugin.updateAsyncRules(asyncRules)
     this.asyncSubPackagePlugin.updateAsyncRuntimeRoots(this.subPackageIndiePlugin.getAsyncSubPackageRuntimeRoots())
     this.asyncSubPackagePlugin.apply(compiler)
   }
@@ -536,6 +569,9 @@ export default class TaroMiniPlugin {
 
     this.subPackageIndiePlugin = new SubPackageIndiePlugin(this)
     this.subPackageIndiePlugin.apply()
+    // 反向挂到 combination，供主构建结束后的 buildSharedRuntime 读取 mainPackageRoots
+    // （把同步核 taro-shared-sync.js 拷进每个 mainPackageRoot，实现 subPackageIndie 自包含）。
+    this.options.combination.subPackageIndiePlugin = this.subPackageIndiePlugin
   }
 
   isWeappSubPackageIndieEnabled () {
@@ -769,10 +805,10 @@ export default class TaroMiniPlugin {
       throw new Error('缺少 app 全局配置文件，请检查！')
     }
 
-    const appPages = this.appConfig.pages
-    if (!appPages || !appPages.length) {
-      throw new Error('全局配置缺少 pages 字段，请检查！')
-    }
+    const appPages = this.appConfig.pages || []
+    assertDeclaredPages(this.appConfig, {
+      allowEmptyMainPages: this.isWeappSubPackageIndieEnabled(),
+    })
 
     if (!this.isWatch && this.options.logger?.quiet === false) {
       printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))

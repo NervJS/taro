@@ -1,0 +1,32 @@
+.counter {
+  padding: 30px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #fafafa;
+
+  .header {
+    margin-bottom: 20px;
+
+    .title {
+      font-size: 36px;
+      font-weight: bold;
+    }
+  }
+
+  .desc {
+    margin-bottom: 30px;
+    font-size: 26px;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  .count-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .count {
+      font-size: 32px;
+    }
+  }
+}

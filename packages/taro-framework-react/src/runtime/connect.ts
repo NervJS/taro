@@ -2,7 +2,7 @@ import { CONTAINER, Current, document, getPageInstance, incrementId, injectPageI
 import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
-import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
+import { ensureIsArray, exposeSharedAppChildren, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
 
 import type { AppInstance, Instance, PageLifeCycle, PageProps, ReactAppInstance, ReactPageComponent } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
@@ -207,6 +207,10 @@ export function createReactApp (
       container = document.createElement(appId)
       container.id = appId
       appContainer?.appendChild(container)
+    }
+    const sharedRuntimePkgId = (config as AppConfig & { __taroSharedRuntimePkgId?: string })?.__taroSharedRuntimePkgId
+    if (sharedRuntimePkgId) {
+      exposeSharedAppChildren(container)
     }
     if ((react.version || '').startsWith('18')) {
       const root = ReactDOM.createRoot((container as unknown as Element))
