@@ -1337,8 +1337,9 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /** 保存文件系统的文件到用户磁盘，仅在 PC 端支持
-     * @supported weapp, alipay
+    /** 保存文件到用户磁盘。小程序端仅在 PC 上支持。
+     * H5 接受同源文件地址和 Blob URL，成功回调表示已请求浏览器下载。
+     * @supported weapp, alipay, h5
      * @example
      * ```tsx
      * Taro.saveFileToDisk({
