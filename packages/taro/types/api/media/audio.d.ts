@@ -141,7 +141,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioBuffer.copyFromChannel.html
      */
-    copyFromChannel(): void
+    copyFromChannel(destination: Float32Array, channelNumber: number, startInChannel?: number): void
 
     /** 从指定数组复制样本到 audioBuffer 的特定通道
      * @supported weapp
@@ -461,7 +461,7 @@ declare module '../../index' {
   }
 
   /** WebAudioContext 实例，通过 [Taro.createWebAudioContext](./createWebAudioContext) 接口获取该实例。
-   * @supported weapp
+   * @supported weapp, h5
    * @example
    * 监听状态
    *
@@ -484,13 +484,13 @@ declare module '../../index' {
     state: string
 
     /** 可写属性，开发者可以对该属性设置一个监听函数，当 WebAudio 状态改变的时候，会触发开发者设置的监听函数。 */
-    onstatechange: () => void
+    onstatechange: BaseAudioContext['onstatechange']
 
     /** 获取当前上下文的时间戳。 */
     currentTime: number
 
     /** 当前上下文的最终目标节点，一般是音频渲染设备。 */
-    destination: WebAudioContextNode
+    destination: AudioDestinationNode
 
     /** 空间音频监听器。 */
     listener: AudioListener
@@ -502,7 +502,7 @@ declare module '../../index' {
      *
      * **注意事项**
      * 同步关闭对应的 WebAudio 上下文。close 后会立即释放当前上下文的资源，**不要在 close 后再次访问 state 属性**。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const audioCtx = Taro.createWebAudioContext()
@@ -515,19 +515,19 @@ declare module '../../index' {
     close(): Promise<void>
 
     /** 同步恢复已经被暂停的 WebAudioContext 上下文
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.resume.html
      */
     resume(): Promise<void>
 
     /** 同步暂停 WebAudioContext 上下文
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.suspend.html
      */
     suspend(): Promise<void>
 
     /** 创建一个 IIRFilterNode
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * let lowPassCoefs = [
@@ -567,25 +567,25 @@ declare module '../../index' {
     ): IIRFilterNode
 
     /** 创建一个 WaveShaperNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createWaveShaper.html
      */
     createWaveShaper(): WaveShaperNode
 
     /** 创建一个 ConstantSourceNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createConstantSource.html
      */
     createConstantSource(): ConstantSourceNode
 
     /** 创建一个 OscillatorNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createOscillator.html
      */
     createOscillator(): OscillatorNode
 
     /** 创建一个 GainNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createGain.html
      */
     createGain(): GainNode
@@ -605,7 +605,7 @@ declare module '../../index' {
      *
      * const waveNode = audioContext.createPeriodicWave(real, imag, {disableNormalization: true})
      * ```
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createPeriodicWave.html
      */
     createPeriodicWave(
@@ -618,19 +618,19 @@ declare module '../../index' {
     ): PeriodicWave
 
     /** 创建一个BiquadFilterNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createBiquadFilter.html
      */
     createBiquadFilter(): BiquadFilterNode
 
     /** 创建一个 BufferSourceNode 实例，通过 AudioBuffer 对象来播放音频数据。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createBufferSource.html
      */
     createBufferSource(): AudioBufferSourceNode
 
     /** 创建一个ChannelMergerNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createChannelMerger.html
      */
     createChannelMerger(
@@ -639,7 +639,7 @@ declare module '../../index' {
     ): ChannelMergerNode
 
     /** 创建一个ChannelSplitterNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createChannelSplitter.html
      */
     createChannelSplitter(
@@ -648,7 +648,7 @@ declare module '../../index' {
     ): ChannelSplitterNode
 
     /** 创建一个DelayNode
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * let audioCtx = Taro.createWebAudioContext()
@@ -662,7 +662,7 @@ declare module '../../index' {
     ): DelayNode
 
     /** 创建一个DynamicsCompressorNode
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * let audioCtx = Taro.createWebAudioContext()
@@ -679,7 +679,7 @@ declare module '../../index' {
     createDynamicsCompressor(): DynamicsCompressorNode
 
     /** 创建一个ScriptProcessorNode
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * let audioCtx = Taro.createWebAudioContext()
@@ -698,13 +698,13 @@ declare module '../../index' {
     ): ScriptProcessorNode
 
     /** 创建一个PannerNode
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/WebAudioContext.createPanner.html
      */
     createPanner(): PannerNode
 
     /** 创建一个AudioBuffer，代表着一段驻留在内存中的短音频
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const audioCtx = Taro.createWebAudioContext()
@@ -723,7 +723,7 @@ declare module '../../index' {
     ): AudioBuffer
 
     /** 异步解码一段资源为AudioBuffer。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.request({
@@ -894,7 +894,8 @@ declare module '../../index' {
     getAvailableAudioSources(option?: getAvailableAudioSources.Option): Promise<getAvailableAudioSources.SuccessCallbackResult>
 
     /** 创建 WebAudio 上下文。
-     * @supported weapp
+     * H5 使用浏览器 AudioContext，播放可能需要由用户交互触发 resume()。
+     * @supported weapp, h5
      * @example
      * 一个简单的播放demo
      *
