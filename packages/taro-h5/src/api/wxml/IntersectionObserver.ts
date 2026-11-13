@@ -23,6 +23,8 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
   private _observerInst: IntersectionObserver
   // 监控中的选择器
   private _listeners: TListener[] = []
+  // disconnect 后使尚未执行的 nextTick 注册失效
+  private _observeVersion = 0
   // 参照区域
   private _root: Element | null
   // 用来扩展（或收缩）参照节点布局区域的边界
@@ -83,6 +85,7 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
   }
 
   public disconnect (): void {
+    this._observeVersion++
     if (this._observerInst) {
       let listener
       while ((listener = this._listeners.pop())) {
@@ -110,7 +113,9 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
       nodeList = [selfMatch || container.querySelector(targetSelector)]
     }
 
+    const observeVersion = this._observeVersion
     Taro.nextTick(() => {
+      if (observeVersion !== this._observeVersion || this._listeners.length) return
       nodeList.forEach(element => {
         if (!element) return
         this._observerInst.observe(element)
