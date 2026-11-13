@@ -51,7 +51,8 @@ describe('createWorker', () => {
 
   it('fails synchronously on an invalid path or missing browser support', () => {
     expect(() => createWorker('')).toThrow('non-empty string')
-    Object.defineProperty(globalThis, 'Worker', { configurable: true, value: undefined })
+    // Delete the mock so the VM sees an absent global binding.
+    Reflect.deleteProperty(globalThis, 'Worker')
     expect(() => createWorker('/worker.js')).toThrow('unavailable')
   })
 })
