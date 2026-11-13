@@ -69,7 +69,9 @@ export const setStorage: typeof Taro.setStorage = (options) => {
   return handle.success()
 }
 
-export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBufferURL')
+export const revokeBufferURL: typeof Taro.revokeBufferURL = url => {
+  URL.revokeObjectURL(url)
+}
 
 export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
   if (typeof key !== 'string') {
@@ -181,7 +183,9 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
   }
 }
 
-export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBufferURL')
+export const createBufferURL: typeof Taro.createBufferURL = buffer => {
+  return URL.createObjectURL(new Blob([buffer]))
+}
 
 export const clearStorageSync: typeof Taro.clearStorageSync = () => {
   localStorage.clear()

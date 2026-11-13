@@ -189,7 +189,7 @@ declare module '../../index' {
     setStorage(option: setStorage.Option): Promise<setStorage.Result>
 
     /** 根据 URL 销毁存在内存中的数据
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.revokeBufferURL.html
      */
     revokeBufferURL(
@@ -298,7 +298,7 @@ declare module '../../index' {
     getStorage<T = any>(option: getStorage.Option<T>): Promise<getStorage.SuccessCallbackResult<T>>
 
     /** 根据传入的 buffer 创建一个唯一的 URL 存在内存中
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.createBufferURL.html
      */
     createBufferURL(
