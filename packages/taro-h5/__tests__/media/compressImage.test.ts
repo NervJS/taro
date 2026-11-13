@@ -96,6 +96,28 @@ test.each([
   expect(createURL).not.toHaveBeenCalled()
 })
 
+test.each([
+  [new Blob([new Uint8Array([0xff, 0xd8, 0xff])]), 'image/jpeg'],
+  [new Blob([pngSignature, imageData]), 'image/png'],
+])('encodes %p using FileReader when Blob.arrayBuffer is unavailable', async (source, type) => {
+  const read = jest.spyOn(FileReader.prototype, 'readAsArrayBuffer')
+  fetchImage.mockResolvedValue({ ok: true, blob: async () => source })
+
+  await expect(compressImage({ src: '/picture' })).resolves.toMatchObject({ tempFilePath: 'blob:result' })
+  expect(encode).toHaveBeenCalledWith(expect.any(Function), type, type === 'image/jpeg' ? 0.8 : undefined)
+  expect(read).toHaveBeenCalledTimes(type === 'image/png' ? 2 : 1)
+})
+
+test('still rejects animated PNG when reading chunk headers with FileReader', async () => {
+  const source = new Blob([pngSignature, animationControl, imageData])
+  fetchImage.mockResolvedValue({ ok: true, blob: async () => source })
+
+  await expect(compressImage({ src: '/picture' })).rejects.toEqual({
+    errMsg: 'compressImage:fail animated PNG images are not supported'
+  })
+  expect(createURL).not.toHaveBeenCalled()
+})
+
 test('reports an HTTP error before reading the response', async () => {
   const blob = jest.fn()
   fetchImage.mockResolvedValue({ ok: false, status: 404, blob })

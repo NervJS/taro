@@ -4,8 +4,21 @@ import { MethodHandler } from '../../../utils/handler'
 
 const pngSignature = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]
 
+/** Read image bytes with a FileReader fallback for older browsers. */
+function readBlob (blob: Blob): Promise<ArrayBuffer> {
+  if (typeof blob.arrayBuffer === 'function') return blob.arrayBuffer()
+
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as ArrayBuffer)
+    reader.onerror = () => reject(reader.error ?? new Error('could not read the image'))
+    reader.readAsArrayBuffer(blob)
+  })
+}
+
+/** Detect JPEG and static PNG by inspecting the encoded bytes. */
 async function getImageType (source: Blob) {
-  const signature = new Uint8Array(await source.slice(0, pngSignature.length).arrayBuffer())
+  const signature = new Uint8Array(await readBlob(source.slice(0, pngSignature.length)))
   if (signature[0] === 0xff && signature[1] === 0xd8 && signature[2] === 0xff) {
     return 'image/jpeg'
   }
@@ -15,7 +28,7 @@ async function getImageType (source: Blob) {
 
   // An APNG declares its animation in an acTL chunk before the first IDAT.
   for (let offset = pngSignature.length; offset + 12 <= source.size;) {
-    const header = await source.slice(offset, offset + 8).arrayBuffer()
+    const header = await readBlob(source.slice(offset, offset + 8))
     const type = String.fromCharCode(...new Uint8Array(header, 4))
     if (type === 'acTL') throw new Error('animated PNG images are not supported')
     if (type === 'IDAT') return 'image/png'
@@ -24,6 +37,7 @@ async function getImageType (source: Blob) {
   throw new Error('invalid PNG image')
 }
 
+/** Decode, resize and re-encode an image while preserving its format. */
 async function encodeImage (source: Blob, width: number | undefined, height: number | undefined, quality: number) {
   const type = await getImageType(source)
   const url = URL.createObjectURL(source.slice(0, source.size, type))
@@ -54,6 +68,7 @@ async function encodeImage (source: Blob, width: number | undefined, height: num
   }
 }
 
+/** Compress an image and return a temporary Blob URL. */
 export const compressImage: typeof Taro.compressImage = async options => {
   const handle = new MethodHandler<Taro.compressImage.SuccessCallbackResult>({
     name: 'compressImage',
