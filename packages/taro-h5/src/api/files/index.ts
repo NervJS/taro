@@ -1,7 +1,7 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // 文件
-export const saveFileToDisk = /* @__PURE__ */ temporarilyNotSupport('saveFileToDisk')
+export * from './saveFileToDisk'
 export const saveFile = /* @__PURE__ */ temporarilyNotSupport('saveFile')
 export const removeSavedFile = /* @__PURE__ */ temporarilyNotSupport('removeSavedFile')
 export const openDocument = /* @__PURE__ */ temporarilyNotSupport('openDocument')
