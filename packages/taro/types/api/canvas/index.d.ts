@@ -1824,9 +1824,9 @@ declare module '../../index' {
      */
     referrerPolicy: string
     /** 图片加载发生错误后触发的回调函数 */
-    onerror: (...args: any[]) => any
+    onerror: ((...args: any[]) => any) | null
     /** 图片加载完成后触发的回调函数 */
-    onload: (...args: any[]) => any
+    onload: ((...args: any[]) => any) | null
   }
 
   /** ImageData 对象
@@ -1843,7 +1843,7 @@ declare module '../../index' {
   }
 
   /** 离屏 canvas 实例，可通过 Taro.createOffscreenCanvas 创建。
-   * @supported weapp
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.html
    */
   interface OffscreenCanvas {
@@ -1854,17 +1854,17 @@ declare module '../../index' {
     /** 创建一个图片对象。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法
      *
      * > 注意不允许混用 webgl 和 2d 画布创建的图片对象，使用时请注意尽量使用 canvas 自身的 createImage 创建图片对象。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.createImage.html
      */
     createImage(): Image
     /** 该方法返回 OffscreenCanvas 的绘图上下文
      *
-     * > 当前仅支持获取 WebGL 绘图上下文
-     * @supported weapp, tt
+     * H5 返回浏览器的绘图上下文，无法创建时返回 null。
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.getContext.html
      */
-    getContext(contextType: 'webgl' | '2d'): RenderingContext
+    getContext(contextType: 'webgl' | '2d'): RenderingContext | null
   }
 
   /** Canvas 2D API 的接口 Path2D 用来声明路径，此路径稍后会被CanvasRenderingContext2D 对象使用。CanvasRenderingContext2D 接口的 路径方法 也存在于 Path2D 这个接口中，允许你在 canvas 中根据需要创建可以保留并重用的路径。
@@ -2013,7 +2013,8 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建离屏 canvas 实例
-     * @supported weapp, tt
+     * H5 在页面中调用，默认尺寸为 300×150，可用时使用浏览器 OffscreenCanvas。
+     * @supported weapp, tt, h5
      * @example
      * ```tsx
      * // 创建离屏 2D canvas 实例
