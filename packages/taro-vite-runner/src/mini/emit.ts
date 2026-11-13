@@ -196,12 +196,18 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             }
           }
           const assetsProxy = new Proxy(assets, {
-            set (target, p, newValue) {
+            set: (target, p, newValue) => {
               if (!isString(p)) return false
 
               target[p] = newValue
               const chunk = bundle[p]
-              if (chunk.type === 'asset') {
+              if (!chunk) {
+                this.emitFile({
+                  type: 'asset',
+                  fileName: p,
+                  source: newValue.source()
+                })
+              } else if (chunk.type === 'asset') {
                 chunk.source = newValue.source()
               } else {
                 chunk.code = newValue.source()
