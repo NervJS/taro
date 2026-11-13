@@ -10,7 +10,12 @@ export const setInnerAudioOption = /* @__PURE__ */ temporarilyNotSupport('setInn
 export const playVoice = /* @__PURE__ */ temporarilyNotSupport('playVoice')
 export const pauseVoice = /* @__PURE__ */ temporarilyNotSupport('pauseVoice')
 export const getAvailableAudioSources = /* @__PURE__ */ temporarilyNotSupport('getAvailableAudioSources')
-export const createWebAudioContext = /* @__PURE__ */ temporarilyNotSupport('createWebAudioContext')
+export const createWebAudioContext: typeof Taro.createWebAudioContext = () => {
+  if (typeof AudioContext === 'undefined') {
+    throw new Error('createWebAudioContext:fail AudioContext is not supported')
+  }
+  return new AudioContext()
+}
 export const createMediaAudioPlayer = /* @__PURE__ */ temporarilyNotSupport('createMediaAudioPlayer')
 
 /**
