@@ -37,4 +37,5 @@ export const offWindowResize: typeof Taro.offWindowResize = callback => {
   }
 }
 
-export const checkIsPictureInPictureActive = /* @__PURE__ */ temporarilyNotSupport('checkIsPictureInPictureActive')
+export const checkIsPictureInPictureActive: typeof Taro.checkIsPictureInPictureActive = () =>
+  typeof document !== 'undefined' && Boolean(document.pictureInPictureElement)

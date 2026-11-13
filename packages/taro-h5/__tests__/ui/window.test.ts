@@ -1,5 +1,5 @@
 import { getWindowInfo } from '../../src/api/base/system'
-import { offWindowResize, onWindowResize } from '../../src/api/ui/window'
+import { checkIsPictureInPictureActive, offWindowResize, onWindowResize } from '../../src/api/ui/window'
 
 test('reports the updated viewport dimensions to resize listeners', () => {
   const callback = jest.fn()
@@ -28,5 +28,28 @@ test('reports the updated viewport dimensions to resize listeners', () => {
   } finally {
     offWindowResize(callback)
     jest.restoreAllMocks()
+  }
+})
+
+test('reports the current video picture-in-picture state synchronously', () => {
+  let activeVideo: HTMLVideoElement | null = null
+  const original = Object.getOwnPropertyDescriptor(document, 'pictureInPictureElement')
+  Object.defineProperty(document, 'pictureInPictureElement', {
+    configurable: true,
+    get: () => activeVideo,
+  })
+
+  try {
+    expect(checkIsPictureInPictureActive()).toBe(false)
+    activeVideo = document.createElement('video')
+    expect(checkIsPictureInPictureActive()).toBe(true)
+    activeVideo = null
+    expect(checkIsPictureInPictureActive()).toBe(false)
+  } finally {
+    if (original) {
+      Object.defineProperty(document, 'pictureInPictureElement', original)
+    } else {
+      Reflect.deleteProperty(document, 'pictureInPictureElement')
+    }
   }
 })
