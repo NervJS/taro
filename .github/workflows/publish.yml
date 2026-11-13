@@ -82,7 +82,7 @@ jobs:
       issues: write # to create comment
       pull-requests: write # to create comment and so on
     name: Publish
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: [need-publish, build-rust-binding, build-rust-wasm]
     if: needs.need-publish.outputs.ABORT != 'true'
     env:
