@@ -1,0 +1,36 @@
+{
+  "pages": ["pages/index/index", "pages/comp-host/index"],
+  "subPackages": [
+    {
+      "root": "pages/shared-runtime",
+      "pages": ["pages/index/index"]
+    },
+    {
+      "root": "pages/shared-native-comp",
+      "pages": ["components/counter/index"]
+    },
+    {
+      "root": "pages/shared-async-v1",
+      "pages": ["index"],
+      "independent": false
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "共享运行时 Demo",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "preloadRule": {
+    "pages/index/index": {
+      "packages": ["pages/shared-async-v1"],
+      "network": "all"
+    },
+    "pages/comp-host/index": {
+      "packages": ["pages/shared-async-v1", "pages/shared-native-comp"],
+      "network": "all"
+    }
+  }
+}

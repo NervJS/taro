@@ -1,0 +1,5 @@
+<view class='container'>
+  <text class='title'>原生小程序入口</text>
+  <button bindtap="onOpenSub1">打开 Sub1 页面</button>
+  <button bindtap="onOpenSub2">打开 Sub2 页面</button>
+</view>

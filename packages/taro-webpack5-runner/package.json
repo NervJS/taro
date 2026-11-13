@@ -12,7 +12,8 @@
     "postbuild": "pnpm run mv:comp",
     "dev": "pnpm run mv:comp && tsc -w",
     "mv:comp": "node ./mv-comp.js",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "test": "vitest run"
   },
   "repository": {
     "type": "git",

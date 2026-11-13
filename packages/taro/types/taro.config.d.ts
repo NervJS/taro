@@ -339,42 +339,40 @@ declare module './index' {
 
   /** 子分包独立模板 root 配置项，可以是路径字符串或包含额外选项的对象 */
   type SubPackageIndieRootConfig = string | {
-    /** 分包根路径（相对于 sourceDir） */
-    path: string
     /**
-     * 是否禁用递归组件（comp/custom-wrapper/recursive-component）的生成。
-     * 设为 true 时，该 root 下不会生成 comp.*、custom-wrapper.*、recursive-component.js，
-     * base.wxml 最后一层的 container template 也不会引用 <comp>，超出 baseLevel 的节点将被静默截断。
-     * @default false
+     * 分包根路径（相对于 sourceDir）。
+     * 省略 mainPackageRoot 的 async-only 模式下，支持 RegExp 或数组，用于匹配已声明页面。
      */
+    path: string | RegExp | Array<string | RegExp>
+    /** 是否禁用递归组件（comp/custom-wrapper/recursive-component）的生成。 */
     disableRecursiveComponent?: boolean
     /**
      * 异步分包配置。配置 asyncRoot 后启用。
-     * 启用后，该 root 中通过 `import()` 动态引入的模块会由 webpack 原生异步 chunk 处理，
-     * 并单独打包到指定的异步子包。
-     *
-     * 限制：
-     * - asyncRoot 下注册的页面是占位 `<view />`，不会注入 `usingComponents`。
-     *   因此 asyncRoot 包含自定义组件 chunk 时，自定义组件应放在 sourceRoot 的页面里使用，
-     *   而非由占位页面直接消费。
-     * - 与 `lazyCodeLoading: 'requiredComponents'` 兼容。
-     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/subpackages/async.html
-     * @since 4.1.12
+     * async-only 模式下按「消费页面集合」决定动态 import 产物的物理归属。
      */
     asyncSubPackage?: {
       /**
        * 异步子包根路径（相对于 sourceDir），必填。
-       * 多个 root 配置相同的 asyncRoot 时，它们的动态 import 产物会合并到同一个异步子包。
+       * 传数组时表示多个物理目标，必须同时配置 maxSize。
        */
-      asyncRoot: string
+      asyncRoot: string | string[]
+      /**
+       * 每个物理目标的字节预算；asyncRoot 为数组时必填。
+       * 预算口径是 chunk 内模块的未压缩体积估算（module.size 累加），
+       * 与压缩后最终产物字节数不是同一口径；构建结束时会按最终产物字节复核并输出 warning。
+       */
+      maxSize?: number
     }
   }
 
   /** 子分包独立模板配置项 */
   interface SubPackageIndieConfig {
-    /** 主入口分包根路径（相对于 sourceDir），runtime chunks 将生成到此目录 */
-    mainPackageRoot: SubPackageIndieRootConfig
-    /** 子组件分包根路径列表，只生成独立的模板文件 */
+    /**
+     * 主入口分包根路径（相对于 sourceDir），runtime chunks 将生成到此目录。
+     * 省略时进入 async-only 模式：subPackageRoots 变为异步归属规则，业务包保留根级 app.js/runtime.js。
+     */
+    mainPackageRoot?: SubPackageIndieRootConfig
+    /** 子组件分包根路径列表；async-only 模式下为异步归属规则列表 */
     subPackageRoots?: SubPackageIndieRootConfig[]
   }
 

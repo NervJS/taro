@@ -1686,6 +1686,7 @@
         "cookies": true
       }
     },
+    "requestCommonPayment": false,
     "requestDeviceVoIP": false,
     "requestOrderPayment": false,
     "requestPayment": true,
@@ -2104,7 +2105,8 @@
       "send-message-path": false,
       "send-message-img": false,
       "app-parameter": false,
-      "show-message-card": false
+      "show-message-card": false,
+      "phone-number-no-quota-toast": false
     },
     "camera": {
       "mode": {
@@ -2619,6 +2621,7 @@
       "default-text": false,
       "default-avatar": false
     },
+    "open-embedded-atomicservice": false,
     "page-container": {
       "show": false,
       "duration": false,

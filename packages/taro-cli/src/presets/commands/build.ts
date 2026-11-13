@@ -31,6 +31,8 @@ export default (ctx: IPluginContext) => {
       '--qr': '[rn] Print qrcode of React-Native bundle server',
       '--blended': 'Blended Taro project in an original MiniApp project',
       '--new-blended': 'Blended Taro project in an original MiniApp project while supporting building components independently',
+      '--shared-runtime': 'Externalize Taro/React runtime to a shared global so business packages do not bundle their own copy',
+      '--shared-runtime-mode [mode]': 'Shared runtime mode, only "split" is supported (sync core per package + shared async subpackage)',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
       '--no-inject-global-style': '[H5] Do not inject global style',
@@ -45,13 +47,14 @@ export default (ctx: IPluginContext) => {
       'taro build --type weapp --no-build',
       'taro build native-components --type weapp',
       'taro build --type weapp --new-blended',
+      'taro build --type weapp --new-blended --shared-runtime --shared-runtime-mode split',
       'taro build --plugin weapp --watch',
       'taro build --plugin weapp',
       'taro build --type weapp --mode prepare --env-prefix TARO_APP_',
     ],
     async fn(opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, blended, newBlended, withoutBuild, noInjectGlobalStyle, noCheck } = options
+      const { platform, isWatch, blended, newBlended, withoutBuild, noInjectGlobalStyle, noCheck, sharedRuntime, sharedRuntimeMode } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
       const { args } = options
@@ -64,6 +67,60 @@ export default (ctx: IPluginContext) => {
       if (typeof platform !== 'string') {
         console.log(chalk.red('请传入正确的编译类型！'))
         process.exit(0)
+      }
+
+      // 共享运行时（split 模式）flag 校验，fail-fast
+      if (sharedRuntimeMode != null && !sharedRuntime) {
+        console.log(chalk.red('--shared-runtime-mode 必须与 --shared-runtime 一起使用。'))
+        process.exit(1)
+      }
+      if (sharedRuntime) {
+        // 守卫顺序：plugin → 平台白名单 → mode。
+        // plugin 需先判：cli.ts:161 会把 platform 无条件重写为 'plugin'，若先走白名单，
+        // plugin 场景会被更笼统的"平台不支持"拦下，错过精准提示。
+        //
+        // 小程序插件（--plugin）模式：插件宿主运行时无共享上下文，共享运行时不支持。
+        if (typeof args?.plugin === 'string') {
+          console.log(chalk.red(
+            '小程序插件（--plugin）模式不适用共享运行时（split 模式）：插件宿主运行时无共享上下文。' +
+            '请去掉 --shared-runtime。'
+          ))
+          process.exit(1)
+        }
+        // native-components 模式早期曾被 fail-fast 拒绝(彼时 BuildNativePlugin 删掉
+        // app.js entry,同步核无注入点会崩)。现已扩展 TaroInjectSyncCorePlugin 支持 PAGE 注入,
+        // 并在 connect-native.ts/native-component loader 引入 isNativeShared 第三分支——
+        // native-components 现在可与 --shared-runtime 共存,守卫移除。
+        // 平台白名单：共享运行时仅适用于小程序端。h5/rn/harmony 走独立编译栈，
+        // 不经过 MiniCombination/externals，共享运行时 flag 传入会静默失效——编译期直接拒。
+        const MINI_PLATFORMS = new Set(['weapp', 'alipay', 'swan', 'tt', 'qq', 'jd', 'ascf'])
+        if (!MINI_PLATFORMS.has(platform)) {
+          console.log(chalk.red(
+            `--shared-runtime 当前仅支持小程序端 (${Array.from(MINI_PLATFORMS).join('/')})，收到 "${platform}"。` +
+            'h5/rn/harmony 请去掉 --shared-runtime。'
+          ))
+          process.exit(1)
+        }
+        // 当前仅支持 split；未显式指定时默认 split。非法值 fail-fast，不静默回退
+        const mode = sharedRuntimeMode ?? 'split'
+        if (mode !== 'split') {
+          console.log(chalk.red(`--shared-runtime-mode 仅支持 "split"，收到 "${sharedRuntimeMode}"。`))
+          process.exit(1)
+        }
+        // framework 白名单：共享运行时模板(app-shim/entry.sync/async-provider)硬编码
+        // @tarojs/plugin-framework-react/dist/runtime，vue3/solid 会调用不存在的 createVue3App 崩溃。
+        // preact 与 react 同属 framework:'react' 的 Frameworks 值域(taro-framework-react)，但共享运行时
+        // 子构建是独立 webpack config，不继承主构建的 react→preact/compat resolve.alias——preact 项目里
+        // 子构建 require('react') 会解析到真实 react 或失败，故 preact 亦不支持。
+        const framework = ctx.initialConfig.framework
+        if (framework !== 'react') {
+          console.log(chalk.red(
+            `--shared-runtime 当前仅支持 framework: 'react'，收到 "${framework ?? '(未配置)'}"。` +
+            '共享运行时模板硬编码 framework-react；vue3/solid 会崩，preact 因子构建不继承 resolve.alias 同样不支持。' +
+            '请去掉 --shared-runtime，或将 framework 改为 react。'
+          ))
+          process.exit(1)
+        }
       }
 
       // 校验 Taro 项目配置
@@ -123,9 +180,32 @@ export default (ctx: IPluginContext) => {
             isBuildNativeComp,
             withoutBuild,
             newBlended,
+            sharedRuntime,
+            // 已在上方校验，开启共享运行时时规范化为 split
+            sharedRuntimeMode: sharedRuntime ? 'split' : undefined,
             noInjectGlobalStyle,
             async modifyAppConfig (appConfig) {
               extractCompileEntry(appConfig, args, ctx)
+
+              // 共享运行时不支持 independent(独立)分包:独立分包冷启动会跳过主包 app.js 下载/执行,
+              // 同步核(taro-shared-sync,仅在业务 app.js 顶层同步 require)因此不会运行,该分包页面执行时
+              // externals 指向的共享全局(react/@tarojs/* 真身与占位)为空 → 运行时崩。
+              // 校验时机:appConfig.subPackages 在此回调(app.json 解析后、getPages 编译分包前)才可读,
+              // 早于任何分包编译,process.exit 能在产出会崩产物前中断。sharedRuntime 是外层 fn 闭包变量。
+              if (sharedRuntime) {
+                const subPackages = (appConfig as any).subPackages || (appConfig as any).subpackages || []
+                const independentRoots = (Array.isArray(subPackages) ? subPackages : [])
+                  .filter((sp: any) => sp && sp.independent)
+                  .map((sp: any) => sp.root)
+                if (independentRoots.length) {
+                  console.log(chalk.red(
+                    `--shared-runtime 不支持 independent(独立)分包：${independentRoots.join('、')}。` +
+                    '独立分包冷启动跳过主包 app.js，同步核(挂在 app.js 顶层)不会执行，' +
+                    '分包内 externals 指向的共享全局为空会崩。请对这些分包去掉 independent，或不使用 --shared-runtime。'
+                  ))
+                  process.exit(1)
+                }
+              }
 
               await ctx.applyPlugins({
                 name: hooks.MODIFY_APP_CONFIG,

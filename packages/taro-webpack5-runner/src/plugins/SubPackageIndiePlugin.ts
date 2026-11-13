@@ -1,10 +1,14 @@
 import path from 'node:path'
 
 import { fs, META_TYPE, printLog, processTypeEnum, promoteRelativePath, resolveMainFilePath, taroJsComponents } from '@tarojs/helper'
-import { urlToRequest } from 'loader-utils'
 
+import { SHARED_ASYNC_ROOT, SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
+import {
+  collectDeclaredPagePaths,
+  normalizeAsyncSubPackageRules,
+} from '../utils/asyncSubPackageRules'
 import { componentConfig } from '../utils/component'
-import { addRequireToSource } from '../utils/webpack'
+import { addRequireToSource, buildRootStyleImport } from '../utils/webpack'
 import {
   baseCompName,
   customWrapperName,
@@ -15,6 +19,7 @@ import {
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
 import type { Compilation, Compiler } from 'webpack'
+import type { NormalizedAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
 import type {
   IOptions,
 } from './MiniPlugin'
@@ -24,11 +29,16 @@ export const subPackageIndieCustomWrapperRootsKey = '__taroSubPackageIndieCustom
 
 export type SubPackageIndieConfig = NonNullable<AppConfig['subPackageIndie']>[number]
 export type NormalizedSubPackageIndieConfig = {
-  mainPackageRoot: string
+  /** async-only 模式下为 null */
+  mainPackageRoot: string | null
   subPackageRoots: string[]
   disableRecursiveComponentRoots: Set<string>
-  /** sourceRoot -> asyncRoot 映射，仅包含配置了 asyncSubPackage 的 root */
+  /** 旧模式：sourceRoot -> asyncRoot */
   asyncSubPackageRootMap: Map<string, string>
+  /** 是否 async-only 模式 */
+  asyncOnly: boolean
+  /** async-only 模式：异步归属规则 */
+  asyncRules: NormalizedAsyncSubPackageRule[]
 }
 export type AsyncSubPackageRuntimeRoot = {
   sourceRoot: string
@@ -277,7 +287,7 @@ export default class SubPackageIndiePlugin {
         if (indieMatch.isMainPackageRoot) {
           return {
             ...context,
-            importStatement: `@import ${JSON.stringify(urlToRequest('./app' + this.options.fileType.style))};\n`,
+            importStatement: this.buildMainRootAppStyleImport(page.name, indieMatch.root),
             shouldSkip: false,
             isMainPackageRoot: true,
           }
@@ -294,7 +304,7 @@ export default class SubPackageIndiePlugin {
       if (indieMatch.isMainPackageRoot) {
         return {
           ...context,
-          importStatement: `@import ${JSON.stringify(urlToRequest('./app' + this.options.fileType.style))};\n`,
+          importStatement: this.buildMainRootAppStyleImport(page.name, indieMatch.root),
           shouldSkip: false,
           isMainPackageRoot: true,
         }
@@ -302,6 +312,41 @@ export default class SubPackageIndiePlugin {
 
       return context
     })
+  }
+
+  /**
+   * mainPackageRoot 页面/组件 wxss 里 @import app 样式的语句。
+   * app 样式(app.wxss)随 runtime chunks 落在**归一化后**的 mainPackageRoot(normalizeIndieRoot 会砍掉
+   * 末尾 /index),而页面 wxss 落在 `${page.name}/<basename>.wxss`——两者深度可能不同(如 page
+   * pages/order/index/index 与 root pages/order,页面深一级)。故不能硬编码 './app',要按页面 wxss 目录
+   * 到 `${root}/app` 重算,算法与 MiniPlugin 默认样式注入(path.dirname(pageStyle) → app 样式)一致。
+   */
+  buildMainRootAppStyleImport (pageName: string, root: string): string {
+    const styleExt = this.options.fileType.style
+    return buildRootStyleImport(`${pageName}${styleExt}`, `${root}/app${styleExt}`)
+  }
+
+  /**
+   * 生成注入 app.js 的 __taroRegisterRecursiveComponent(供各 root 的 comp.js 调用注册递归基础组件)。
+   * 递归组件配置由 @tarojs/runtime 的 createRecursiveComponentConfig 提供。
+   * - vanilla:@tarojs/runtime 打进本包 webpack 模块,registrar 遍历 __webpack_require__.c/.m 找到它。
+   * - 共享运行时:@tarojs/runtime 被 external 到共享全局(wx.__TARO_RT_ASYNC_V*__),**不在**
+   *   webpack 模块里,原遍历必然失败 → throw。故 sharedRuntime 下在遍历前先查共享全局。
+   *   严格 gate:非 sharedRuntime 产出与原字符串逐字节一致,vanilla 零回归。
+   */
+  buildRecursiveComponentRegistrarExpr (): string {
+    const sharedRuntime = !!this.options.combination.config.sharedRuntime
+    // 共享全局查找片段:sharedRuntime 时在 webpack 模块遍历之前先试共享全局的 @tarojs/runtime。
+    // globalObject(wx/my/swan…)与全局 key 均取自单一来源,拼进运行时字符串。
+    let sharedLookup = ''
+    if (sharedRuntime) {
+      const globalObject = this.options.combination.config.output?.globalObject || 'wx'
+      const g = `${globalObject}[${JSON.stringify(SHARED_GLOBAL_ASYNC)}]`
+      sharedLookup =
+        `var g=typeof ${globalObject}!=="undefined"?${g}:undefined;` +
+        `if(g&&g["@tarojs/runtime"]&&typeof g["@tarojs/runtime"].createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=g["@tarojs/runtime"].createRecursiveComponentConfig;}`
+    }
+    return `(typeof globalThis.__taroRegisterRecursiveComponent==="function"||(globalThis.__taroRegisterRecursiveComponent=function(componentName,forceCustomWrapper){let createRecursiveComponentConfig;${sharedLookup}if(typeof createRecursiveComponentConfig!=="function"){const cache=__webpack_require__.c||{};for(const key in cache){const exports=cache[key]&&cache[key].exports;if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){const modules=__webpack_require__.m||{};for(const moduleId in modules){const moduleFactory=modules[moduleId];if(!moduleFactory||typeof moduleFactory!=="function")continue;const source=String(moduleFactory);if(source.indexOf("createRecursiveComponentConfig")===-1)continue;const exports=__webpack_require__(moduleId);if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){throw new Error("Cannot find createRecursiveComponentConfig in webpack modules");}Component(createRecursiveComponentConfig(componentName,forceCustomWrapper));}))`
   }
 
   getRootRelativePath (fromPath: string, root: string, targetPath: string) {
@@ -315,9 +360,15 @@ export default class SubPackageIndiePlugin {
     return root
   }
 
-  parseIndieRootConfig (rootConfig: string | { path: string, disableRecursiveComponent?: boolean, asyncSubPackage?: { asyncRoot: string } }): { path: string, originalPath: string, disableRecursiveComponent: boolean, asyncRoot?: string } {
+  parseIndieRootConfig (rootConfig: string | { path: string | RegExp | Array<string | RegExp>, disableRecursiveComponent?: boolean, asyncSubPackage?: { asyncRoot: string | string[], maxSize?: number } }): { path: string, originalPath: string, disableRecursiveComponent: boolean, asyncRoot?: string } {
     if (typeof rootConfig === 'string') {
       return { path: this.normalizeIndieRoot(rootConfig), originalPath: rootConfig, disableRecursiveComponent: false }
+    }
+    if (typeof rootConfig.path !== 'string') {
+      throw new Error('[taro asyncSubPackage] 配置了 mainPackageRoot 时，path 只支持字符串')
+    }
+    if (Array.isArray(rootConfig.asyncSubPackage?.asyncRoot)) {
+      throw new Error('[taro asyncSubPackage] 配置了 mainPackageRoot 时，asyncRoot 只支持字符串')
     }
     return {
       path: this.normalizeIndieRoot(rootConfig.path),
@@ -338,8 +389,25 @@ export default class SubPackageIndiePlugin {
     }
 
     const appPages = new Set(appConfig?.pages || [])
+    const declaredPages = collectDeclaredPagePaths(appConfig)
 
     this.subPackageIndieConfigsCache = subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => {
+      if (mainPackageRoot == null) {
+        const asyncRules = normalizeAsyncSubPackageRules(
+          subPackageRoots as any,
+          declaredPages,
+          { reservedRoots: [SHARED_ASYNC_ROOT] }
+        )
+        return {
+          mainPackageRoot: null,
+          subPackageRoots: [],
+          disableRecursiveComponentRoots: new Set<string>(),
+          asyncSubPackageRootMap: new Map<string, string>(),
+          asyncOnly: true,
+          asyncRules,
+        }
+      }
+
       const mainParsed = this.parseIndieRootConfig(mainPackageRoot)
       if (!appPages.has(mainParsed.originalPath) && this.options.logger?.quiet === false) {
         printLog(processTypeEnum.WARNING, 'subPackageIndie', `mainPackageRoot.path "${mainParsed.originalPath}" 未配置在 app.config 的 pages 中，请补充 pages: [..., "${mainParsed.originalPath}"]，否则主包入口页面文件不会生成。`)
@@ -353,6 +421,9 @@ export default class SubPackageIndiePlugin {
         disableRecursiveComponentRoots.add(mainParsed.path)
       }
       if (mainParsed.asyncRoot) {
+        if (mainParsed.asyncRoot === SHARED_ASYNC_ROOT) {
+          throw new Error(`[taro asyncSubPackage] asyncRoot "${SHARED_ASYNC_ROOT}" 与框架保留目录冲突，请换一个目录名`)
+        }
         asyncSubPackageRootMap.set(mainParsed.path, mainParsed.asyncRoot)
       }
 
@@ -361,6 +432,9 @@ export default class SubPackageIndiePlugin {
           disableRecursiveComponentRoots.add(sub.path)
         }
         if (sub.asyncRoot) {
+          if (sub.asyncRoot === SHARED_ASYNC_ROOT) {
+            throw new Error(`[taro asyncSubPackage] asyncRoot "${SHARED_ASYNC_ROOT}" 与框架保留目录冲突，请换一个目录名`)
+          }
           asyncSubPackageRootMap.set(sub.path, sub.asyncRoot)
         }
       })
@@ -370,6 +444,8 @@ export default class SubPackageIndiePlugin {
         subPackageRoots: Array.from(new Set(subParsedList.map(sub => sub.path))),
         disableRecursiveComponentRoots,
         asyncSubPackageRootMap,
+        asyncOnly: false,
+        asyncRules: [],
       }
     })
 
@@ -379,11 +455,21 @@ export default class SubPackageIndiePlugin {
   getAllIndieRoots (): string[] {
     if (!this.allIndieRootsCache) {
       this.allIndieRootsCache = Array.from(new Set(
-        this.getSubPackageIndieConfigs().flatMap(({ mainPackageRoot, subPackageRoots }) => [mainPackageRoot, ...subPackageRoots])
+        this.getSubPackageIndieConfigs().flatMap(({ mainPackageRoot, subPackageRoots }) => [
+          ...(mainPackageRoot ? [mainPackageRoot] : []),
+          ...subPackageRoots,
+        ])
       ))
     }
 
     return this.allIndieRootsCache
+  }
+
+  /**
+   * async-only 模式下的异步归属规则。
+   */
+  getAsyncSubPackageRules (): NormalizedAsyncSubPackageRule[] {
+    return this.getSubPackageIndieConfigs().flatMap(config => config.asyncRules)
   }
 
   /**
@@ -417,9 +503,17 @@ export default class SubPackageIndiePlugin {
     }
 
     for (const config of this.getSubPackageIndieConfigs()) {
+      if (config.asyncOnly) {
+        for (const rule of config.asyncRules) {
+          for (const asyncRoot of rule.asyncRoots) {
+            push('', asyncRoot)
+          }
+        }
+        continue
+      }
       const asyncRoots = new Set(config.asyncSubPackageRootMap.values())
       for (const asyncRoot of asyncRoots) {
-        push(config.mainPackageRoot, asyncRoot)
+        push(config.mainPackageRoot!, asyncRoot)
       }
     }
 
@@ -428,7 +522,11 @@ export default class SubPackageIndiePlugin {
 
   getAllMainPackageRoots (): string[] {
     if (!this.allMainPackageRootsCache) {
-      this.allMainPackageRootsCache = Array.from(new Set(this.getSubPackageIndieConfigs().map(item => item.mainPackageRoot)))
+      this.allMainPackageRootsCache = Array.from(new Set(
+        this.getSubPackageIndieConfigs()
+          .map(item => item.mainPackageRoot)
+          .filter((root): root is string => !!root)
+      ))
     }
 
     return this.allMainPackageRootsCache
@@ -451,6 +549,8 @@ export default class SubPackageIndiePlugin {
     const configs = this.getSubPackageIndieConfigs()
 
     for (const config of configs) {
+      if (!config.mainPackageRoot) continue
+
       if (pageName.startsWith(config.mainPackageRoot + '/') || pageName === config.mainPackageRoot) {
         const match = {
           config,
@@ -1272,7 +1372,7 @@ registerRecursiveComponent(${args.join(', ')})
     if (appJsContent) {
       const { RawSource } = compiler.webpack.sources
       const originalSource = String((appJsContent as any).source?.() || String(appJsContent))
-      const registrarExpr = `(typeof globalThis.__taroRegisterRecursiveComponent==="function"||(globalThis.__taroRegisterRecursiveComponent=function(componentName,forceCustomWrapper){const cache=__webpack_require__.c||{};let createRecursiveComponentConfig;for(const key in cache){const exports=cache[key]&&cache[key].exports;if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}if(typeof createRecursiveComponentConfig!=="function"){const modules=__webpack_require__.m||{};for(const moduleId in modules){const moduleFactory=modules[moduleId];if(!moduleFactory||typeof moduleFactory!=="function")continue;const source=String(moduleFactory);if(source.indexOf("createRecursiveComponentConfig")===-1)continue;const exports=__webpack_require__(moduleId);if(exports&&typeof exports.createRecursiveComponentConfig==="function"){createRecursiveComponentConfig=exports.createRecursiveComponentConfig;break;}}}if(typeof createRecursiveComponentConfig!=="function"){throw new Error("Cannot find createRecursiveComponentConfig in webpack modules");}Component(createRecursiveComponentConfig(componentName,forceCustomWrapper));}))`
+      const registrarExpr = this.buildRecursiveComponentRegistrarExpr()
       let patchedSource = originalSource
 
       if (/,\s*exports\.taroApp\s*=/.test(patchedSource)) {
@@ -1292,6 +1392,10 @@ registerRecursiveComponent(${args.join(', ')})
             ? patchedAppJsContent
             : compilation.assets[jsFile]
 
+          // 共享运行时:app.js 头部的 require("./taro-shared-sync")(TaroInjectSyncCorePlugin
+          // 按根级 chunk-id 'app' 注入,天然是"同级"形态)保持不动。同步核文件本身会由
+          // buildSharedRuntime 在子构建产出后拷进 ${mainPackageRoot}/,与此处的 app.js 同级
+          // (subPackageIndie "每个 root 自包含" 原则),故这个同级 require 直接正确,无需重算。
           compilation.assets[`${mainPackageRoot}/${jsFile}`] = jsContent
         }
 
@@ -1312,3 +1416,5 @@ registerRecursiveComponent(${args.join(', ')})
     })
   }
 }
+
+

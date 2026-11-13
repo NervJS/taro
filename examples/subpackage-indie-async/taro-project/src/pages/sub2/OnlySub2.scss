@@ -1,0 +1,51 @@
+.only-sub2-panel {
+  background: #fff0f6;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 10px;
+
+  .only-sub2-title {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    color: #c41d7f;
+    margin-bottom: 6px;
+  }
+
+  .only-sub2-desc {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+
+  .only-sub2-deep {
+    border: 2px dashed #ffadd2;
+    border-radius: 8px;
+    padding: 10px;
+
+    .only-sub2-deep-title {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #9e1068;
+      margin-bottom: 6px;
+    }
+
+    .only-sub2-deep-inner {
+      margin-left: 12px;
+      border-left: 3px solid #ff85c0;
+      padding-left: 8px;
+      margin-top: 6px;
+
+      .only-sub2-deep-leaf {
+        display: block;
+        font-size: 12px;
+        color: #780650;
+        background: #fff0f6;
+        border-radius: 6px;
+        padding: 6px 8px;
+      }
+    }
+  }
+}
