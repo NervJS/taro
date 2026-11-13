@@ -6,6 +6,7 @@ import {
   CLASS,
   CLICK_VIEW,
   COMPILE_MODE,
+  CUSTOM_WRAPPER,
   ID,
   PURE_VIEW,
   STYLE,
@@ -94,6 +95,14 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
 
   // Children
   data[Shortcuts.Childnodes] = node.childNodes.filter(node => !isComment(node)).map(hydrate)
+
+  if (nodeName === CUSTOM_WRAPPER) {
+    // 此处从当前内存节点重新生成完整数据，内容和版本应属于同一批次。
+    // 即使更新路径只到父级 cn，也要推进其中 Wrapper 的版本，覆盖脱离期间修改后重新插入的情况。
+    // 父级已保存的旧数据不会经过 hydrate，因此不会被赋予新版本。
+    node.updateBatchId = node._root?.updateBatchId ?? node.updateBatchId ?? 0
+    data.ubid = node.updateBatchId
+  }
 
   if (node.className !== '') {
     data[Shortcuts.Class] = node.className
