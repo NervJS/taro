@@ -18,4 +18,4 @@ export const createMediaAudioPlayer = /* @__PURE__ */ temporarilyNotSupport('cre
  */
 export const createInnerAudioContext: typeof Taro.createInnerAudioContext = () => new InnerAudioContext()
 
-export const createAudioContext = /* @__PURE__ */ temporarilyNotSupport('createAudioContext')
+export * from './createAudioContext'

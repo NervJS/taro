@@ -160,22 +160,22 @@ declare module '../../index' {
   /** `AudioContext` 实例，可通过 `Taro.createAudioContext` 获取。
    *
    * `AudioContext` 通过 `id` 跟一个 `audio` 组件绑定，操作对应的 audio 组件。
-   * @supported weapp, harmony_hybrid
+   * @supported weapp, harmony_hybrid, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.html
    */
   interface AudioContext {
     /** 暂停音频。
-     * @supported weapp, harmony_hybrid
+     * @supported weapp, harmony_hybrid, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.pause.html
      */
     pause(): void
     /** 播放音频。
-     * @supported weapp, harmony_hybrid
+     * @supported weapp, harmony_hybrid, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.play.html
      */
     play(): void
     /** 跳转到指定位置。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.seek.html
      */
     seek(
@@ -183,7 +183,7 @@ declare module '../../index' {
       position: number,
     ): void
     /** 设置音频地址
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/AudioContext.setSrc.html
      */
     setSrc(
@@ -996,7 +996,8 @@ declare module '../../index' {
 
     /** 创建 audio 上下文 AudioContext 对象。
      * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口**
-     * @supported weapp, harmony_hybrid
+     * H5 需在页面就绪后调用，浏览器的播放策略仍然适用。
+     * @supported weapp, harmony_hybrid, h5
      * @example
      * ```tsx
      * const audioCtx = Taro.createAudioContext('myAudio')
