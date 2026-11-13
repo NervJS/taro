@@ -63,7 +63,8 @@ declare module '../../index' {
 
     /**
      * 返回当前是否存在小窗播放（小窗在 video/live-player/live-pusher 下可用）
-     * @supported weapp
+     * H5 查询当前文档中使用标准画中画 API 的视频。
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/window/wx.checkIsPictureInPictureActive.html
      */
     checkIsPictureInPictureActive(): boolean
