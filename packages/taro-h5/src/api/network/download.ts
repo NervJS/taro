@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 
 import { CallbackManager } from '../../utils/handler'
+import { parseResponseHeaders } from './response-headers'
 import { inactiveTransferTask, NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
 const createDownloadTask = ({ url, header, withCredentials = true, timeout, success, error }): Taro.DownloadTask => {
@@ -29,7 +30,7 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
   xhr.onreadystatechange = () => {
     if (xhr.readyState !== XHR_STATS.HEADERS_RECEIVED) return
     callbackManager.headersReceived.trigger({
-      header: xhr.getAllResponseHeaders()
+      header: parseResponseHeaders(xhr.getAllResponseHeaders())
     })
   }
 
