@@ -215,7 +215,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
               return true
             },
           })
-          taroConfig.modifyBuildAssets(
+          await taroConfig.modifyBuildAssets(
             assetsProxy,
             {
               pages: viteCompilerContext.pages,
