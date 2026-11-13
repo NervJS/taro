@@ -123,7 +123,8 @@ declare module '../../index' {
 
     /**
      * 设置是否保持常亮状态。仅在当前小程序生效，离开小程序后设置失效。
-     * @supported weapp, alipay, swan, jd, qq, tt, rn, harmony_hybrid
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn, harmony_hybrid
+     * @h5 基于 Screen Wake Lock API 实现，仅在安全上下文（如 HTTPS 或 localhost）中可用
      * @example
      * ```tsx
      * // 保持屏幕常亮

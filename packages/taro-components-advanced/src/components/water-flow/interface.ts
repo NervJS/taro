@@ -69,7 +69,8 @@ export interface WaterFlowRef {
 
 export interface FlowSectionProps extends BaseProps {
   /**
-   * 列数
+   * 列数，非有效正整数按 1 列处理。运行时修改仅 H5 支持；其他端需重建组件。
+   * 减少子项数量时需重建 WaterFlow，当前不会从已有分组移除节点。
    */
   column?: number
   /**

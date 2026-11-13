@@ -13,6 +13,7 @@ describe.each([
 
   test.each([
     ['', {}],
+    ['__proto__: value\r\n', { ['__proto__']: 'value' }],
     ['content-type: text/plain\r\nx-custom: key: value\r\n', { 'content-type': 'text/plain', 'x-custom': 'key: value' }],
   ])('returns a header object for %j', async (raw, expected) => {
     jest.useFakeTimers()
@@ -29,6 +30,12 @@ describe.each([
     jest.spyOn(xhr, 'getAllResponseHeaders').mockReturnValue(raw)
     xhr.dispatchEvent(new Event('readystatechange'))
     expect(listener).toHaveBeenCalledWith({ header: expected })
+    const { header } = listener.mock.calls[0][0]
+    expect(Object.getPrototypeOf(header)).toBe(Object.prototype)
+    expect(typeof header.hasOwnProperty).toBe('function')
+    expect(Object.prototype.hasOwnProperty.call(header, '__proto__')).toBe(
+      Object.prototype.hasOwnProperty.call(expected, '__proto__')
+    )
 
     task.offHeadersReceived(listener)
     xhr.dispatchEvent(new Event('readystatechange'))

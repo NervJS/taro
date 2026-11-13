@@ -1,3 +1,5 @@
+import { noop } from '@tarojs/shared'
+
 /**
  * HTTP Response Header 事件回调函数的参数
  * @typedef {Object} HeadersReceivedParam
@@ -25,6 +27,14 @@
  * @callback ProgressUpdateCallback
  * @param {ProgressUpdateParam} res 参数
  */
+
+export const inactiveTransferTask = {
+  abort: noop,
+  onHeadersReceived: noop,
+  offHeadersReceived: noop,
+  onProgressUpdate: noop,
+  offProgressUpdate: noop
+}
 
 export const NETWORK_TIMEOUT = 60000
 

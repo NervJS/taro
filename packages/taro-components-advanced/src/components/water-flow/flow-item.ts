@@ -69,8 +69,9 @@ export function FlowItemContainer({
 
   const setInnerMeasureRef = useMemoizedFn((el: HTMLElement | null) => {
     const innerRef = refFlowItem as React.MutableRefObject<HTMLElement | undefined>
+    const previousEl = innerRef.current
     innerRef.current = el ?? undefined
-    node.attachMeasureElement(el)
+    node.attachMeasureElement(el, previousEl)
   })
 
   useEffect(() => {
@@ -86,12 +87,15 @@ export function FlowItemContainer({
       if (observer) {
         observer.disconnect()
       }
-      node.attachMeasureElement(null)
     }
   }, [node])
 
   useLayoutEffect(() => {
-    node.measure().catch(() => {})
+    if (node.getState().layouted) {
+      node.pub(NodeEvents.Resize)
+    } else {
+      node.measure().catch(() => {})
+    }
   }, [node])
 
   return createElement(
