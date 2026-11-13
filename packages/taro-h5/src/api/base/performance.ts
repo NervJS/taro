@@ -5,4 +5,4 @@ export const reportPerformance = /* @__PURE__ */ temporarilyNotSupport('reportPe
 export const getPerformance = /* @__PURE__ */ temporarilyNotSupport('getPerformance')
 export const preloadWebview = /* @__PURE__ */ temporarilyNotSupport('preloadWebview')
 export const preloadSkylineView = /* @__PURE__ */ temporarilyNotSupport('preloadSkylineView')
-export const preloadAssets = /* @__PURE__ */ temporarilyNotSupport('preloadAssets')
+export * from './preloadAssets'

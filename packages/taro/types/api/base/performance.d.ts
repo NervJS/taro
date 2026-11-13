@@ -233,7 +233,8 @@ declare module '../../index' {
     preloadSkylineView(option: preloadSkylineView.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 为视图层预加载媒体资源文件, 目前支持：font，image
-     * @supported weapp
+     * H5 字体预加载采用匿名跨域请求。使用字体时仍需通过 CSS 声明字体。
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadAssets.html
      */
     preloadAssets(option: preloadAssets.Option): Promise<TaroGeneral.CallbackResult>
