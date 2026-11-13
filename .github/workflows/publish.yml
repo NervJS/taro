@@ -177,7 +177,7 @@ jobs:
         run: pnpm artifacts
       - name: Checkout Harmony Commond Line Tools
         env:
-          COMMANDLINE_TOOLS_URL: https://storage.360buyimg.com/taro-patch/command-line-tools-for-harmony/5.0.13.200/linux_x64.zip
+          COMMANDLINE_TOOLS_URL: https://storage.360buyimg.com/taro-patch/command-line-tools-for-harmony/5.0.13.200/linux_x64
           TOOLS_HOME: ${{ runner.os == 'macOS' && '~/harmony-tools' || '$HOME/harmony-tools' }}
         run: |-
           download_file() {
@@ -258,8 +258,13 @@ jobs:
             echo "Installing 7z..."
             sudo apt-get update && sudo apt-get install -y p7zip-full
           fi
+          if ! command -v zip &> /dev/null || ! command -v unzip &> /dev/null; then
+            echo "Installing zip utilities..."
+            sudo apt-get update && sudo apt-get install -y zip unzip
+          fi
           concurrent_download
-          7z x ./linux_x64.zip -y -sdel
+          zip -s 0 ./linux_x64.zip --out ./linux_x64-single.zip
+          unzip -q -o ./linux_x64-single.zip
 
           ls ${{ env.TOOLS_HOME }}/command-line-tools/bin
           ls ${{ env.TOOLS_HOME }}/command-line-tools/sdk/default/openharmony/native/llvm/bin
