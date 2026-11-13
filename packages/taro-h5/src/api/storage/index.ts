@@ -17,6 +17,46 @@ function getItem (key) {
   }
 }
 
+function serializeItem (data: unknown = '') {
+  return JSON.stringify(typeof data === 'symbol' ? { data: '' } : { data })
+}
+
+function getKvListError (kvList: unknown, name?: string) {
+  if (!Array.isArray(kvList)) {
+    return getParameterError({ name, para: 'kvList', correct: 'Array', wrong: kvList })
+  }
+  for (let i = 0; i < kvList.length; i++) {
+    const key = kvList[i]?.key
+    if (typeof key !== 'string') {
+      return getParameterError({ name, para: `kvList[${i}].key`, correct: 'String', wrong: key })
+    }
+  }
+}
+
+function getKeyListError (keyList: unknown, name?: string) {
+  if (!Array.isArray(keyList)) {
+    return getParameterError({ name, para: 'keyList', correct: 'Array', wrong: keyList })
+  }
+  for (let i = 0; i < keyList.length; i++) {
+    if (typeof keyList[i] !== 'string') {
+      return getParameterError({ name, para: `keyList[${i}]`, correct: 'String', wrong: keyList[i] })
+    }
+  }
+}
+
+function setItems (kvList: Taro.batchSetStorage.kv[]) {
+  // 先序列化全部数据，避免部分数据无法序列化时只写入了一部分
+  const items = kvList.map(({ key, value }) => [key, serializeItem(value)])
+  items.forEach(([key, item]) => localStorage.setItem(key, item))
+}
+
+function getItems (keyList: string[]) {
+  return keyList.map(key => {
+    const { result, data } = getItem(key)
+    return result ? data : ''
+  })
+}
+
 // 数据缓存
 export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
   if (typeof key !== 'string') {
@@ -28,15 +68,7 @@ export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
     return
   }
 
-  const type = typeof data
-  let obj = {}
-
-  if (type === 'symbol') {
-    obj = { data: '' }
-  } else {
-    obj = { data }
-  }
-  localStorage.setItem(key, JSON.stringify(obj))
+  localStorage.setItem(key, serializeItem(data))
 }
 
 export const setStorage: typeof Taro.setStorage = (options) => {
@@ -197,10 +229,70 @@ export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete
   return handle.success()
 }
 
-export const batchSetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchSetStorageSync')
-export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetStorage')
-export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
-export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
+export const batchSetStorageSync: typeof Taro.batchSetStorageSync = (kvList) => {
+  const errMsg = getKvListError(kvList, 'batchSetStorageSync')
+  if (errMsg) {
+    console.error(errMsg)
+    return
+  }
+
+  setItems(kvList)
+}
+
+export const batchSetStorage: typeof Taro.batchSetStorage = (options) => {
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `batchSetStorage:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
+  const { kvList, success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'batchSetStorage', success, fail, complete })
+
+  const errMsg = getKvListError(kvList)
+  if (errMsg) {
+    return handle.fail({ errMsg })
+  }
+
+  try {
+    setItems(kvList)
+  } catch (e) {
+    return handle.fail({ errMsg: e?.message || String(e) })
+  }
+  return handle.success()
+}
+
+export const batchGetStorageSync: typeof Taro.batchGetStorageSync = (keyList) => {
+  const errMsg = getKeyListError(keyList, 'batchGetStorageSync')
+  if (errMsg) {
+    console.error(errMsg)
+    return []
+  }
+
+  return getItems(keyList)
+}
+
+export const batchGetStorage: typeof Taro.batchGetStorage = <T>(options) => {
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `batchGetStorage:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
+  const { keyList, success, fail, complete } = options
+  const handle = new MethodHandler<Taro.batchGetStorage.SuccessCallbackResult<T>>({ name: 'batchGetStorage', success, fail, complete })
+
+  const errMsg = getKeyListError(keyList)
+  if (errMsg) {
+    return handle.fail({ errMsg })
+  }
+
+  return handle.success({ dataList: getItems(keyList) })
+}
 
 export * from './background-fetch'
 export * from './cache-manager'
