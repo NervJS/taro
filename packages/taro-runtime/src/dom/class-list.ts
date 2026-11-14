@@ -97,6 +97,8 @@ export class ClassList {
 
     if (~index) {
       this.tokenList.splice(index, 1, replacement_token)
+      const firstIndex = this.tokenList.indexOf(replacement_token)
+      this.tokenList = this.tokenList.filter((t, i) => t !== replacement_token || i === firstIndex)
       this._update()
     }
   }
