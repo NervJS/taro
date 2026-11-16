@@ -25,7 +25,7 @@ export default class TaroRemoteRuntimeModule extends RuntimeModule {
       const remotes: (string | number)[] = (chunkToRemotesMapping[chunk.id!] = [])
       for (const module of modules) {
         const name = module.internalRequest
-        const id = chunkGraph.getModuleId(module)
+        const id = chunkGraph.getModuleId(module)!
         const shareScope = module.shareScope
         const dep = module.dependencies[0]
         const externalModule = moduleGraph.getModule(dep)

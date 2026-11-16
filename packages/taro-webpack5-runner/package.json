@@ -91,7 +91,7 @@
     "sass": "^1.75.0",
     "stylus": "^0.63.0",
     "jest-transform-css": "^6.0.1",
-    "webpack": "5.91.0"
+    "webpack": "5.104.1"
   },
   "peerDependencies": {
     "@tarojs/runtime": "workspace:*",
@@ -100,7 +100,7 @@
     "less": "^4",
     "sass": "^1.3.0",
     "stylus": ">=0.52.4",
-    "webpack": "5.91.0"
+    "webpack": "5.104.1"
   },
   "peerDependenciesMeta": {
     "less": {
