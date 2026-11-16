@@ -184,7 +184,10 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
 }
 
 export const createBufferURL: typeof Taro.createBufferURL = buffer => {
-  return URL.createObjectURL(new Blob([buffer]))
+  const blobBuffer = ArrayBuffer.isView(buffer)
+    ? new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength).slice().buffer
+    : buffer
+  return URL.createObjectURL(new Blob([blobBuffer]))
 }
 
 export const clearStorageSync: typeof Taro.clearStorageSync = () => {

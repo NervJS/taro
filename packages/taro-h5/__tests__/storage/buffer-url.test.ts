@@ -41,6 +41,23 @@ test('only includes the bytes covered by the typed array view', async () => {
   expect(new Uint8Array(await blob.arrayBuffer())).toEqual(new Uint8Array([2, 3]))
 })
 
+test('copies a shared typed array view before creating a Blob', async () => {
+  const buffer = new SharedArrayBuffer(6)
+  new Uint8Array(buffer).set([0, 1, 2, 3, 4, 5])
+  const view = new Uint16Array(buffer, 2, 1)
+  globalThis.Blob = jest.fn((parts: BlobPart[]) => {
+    const [part] = parts
+    if (ArrayBuffer.isView(part) && part.buffer instanceof SharedArrayBuffer) {
+      throw new TypeError('The provided ArrayBufferView value must not be shared.')
+    }
+    return new BinaryBlob(parts as ArrayBuffer[])
+  }) as unknown as typeof Blob
+
+  expect(createBufferURL(view)).toBe('blob:buffer')
+  const blob = createObjectURL.mock.calls[0][0]
+  expect(new Uint8Array(await blob.arrayBuffer())).toEqual(new Uint8Array([2, 3]))
+})
+
 test('releases the URL returned by createBufferURL', () => {
   const url = createBufferURL(new ArrayBuffer(0))
 
