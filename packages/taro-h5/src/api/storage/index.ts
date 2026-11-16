@@ -52,7 +52,14 @@ function setItems (kvList: Taro.batchSetStorage.kv[]) {
   try {
     items.forEach(([key, item]) => localStorage.setItem(key, item))
   } catch (e) {
-    previous.forEach(([key, item]) => item === null ? localStorage.removeItem(key) : localStorage.setItem(key, item))
+    // 先移除本批次涉及的 key 以释放空间，再恢复旧值；单项恢复失败不应中断其余恢复
+    previous.forEach(([key]) => localStorage.removeItem(key))
+    previous.forEach(([key, item]) => {
+      if (item === null) return
+      try {
+        localStorage.setItem(key, item)
+      } catch (err) {} // eslint-disable-line no-empty
+    })
     throw e
   }
 }

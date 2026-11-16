@@ -75,6 +75,26 @@ describe('batch storage', () => {
       expect(localStorage.getItem('bar')).toBeNull()
       expect(localStorage.getItem('big')).toBeNull()
     })
+
+    test('should free the space used by the batch before restoring old values', () => {
+      const limit = 120
+      const used = (skip?: string) => Object.keys(localStorage).reduce((n, k) => k === skip ? n : n + (localStorage.getItem(k) as string).length, 0)
+      Taro.setStorageSync('foo', 'o'.repeat(80))
+      const setItem = Storage.prototype.setItem
+      jest.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, key: string, value: string) {
+        if (used(key) + value.length > limit) throw new DOMException('quota exceeded', 'QuotaExceededError')
+        return setItem.call(this, key, value)
+      })
+
+      expect(() => Taro.batchSetStorageSync([
+        { key: 'foo', value: 'n' },
+        { key: 'bar', value: 'b'.repeat(80) },
+        { key: 'big', value: 'x'.repeat(200) }
+      ])).toThrow('quota exceeded')
+      expect(Taro.getStorageSync('foo')).toBe('o'.repeat(80))
+      expect(localStorage.getItem('bar')).toBeNull()
+      expect(localStorage.getItem('big')).toBeNull()
+    })
   })
 
   describe('batchSetStorage', () => {
