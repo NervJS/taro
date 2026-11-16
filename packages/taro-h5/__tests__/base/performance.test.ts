@@ -96,7 +96,7 @@ describe('Performance.createObserver', () => {
     const callback = jest.fn()
 
     const observer = getPerformance().createObserver(callback)
-    observer.observe({ entryTypes: ['navigation', 'paint'] } as any)
+    observer.observe({ entryTypes: ['navigation', 'paint'] })
 
     expect(instances).toHaveLength(1)
     expect(instances[0].observe).toHaveBeenCalledWith({ entryTypes: ['navigation', 'paint'] })
@@ -118,7 +118,7 @@ describe('Performance.createObserver', () => {
   test('passes a single entry type through to the browser observer', () => {
     const instances = mockPerformanceObserver()
 
-    getPerformance().createObserver(jest.fn()).observe({ type: 'paint', buffered: true } as any)
+    getPerformance().createObserver(jest.fn()).observe({ type: 'paint', buffered: true })
 
     expect(instances[0].observe).toHaveBeenCalledWith({ type: 'paint', buffered: true })
   })

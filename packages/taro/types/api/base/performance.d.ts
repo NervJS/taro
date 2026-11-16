@@ -63,10 +63,10 @@ declare module '../../index' {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/PerformanceEntry.html
    */
   interface PerformanceEntry {
-    /** 指标类型 */
-    entryType: keyof PerformanceEntry.EntryType
-    /** 指标名称 */
-    name: keyof PerformanceEntry.EntryName
+    /** 指标类型。H5 端为浏览器标准类型，如 `navigation`、`resource`、`paint` 等 */
+    entryType: keyof PerformanceEntry.EntryType | (string & Record<never, never>)
+    /** 指标名称。H5 端为浏览器标准名称，如 `first-contentful-paint`、资源地址等 */
+    name: keyof PerformanceEntry.EntryName | (string & Record<never, never>)
     /** 开始时间，不同指标的具体含义会有差异 */
     startTime: number
     /** 耗时 ms。仅对于表示阶段的指标有效。 */
@@ -99,7 +99,7 @@ declare module '../../index' {
    */
   interface PerformanceObserver {
     /** 获取当前支持的所有性能指标类型 */
-    supportedEntryTypes: PerformanceEntry[]
+    supportedEntryTypes: string[]
     /** 停止监听
      * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/PerformanceObserver.disconnect.html
@@ -146,6 +146,10 @@ declare module '../../index' {
         type?: keyof EntryType
         /** 指标类型列表。不能和 type 同时使用。 */
         entryTypes?: (keyof EntryType)[]
+        /** 是否同时接收监听开始前已缓冲的数据。仅 H5 支持，且仅对 `type` 生效
+         * @supported h5
+         */
+        buffered?: boolean
       }
       interface EntryType {
         /** 路由 */
@@ -154,6 +158,26 @@ declare module '../../index' {
         render
         /** 脚本 */
         script
+        /** 资源加载。仅 H5 支持
+         * @supported h5
+         */
+        resource
+        /** 绘制。仅 H5 支持
+         * @supported h5
+         */
+        paint
+        /** 用户自定义标记。仅 H5 支持
+         * @supported h5
+         */
+        mark
+        /** 用户自定义测量。仅 H5 支持
+         * @supported h5
+         */
+        measure
+        /** 长任务。仅 H5 支持
+         * @supported h5
+         */
+        longtask
       }
     }
   }

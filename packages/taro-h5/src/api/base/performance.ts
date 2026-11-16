@@ -19,7 +19,7 @@ class TaroH5PerformanceObserver implements Taro.PerformanceObserver {
 
   get supportedEntryTypes () {
     const types = isObserverSupported() ? PerformanceObserver.supportedEntryTypes : undefined
-    return [...(types || [])] as unknown as Taro.PerformanceEntry[]
+    return [...(types || [])]
   }
 
   observe (option: Taro.PerformanceObserver.observe.Option) {
