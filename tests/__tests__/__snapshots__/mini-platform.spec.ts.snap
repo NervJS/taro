@@ -4498,7 +4498,6 @@ exports[`mini-platform qq should base template loop 10 times 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -4540,7 +4539,6 @@ exports[`mini-platform qq should build qq app 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -4582,7 +4580,6 @@ exports[`mini-platform swan should build swan app 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {

@@ -10,7 +10,7 @@ export default class TaroMiniHMRPlugin {
             const runtimeModules = compilation.chunkGraph.getChunkRuntimeModulesInOrder(chunk)
             for (const module of runtimeModules) {
               if (module.name === 'jsonp chunk loading') {
-                const runtimeSource = compilation.codeGenerationResults.getSource(
+                const runtimeSource = compilation.codeGenerationResults!.getSource(
                   module,
                   chunk.runtime,
                   'runtime'
