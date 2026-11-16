@@ -33,6 +33,7 @@ test.each([false, true])('applies synchronous additions and asynchronous updates
     if (asynchronous) {
       return new Promise<void>(resolve => {
         setTimeout(() => {
+          addAsset()
           assets['app.js'] = { source: () => 'export default 2' }
           resolve()
         }, 0)
@@ -44,9 +45,10 @@ test.each([false, true])('applies synchronous additions and asynchronous updates
   try {
     const { output } = await bundle.generate({ format: 'es' })
 
-    expect(output).toContainEqual(asynchronous
-      ? expect.objectContaining({ fileName: 'app.js', code: 'export default 2', type: 'chunk' })
-      : expect.objectContaining({ fileName, source, type: 'asset' }))
+    expect(output).toContainEqual(expect.objectContaining({ fileName, source, type: 'asset' }))
+    if (asynchronous) {
+      expect(output).toContainEqual(expect.objectContaining({ fileName: 'app.js', code: 'export default 2', type: 'chunk' }))
+    }
   } finally {
     await bundle.close()
   }
