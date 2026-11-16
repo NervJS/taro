@@ -10,7 +10,7 @@ function getItem (key) {
   } catch (e) {} // eslint-disable-line no-empty
 
   // 只返回使用 Taro.setStorage API 存储的数据
-  if (item && typeof item === 'object' && item.hasOwnProperty('data')) {
+  if (item && typeof item === 'object' && Object.prototype.hasOwnProperty.call(item, 'data')) {
     return { result: true, data: item.data }
   } else {
     return { result: false }
@@ -47,7 +47,14 @@ function getKeyListError (keyList: unknown, name?: string) {
 function setItems (kvList: Taro.batchSetStorage.kv[]) {
   // 先序列化全部数据，避免部分数据无法序列化时只写入了一部分
   const items = kvList.map(({ key, value }) => [key, serializeItem(value)])
-  items.forEach(([key, item]) => localStorage.setItem(key, item))
+  // 写入失败（如超出存储配额）时恢复已写入的旧值，保证批量写入要么全部成功要么不改变数据
+  const previous = items.map(([key]) => [key, localStorage.getItem(key)] as const)
+  try {
+    items.forEach(([key, item]) => localStorage.setItem(key, item))
+  } catch (e) {
+    previous.forEach(([key, item]) => item === null ? localStorage.removeItem(key) : localStorage.setItem(key, item))
+    throw e
+  }
 }
 
 function getItems (keyList: string[]) {

@@ -57,6 +57,24 @@ describe('batch storage', () => {
       ])).toThrow(TypeError)
       expect(localStorage.length).toBe(0)
     })
+
+    test('should restore earlier items when a write fails part way', () => {
+      Taro.setStorageSync('foo', 'old')
+      const setItem = Storage.prototype.setItem
+      jest.spyOn(Storage.prototype, 'setItem').mockImplementation(function (this: Storage, key: string, value: string) {
+        if (key === 'big') throw new DOMException('quota exceeded', 'QuotaExceededError')
+        return setItem.call(this, key, value)
+      })
+
+      expect(() => Taro.batchSetStorageSync([
+        { key: 'foo', value: 'new' },
+        { key: 'bar', value: 'baz' },
+        { key: 'big', value: 'x' }
+      ])).toThrow('quota exceeded')
+      expect(Taro.getStorageSync('foo')).toBe('old')
+      expect(localStorage.getItem('bar')).toBeNull()
+      expect(localStorage.getItem('big')).toBeNull()
+    })
   })
 
   describe('batchSetStorage', () => {
@@ -142,6 +160,12 @@ describe('batch storage', () => {
 
       expect(Taro.batchGetStorageSync(['obj', 'missing', 'foo', 'raw', 'zero'])).toEqual([data, '', 'bar', '', 0])
       expect(Taro.batchGetStorageSync([])).toEqual([])
+    })
+
+    test('should return an empty string for JSON that overrides hasOwnProperty', () => {
+      localStorage.setItem('raw', '{"hasOwnProperty":null}')
+
+      expect(Taro.batchGetStorageSync(['raw'])).toEqual([''])
     })
 
     test('keyList should be an array of strings', () => {
