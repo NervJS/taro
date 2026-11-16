@@ -277,6 +277,15 @@ declare module './index' {
     iconPath?: string
     /** 选中时的图片路径，icon 大小限制为 40kb，建议尺寸为 81px * 81px ，当 position 为 top 时，此参数无效 */
     selectedIconPath?: string
+    /** tab 上按钮文字的多语言文案，键为语言标识，如 `zh_CN`、`zh_TW`、`zh_HK`、`en_US`、`ja_JP`
+     *
+     * 仅支付宝系小程序（如钉钉小程序）支持，编译时原样输出到 `tabBar.items[].name_locale`
+     * @example
+     * ```js
+     * { pagePath: 'pages/index/index', text: '首页', name_locale: { zh_CN: '首页', en_US: 'Home' } }
+     * ```
+     */
+    name_locale?: Record<string, string>
   }
 
   interface TabBar {
