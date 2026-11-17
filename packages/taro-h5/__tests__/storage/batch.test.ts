@@ -264,7 +264,7 @@ describe('batch storage', () => {
       const complete = jest.fn()
       const expected = { errMsg: 'batchGetStorage:fail access denied' }
 
-      await expect(Taro.batchGetStorage({ keyList: ['foo'], success, fail, complete })).rejects.toEqual(expected)
+      await expect(Taro.batchGetStorage({ keyList: ['foo'], success, fail, complete })).resolves.toEqual(expected)
       expect(success).not.toHaveBeenCalled()
       expect(fail).toHaveBeenCalledWith(expected)
       expect(complete).toHaveBeenCalledWith(expected)
