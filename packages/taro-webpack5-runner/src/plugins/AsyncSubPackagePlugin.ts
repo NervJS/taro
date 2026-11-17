@@ -5,12 +5,12 @@ import postcss from 'postcss'
 
 import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
 import { createAsyncCommonChunkName, getAsyncRootAssetNames, getAsyncRootForModule, getSingleAsyncRootForModules, getSourceRootForResource, normalizePathForAsyncSubPackage } from '../utils/asyncSubPackage'
-import { allocateAsyncChunks, resolveAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
+import { allocateAsyncChunksShared, getSourceRelativePath, resolveAsyncSubPackageRule } from '../utils/asyncSubPackageConfig'
 import { createSharedRuntimeWaitSource } from '../utils/asyncSubPackageRuntime'
 
 import type { SubPackage } from '@tarojs/taro'
 import type { Compiler } from 'webpack'
-import type { NormalizedAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
+import type { NormalizedAsyncSubPackageRule } from '../utils/asyncSubPackageConfig'
 import type { SharedRuntimeGate } from '../utils/asyncSubPackageRuntime'
 import type TaroMiniPlugin from './MiniPlugin'
 import type { AsyncSubPackageRuntimeRoot } from './SubPackageIndiePlugin'
@@ -63,8 +63,10 @@ function createAsyncSplitChunkName (asyncRoot: string, chunks: any[]): string {
 
 function createMiniAppConfigContent (content: Record<string, any>, subPackages: SubPackage[]) {
   const result: Record<string, any> = { ...content, subPackages }
-  // subPackageIndie/subpackages 是 Taro 编译期配置，不能透出到微信小程序 app.json。
+  // 编译期配置不能透出到微信小程序 app.json，同时清掉 subPackages 的大小写别名重复键。
   delete result.subPackageIndie
+  delete result.asyncSubPackages
+  delete result.subpackages
   return result
 }
 
@@ -250,6 +252,7 @@ export default class AsyncSubPackagePlugin {
   asyncRules: NormalizedAsyncSubPackageRule[] = []
   private usedAsyncRoots = new Set<string>()
   private asyncChunkConsumers = new Map<string, string[]>()
+  private asyncDependencyRuleCache = new WeakMap<any, NormalizedAsyncSubPackageRule | null | undefined>()
 
   constructor (miniPlugin: TaroMiniPlugin, asyncRootMap?: Map<string, string>) {
     this.miniPlugin = miniPlugin
@@ -268,7 +271,7 @@ export default class AsyncSubPackagePlugin {
   }
 
   updateAsyncRules (rules: NormalizedAsyncSubPackageRule[]) {
-    this.asyncRules = rules.map(rule => ({ ...rule, matchedPages: [...rule.matchedPages] }))
+    this.asyncRules = rules.map(rule => ({ ...rule, roots: [...rule.roots] }))
   }
 
   private isEnabled (): boolean {
@@ -289,7 +292,7 @@ export default class AsyncSubPackagePlugin {
     const roots = new Set<string>()
     for (const root of this.asyncRootMap.values()) roots.add(root)
     for (const rule of this.asyncRules) {
-      for (const root of rule.asyncRoots) roots.add(root)
+      for (const root of rule.roots) roots.add(root)
     }
     return Array.from(roots)
   }
@@ -305,15 +308,19 @@ export default class AsyncSubPackagePlugin {
         this.asyncChunkSourceRoots = new Map()
         this.usedAsyncRoots = new Set()
         this.asyncChunkConsumers = new Map()
+        this.asyncDependencyRuleCache = new WeakMap()
         this.unnamedChunkKeys = new WeakMap()
         this.unnamedChunkKeySeq = 0
       })
       this.setupAsyncBabel(compiler)
-      this.setupAsyncSplitChunks(compiler)
       this.setupAsyncChunkOptimization(compiler)
       this.setupAsyncChunkRuntime(compiler)
       this.setupAsyncChunkAssetExtraction(compiler)
     }
+
+    // 规则配置在 watch 下每次 apply 都会 refresh，
+    // 必须同步重建 splitChunks cache groups，避免闭包持有旧 rule 对象。
+    if (compiler) this.setupAsyncSplitChunks(compiler)
 
     if (!this.miniHooksApplied) {
       this.miniHooksApplied = true
@@ -397,25 +404,21 @@ export default class AsyncSubPackagePlugin {
       Object.defineProperty(commonCacheGroup, COMMON_CACHE_GROUP_PATCHED, { value: true, enumerable: false })
     }
 
-    (cacheGroups as any).asyncSubPackage = {
-      chunks: 'async',
-      minChunks: 2,
-      minSize: 0,
-      priority: 20,
-      enforce: true,
-      name: (_module: any, chunks: any[]) => {
-        if (this.asyncRules.length > 0) {
-          const key = chunks
-            .map(chunk => chunk?.name || String(chunk?.id ?? chunk?.debugId ?? 'chunk'))
-            .sort()
-            .join('~')
-          return `taro-async-shared-${key.replace(/[^a-zA-Z0-9_~-]/g, '_')}`
-        }
-        const asyncRoot = getAsyncRootFromChunks(chunks, this.asyncRootMap)
-        if (!asyncRoot) return false
-        return createAsyncSplitChunkName(asyncRoot, chunks)
-      },
-      test: (module: any, context: any) => this.isAsyncSubPackageModule(module, context),
+    // 纯规则模式没有 sourceRoot -> asyncRoot 映射，legacy 共享 cache group 不做事，直接跳过。
+    if (this.asyncRules.length === 0) {
+      (cacheGroups as any).asyncSubPackage = {
+        chunks: 'async',
+        minChunks: 2,
+        minSize: 0,
+        priority: 20,
+        enforce: true,
+        name: (_module: any, chunks: any[]) => {
+          const asyncRoot = getAsyncRootFromChunks(chunks, this.asyncRootMap)
+          if (!asyncRoot) return false
+          return createAsyncSplitChunkName(asyncRoot, chunks)
+        },
+        test: (module: any, context: any) => this.isAsyncSubPackageModule(module, context),
+      }
     }
     splitChunks.cacheGroups = cacheGroups
   }
@@ -442,8 +445,101 @@ export default class AsyncSubPackagePlugin {
   }
 
   private isPureAsyncSubPackageModule (module: any, context: any): boolean {
+    // 规则模式下 isAsyncSubPackageModule 已等价 isPureAsyncModule，避免重复求值。
+    if (this.asyncRules.length > 0) return this.isAsyncSubPackageModule(module, context)
     if (!this.isAsyncSubPackageModule(module, context)) return false
     return this.isPureAsyncModule(module, context)
+  }
+
+  private isStyleModule (module: any): boolean {
+    const moduleType = module?.type || ''
+    if (moduleType.startsWith('css')) return true
+    return REG_STYLE.test(getModuleResource(module))
+  }
+
+  private isConcatenatedModule (module: any): boolean {
+    return module?.constructor?.name === 'ConcatenatedModule'
+  }
+
+  /** 递归展开 production scope hoisting 产生的 ConcatenatedModule，避免内部模块漏检。 */
+  private collectRuleRelevantModules (module: any, out: any[]): void {
+    if (!module) return
+    if (this.isConcatenatedModule(module)) {
+      const innerList = Array.from((module as any).modules || []) as any[]
+      for (const item of innerList) {
+        this.collectRuleRelevantModules(item?.module ?? item, out)
+      }
+      return
+    }
+    if (isJavaScriptModule(module) || this.isStyleModule(module)) out.push(module)
+  }
+
+  private getModuleSourceResource (module: any): string | null {
+    const resource = getModuleResource(module)
+    if (!resource) return null
+    return getSourceRelativePath(resource, this.miniPlugin.options.sourceDir)
+  }
+
+  private resolveFileRuleForModule (module: any): NormalizedAsyncSubPackageRule | null {
+    const resource = this.getModuleSourceResource(module)
+    if (!resource) return null
+    return resolveAsyncSubPackageRule(this.asyncRules, resource)
+  }
+
+  /**
+   * 私有依赖跟随：模块未直接命中 test 时，沿异步 issuer 链找到唯一直接命中的规则。
+   * 命中规则返回规则；出现不同目标或无法收敛返回 null；非项目源码且无目标返回 undefined。
+   */
+  private resolveFileRuleByDependency (
+    module: any,
+    moduleGraph: any,
+    visited: Set<any> = new Set()
+  ): NormalizedAsyncSubPackageRule | null | undefined {
+    if (!module) return undefined
+    if (this.asyncDependencyRuleCache.has(module)) return this.asyncDependencyRuleCache.get(module)
+    if (visited.has(module)) return undefined
+    visited.add(module)
+
+    const direct = this.resolveFileRuleForModule(module)
+    if (direct) {
+      this.asyncDependencyRuleCache.set(module, direct)
+      return direct
+    }
+
+    const isProjectSource = this.getModuleSourceResource(module) != null
+
+    const rules = new Set<NormalizedAsyncSubPackageRule>()
+    let hasBlockingProjectIssuer = false
+    const issuers = new Set<any>()
+    const incoming = moduleGraph?.getIncomingConnections?.(module)
+    if (incoming) {
+      for (const connection of incoming) {
+        if (connection?.originModule && connection.isActive?.(undefined) !== false) issuers.add(connection.originModule)
+      }
+    }
+    const issuer = moduleGraph?.getIssuer?.(module)
+    if (issuer) issuers.add(issuer)
+
+    for (const issuerModule of issuers) {
+      const rule = this.resolveFileRuleByDependency(issuerModule, moduleGraph, new Set(visited))
+      if (rule === null) {
+        hasBlockingProjectIssuer = true
+      } else if (rule) {
+        rules.add(rule)
+      }
+    }
+
+    let result: NormalizedAsyncSubPackageRule | null | undefined
+    if (hasBlockingProjectIssuer || rules.size > 1) {
+      result = null
+    } else if (rules.size === 1) {
+      result = Array.from(rules)[0]
+    } else {
+      result = isProjectSource ? null : undefined
+    }
+
+    this.asyncDependencyRuleCache.set(module, result)
+    return result
   }
 
   // ==================== Async Chunk Optimization ====================
@@ -491,7 +587,7 @@ export default class AsyncSubPackagePlugin {
     const incomingConnections = moduleGraph?.getIncomingConnections?.(module)
     if (incomingConnections) {
       for (const connection of incomingConnections) {
-        if (connection?.originModule) issuerModules.add(connection.originModule)
+        if (connection?.originModule && connection.isActive?.(undefined) !== false) issuerModules.add(connection.originModule)
       }
     }
     const issuer = moduleGraph?.getIssuer?.(module)
@@ -575,8 +671,8 @@ export default class AsyncSubPackagePlugin {
         }
       })
 
-      // SplitChunksPlugin 在 STAGE_ADVANCED(10) 才把跨页共享模块抽成 taro-async-shared-*；
-      // 规则模式必须在它之后归属，否则抽出的 chunk 不会被重命名、记录消费页面或回填样式。
+      // 规则模式统一在 optimizeChunks 之后（stage 20）对已形成的异步 chunk 做源码归属，
+      // 以便重命名、记录消费页面并回填样式。共享模块不再依赖单独的 taro-async-shared cache group。
       compilation.hooks.optimizeChunks.tap({ name: PLUGIN_NAME, stage: 20 }, chunks => {
         if (this.asyncRules.length === 0) return
         try {
@@ -660,6 +756,7 @@ export default class AsyncSubPackagePlugin {
     const connections = moduleGraph.getIncomingConnections?.(module)
     if (connections) {
       for (const connection of connections) {
+        if (connection?.isActive?.(undefined) === false) continue
         const origin = connection?.originModule
         if (!origin) continue
         for (const page of this.getPagePathsFromModule(origin, moduleGraph, pageEntryModules, cache, visiting)) {
@@ -709,40 +806,64 @@ export default class AsyncSubPackagePlugin {
     for (const chunk of chunks) {
       if (chunk.hasRuntime?.() || chunk.canBeInitial?.()) continue
       const modules = Array.from(compilation.chunkGraph.getChunkModulesIterable(chunk))
-      if (!modules.some(isJavaScriptModule)) continue
+      const relevantModules: any[] = []
+      for (const module of modules) this.collectRuleRelevantModules(module, relevantModules)
+      if (relevantModules.length === 0) continue
 
       const consumers = this.getConsumerPagesForChunk(chunk, compilation, pageEntryModules, pageCache)
-      if (consumers.length === 0) continue
 
-      const rule = resolveAsyncSubPackageRule(this.asyncRules, consumers)
-      if (!rule) continue
-
-      pending.push({ chunk, rule, consumers })
-    }
-
-    const byRule = new Map<NormalizedAsyncSubPackageRule, typeof pending>()
-    for (const item of pending) {
-      const list = byRule.get(item.rule) || []
-      list.push(item)
-      byRule.set(item.rule, list)
-    }
-
-    for (const [rule, items] of byRule) {
-      const allocation = allocateAsyncChunks(
-        rule,
-        items.map(item => ({
-          name: this.getChunkKey(item.chunk),
-          size: this.getChunkSize(item.chunk, compilation.chunkGraph),
-        }))
-      )
-      for (const item of items) {
-        const asyncRoot = allocation.get(this.getChunkKey(item.chunk))
-        if (!asyncRoot) continue
-        const asyncChunkName = createAsyncCommonChunkName(asyncRoot, this.getChunkKey(item.chunk))
-        item.chunk.name = asyncChunkName
-        this.usedAsyncRoots.add(asyncRoot)
-        this.asyncChunkConsumers.set(asyncChunkName, item.consumers)
+      const matchedRules = new Set<NormalizedAsyncSubPackageRule>()
+      const unmanagedResources = new Set<string>()
+      for (const module of relevantModules) {
+        const rule = this.resolveFileRuleByDependency(module, compilation.moduleGraph)
+        if (rule) {
+          matchedRules.add(rule)
+        } else if (rule === null) {
+          unmanagedResources.add(this.getModuleSourceResource(module) || getModuleResource(module))
+        }
       }
+      if (matchedRules.size === 0) continue
+
+      if (unmanagedResources.size > 0) {
+        throw new Error(
+          `[taro asyncSubPackage] 异步 chunk 同时包含已归属与未归属的源码模块，无法安全拆分：` +
+          `${Array.from(unmanagedResources).join('、')}。` +
+          '请为这些模块补充 test 规则或调整依赖边界。'
+        )
+      }
+
+      const targets = new Set(
+        Array.from(matchedRules).map(rule => `${[...rule.roots].sort().join('\u0000')}\u0000${rule.maxSize ?? ''}`)
+      )
+      if (targets.size > 1) {
+        throw new Error(
+          `[taro asyncSubPackage] 异步 chunk 同时命中了多个不同目标的规则，无法安全拆分：` +
+          `${Array.from(matchedRules).map(rule => rule.index + 1).join('、')}。请为共享模块补充 test 规则或调整依赖边界。`
+        )
+      }
+
+      pending.push({ chunk, rule: matchedRules.values().next().value!, consumers })
+    }
+
+    // 共享同一物理 root 的规则必须共用容量台账，避免各自填满预算。
+    const rulesByIndex = new Map<number, NormalizedAsyncSubPackageRule>()
+    const entries = pending.map(item => {
+      rulesByIndex.set(item.rule.index, item.rule)
+      return {
+        name: this.getChunkKey(item.chunk),
+        size: this.getChunkSize(item.chunk, compilation.chunkGraph),
+        ruleIndex: item.rule.index,
+      }
+    })
+    const allocation = allocateAsyncChunksShared(rulesByIndex, entries)
+
+    for (const item of pending) {
+      const asyncRoot = allocation.get(this.getChunkKey(item.chunk))
+      if (!asyncRoot) continue
+      const asyncChunkName = createAsyncCommonChunkName(asyncRoot, this.getChunkKey(item.chunk))
+      item.chunk.name = asyncChunkName
+      this.usedAsyncRoots.add(asyncRoot)
+      this.asyncChunkConsumers.set(asyncChunkName, item.consumers)
     }
   }
 
@@ -815,10 +936,12 @@ export default class AsyncSubPackagePlugin {
    */
   private warnWhenFinalAssetsExceedBudget (compilation: any) {
     if (this.asyncRules.length === 0) return
+    const warnedRoots = new Set<string>()
     for (const rule of this.asyncRules) {
       const maxSize = rule.maxSize
       if (maxSize == null) continue
-      for (const asyncRoot of rule.asyncRoots) {
+      for (const asyncRoot of rule.roots) {
+        if (warnedRoots.has(asyncRoot)) continue
         const jsAssets = Object.keys(compilation.assets)
           .filter(name => name.startsWith(`${asyncRoot}/`) && name.endsWith('.js'))
         if (jsAssets.length === 0) continue
@@ -829,6 +952,7 @@ export default class AsyncSubPackagePlugin {
           totalSize += info?.size ?? source?.size?.() ?? 0
         }
         if (totalSize > maxSize) {
+          warnedRoots.add(asyncRoot)
           compilation.warnings.push(new compilation.compiler.webpack.WebpackError(
             `[${PLUGIN_NAME}] async root "${asyncRoot}" 最终产物 ${totalSize} 字节超过预算 ${maxSize} 字节（装箱按未压缩估算，实际已超限）。`
           ))
@@ -892,7 +1016,8 @@ export default class AsyncSubPackagePlugin {
 
         for (const consumer of consumers) {
           const dir = path.posix.dirname(consumer)
-          compilation.assets[`${dir}/${templateName}`] = compilation.assets[assetName]
+          const targetTemplateAsset = dir === '.' ? templateName : `${dir}/${templateName}`
+          compilation.assets[targetTemplateAsset] = compilation.assets[assetName]
         }
         delete compilation.assets[assetName]
       }
@@ -944,7 +1069,12 @@ export default class AsyncSubPackagePlugin {
 
         for (const [targetStyleAsset, mainRoot] of targets) {
           const origin = compilation.assets[targetStyleAsset]?.source?.().toString() || ''
-          const relocatedStyle = mainRoot
+          // legacy 保持原行为：仅共享 mainRoot 上提时才 rebase。
+          // 规则模式按源/目标目录是否相同决定；目录不同才重算相对资源引用。
+          const shouldRebase = isRulesMode
+            ? path.posix.dirname(assetName) !== path.posix.dirname(targetStyleAsset)
+            : Boolean(mainRoot)
+          const relocatedStyle = shouldRebase
             ? await this.rebaseAsyncStyle(compilation, asyncStyle, assetName, targetStyleAsset)
             : asyncStyle
           compilation.assets[targetStyleAsset] = new RawSource([origin, relocatedStyle].filter(Boolean).join('\n'))

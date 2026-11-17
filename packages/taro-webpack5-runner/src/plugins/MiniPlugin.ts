@@ -24,11 +24,12 @@ import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
-import { SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
-import { assertDeclaredPages } from '../utils/asyncSubPackageRules'
+import { SHARED_ASYNC_ROOT, SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
+import { normalizeAsyncSubPackageRules } from '../utils/asyncSubPackageConfig'
 import { componentConfig } from '../utils/component'
 import { computeForceCustomWrapperForIndependentPackage } from '../utils/forceCustomWrapper'
 import { isWeappSubPackageIndieEnabled, shouldProcessCommonStyles } from '../utils/platform'
+import { assertDeclaredPages } from '../utils/subpackagePageHelpers'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import AsyncSubPackagePlugin from './AsyncSubPackagePlugin'
 import SubPackageIndiePlugin, {
@@ -167,6 +168,7 @@ export default class TaroMiniPlugin {
   pageLoaderName = '@tarojs/taro-loader/lib/page'
   independentPackages = new Map<string, IndependentPackage>()
   asyncSubPackagePlugin: AsyncSubPackagePlugin | null = null
+  private warnedIgnoredAsyncSubPackages = false
   subPackageIndiePlugin: SubPackageIndiePlugin | null = null
   forceCustomWrapperDefineDefinitions: Record<string, string> | null = null
 
@@ -550,9 +552,22 @@ export default class TaroMiniPlugin {
    * MiniPlugin 仅作为桥接，具体的 babel 注入、chunk 处理和 app.json 注册由 AsyncSubPackagePlugin 承担。
    */
   applyAsyncSubPackagePlugin (compiler: Compiler) {
-    if (!this.subPackageIndiePlugin) return
-    const asyncRootMap = this.subPackageIndiePlugin.getAsyncSubPackageRootMap()
-    const asyncRules = this.subPackageIndiePlugin.getAsyncSubPackageRules()
+    const asyncRootMap = new Map<string, string>()
+    if (this.subPackageIndiePlugin) {
+      for (const [sourceRoot, asyncRoot] of this.subPackageIndiePlugin.getAsyncSubPackageRootMap()) {
+        asyncRootMap.set(sourceRoot, asyncRoot)
+      }
+    }
+
+    const rawRules: unknown = (this.appConfig as any)?.asyncSubPackages
+    const asyncRules = Array.isArray(rawRules) && rawRules.length > 0
+      ? normalizeAsyncSubPackageRules(rawRules as any, { reservedRoots: [SHARED_ASYNC_ROOT] })
+      : []
+
+    if (asyncRootMap.size > 0 && asyncRules.length > 0) {
+      throw new Error('[taro asyncSubPackage] 不允许同时使用旧的 subPackageIndie 异步配置与顶层 asyncSubPackages，请统一使用顶层 asyncSubPackages。')
+    }
+
     if (asyncRootMap.size === 0 && asyncRules.length === 0 && !this.asyncSubPackagePlugin) return
 
     if (!this.asyncSubPackagePlugin) {
@@ -560,7 +575,21 @@ export default class TaroMiniPlugin {
     }
     this.asyncSubPackagePlugin.updateAsyncRootMap(asyncRootMap)
     this.asyncSubPackagePlugin.updateAsyncRules(asyncRules)
-    this.asyncSubPackagePlugin.updateAsyncRuntimeRoots(this.subPackageIndiePlugin.getAsyncSubPackageRuntimeRoots())
+
+    const legacyRuntimeRoots = this.subPackageIndiePlugin
+      ? this.subPackageIndiePlugin.getAsyncSubPackageRuntimeRoots()
+      : []
+    if (asyncRules.length > 0) {
+      // 新文件规则没有 subPackageIndie 布局时，以业务输出根为 require.async 锚点。
+      const known = new Set(legacyRuntimeRoots.map(item => item.asyncRoot))
+      const added = Array.from(new Set(asyncRules.flatMap(rule => rule.roots)))
+        .filter(root => !known.has(root))
+        .map(root => ({ sourceRoot: '', asyncRoot: root }))
+      this.asyncSubPackagePlugin.updateAsyncRuntimeRoots([...legacyRuntimeRoots, ...added])
+    } else {
+      this.asyncSubPackagePlugin.updateAsyncRuntimeRoots(legacyRuntimeRoots)
+    }
+
     this.asyncSubPackagePlugin.apply(compiler)
   }
 
@@ -790,8 +819,14 @@ export default class TaroMiniPlugin {
       await modifyAppConfig(appConfig)
     }
     if (!this.isWeappSubPackageIndieEnabled()) {
+      const ignored = Array.isArray(appConfig.asyncSubPackages) && appConfig.asyncSubPackages.length > 0
+      if (ignored && !this.warnedIgnoredAsyncSubPackages) {
+        this.warnedIgnoredAsyncSubPackages = true
+        printLog(processTypeEnum.WARNING, 'asyncSubPackages', '当前平台或构建模式不支持 asyncSubPackages，配置将被忽略。请使用微信小程序 weapp + --new-blended。')
+      }
       delete appConfig.forceCustomWrapper
       delete appConfig.subPackageIndie
+      delete appConfig.asyncSubPackages
     }
     return appConfig as AppConfig
   }
@@ -1630,7 +1665,7 @@ export default class TaroMiniPlugin {
     const componentName = this.getComponentName(filePath)
     config = this.hooks.modifyConfig.call(config, componentName)
 
-    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components', 'forceCustomWrapper', 'subPackageIndie']
+    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components', 'forceCustomWrapper', 'subPackageIndie', 'asyncSubPackages']
     unofficialConfigs.forEach(item => {
       delete config[item]
     })

@@ -3,10 +3,6 @@ import path from 'node:path'
 import { fs, META_TYPE, printLog, processTypeEnum, promoteRelativePath, resolveMainFilePath, taroJsComponents } from '@tarojs/helper'
 
 import { SHARED_ASYNC_ROOT, SHARED_GLOBAL_ASYNC } from '../shared-runtime/constants'
-import {
-  collectDeclaredPagePaths,
-  normalizeAsyncSubPackageRules,
-} from '../utils/asyncSubPackageRules'
 import { componentConfig } from '../utils/component'
 import { addRequireToSource, buildRootStyleImport } from '../utils/webpack'
 import {
@@ -19,7 +15,6 @@ import {
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
 import type { Compilation, Compiler } from 'webpack'
-import type { NormalizedAsyncSubPackageRule } from '../utils/asyncSubPackageRules'
 import type {
   IOptions,
 } from './MiniPlugin'
@@ -29,16 +24,11 @@ export const subPackageIndieCustomWrapperRootsKey = '__taroSubPackageIndieCustom
 
 export type SubPackageIndieConfig = NonNullable<AppConfig['subPackageIndie']>[number]
 export type NormalizedSubPackageIndieConfig = {
-  /** async-only 模式下为 null */
-  mainPackageRoot: string | null
+  mainPackageRoot: string
   subPackageRoots: string[]
   disableRecursiveComponentRoots: Set<string>
-  /** 旧模式：sourceRoot -> asyncRoot */
+  /** sourceRoot -> asyncRoot */
   asyncSubPackageRootMap: Map<string, string>
-  /** 是否 async-only 模式 */
-  asyncOnly: boolean
-  /** async-only 模式：异步归属规则 */
-  asyncRules: NormalizedAsyncSubPackageRule[]
 }
 export type AsyncSubPackageRuntimeRoot = {
   sourceRoot: string
@@ -389,25 +379,11 @@ export default class SubPackageIndiePlugin {
     }
 
     const appPages = new Set(appConfig?.pages || [])
-    const declaredPages = collectDeclaredPagePaths(appConfig)
 
     this.subPackageIndieConfigsCache = subPackageIndie.map(({ mainPackageRoot, subPackageRoots = [] }: SubPackageIndieConfig) => {
       if (mainPackageRoot == null) {
-        const asyncRules = normalizeAsyncSubPackageRules(
-          subPackageRoots as any,
-          declaredPages,
-          { reservedRoots: [SHARED_ASYNC_ROOT] }
-        )
-        return {
-          mainPackageRoot: null,
-          subPackageRoots: [],
-          disableRecursiveComponentRoots: new Set<string>(),
-          asyncSubPackageRootMap: new Map<string, string>(),
-          asyncOnly: true,
-          asyncRules,
-        }
+        throw new Error('[taro asyncSubPackage] 配置项缺少 mainPackageRoot，请为每个 subPackageIndie 项配置主入口 root；文件级异步归属请改用顶层 asyncSubPackages。')
       }
-
       const mainParsed = this.parseIndieRootConfig(mainPackageRoot)
       if (!appPages.has(mainParsed.originalPath) && this.options.logger?.quiet === false) {
         printLog(processTypeEnum.WARNING, 'subPackageIndie', `mainPackageRoot.path "${mainParsed.originalPath}" 未配置在 app.config 的 pages 中，请补充 pages: [..., "${mainParsed.originalPath}"]，否则主包入口页面文件不会生成。`)
@@ -444,8 +420,6 @@ export default class SubPackageIndiePlugin {
         subPackageRoots: Array.from(new Set(subParsedList.map(sub => sub.path))),
         disableRecursiveComponentRoots,
         asyncSubPackageRootMap,
-        asyncOnly: false,
-        asyncRules: [],
       }
     })
 
@@ -456,20 +430,13 @@ export default class SubPackageIndiePlugin {
     if (!this.allIndieRootsCache) {
       this.allIndieRootsCache = Array.from(new Set(
         this.getSubPackageIndieConfigs().flatMap(({ mainPackageRoot, subPackageRoots }) => [
-          ...(mainPackageRoot ? [mainPackageRoot] : []),
+          mainPackageRoot,
           ...subPackageRoots,
         ])
       ))
     }
 
     return this.allIndieRootsCache
-  }
-
-  /**
-   * async-only 模式下的异步归属规则。
-   */
-  getAsyncSubPackageRules (): NormalizedAsyncSubPackageRule[] {
-    return this.getSubPackageIndieConfigs().flatMap(config => config.asyncRules)
   }
 
   /**
@@ -503,17 +470,9 @@ export default class SubPackageIndiePlugin {
     }
 
     for (const config of this.getSubPackageIndieConfigs()) {
-      if (config.asyncOnly) {
-        for (const rule of config.asyncRules) {
-          for (const asyncRoot of rule.asyncRoots) {
-            push('', asyncRoot)
-          }
-        }
-        continue
-      }
       const asyncRoots = new Set(config.asyncSubPackageRootMap.values())
       for (const asyncRoot of asyncRoots) {
-        push(config.mainPackageRoot!, asyncRoot)
+        push(config.mainPackageRoot, asyncRoot)
       }
     }
 
@@ -1354,6 +1313,7 @@ registerRecursiveComponent(${args.join(', ')})
     if (!fc?.content) return
 
     delete fc.content.subPackageIndie
+    delete fc.content.asyncSubPackages
     compilation.assets[this.miniPlugin.getConfigPath(appCfgName)] = new RawSource(JSON.stringify(fc.content, null, 2))
   }
 

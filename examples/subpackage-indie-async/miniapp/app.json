@@ -23,6 +23,11 @@
       "root": "pages/order/pages/shared-async",
       "pages": ["index"],
       "independent": false
+    },
+    {
+      "root": "pages/order/pages/heavy-async",
+      "pages": ["index"],
+      "independent": false
     }
   ],
   "window": {

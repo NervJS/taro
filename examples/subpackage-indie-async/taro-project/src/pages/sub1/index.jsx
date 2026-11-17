@@ -30,6 +30,7 @@ export default function Sub1Page() {
   const [status, setStatus] = useState('')
   const [OnlySub1Comp, setOnlySub1Comp] = useState(null)
   const [SharedComp, setSharedComp] = useState(null)
+  const [HeavyComp, setHeavyComp] = useState(null)
 
   // 仅 sub1 消费：chunk 归属 pages/sub1-async
   const loadOnlySub1 = useCallback(async () => {
@@ -59,6 +60,19 @@ export default function Sub1Page() {
     }
   }, [])
 
+  const loadHeavy = useCallback(async () => {
+    Taro.showLoading({ title: '动态加载中' })
+    try {
+      const module = await import('../../components/heavy-content/index')
+      setHeavyComp(() => module.default)
+      setStatus('HeavyContent 加载完成（pages/heavy-async）')
+    } catch (err) {
+      setStatus(`HeavyContent 加载失败：${err.message}`)
+    } finally {
+      Taro.hideLoading()
+    }
+  }, [])
+
   return (
     <View className="sub1-page">
       <View className="header">
@@ -70,6 +84,9 @@ export default function Sub1Page() {
         </Button>
         <Button className="button" onClick={loadShared}>
           动态导入 SharedBySub1Sub2
+        </Button>
+        <Button className="button" onClick={loadHeavy}>
+          动态导入 HeavyContent
         </Button>
       </View>
       {!!status && (
@@ -86,6 +103,7 @@ export default function Sub1Page() {
 
       {OnlySub1Comp && <OnlySub1Comp />}
       {SharedComp && <SharedComp />}
+      {HeavyComp && <HeavyComp />}
     </View>
   )
 }

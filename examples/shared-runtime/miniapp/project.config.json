@@ -1,7 +1,7 @@
 {
   "description": "项目配置文件",
   "projectname": "shared-runtime-miniapp",
-  "appid": "wx7ea1d2e6bea65c67",
+  "appid": "touristappid",
   "setting": {
     "urlCheck": true,
     "es6": false,
