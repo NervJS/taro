@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 
-import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 function getItem (key) {
@@ -49,12 +49,17 @@ function setItems (kvList: Taro.batchSetStorage.kv[]) {
   const items = kvList.map(({ key, value }) => [key, serializeItem(value)])
   // 写入失败（如超出存储配额）时恢复已写入的旧值，保证批量写入要么全部成功要么不改变数据
   const previous = items.map(([key]) => [key, localStorage.getItem(key)] as const)
+  let written = 0
   try {
-    items.forEach(([key, item]) => localStorage.setItem(key, item))
+    items.forEach(([key, item]) => {
+      localStorage.setItem(key, item)
+      written++
+    })
   } catch (e) {
-    // 先移除本批次涉及的 key 以释放空间，再恢复旧值；单项恢复失败不应中断其余恢复
-    previous.forEach(([key]) => localStorage.removeItem(key))
-    previous.forEach(([key, item]) => {
+    // 只回滚已经写入的 key：先移除以释放空间，再恢复旧值；单项恢复失败不应中断其余恢复
+    const touched = previous.slice(0, written)
+    touched.forEach(([key]) => localStorage.removeItem(key))
+    touched.forEach(([key, item]) => {
       if (item === null) return
       try {
         localStorage.setItem(key, item)
