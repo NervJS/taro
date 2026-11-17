@@ -205,6 +205,14 @@ describe('batch storage', () => {
       expect(Taro.batchGetStorageSync(['raw'])).toEqual([''])
     })
 
+    test('should throw when localStorage is not accessible', () => {
+      jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+        throw new Error('access denied')
+      })
+
+      expect(() => Taro.batchGetStorageSync(['foo'])).toThrow('access denied')
+    })
+
     test('keyList should be an array of strings', () => {
       expect(Taro.batchGetStorageSync()).toEqual([])
       expect(console.error).toHaveBeenNthCalledWith(1, 'batchGetStorageSync:fail parameter error: parameter.keyList should be Array instead of Undefined')
@@ -244,6 +252,21 @@ describe('batch storage', () => {
       await expect(Taro.batchGetStorage({ keyList: ['arr', 'missing', 'foo'], success, fail, complete })).resolves.toEqual(expected)
       expect(success).toHaveBeenCalledWith(expected)
       expect(fail).not.toHaveBeenCalled()
+      expect(complete).toHaveBeenCalledWith(expected)
+    })
+
+    test('should fail when localStorage is not accessible', async () => {
+      jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+        throw new Error('access denied')
+      })
+      const success = jest.fn()
+      const fail = jest.fn()
+      const complete = jest.fn()
+      const expected = { errMsg: 'batchGetStorage:fail access denied' }
+
+      await expect(Taro.batchGetStorage({ keyList: ['foo'], success, fail, complete })).rejects.toEqual(expected)
+      expect(success).not.toHaveBeenCalled()
+      expect(fail).toHaveBeenCalledWith(expected)
       expect(complete).toHaveBeenCalledWith(expected)
     })
   })

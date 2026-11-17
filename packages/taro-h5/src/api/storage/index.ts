@@ -4,9 +4,17 @@ import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 function getItem (key) {
+  let raw
+  try {
+    raw = localStorage.getItem(key)
+  } catch (e) {} // eslint-disable-line no-empty
+  return parseItem(raw)
+}
+
+function parseItem (raw: string | null | undefined) {
   let item
   try {
-    item = JSON.parse(localStorage.getItem(key) || '')
+    item = JSON.parse(raw || '')
   } catch (e) {} // eslint-disable-line no-empty
 
   // 只返回使用 Taro.setStorage API 存储的数据
@@ -70,8 +78,10 @@ function setItems (kvList: Taro.batchSetStorage.kv[]) {
 }
 
 function getItems (keyList: string[]) {
-  return keyList.map(key => {
-    const { result, data } = getItem(key)
+  // 先读取原始数据，使存储不可用（如浏览器禁止访问）时抛出异常，而不是当作 key 不存在
+  const rawList = keyList.map(key => localStorage.getItem(key))
+  return rawList.map(raw => {
+    const { result, data } = parseItem(raw)
     return result ? data : ''
   })
 }
@@ -317,7 +327,13 @@ export const batchGetStorage: typeof Taro.batchGetStorage = <T>(options) => {
     return handle.fail({ errMsg })
   }
 
-  return handle.success({ dataList: getItems(keyList) })
+  let dataList: ReturnType<typeof getItems>
+  try {
+    dataList = getItems(keyList)
+  } catch (e) {
+    return handle.fail({ errMsg: e?.message || String(e) })
+  }
+  return handle.success({ dataList })
 }
 
 export * from './background-fetch'
