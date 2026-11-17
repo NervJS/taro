@@ -123,10 +123,29 @@ describe('actionSheet', () => {
     expect(list.childNodes[3]).toHaveTextContent(itemC)
 
     setTimeout(() => {
-      expect(actionSheet).toBeVisible()
+      expect(actionSheet.lastChild).toBeVisible()
       expect(mask).toBeVisible()
       list.childNodes[1].click()
     }, 200)
+  })
+
+  test('should fade its mask and content instead of the wrapper to keep global stacking levels', done => {
+    Taro.showActionSheet({
+      itemList: ['A', 'B']
+    })
+      .then(() => done())
+
+    const actionSheet: any = document.body.lastChild
+    const [mask, content]: any = actionSheet.childNodes
+
+    // opacity < 1 turns an element into a stacking context, so the wrapper must not be faded
+    expect(actionSheet.style.opacity).toBe('')
+    expect(actionSheet.style.zIndex).toBe('')
+    expect(mask.style.zIndex).toBe('1000')
+    expect(content.style.zIndex).toBe('4999')
+    expect(content.style.transition).toContain('transform')
+
+    content.firstChild.childNodes[1].click()
   })
 
   test('should hide actionSheet when cancel was clicked', done => {
@@ -146,7 +165,7 @@ describe('actionSheet', () => {
     cancel.click()
     setTimeout(() => {
       const expectObj = { errMsg: 'showActionSheet:fail cancel' }
-      expect(actionSheet).not.toBeVisible()
+      expect(actionSheet.lastChild).not.toBeVisible()
       expect(success.mock.calls.length).toBe(0)
       expect(fail).toHaveBeenCalledWith(expectObj)
       expect(complete).toHaveBeenCalledWith(expectObj)
@@ -170,7 +189,7 @@ describe('actionSheet', () => {
     mask.click()
     setTimeout(() => {
       const expectObj = { errMsg: 'showActionSheet:fail cancel' }
-      expect(actionSheet).not.toBeVisible()
+      expect(actionSheet.lastChild).not.toBeVisible()
       expect(success.mock.calls.length).toBe(0)
       expect(fail).toHaveBeenCalledWith(expectObj)
       expect(complete).toHaveBeenCalledWith(expectObj)

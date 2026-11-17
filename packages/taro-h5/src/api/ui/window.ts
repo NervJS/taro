@@ -7,8 +7,8 @@ const callbackManager = new CallbackManager()
 
 const resizeListener = () => {
   callbackManager.trigger({
-    windowWidth: window.screen.width,
-    windowHeight: window.screen.height
+    windowWidth: document.documentElement.clientWidth,
+    windowHeight: document.documentElement.clientHeight
   })
 }
 
@@ -37,4 +37,5 @@ export const offWindowResize: typeof Taro.offWindowResize = callback => {
   }
 }
 
-export const checkIsPictureInPictureActive = /* @__PURE__ */ temporarilyNotSupport('checkIsPictureInPictureActive')
+export const checkIsPictureInPictureActive: typeof Taro.checkIsPictureInPictureActive = () =>
+  typeof document !== 'undefined' && Boolean(document.pictureInPictureElement)

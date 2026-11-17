@@ -1,5 +1,5 @@
 import { addLeadingSlash } from '@tarojs/runtime'
-import { Action, createBrowserHistory, createHashHistory } from 'history'
+import { Action, createBrowserHistory, createHashHistory, createPath } from 'history'
 
 import { RouterConfig } from './router'
 
@@ -28,17 +28,12 @@ class MpaHistory implements History {
   }
 
   parseUrl (to: Partial<Path>) {
-    let url = to.pathname || ''
-    if (RouterConfig.isPage(addLeadingSlash(url))) {
-      url += '.html'
+    let pathname = to.pathname || ''
+    if (RouterConfig.isPage(addLeadingSlash(pathname))) {
+      pathname += '.html'
     }
-    if (to.search) {
-      url += `?${to.search}`
-    }
-    if (to.hash) {
-      url += to.hash.startsWith('#') ? to.hash : `#${to.hash}`
-    }
-    return url
+    // Note: search 和 hash 可能已带有 ? 和 # 前缀（如 parsePath 的解析结果），交由 createPath 统一拼接
+    return createPath({ ...to, pathname })
   }
 
   push (to: Partial<Path>, _state: Record<string, unknown> = {}): void {

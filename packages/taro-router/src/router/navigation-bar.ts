@@ -98,10 +98,12 @@ export default class NavigationBarHandler {
 
   setFnBtnState () {
     const currentRouter = this.pageContext.currentPage
-    if (this.pageContext.isTabBar(currentRouter) || this.pageContext.homePage === currentRouter) {
+    if (this.pageContext.isTabBar(currentRouter)) {
       this.fnBtnToggleToNone()
     } else if (stacks.length > 1) {
       this.fnBtnToggleToBack()
+    } else if (this.pageContext.homePage === currentRouter) {
+      this.fnBtnToggleToNone()
     } else {
       this.fnBtnToggleToHome()
     }
@@ -232,19 +234,18 @@ export default class NavigationBarHandler {
     this.navigationBarElement.classList.remove('taro-navigation-bar-back-icon')
   }
 
-  setNavigationBarVisible (show?) {
+  setNavigationBarVisible (show?: boolean) {
     if (!this.navigationBarElement) return
 
-    let shouldShow
-    if (typeof show === 'boolean') {
-      shouldShow = show
-    } else {
-      shouldShow = this.pageContext.config.window?.navigationStyle
+    let shouldShow = show
+    if (typeof shouldShow !== 'boolean') {
+      let navigationStyle = this.pageContext.config.window?.navigationStyle
       if (typeof this.pageContext.pageConfig?.navigationStyle === 'string') {
-        shouldShow = this.pageContext.pageConfig.navigationStyle
+        navigationStyle = this.pageContext.pageConfig.navigationStyle
       }
+      shouldShow = navigationStyle === 'default'
     }
-    if (shouldShow === 'default') {
+    if (shouldShow) {
       this.navigationBarElement.classList.add('taro-navigation-bar-show')
       this.navigationBarElement.classList.remove('taro-navigation-bar-hide')
     } else {

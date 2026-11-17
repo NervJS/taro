@@ -87,8 +87,6 @@ export default class Modal {
       // wrapper
       this.el = document.createElement('div')
       this.el.className = 'taro__modal'
-      this.el.style.opacity = '0'
-      this.el.style.transition = 'opacity 0.2s linear'
 
       const eventHandler = (e) => {
         e.stopPropagation()
@@ -167,9 +165,12 @@ export default class Modal {
       this.el.appendChild(mask)
       this.el.appendChild(modal)
 
+      // Note: 渐隐渐显作用在固定定位的遮罩与内容上而非容器上，容器带 opacity 会形成层叠上下文，使遮罩与内容无法分别参与全局层级
+      this.fade('0', 'opacity 0.2s linear')
+
       // show immediately
       document.body.appendChild(this.el)
-      setTimeout(() => { this.el.style.opacity = '1' }, 0)
+      setTimeout(() => { this.fade('1') }, 0)
 
       // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
       this.currentPath = Current.page?.path ?? getCurrentPath()
@@ -235,10 +236,17 @@ export default class Modal {
 
       // show
       this.el.style.display = 'block'
-      setTimeout(() => { this.el.style.opacity = '1' }, 0)
+      setTimeout(() => { this.fade('1') }, 0)
 
       // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
       this.currentPath = Current.page?.path ?? getCurrentPath()
+    })
+  }
+
+  fade (opacity: string, transition?: string) {
+    Array.from(this.el.children).forEach((child: HTMLElement) => {
+      child.style.opacity = opacity
+      if (transition) child.style.transition = transition
     })
   }
 
@@ -249,7 +257,7 @@ export default class Modal {
     this.currentPath = null
 
     this.hideOpacityTimer = setTimeout(() => {
-      this.el.style.opacity = '0'
+      this.fade('0')
       this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 200)
     }, 0)
   }

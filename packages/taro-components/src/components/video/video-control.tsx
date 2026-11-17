@@ -28,8 +28,10 @@ export class VideoControl implements ComponentInterface {
   @Prop() showPlayBtn: boolean
   @Prop() showProgress: boolean
 
+  // Note: ScrollView stops touchmove from bubbling by default, so listen in the capture phase to keep dragging working inside it
   @Listen('touchmove', {
-    target: 'document'
+    target: 'document',
+    capture: true
   })
   onDocumentTouchMove (e: TouchEvent) {
     if (!this.isDraggingProgressBall) return

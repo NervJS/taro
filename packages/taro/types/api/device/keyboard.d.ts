@@ -43,7 +43,8 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
-     * @supported weapp, alipay, swan, jd, tt, rn, harmony_hybrid, harmony
+     * @supported weapp, alipay, swan, jd, tt, h5, rn, harmony_hybrid, harmony
+     * @h5 通过让当前聚焦的 input、textarea 或 contenteditable 元素失焦来收起键盘
      * @example
      * ```tsx
      * Taro.hideKeyboard({
@@ -57,7 +58,7 @@ declare module '../../index' {
     hideKeyboard(option?: hideKeyboard.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 在input、textarea等focus之后，获取输入框的光标位置。注意：只有在focus的时候调用此接口才有效。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.getSelectedTextRange({

@@ -63,8 +63,8 @@ export class Node extends StatefulEventBus<NodeState> {
     this.setupSubscriptions()
   }
 
-  attachMeasureElement (el: HTMLElement | null) {
-    this._measureEl = el
+  attachMeasureElement (el: HTMLElement | null, previousEl?: HTMLElement) {
+    if (el || this._measureEl === previousEl) this._measureEl = el
   }
 
   private setupSubscriptions() {
