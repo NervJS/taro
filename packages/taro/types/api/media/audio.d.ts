@@ -742,8 +742,8 @@ declare module '../../index' {
      */
     decodeAudioData(
       audioData: ArrayBuffer,
-      successCallback: (buffer: AudioBuffer) => void,
-      errorCallback: (error: any) => void
+      successCallback?: (buffer: AudioBuffer) => void,
+      errorCallback?: (error: any) => void
     ): Promise<AudioBuffer>
   }
 
