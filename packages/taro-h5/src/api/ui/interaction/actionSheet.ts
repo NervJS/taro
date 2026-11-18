@@ -91,8 +91,6 @@ export default class ActionSheet {
       // wrapper
       this.el = document.createElement('div')
       this.el.className = 'taro__actionSheet'
-      this.el.style.opacity = '0'
-      this.el.style.transition = 'opacity 0.2s linear'
 
       // mask
       this.mask = document.createElement('div')
@@ -148,6 +146,11 @@ export default class ActionSheet {
       this.el.appendChild(this.mask)
       this.el.appendChild(this.actionSheet)
 
+      // Note: 渐隐渐显作用在固定定位的遮罩与内容上而非容器上，容器带 opacity 会形成层叠上下文，使遮罩与内容无法分别参与全局层级
+      this.mask.style.transition = 'opacity 0.2s linear'
+      this.actionSheet.style.transition = 'transform .3s, opacity 0.2s linear'
+      this.fade('0')
+
       // callbacks
       const cb = () => {
         this.hide()
@@ -159,7 +162,7 @@ export default class ActionSheet {
       // show immediately
       document.body.appendChild(this.el)
       setTimeout(() => {
-        this.el.style.opacity = '1'
+        this.fade('1')
         setTransform(this.actionSheet, 'translate(0, 0)')
       }, 0)
     })
@@ -227,9 +230,15 @@ export default class ActionSheet {
       // show
       this.el.style.display = 'block'
       setTimeout(() => {
-        this.el.style.opacity = '1'
+        this.fade('1')
         setTransform(this.actionSheet, 'translate(0, 0)')
       }, 0)
+    })
+  }
+
+  fade (opacity: string) {
+    Array.from(this.el.children).forEach((child: HTMLElement) => {
+      child.style.opacity = opacity
     })
   }
 
@@ -238,7 +247,7 @@ export default class ActionSheet {
     if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)
 
     this.hideOpacityTimer = setTimeout(() => {
-      this.el.style.opacity = '0'
+      this.fade('0')
       setTransform(this.actionSheet, 'translate(0, 100%)')
       this.hideDisplayTimer = setTimeout(() => {
         this.el.style.display = 'none'

@@ -57,7 +57,7 @@ describe('toast', () => {
 
     const toast: any = document.body.lastChild
     expect(toast.childNodes.length).toBe(2)
-    expect(toast).not.toBeVisible()
+    expect(toast.lastChild).not.toBeVisible()
 
     const mask = toast.firstChild
     const title = toast.lastChild.lastChild
@@ -68,7 +68,7 @@ describe('toast', () => {
     expect(complete).toHaveBeenCalledWith(errObj)
 
     await delay(200)
-    expect(toast).toBeVisible()
+    expect(toast.lastChild).toBeVisible()
     expect(mask).not.toBeVisible()
 
     await delay(2000)
@@ -130,16 +130,55 @@ describe('toast', () => {
     expect(mask).toBeVisible()
   })
 
+  test('should fade its content instead of the wrapper to keep global stacking levels', () => {
+    Taro.showToast({
+      title: 'hello',
+      mask: true
+    })
+
+    const toast: any = document.body.lastChild
+    const [mask, content]: any = toast.childNodes
+
+    // opacity < 1 turns an element into a stacking context, so the wrapper must not be faded
+    expect(toast.style.opacity).toBe('')
+    expect(toast.style.zIndex).toBe('')
+    expect(mask.style.zIndex).toBe('1000')
+    expect(content.style.zIndex).toBe('5000')
+  })
+
+  test('should keep fading the content after being shown again', async () => {
+    Taro.showToast({
+      title: 'hello',
+      duration: 100
+    })
+
+    const toast: any = document.body.lastChild
+    const content = toast.lastChild
+
+    await delay(500)
+    expect(toast).not.toBeVisible()
+    expect(content.style.opacity).toBe('0')
+
+    Taro.showToast({
+      title: 'again',
+      duration: 100
+    })
+    expect(content.style.transition).toContain('opacity')
+    await delay(50)
+    expect(content).toBeVisible()
+    expect(content.style.opacity).toBe('1')
+  })
+
   test('should close after 5 second', async () => {
     Taro.showToast({
       title: 'hello',
       duration: 3000
     })
 
-    const toast = document.body.lastChild
+    const toast: any = document.body.lastChild
 
     await delay(2000)
-    expect(toast).toBeVisible()
+    expect(toast.lastChild).toBeVisible()
 
     await delay(4000)
     expect(toast).not.toBeVisible()

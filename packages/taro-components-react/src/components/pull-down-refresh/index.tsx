@@ -97,7 +97,8 @@ class PullDownRefresh extends React.Component<IProps, IState> {
     this.listeners = [
       [
         '__taroStartPullDownRefresh',
-        ({ successHandler, errorHandler }) => {
+        ({ claim, successHandler, errorHandler }) => {
+          if (!claim(this.contentRef)) return
           try {
             this.triggerPullDownRefresh(true)
             successHandler({
@@ -112,7 +113,8 @@ class PullDownRefresh extends React.Component<IProps, IState> {
       ],
       [
         '__taroStopPullDownRefresh',
-        ({ successHandler, errorHandler }) => {
+        ({ claim, successHandler, errorHandler }) => {
+          if (!claim(this.contentRef)) return
           try {
             this.triggerPullDownRefresh(false)
             successHandler({

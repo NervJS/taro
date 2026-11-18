@@ -186,14 +186,14 @@ export class SelectorQuery implements Taro.SelectorQuery {
   }
 
   select (selector: string) {
-    // 小程序里跨自定义组件的后代选择器 '>>>' 在 h5 替换为普通后代选择器 '>'
-    if (typeof selector === 'string') selector = selector.replace('>>>', '>')
+    // H5 中将所有跨自定义组件的后代选择器 '>>>' 转换为普通后代选择器
+    if (typeof selector === 'string') selector = selector.replace(/>>>/g, ' ')
     return new NodesRef(selector, this, true)
   }
 
   selectAll (selector: string) {
-    // 小程序里跨自定义组件的后代选择器 '>>>' 在 h5 替换为普通后代选择器 '>'
-    if (typeof selector === 'string') selector = selector.replace('>>>', '>')
+    // H5 中将所有跨自定义组件的后代选择器 '>>>' 转换为普通后代选择器
+    if (typeof selector === 'string') selector = selector.replace(/>>>/g, ' ')
     return new NodesRef(selector, this, false)
   }
 

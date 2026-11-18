@@ -37,7 +37,7 @@ describe('loading', () => {
 
     const toast: any = document.body.lastChild
     expect(toast.childNodes.length).toBe(2)
-    expect(toast).not.toBeVisible()
+    expect(toast.lastChild).not.toBeVisible()
 
     const mask = toast.firstChild
     const icon: any = toast.lastChild.firstChild
@@ -48,7 +48,7 @@ describe('loading', () => {
     expect(complete).toHaveBeenCalledWith(errObj)
 
     setTimeout(() => {
-      expect(toast).toBeVisible()
+      expect(toast.lastChild).toBeVisible()
       expect(mask).not.toBeVisible()
       done()
     }, 200)
