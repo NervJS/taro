@@ -1,36 +1,20 @@
-// async-only 模式：省略 mainPackageRoot，让 sub1、sub2 直接成为已声明分包页面。
-// 业务主包可以为空，但必须有已声明的分包页面。
+// 顶层 asyncSubPackages 按源码模块指定动态 import 产物的输出目录，
+// 不依赖 subPackageIndie 是否存在。
 export default {
   pages: [],
   subPackages: [
     { root: 'pages/sub1', pages: ['index'] },
     { root: 'pages/sub2', pages: ['index'] },
   ],
-  // async-only 模式下 subPackageRoots 保存异步归属规则；
-  // 匹配到的消费者页面集合决定动态 import 的 chunk 落到哪个异步分包目录。
-  subPackageIndie: [
+  // test 匹配 sourceRoot 相对路径，root 为 outputRoot 相对目录。
+  asyncSubPackages: [
+    { test: 'pages/sub1/OnlySub1', root: 'pages/sub1-async' },
+    { test: 'pages/sub2/OnlySub2', root: 'pages/sub2-async' },
+    { test: 'components/SharedBySub1Sub2', root: 'pages/shared-async' },
     {
-      subPackageRoots: [
-        {
-          // 仅 sub1 消费的动态模块 → pages/sub1-async
-          path: 'pages/sub1/index',
-          asyncSubPackage: { asyncRoot: 'pages/sub1-async' },
-        },
-        {
-          // 仅 sub2 消费的动态模块 → pages/sub2-async
-          path: 'pages/sub2/index',
-          asyncSubPackage: { asyncRoot: 'pages/sub2-async' },
-        },
-        {
-          // sub1 和 sub2 共同消费的动态模块 → 共享异步分包；
-          // 多个物理目标时 maxSize 必填，超预算自动装箱到下一个目录。
-          path: /^pages\/sub\d+\/index$/,
-          asyncSubPackage: {
-            asyncRoot: ['pages/shared-async', 'pages/shared-async-2'],
-            maxSize: 1500000,
-          },
-        },
-      ],
+      test: 'components/heavy-content/index',
+      root: 'pages/heavy-async',
+      priority: 10,
     },
   ],
   window: {

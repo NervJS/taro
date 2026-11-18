@@ -1,0 +1,83 @@
+.heavy-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  border: 1rpx solid #e0e0e0;
+  padding: 24rpx;
+  margin-top: 24rpx;
+  border-radius: 12rpx;
+  background: #fafafa;
+}
+.heavy-logo {
+  width: 96rpx;
+  height: 96rpx;
+}
+.heavy-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+.heavy-meta {
+  font-size: 24rpx;
+  color: #888;
+}
+.heavy-deep {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  padding: 16rpx;
+  background: #edf4ff;
+  border: 2rpx solid #c4d6ff;
+  border-radius: 8rpx;
+}
+.heavy-deep-heading {
+  font-size: 26rpx;
+  font-weight: 700;
+  color: #12307a;
+}
+.heavy-deep-note {
+  font-size: 22rpx;
+  color: #4f6289;
+  line-height: 1.5;
+}
+/* 深层后代选择器：只在异步 chunk 自重组件内命中，且层级越深颜色越深 */
+.heavy-deep-node {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  padding: 10rpx;
+  margin-top: 8rpx;
+  background: hsla(0, 0%, 100%, 0.72);
+  border: 2rpx dashed rgba(47, 91, 210, 0.35);
+  border-radius: 8rpx;
+}
+.heavy-deep-node .heavy-deep-title {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #1b4fd6;
+  margin-bottom: 4rpx;
+}
+.heavy-deep-node.heavy-deep-leaf {
+  background: #fff;
+  border-color: rgba(13, 94, 180, 0.55);
+  box-shadow: inset 6rpx 0 0 #2f5bd2;
+}
+.heavy-deep-node .heavy-deep-copy {
+  display: block;
+  font-size: 20rpx;
+  line-height: 1.5;
+  color: #54637d;
+}
+.heavy-deep-node .heavy-deep-title.heavy-text-primary {
+  color: #0b3d91;
+}
+.heavy-deep-node .heavy-deep-copy.heavy-text-secondary {
+  color: #5f6f93;
+}
+.heavy-level-0 { margin-left: 0; }
+.heavy-level-1 { margin-left: 12rpx; }
+.heavy-level-2 { margin-left: 24rpx; }
+.heavy-level-3 { margin-left: 36rpx; }
+.heavy-level-4 { margin-left: 48rpx; }
+.heavy-level-5 { margin-left: 60rpx; }

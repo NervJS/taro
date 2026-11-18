@@ -412,6 +412,7 @@ export default class TaroHarmonyPlugin {
     }
     delete appConfig.forceCustomWrapper
     delete appConfig.subPackageIndie
+    delete appConfig.asyncSubPackages
     return appConfig as AppConfig
   }
 

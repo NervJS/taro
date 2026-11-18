@@ -337,42 +337,58 @@ declare module './index' {
     plugins?: Plugins
   }
 
+  /** 匹配 sourceRoot 相对源码模块路径的谓词 */
+  type AsyncResourcePredicate = (resource: string) => boolean
+
+  /** 源码模块匹配条件，类比 webpack module.rules 的 test/include/exclude */
+  type AsyncResourceCondition = string | RegExp | AsyncResourcePredicate | Array<string | RegExp | AsyncResourcePredicate>
+
+  /** 顶层异步分包规则：匹配源码模块并指定其动态 import 产物的输出目录 */
+  interface AsyncSubPackageRule {
+    /**
+     * 匹配源码模块。
+     * resource 为相对于 sourceDir 的路径，分隔符统一为 /。
+     */
+    test: AsyncResourceCondition
+    /** 可选：进一步限定匹配范围。 */
+    include?: AsyncResourceCondition
+    /** 可选：命中即排除当前规则。 */
+    exclude?: AsyncResourceCondition
+    /**
+     * 异步子包根路径（相对于 outputRoot）。
+     * 字符串表示固定目标；数组表示有序候选目标，由 maxSize 预算分配算法选择。
+     */
+    root: string | string[]
+    /** 多条规则命中时较大的优先，默认 0。 */
+    priority?: number
+    /**
+     * 每个物理目标的字节预算；归一化后存在多个不同 root 时必填。
+     * 口径为 chunk 内模块的未压缩体积估算，不等于最终完整包体积。
+     */
+    maxSize?: number
+  }
+
   /** 子分包独立模板 root 配置项，可以是路径字符串或包含额外选项的对象 */
   type SubPackageIndieRootConfig = string | {
-    /**
-     * 分包根路径（相对于 sourceDir）。
-     * 省略 mainPackageRoot 的 async-only 模式下，支持 RegExp 或数组，用于匹配已声明页面。
-     */
-    path: string | RegExp | Array<string | RegExp>
+    /** 分包根路径（相对于 sourceDir） */
+    path: string
     /** 是否禁用递归组件（comp/custom-wrapper/recursive-component）的生成。 */
     disableRecursiveComponent?: boolean
     /**
-     * 异步分包配置。配置 asyncRoot 后启用。
-     * async-only 模式下按「消费页面集合」决定动态 import 产物的物理归属。
+     * 兼容配置，继续支持 main 已有的 source root 异步归属语义。
+     * 已有项目无需迁移；文件级归属需求可使用顶层 asyncSubPackages。
      */
     asyncSubPackage?: {
-      /**
-       * 异步子包根路径（相对于 sourceDir），必填。
-       * 传数组时表示多个物理目标，必须同时配置 maxSize。
-       */
-      asyncRoot: string | string[]
-      /**
-       * 每个物理目标的字节预算；asyncRoot 为数组时必填。
-       * 预算口径是 chunk 内模块的未压缩体积估算（module.size 累加），
-       * 与压缩后最终产物字节数不是同一口径；构建结束时会按最终产物字节复核并输出 warning。
-       */
-      maxSize?: number
+      /** 异步子包根路径（相对于 sourceDir）。多个 root 可以配置相同的 target。 */
+      asyncRoot: string
     }
   }
 
   /** 子分包独立模板配置项 */
   interface SubPackageIndieConfig {
-    /**
-     * 主入口分包根路径（相对于 sourceDir），runtime chunks 将生成到此目录。
-     * 省略时进入 async-only 模式：subPackageRoots 变为异步归属规则，业务包保留根级 app.js/runtime.js。
-     */
-    mainPackageRoot?: SubPackageIndieRootConfig
-    /** 子组件分包根路径列表；async-only 模式下为异步归属规则列表 */
+    /** 主入口分包根路径（相对于 sourceDir），runtime chunks 将生成到此目录 */
+    mainPackageRoot: SubPackageIndieRootConfig
+    /** 子组件分包根路径列表，只生成独立的模板文件 */
     subPackageRoots?: SubPackageIndieRootConfig[]
   }
 
@@ -532,6 +548,17 @@ declare module './index' {
      * @since 4.1.x
      */
     subPackageIndie?: SubPackageIndieConfig[]
+    /** 微信小程序异步分包规则（用于 newBlended 模式），按源码模块指定动态 import 产物目录；其他平台会忽略该配置
+     * @example
+     * ```js
+     * asyncSubPackages: [
+     *   { test: 'components/heavy-content/index', root: 'async/heavy' },
+     *   { test: /^components\/reports\//, root: ['async/reports', 'async/reports-2'], maxSize: 1500000 },
+     * ]
+     * ```
+     * @since 4.3.x
+     */
+    asyncSubPackages?: AsyncSubPackageRule[]
     /** Worker 代码放置的目录
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
      * @since 1.9.90
