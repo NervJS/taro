@@ -38,7 +38,7 @@
     <img src="https://img.shields.io/github/release-date/NervJS/taro" alt="GitHub Release Date">
   </a>
   <p>
-    <a href="https://github.com/NervJS/taro/blob/next/README.md">简体中文</a> | <a href="https://github.com/NervJS/taro/blob/next/README_EN.md">English</a>
+    <a href="./README.md">简体中文</a> | <a href="./README_EN.md">English</a>
   </p>
 </div>
 
