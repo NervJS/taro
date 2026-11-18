@@ -5,6 +5,7 @@ describe('previewMedia', () => {
   afterEach(() => {
     eventCenter.trigger('__taroRouterChange')
     jest.restoreAllMocks()
+    document.body.replaceChildren()
   })
 
   it('opens mixed sources at the requested index and releases video on close', async () => {
@@ -46,6 +47,54 @@ describe('previewMedia', () => {
     expect(document.querySelectorAll('.preview-media')).toHaveLength(1)
     eventCenter.trigger('__taroRouterChange')
     expect(document.querySelector('.preview-media')).toBeNull()
+  })
+
+  it('switches media with arrow keys and follows touch navigation', async () => {
+    await Taro.previewMedia({
+      sources: [{ url: '/first.png' }, { url: '/second.png' }, { url: '/third.png' }],
+    })
+
+    const preview = document.querySelector<HTMLElement>('.preview-media')!
+    const swiper = preview.querySelector('taro-swiper-core') as HTMLElement & { current: number }
+    const closeButton = preview.querySelector('button')!
+    const arrowRight = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true })
+    closeButton.dispatchEvent(arrowRight)
+    expect(arrowRight.defaultPrevented).toBe(true)
+    expect(swiper.current).toBe(1)
+
+    closeButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true }))
+    expect(swiper.current).toBe(0)
+
+    swiper.dispatchEvent(new CustomEvent('change', { detail: { current: 1 } }))
+    closeButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }))
+    expect(swiper.current).toBe(2)
+  })
+
+  it('makes the background inert and traps Tab focus until close', async () => {
+    const background = document.createElement('button')
+    background.textContent = 'background'
+    background.inert = false
+    document.body.appendChild(background)
+    background.focus()
+
+    await Taro.previewMedia({ sources: [{ url: '/image.png' }] })
+    const closeButton = document.querySelector<HTMLButtonElement>('.preview-media button')!
+    expect(document.activeElement).toBe(closeButton)
+    expect(background.inert).toBe(true)
+
+    const tab = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true })
+    closeButton.dispatchEvent(tab)
+    expect(tab.defaultPrevented).toBe(true)
+    expect(document.activeElement).toBe(closeButton)
+
+    const shiftTab = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true, cancelable: true })
+    closeButton.dispatchEvent(shiftTab)
+    expect(shiftTab.defaultPrevented).toBe(true)
+    expect(document.activeElement).toBe(closeButton)
+
+    closeButton.click()
+    expect(background.inert).toBe(false)
+    expect(document.activeElement).toBe(background)
   })
 
   it('rejects an empty list or out-of-range index without mounting a dialog', async () => {
