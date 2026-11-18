@@ -229,18 +229,33 @@ function parseUrlBase (url: string, base?: string) {
   if (VALID_URL.test(url)) {
     fullUrl = url
   } else if (parsedBase) {
-    if (url) {
-      if (url.startsWith('//')) {
-        fullUrl = parsedBase.protocol + url
-      } else {
-        fullUrl = parsedBase.origin + (url.startsWith('/') ? url : `/${url}`)
-      }
-    } else {
-      fullUrl = parsedBase.href
-    }
+    const { protocol, origin, pathname, href } = parsedBase
+
+    fullUrl = url
+      ? url.match(/^\/\/[^/]*/)
+        ? protocol + url
+        : url.match(/^\/[^/]*/)
+          ? `${origin}${url}`
+          : pathname.endsWith('/')
+            ? `${origin}${pathname}${url}`
+            : `${origin}${pathname.replace(/[^/]+$/, url)}`
+      : href
   } else {
     throw new TypeError(`Failed to construct 'URL': Invalid URL`)
   }
 
-  return parseUrl(fullUrl)
+  return parseUrl(collapseUrl(fullUrl))
+}
+
+function collapseUrl (url: string) {
+  url = url.replace(/\/\.\/|\/\.$/g, '/')
+  let { origin, pathname, search, hash } = parseUrl(url)
+
+  for (let simplified = ''; ; pathname = simplified) {
+    simplified = pathname.replace(/\/.*?\/\.\./g, '')
+    if (simplified === pathname) break
+  }
+  pathname = pathname.replace(/^\/\.\./, '')
+
+  return `${origin}${pathname}${search}${hash}`
 }
