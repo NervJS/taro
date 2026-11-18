@@ -141,7 +141,11 @@ export function createReactApp (
     public unmount (id: string, cb: () => void) {
       const elements = this.elements
       const idx = elements.findIndex(item => item.props.tid === id)
-      elements.splice(idx, 1)
+      // idx is -1 when the page is not in elements (e.g. still queued in this.pages);
+      // splice(-1, 1) would remove the last, unrelated element tree.
+      if (idx !== -1) {
+        elements.splice(idx, 1)
+      }
       this.forceUpdate(cb)
     }
 
