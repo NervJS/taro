@@ -76,21 +76,24 @@ export const previewMedia: typeof Taro.previewMedia = async options => {
     }
     swiper.appendChild(item)
   })
-  const pauseInactiveVideos = (currentIndex: number) => {
+  const updateMediaState = (currentIndex: number) => {
     videos.forEach((video, index) => {
+      video.tabIndex = index === currentIndex ? 0 : -1
       if (index !== currentIndex && !video.paused) video.pause()
     })
   }
+  updateMediaState(activeIndex)
   const selectMedia = (index: number) => {
     const nextIndex = Math.max(0, Math.min(sources.length - 1, index))
     if (nextIndex === activeIndex) return
     activeIndex = nextIndex
     swiper.current = nextIndex
-    pauseInactiveVideos(nextIndex)
+    updateMediaState(nextIndex)
   }
   swiper.addEventListener('change', (event: CustomEvent<{ current: number }>) => {
     activeIndex = event.detail.current
-    pauseInactiveVideos(activeIndex)
+    swiper.current = activeIndex
+    updateMediaState(activeIndex)
   })
 
   closePreview?.()
@@ -123,6 +126,7 @@ export const previewMedia: typeof Taro.previewMedia = async options => {
       close()
       return
     }
+    if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && event.target instanceof HTMLVideoElement) return
     if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && sources.length > 1) {
       event.preventDefault()
       selectMedia(activeIndex + (event.key === 'ArrowLeft' ? -1 : 1))
@@ -130,7 +134,7 @@ export const previewMedia: typeof Taro.previewMedia = async options => {
     }
     if (event.key !== 'Tab') return
     const focusableElements = Array.from(container.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), video[controls], [tabindex]:not([tabindex="-1"])'
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), video[controls]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
     ))
     if (focusableElements.length === 0) {
       event.preventDefault()
