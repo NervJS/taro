@@ -70,6 +70,60 @@ describe('previewMedia', () => {
     expect(swiper.current).toBe(2)
   })
 
+  it('synchronizes the current property after touch navigation', async () => {
+    await Taro.previewMedia({
+      sources: [{ url: '/first.png' }, { url: '/second.png' }],
+    })
+
+    const preview = document.querySelector<HTMLElement>('.preview-media')!
+    const swiper = preview.querySelector('taro-swiper-core') as HTMLElement & { current: number }
+    const closeButton = preview.querySelector('button')!
+    swiper.dispatchEvent(new CustomEvent('change', { detail: { current: 1 } }))
+    expect(swiper.current).toBe(1)
+
+    closeButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true }))
+    expect(swiper.current).toBe(0)
+  })
+
+  it('leaves arrow keys to the native video controls', async () => {
+    await Taro.previewMedia({
+      sources: [{ url: '/video.mp4', type: 'video' }, { url: '/second.png' }],
+    })
+
+    const preview = document.querySelector<HTMLElement>('.preview-media')!
+    const swiper = preview.querySelector('taro-swiper-core') as HTMLElement & { current: number }
+    const video = preview.querySelector('video')!
+    const arrowRight = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true })
+    video.dispatchEvent(arrowRight)
+
+    expect(arrowRight.defaultPrevented).toBe(false)
+    expect(swiper.current).toBe(0)
+  })
+
+  it('keeps videos on inactive slides out of the Tab order', async () => {
+    await Taro.previewMedia({
+      sources: [{ url: '/first.png' }, { url: '/video.mp4', type: 'video' }],
+    })
+
+    const preview = document.querySelector<HTMLElement>('.preview-media')!
+    const swiper = preview.querySelector('taro-swiper-core') as HTMLElement & { current: number }
+    const video = preview.querySelector('video')!
+    const closeButton = preview.querySelector('button')!
+    expect(video.tabIndex).toBe(-1)
+
+    const imageTab = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true })
+    closeButton.dispatchEvent(imageTab)
+    expect(imageTab.defaultPrevented).toBe(true)
+    expect(document.activeElement).toBe(closeButton)
+
+    swiper.dispatchEvent(new CustomEvent('change', { detail: { current: 1 } }))
+    expect(video.tabIndex).toBe(0)
+    const videoTab = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true })
+    closeButton.dispatchEvent(videoTab)
+    expect(videoTab.defaultPrevented).toBe(true)
+    expect(document.activeElement).toBe(video)
+  })
+
   it('makes the background inert and traps Tab focus until close', async () => {
     const background = document.createElement('button')
     background.textContent = 'background'
