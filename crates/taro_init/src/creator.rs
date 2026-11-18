@@ -144,8 +144,9 @@ impl Creator {
       }
     }
     let base_name = file_path.file_name().unwrap().to_string_lossy().to_string();
-    if base_name.starts_with("_") {
-      file_path.set_file_name(&base_name[1..]);
+    if let Some(stripped) = base_name.strip_prefix('_') {
+      // `_xxx` in a template stands for the dotfile `.xxx`
+      file_path.set_file_name(format!(".{}", stripped));
     }
     file_path.to_string_lossy().to_string()
   }
@@ -286,5 +287,21 @@ impl Creator {
       }
     }
     Ok(())
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn underscore_template_file_maps_to_dotfile() {
+    let creator = Creator::new("/tpl".to_string(), "/dest".to_string());
+    let dest = creator.get_destination_path(&["_eslintrc.js"]);
+    assert!(
+      dest.ends_with(".eslintrc.js") && !dest.ends_with("/eslintrc.js") && !dest.ends_with("\\eslintrc.js"),
+      "expected a dotfile .eslintrc.js, got {}",
+      dest
+    );
   }
 }
