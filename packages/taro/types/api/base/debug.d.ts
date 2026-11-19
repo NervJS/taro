@@ -114,12 +114,12 @@ declare module '../../index' {
    * 开发者可以通过小程序管理后台左侧菜单“反馈管理”页面查看相关打印日志。
    *
    * 基础库默认会把 App、Page 的生命周期函数和 wx 命名空间下的函数调用写入日志。
-   * @supported weapp
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.html
    */
   interface LogManager {
     /** 写 debug 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.debug.html
      */
     debug(
@@ -127,7 +127,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 写 info 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.info.html
      */
     info(
@@ -135,7 +135,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 写 log 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.log.html
      */
     log(
@@ -143,7 +143,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 写 warn 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/LogManager.warn.html
      */
     warn(
@@ -158,13 +158,13 @@ declare module '../../index' {
    * 使用说明
    * 为帮助小程序开发者快捷地排查小程序漏洞、定位问题，我们推出了实时日志功能。从基础库2.7.1开始，开发者可通过提供的接口打印日志，日志汇聚并实时上报到小程序后台。
    * 开发者可从小程序管理后台“开发->运维中心->实时日志”进入日志查询页面，查看开发者打印的日志信息。
-   * @supported weapp
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.html
    */
 
   interface RealtimeLogManager {
     /** 添加过滤关键字
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.addFilterMsg.html
      */
     addFilterMsg(
@@ -172,7 +172,7 @@ declare module '../../index' {
       msg: string
     ): void
     /** 写 error 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.error.html
      */
     error(
@@ -180,7 +180,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 设置实时日志page参数所在的页面
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.in.html
      */
     in(
@@ -188,7 +188,7 @@ declare module '../../index' {
       pageInstance
     ): void
     /** 写 info 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.info.html
      */
     info(
@@ -196,7 +196,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 设置过滤关键字
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.setFilterMsg.html
      */
     setFilterMsg(
@@ -204,7 +204,7 @@ declare module '../../index' {
       msg: string
     ): void
     /** 获取给定标签的日志管理器实例，目前只支持在插件使用
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.tag.html
      */
     tag(
@@ -212,7 +212,7 @@ declare module '../../index' {
       tagName: string
     ): RealtimeTagLogManager
     /** 写 warn 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeLogManager.warn.html
      */
     warn(
@@ -226,12 +226,12 @@ declare module '../../index' {
    * **使用说明**
    * RealtimeTagLogManager 功能和 [RealtimeLogManager](./RealtimeLogManager) 相似，但是为了让输出的实时日志更易于分析，其具有更严格的格式要求。
    * RealtimeTagLogManager 使用时需要传入标签，调用该实例所输出的日志均会被汇集到对应标签下，同时该实例的日志只支持 key-value 格式进行输出。
-   * @supported weapp
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeTagLogManager.html
    */
   interface RealtimeTagLogManager {
     /** 添加过滤关键字
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeTagLogManager.addFilterMsg.html
      */
     addFilterMsg(
@@ -239,7 +239,7 @@ declare module '../../index' {
       msg: string
     ): void
     /** 写 error 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeTagLogManager.error.html
      */
     error(
@@ -249,7 +249,7 @@ declare module '../../index' {
       value: Object | any[] | number | string,
     ): void
     /** 写 info 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeTagLogManager.info.html
      */
     info(
@@ -259,7 +259,7 @@ declare module '../../index' {
       value: Object | any[] | number | string,
     ): void
     /** 设置过滤关键字
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeTagLogManager.setFilterMsg.html
      */
     setFilterMsg(
@@ -267,7 +267,7 @@ declare module '../../index' {
       msg: string
     ): void
     /** 写 warn 日志
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/RealtimeTagLogManager.warn.html
      */
     warn(
@@ -299,7 +299,8 @@ declare module '../../index' {
 
     /**
      * 获取实时日志管理器对象。
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 日志输出到浏览器控制台，不支持上报到后台，setFilterMsg、addFilterMsg、in 不生效
      * @example
      * ```tsx
      * const logger = Taro.getRealtimeLogManager()
@@ -312,7 +313,8 @@ declare module '../../index' {
 
     /**
      * 获取日志管理器对象。
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 日志输出到浏览器控制台，不支持 level 参数
      * @example
      * ```tsx
      * const logger = Taro.getLogManager({level: 1})
