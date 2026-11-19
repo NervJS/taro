@@ -34,9 +34,9 @@
   },
   "devDependencies": {
     "@tarojs/taro": "workspace:*",
-    "webpack": "5.91.0"
+    "webpack": "5.104.1"
   },
   "peerDependencies": {
-    "webpack": "5.91.0"
+    "webpack": "5.104.1"
   }
 }

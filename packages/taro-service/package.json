@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@tarojs/taro": "workspace:*",
-    "webpack": "^5.91.0",
+    "webpack": "^5.104.1",
     "webpack-chain": "^6.5.1"
   }
 }
