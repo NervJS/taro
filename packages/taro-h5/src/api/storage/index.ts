@@ -1,20 +1,89 @@
 import Taro from '@tarojs/api'
 
-import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 function getItem (key) {
+  let raw
+  try {
+    raw = localStorage.getItem(key)
+  } catch (e) {} // eslint-disable-line no-empty
+  return parseItem(raw)
+}
+
+function parseItem (raw: string | null | undefined) {
   let item
   try {
-    item = JSON.parse(localStorage.getItem(key) || '')
+    item = JSON.parse(raw || '')
   } catch (e) {} // eslint-disable-line no-empty
 
   // 只返回使用 Taro.setStorage API 存储的数据
-  if (item && typeof item === 'object' && item.hasOwnProperty('data')) {
+  if (item && typeof item === 'object' && Object.prototype.hasOwnProperty.call(item, 'data')) {
     return { result: true, data: item.data }
   } else {
     return { result: false }
   }
+}
+
+function serializeItem (data: unknown = '') {
+  return JSON.stringify(typeof data === 'symbol' ? { data: '' } : { data })
+}
+
+function getKvListError (kvList: unknown, name?: string) {
+  if (!Array.isArray(kvList)) {
+    return getParameterError({ name, para: 'kvList', correct: 'Array', wrong: kvList })
+  }
+  for (let i = 0; i < kvList.length; i++) {
+    const key = kvList[i]?.key
+    if (typeof key !== 'string') {
+      return getParameterError({ name, para: `kvList[${i}].key`, correct: 'String', wrong: key })
+    }
+  }
+}
+
+function getKeyListError (keyList: unknown, name?: string) {
+  if (!Array.isArray(keyList)) {
+    return getParameterError({ name, para: 'keyList', correct: 'Array', wrong: keyList })
+  }
+  for (let i = 0; i < keyList.length; i++) {
+    if (typeof keyList[i] !== 'string') {
+      return getParameterError({ name, para: `keyList[${i}]`, correct: 'String', wrong: keyList[i] })
+    }
+  }
+}
+
+function setItems (kvList: Taro.batchSetStorage.kv[]) {
+  // 先序列化全部数据，避免部分数据无法序列化时只写入了一部分
+  const items = kvList.map(({ key, value }) => [key, serializeItem(value)])
+  // 写入失败（如超出存储配额）时恢复已写入的旧值，保证批量写入要么全部成功要么不改变数据
+  const previous = items.map(([key]) => [key, localStorage.getItem(key)] as const)
+  let written = 0
+  try {
+    items.forEach(([key, item]) => {
+      localStorage.setItem(key, item)
+      written++
+    })
+  } catch (e) {
+    // 只回滚已经写入的 key：先移除以释放空间，再恢复旧值；单项恢复失败不应中断其余恢复
+    const touched = previous.slice(0, written)
+    touched.forEach(([key]) => localStorage.removeItem(key))
+    touched.forEach(([key, item]) => {
+      if (item === null) return
+      try {
+        localStorage.setItem(key, item)
+      } catch (err) {} // eslint-disable-line no-empty
+    })
+    throw e
+  }
+}
+
+function getItems (keyList: string[]) {
+  // 先读取原始数据，使存储不可用（如浏览器禁止访问）时抛出异常，而不是当作 key 不存在
+  const rawList = keyList.map(key => localStorage.getItem(key))
+  return rawList.map(raw => {
+    const { result, data } = parseItem(raw)
+    return result ? data : ''
+  })
 }
 
 // 数据缓存
@@ -28,15 +97,7 @@ export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
     return
   }
 
-  const type = typeof data
-  let obj = {}
-
-  if (type === 'symbol') {
-    obj = { data: '' }
-  } else {
-    obj = { data }
-  }
-  localStorage.setItem(key, JSON.stringify(obj))
+  localStorage.setItem(key, serializeItem(data))
 }
 
 export const setStorage: typeof Taro.setStorage = (options) => {
@@ -204,10 +265,76 @@ export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete
   return handle.success()
 }
 
-export const batchSetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchSetStorageSync')
-export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetStorage')
-export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
-export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
+export const batchSetStorageSync: typeof Taro.batchSetStorageSync = (kvList) => {
+  const errMsg = getKvListError(kvList, 'batchSetStorageSync')
+  if (errMsg) {
+    console.error(errMsg)
+    return
+  }
+
+  setItems(kvList)
+}
+
+export const batchSetStorage: typeof Taro.batchSetStorage = (options) => {
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `batchSetStorage:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
+  const { kvList, success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'batchSetStorage', success, fail, complete })
+
+  const errMsg = getKvListError(kvList)
+  if (errMsg) {
+    return handle.fail({ errMsg })
+  }
+
+  try {
+    setItems(kvList)
+  } catch (e) {
+    return handle.fail({ errMsg: e?.message || String(e) })
+  }
+  return handle.success()
+}
+
+export const batchGetStorageSync: typeof Taro.batchGetStorageSync = (keyList) => {
+  const errMsg = getKeyListError(keyList, 'batchGetStorageSync')
+  if (errMsg) {
+    console.error(errMsg)
+    return []
+  }
+
+  return getItems(keyList)
+}
+
+export const batchGetStorage: typeof Taro.batchGetStorage = <T>(options) => {
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `batchGetStorage:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+
+  const { keyList, success, fail, complete } = options
+  const handle = new MethodHandler<Taro.batchGetStorage.SuccessCallbackResult<T>>({ name: 'batchGetStorage', success, fail, complete })
+
+  const errMsg = getKeyListError(keyList)
+  if (errMsg) {
+    return handle.fail({ errMsg })
+  }
+
+  let dataList: ReturnType<typeof getItems>
+  try {
+    dataList = getItems(keyList)
+  } catch (e) {
+    return handle.fail({ errMsg: e?.message || String(e) })
+  }
+  return handle.success({ dataList })
+}
 
 export * from './background-fetch'
 export * from './cache-manager'
