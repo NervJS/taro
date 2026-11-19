@@ -133,7 +133,7 @@ declare module '../../index' {
   }
 
   namespace batchGetStorage {
-    interface Option {
+    interface Option<T = any> {
       /** 本地缓存中指定的 keyList */
       keyList: string[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -141,7 +141,11 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: TaroGeneral.CallbackResult) => void
+      success?: (res: SuccessCallbackResult<T>) => void
+    }
+    interface SuccessCallbackResult<T = any> extends TaroGeneral.CallbackResult {
+      /** keyList 中各个 key 对应的内容，顺序与 keyList 一致 */
+      dataList: T[]
     }
   }
 
@@ -333,14 +337,14 @@ declare module '../../index' {
     /** 将数据批量存储在本地缓存中指定的 key 中。
      * 会覆盖掉原来该 key 对应的内容。除非用户主动删除或因存储空间原因被系统清理，否则数据都一直可用。
      * 单个 key 允许存储的最大数据长度为 1MB，所有数据存储上限为 10MB。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * try {
      *   Taro.batchSetStorageSync([{key: 'key', value: 'value'}])
      * } catch (e) { }
      * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.batchGetStorageSync.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.batchSetStorageSync.html
      */
     batchSetStorageSync(option: {
       /** key 本地缓存中指定的 key */
@@ -352,22 +356,22 @@ declare module '../../index' {
     /** 将数据批量存储在本地缓存中指定的 key 中。会覆盖掉原来该 key 对应的内容。
      * 除非用户主动删除或因存储空间原因被系统清理，否则数据都一直可用。
      * 单个 key 允许存储的最大数据长度为 1MB，所有数据存储上限为 10MB。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
-     * Taro.batchGetStorage({
-     *   keyList: ['key']
-     *   success(res) {
-     *     console.log(res)
-     *   }
+     * Taro.batchSetStorage({
+     *   kvList: [{
+     *     key: 'key',
+     *     value: 'value'
+     *   }]
      * })
      * ```
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.batchGetStorage.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.batchSetStorage.html
      */
     batchSetStorage(option: batchSetStorage.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 从本地缓存中同步批量获取指定 key 的内容。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * try {
@@ -387,18 +391,18 @@ declare module '../../index' {
     ): T[]
 
     /** 从本地缓存中异步批量获取指定 key 的内容。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * Taro.batchGetStorage({
      *   keyList: ['key'],
      *   success(res) {
-     *     console.log(res)
+     *     console.log(res.dataList)
      *   }
      * })
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/wx.batchGetStorage.html
      */
-    batchGetStorage(option: batchGetStorage.Option): Promise<TaroGeneral.CallbackResult>
+    batchGetStorage<T = any>(option: batchGetStorage.Option<T>): Promise<batchGetStorage.SuccessCallbackResult<T>>
   }
 }
