@@ -420,6 +420,7 @@ export class Swiper implements ComponentInterface {
     }
     if (!swiper.initialized) return
     this.swiper = swiper
+    this.#lastSwiperActiveIndex = swiper.realIndex
     this.getNeedFixLoop() && swiper.loopFix()
 
     // Note: 这里是拦截了 swiper 的 minTranslate 和 maxTranslate 方法，手动修复了 loop 模式下的 margin 问题
