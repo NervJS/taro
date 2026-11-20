@@ -144,9 +144,17 @@ impl Creator {
       }
     }
     let base_name = file_path.file_name().unwrap().to_string_lossy().to_string();
-    if let Some(stripped) = base_name.strip_prefix('_') {
-      // `_xxx` in a template stands for the dotfile `.xxx`
-      file_path.set_file_name(format!(".{}", stripped));
+    let is_sass_partial = matches!(
+      file_path
+        .extension()
+        .and_then(|extension| extension.to_str()),
+      Some("sass" | "scss")
+    );
+    if !is_sass_partial {
+      if let Some(stripped) = base_name.strip_prefix('_') {
+        // `_xxx` in a template stands for the dotfile `.xxx`
+        file_path.set_file_name(format!(".{}", stripped));
+      }
     }
     file_path.to_string_lossy().to_string()
   }
@@ -323,6 +331,23 @@ mod tests {
       "expected a dotfile .eslintrc.js, got {}",
       dest
     );
+  }
+
+  #[test]
+  fn sass_partial_template_files_keep_their_underscore_prefix() {
+    let creator = Creator::new("/tpl".to_string(), "/dest".to_string());
+
+    for (template_path, expected_file_name) in [
+      ("src/styles/_variables.scss", "_variables.scss"),
+      ("src/styles/_mixins.sass.tmpl", "_mixins.sass"),
+    ] {
+      let dest = creator.get_destination_path(&[template_path]);
+      assert!(
+        dest.ends_with(expected_file_name),
+        "expected Sass partial to keep its underscore, got {}",
+        dest
+      );
+    }
   }
 
   #[test]
