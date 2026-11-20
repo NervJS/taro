@@ -582,13 +582,30 @@ function genProps(props: any[]) {
   }, {})
 }
 
+// 移除JavaScript/TypeScript代码中的注释
+export function removeComments(code: string): string {
+  // 移除单行注释（避免误删字符串中的协议前缀，如 `http://、https://、ws://、ftp://、file://）`
+  code = code.replace(/\/\/.*$/gm, (match: string, ...args: any[]) => {
+    const offset = args[args.length - 2] as number
+    const src = args[args.length - 1] as string
+    if (offset > 0 && src[offset - 1] === ':') return match
+    return ''
+  })
+  // 移除多行注释
+  code = code.replace(/\/\*[\s\S]*?\*\//g, '')
+  return code
+}
+
 // read page config from a sfc file instead of the regular config file
 function readSFCPageConfig(configPath: string) {
   if (!fs.existsSync(configPath)) return {}
 
   const sfcSource = fs.readFileSync(configPath, 'utf8')
-  const dpcReg = /definePageConfig\(\{[\w\W]+?\}\)/g
-  const matches = sfcSource.match(dpcReg)
+  // 先移除注释，再应用正则表达式，避免注释中的代码被错误匹配
+  const codeWithoutComments = removeComments(sfcSource)
+  // 容忍空白与换行、保证单词边界
+  const dpcReg = /\bdefinePageConfig\s*\(\s*\{[\s\S]*?\}\s*\)/g
+  const matches = codeWithoutComments.match(dpcReg)
 
   let result: any = {}
 
