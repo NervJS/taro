@@ -144,8 +144,17 @@ impl Creator {
       }
     }
     let base_name = file_path.file_name().unwrap().to_string_lossy().to_string();
-    if base_name.starts_with("_") {
-      file_path.set_file_name(&base_name[1..]);
+    let is_sass_partial = matches!(
+      file_path
+        .extension()
+        .and_then(|extension| extension.to_str()),
+      Some("sass" | "scss")
+    );
+    if !is_sass_partial {
+      if let Some(stripped) = base_name.strip_prefix('_') {
+        // `_xxx` in a template stands for the dotfile `.xxx`
+        file_path.set_file_name(format!(".{}", stripped));
+      }
     }
     file_path.to_string_lossy().to_string()
   }
@@ -253,25 +262,17 @@ impl Creator {
         };
       }
       if need_create_file {
-        let mut dest_re_path = page_name;
-        if dest_re_path.starts_with("/") {
-          dest_re_path = dest_re_path[1..].to_string();
-        }
-        if is_typescript
-          && change_ext
-          && (dest_re_path.ends_with(".js") || dest_re_path.ends_with(".jsx"))
-          && !(dest_re_path.ends_with("babel.config.js") || dest_re_path.ends_with(".eslintrc.js"))
-        {
-          dest_re_path = dest_re_path.replace(".js", ".ts");
-        }
-        if change_ext && dest_re_path.ends_with(".css") {
-          dest_re_path = dest_re_path.replace(".css", format!(".{}", current_style_ext).as_str());
-        }
         let file_relative_path = format!("{}{}", template_path, file_relative_path);
         // if is_custom_template {
         //   file_relative_path = format!("{}/{}", template_path, file_relative_path);
         // }
-        let dest_path = self.get_destination_path(&[&dest_re_path]);
+        let dest_path = get_template_destination_path(
+          self,
+          &page_name,
+          is_typescript,
+          change_ext,
+          current_style_ext,
+        );
         let from_path: String = PathBuf::from(file_relative_path)
           .to_string_lossy()
           .to_string();
@@ -286,5 +287,88 @@ impl Creator {
       }
     }
     Ok(())
+  }
+}
+
+fn get_template_destination_path(
+  creator: &Creator,
+  page_name: &str,
+  is_typescript: bool,
+  change_ext: bool,
+  current_style_ext: &str,
+) -> String {
+  let mut dest_re_path = page_name.to_string();
+  if dest_re_path.starts_with('/') {
+    dest_re_path.remove(0);
+  }
+  let is_eslint_config = dest_re_path.ends_with(".eslintrc.js")
+    || dest_re_path == "_eslintrc.js"
+    || dest_re_path.ends_with("/_eslintrc.js")
+    || dest_re_path.ends_with("\\_eslintrc.js");
+  if is_typescript
+    && change_ext
+    && (dest_re_path.ends_with(".js") || dest_re_path.ends_with(".jsx"))
+    && !(dest_re_path.ends_with("babel.config.js") || is_eslint_config)
+  {
+    dest_re_path = dest_re_path.replace(".js", ".ts");
+  }
+  if change_ext && dest_re_path.ends_with(".css") {
+    dest_re_path = dest_re_path.replace(".css", format!(".{}", current_style_ext).as_str());
+  }
+  creator.get_destination_path(&[&dest_re_path])
+}
+
+#[cfg(test)]
+mod tests {
+  use super::*;
+
+  #[test]
+  fn underscore_template_file_maps_to_dotfile() {
+    let creator = Creator::new("/tpl".to_string(), "/dest".to_string());
+    let dest = creator.get_destination_path(&["_eslintrc.js"]);
+    assert!(
+      dest.ends_with(".eslintrc.js") && !dest.ends_with("/eslintrc.js") && !dest.ends_with("\\eslintrc.js"),
+      "expected a dotfile .eslintrc.js, got {}",
+      dest
+    );
+  }
+
+  #[test]
+  fn sass_partial_template_files_keep_their_underscore_prefix() {
+    let creator = Creator::new("/tpl".to_string(), "/dest".to_string());
+
+    for (template_path, expected_file_name) in [
+      ("src/styles/_variables.scss", "_variables.scss"),
+      ("src/styles/_mixins.sass.tmpl", "_mixins.sass"),
+    ] {
+      let dest = creator.get_destination_path(&[template_path]);
+      assert!(
+        dest.ends_with(expected_file_name),
+        "expected Sass partial to keep its underscore, got {}",
+        dest
+      );
+    }
+  }
+
+  #[test]
+  fn typescript_template_generation_keeps_underscore_eslint_config_as_js() {
+    let creator = Creator::new("/tpl".to_string(), "/dest".to_string());
+    let dest = get_template_destination_path(&creator, "_eslintrc.js", true, true, "css");
+    assert!(
+      dest.ends_with(".eslintrc.js"),
+      "expected generated TypeScript template to keep .eslintrc.js, got {}",
+      dest
+    );
+  }
+
+  #[test]
+  fn typescript_template_generation_converts_regular_js_files() {
+    let creator = Creator::new("/tpl".to_string(), "/dest".to_string());
+    let dest = get_template_destination_path(&creator, "src/app.js", true, true, "css");
+    assert!(
+      dest.ends_with("src/app.ts"),
+      "expected generated TypeScript template to convert app.js to app.ts, got {}",
+      dest
+    );
   }
 }
