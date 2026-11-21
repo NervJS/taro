@@ -30,3 +30,7 @@ export function setNavigationBarStyle (option: { backgroundColor: string, frontC
 export function setNavigationBarLoading (loading: boolean): void {
   eventCenter.trigger('__taroH5setNavigationBarLoading', loading)
 }
+
+export function hideNavigationBarHomeButton (): void {
+  eventCenter.trigger('__taroH5HideHomeButton')
+}

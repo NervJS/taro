@@ -1,5 +1,6 @@
 import NavigationBarHandler from '../src/router/navigation-bar'
 import stacks from '../src/router/stack'
+import { hideNavigationBarHomeButton } from '../src/utils/navigate'
 
 import type { PageInstance } from '@tarojs/runtime'
 import type PageHandler from '../src/router/page'
@@ -42,13 +43,13 @@ describe('NavigationBarHandler', () => {
     setStackSize(0)
   })
 
-  describe('setFnBtnState', () => {
-    const getFnBtn = () => {
-      if (navigationBar.classList.contains('taro-navigation-bar-back-icon')) return 'back'
-      if (navigationBar.classList.contains('taro-navigation-bar-home-icon')) return 'home'
-      return 'none'
-    }
+  const getFnBtn = () => {
+    if (navigationBar.classList.contains('taro-navigation-bar-back-icon')) return 'back'
+    if (navigationBar.classList.contains('taro-navigation-bar-home-icon')) return 'home'
+    return 'none'
+  }
 
+  describe('setFnBtnState', () => {
     it.each([
       ['the home page opened as the only page', HOME_PAGE, 1, 'none'],
       ['the home page navigated to from another page', HOME_PAGE, 2, 'back'],
@@ -73,6 +74,75 @@ describe('NavigationBarHandler', () => {
 
       setStackSize(1)
       handler.setFnBtnState()
+      expect(getFnBtn()).toBe('none')
+    })
+  })
+
+  describe('hideHomeButton', () => {
+    it('hides the home button of the current page', () => {
+      setStackSize(1)
+      const handler = createHandler(OTHER_PAGE)
+      handler.load()
+      expect(getFnBtn()).toBe('home')
+
+      hideNavigationBarHomeButton()
+
+      expect(getFnBtn()).toBe('none')
+    })
+
+    it('keeps the home button hidden when called before the page is loaded', () => {
+      setStackSize(1)
+      const handler = createHandler(OTHER_PAGE)
+
+      // 页面在 onShow 中调用时，导航栏还未根据当前页面刷新
+      hideNavigationBarHomeButton()
+      handler.load()
+
+      expect(getFnBtn()).toBe('none')
+    })
+
+    it('does not hide the back button', () => {
+      setStackSize(2)
+      const handler = createHandler(OTHER_PAGE)
+      handler.load()
+
+      hideNavigationBarHomeButton()
+
+      expect(getFnBtn()).toBe('back')
+    })
+
+    it('only applies to the page that hid it', () => {
+      setStackSize(1)
+      const handler = createHandler(OTHER_PAGE)
+      handler.load()
+      hideNavigationBarHomeButton()
+      expect(getFnBtn()).toBe('none')
+
+      const anotherPage = '/pages/another/index'
+      Object.assign(handler.pageContext, { currentPage: anotherPage, originPathname: anotherPage })
+      handler.load()
+      expect(getFnBtn()).toBe('home')
+
+      Object.assign(handler.pageContext, { currentPage: OTHER_PAGE, originPathname: OTHER_PAGE })
+      handler.load()
+      expect(getFnBtn()).toBe('none')
+    })
+
+    it('stays hidden after navigating to another page and back', () => {
+      setStackSize(1)
+      const handler = createHandler(OTHER_PAGE)
+      handler.load()
+      hideNavigationBarHomeButton()
+
+      const anotherPage = '/pages/another/index'
+      setStackSize(2)
+      Object.assign(handler.pageContext, { currentPage: anotherPage, originPathname: anotherPage })
+      handler.load()
+      expect(getFnBtn()).toBe('back')
+
+      setStackSize(1)
+      Object.assign(handler.pageContext, { currentPage: OTHER_PAGE, originPathname: OTHER_PAGE })
+      handler.load()
       expect(getFnBtn()).toBe('none')
     })
   })

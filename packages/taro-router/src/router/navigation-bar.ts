@@ -12,6 +12,7 @@ interface NavigationBarCache {
   title?: string
   show?: boolean
   loading?: boolean
+  homeButtonHidden?: boolean
 }
 
 export default class NavigationBarHandler {
@@ -37,6 +38,10 @@ export default class NavigationBarHandler {
       if (typeof backgroundColor === 'string') this.setNavigationBarBackground(backgroundColor)
 
       if (typeof frontColor === 'string') this.setNavigationBarTextStyle(frontColor)
+    })
+
+    eventCenter.on('__taroH5HideHomeButton', () => {
+      this.hideHomeButton()
     })
   }
 
@@ -102,11 +107,19 @@ export default class NavigationBarHandler {
       this.fnBtnToggleToNone()
     } else if (stacks.length > 1) {
       this.fnBtnToggleToBack()
-    } else if (this.pageContext.homePage === currentRouter) {
+    } else if (this.pageContext.homePage === currentRouter || this.cache[this.pageContext.originPathname]?.homeButtonHidden) {
       this.fnBtnToggleToNone()
     } else {
       this.fnBtnToggleToHome()
     }
+  }
+
+  hideHomeButton () {
+    // Note: 页面通常在 onShow 中调用，此时 load 尚未执行，需要先初始化缓存，确保 load 时不会重新展示首页按钮
+    // 与标题、颜色等导航栏状态一致，按路由路径缓存，同一路由的后续页面实例也会保持隐藏
+    this.setCacheValue()
+    this.cache[this.pageContext.originPathname].homeButtonHidden = true
+    this.setFnBtnState()
   }
 
   shiftLoadingState (show: boolean) {

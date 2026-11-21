@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
-import { setNavigationBarLoading, setNavigationBarStyle, setTitle } from '@tarojs/router'
+import { hideNavigationBarHomeButton, setNavigationBarLoading, setNavigationBarStyle, setTitle } from '@tarojs/router'
 
-import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
+import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 // 导航栏
@@ -66,4 +66,12 @@ export function hideNavigationBarLoading (options: Taro.hideNavigationBarLoading
   return handle.success()
 }
 
-export const hideHomeButton = /* @__PURE__ */ temporarilyNotSupport('hideHomeButton')
+/**
+ * 隐藏当前页面导航栏中的返回首页按钮
+ */
+export const hideHomeButton: typeof Taro.hideHomeButton = (options = {}) => {
+  const { success, fail, complete } = options
+  const handle = new MethodHandler({ name: 'hideHomeButton', success, fail, complete })
+  hideNavigationBarHomeButton()
+  return handle.success()
+}
