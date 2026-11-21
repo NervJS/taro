@@ -127,6 +127,24 @@ describe('NavigationBarHandler', () => {
       handler.load()
       expect(getFnBtn()).toBe('none')
     })
+
+    it('stays hidden after navigating to another page and back', () => {
+      setStackSize(1)
+      const handler = createHandler(OTHER_PAGE)
+      handler.load()
+      hideNavigationBarHomeButton()
+
+      const anotherPage = '/pages/another/index'
+      setStackSize(2)
+      Object.assign(handler.pageContext, { currentPage: anotherPage, originPathname: anotherPage })
+      handler.load()
+      expect(getFnBtn()).toBe('back')
+
+      setStackSize(1)
+      Object.assign(handler.pageContext, { currentPage: OTHER_PAGE, originPathname: OTHER_PAGE })
+      handler.load()
+      expect(getFnBtn()).toBe('none')
+    })
   })
 
   describe('setNavigationBarVisible', () => {
