@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 
 import { CallbackManager } from '../../utils/handler'
+import { parseResponseHeaders } from './response-headers'
 import {
   convertObjectUrlToBlob,
   inactiveTransferTask,
@@ -58,7 +59,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
   xhr.onreadystatechange = () => {
     if (xhr.readyState !== XHR_STATS.HEADERS_RECEIVED) return
     callbackManager.headersReceived.trigger({
-      header: xhr.getAllResponseHeaders()
+      header: parseResponseHeaders(xhr.getAllResponseHeaders())
     })
   }
 
