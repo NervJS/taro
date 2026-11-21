@@ -178,6 +178,18 @@ declare module '../../index' {
          * @supported h5
          */
         longtask
+        /** 最大内容绘制（LCP）。仅 H5 支持
+         * @supported h5
+         */
+        'largest-contentful-paint'
+        /** 布局偏移（CLS）。仅 H5 支持
+         * @supported h5
+         */
+        'layout-shift'
+        /** 首次输入延迟（FID）。仅 H5 支持
+         * @supported h5
+         */
+        'first-input'
       }
     }
   }
