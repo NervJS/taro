@@ -300,7 +300,7 @@ declare module '../../index' {
     /**
      * 获取实时日志管理器对象。
      * @supported weapp, h5
-     * @h5 日志输出到浏览器控制台，不支持上报到后台，setFilterMsg、addFilterMsg、in 不生效
+     * @h5 日志输出到浏览器控制台，不支持上报到后台，setFilterMsg、addFilterMsg、in 不生效，tag 返回的实例会在日志前加上 [tagName] 前缀
      * @example
      * ```tsx
      * const logger = Taro.getRealtimeLogManager()
