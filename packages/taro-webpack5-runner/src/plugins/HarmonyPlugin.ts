@@ -6,6 +6,7 @@ import {
   isEmptyObject,
   META_TYPE,
   NODE_MODULES,
+  normalizePath,
   printLog,
   processTypeEnum,
   readConfig,
@@ -826,10 +827,10 @@ export default class TaroHarmonyPlugin {
 
     for (const [key, value] of Object.entries(usingComponents)) {
       const compPath = value instanceof Array ? value[0] : value
-      if (!compPath.includes(NODE_MODULES)) return
+      if (!compPath.includes(NODE_MODULES)) continue
 
       const match = compPath.replace(NODE_MODULES, 'npm').match(/npm.*/)
-      usingComponents[key] = match ? `${path.sep}${match[0]}` : compPath
+      usingComponents[key] = match ? `/${normalizePath(match[0])}` : compPath
     }
   }
 
