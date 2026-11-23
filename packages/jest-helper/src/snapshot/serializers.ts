@@ -6,6 +6,10 @@ export const print = (val: string) => {
   return val.replace(/\\*\*\sfilePath:\s(.*)\s\*\*\//g, (replaceValue) => replaceValue.replace(/\\/g, '/'))
 }
 
+// Note: 对齐各平台的 pnpm vue-loader 目录名（peer 依赖后缀过长时，Windows 上会被截断并追加 hash）
+const pnpmVueLoaderDir = /(\.pnpm[\\/]vue-loader@[^_\\/]+)_[^\\/]*/g
+export const normalizeVueLoaderPath = (val: string) => val.replace(pnpmVueLoaderDir, '$1')
+
 const mockFilePath = '/** filePath:mockFilePath **/'
 export const parseSnapshotByFilePath = (val: string) => {
   const arr = val.split(new RegExp(os.EOL + '|\n'))
@@ -44,7 +48,7 @@ export const serialize = (
   // printer: Printer,
 ) => {
   if (typeof val === 'string') {
-    return snapshotObject2String(parseSnapshotByFilePath(val))
+    return snapshotObject2String(parseSnapshotByFilePath(normalizeVueLoaderPath(val)))
   }
   return val
 }

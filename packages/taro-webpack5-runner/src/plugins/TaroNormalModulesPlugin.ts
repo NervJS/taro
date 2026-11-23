@@ -111,7 +111,7 @@ export default class TaroNormalModulesPlugin {
           const currentModule = parser.state.current as TaroBaseNormalModule
           currentModule.clear()
 
-          walk.ancestor(ast, {
+          walk.ancestor(ast as unknown as acorn.Node, {
             ImportDeclaration: (node: any) => {
               const source = getLiteralStringValue(node.source)
               if (!source) return
