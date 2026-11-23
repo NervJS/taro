@@ -1,9 +1,12 @@
+import { createBrowserHistory } from 'history'
+
 import NavigationBarHandler from '../src/router/navigation-bar'
+import PageHandler from '../src/router/page'
 import stacks from '../src/router/stack'
 import { hideNavigationBarHomeButton } from '../src/utils/navigate'
 
 import type { PageInstance } from '@tarojs/runtime'
-import type PageHandler from '../src/router/page'
+import type { SpaRouterConfig } from '../types/router'
 
 const HOME_PAGE = '/pages/index/index'
 const OTHER_PAGE = '/pages/detail/index'
@@ -111,7 +114,7 @@ describe('NavigationBarHandler', () => {
       expect(getFnBtn()).toBe('back')
     })
 
-    it('only applies to the page that hid it', () => {
+    it('only applies to the page instance that hid it', () => {
       setStackSize(1)
       const handler = createHandler(OTHER_PAGE)
       handler.load()
@@ -119,13 +122,10 @@ describe('NavigationBarHandler', () => {
       expect(getFnBtn()).toBe('none')
 
       const anotherPage = '/pages/another/index'
+      setStackSize(1)
       Object.assign(handler.pageContext, { currentPage: anotherPage, originPathname: anotherPage })
       handler.load()
       expect(getFnBtn()).toBe('home')
-
-      Object.assign(handler.pageContext, { currentPage: OTHER_PAGE, originPathname: OTHER_PAGE })
-      handler.load()
-      expect(getFnBtn()).toBe('none')
     })
 
     it('stays hidden after navigating to another page and back', () => {
@@ -135,15 +135,107 @@ describe('NavigationBarHandler', () => {
       hideNavigationBarHomeButton()
 
       const anotherPage = '/pages/another/index'
-      setStackSize(2)
+      const original = stacks.last
+      stacks.push({} as PageInstance)
       Object.assign(handler.pageContext, { currentPage: anotherPage, originPathname: anotherPage })
       handler.load()
       expect(getFnBtn()).toBe('back')
 
-      setStackSize(1)
+      stacks.pop()
+      expect(stacks.last).toBe(original)
       Object.assign(handler.pageContext, { currentPage: OTHER_PAGE, originPathname: OTHER_PAGE })
       handler.load()
       expect(getFnBtn()).toBe('none')
+    })
+
+    it('does not carry over to a new instance of the same route', () => {
+      setStackSize(1)
+      const handler = createHandler(OTHER_PAGE)
+      handler.load()
+      hideNavigationBarHomeButton()
+      expect(getFnBtn()).toBe('none')
+
+      // 例如 reLaunch 到同一路由：旧实例出栈，新实例入栈且没有调用该接口
+      setStackSize(1)
+      handler.load()
+
+      expect(getFnBtn()).toBe('home')
+    })
+  })
+
+  describe('hideHomeButton with the page handler', () => {
+    function createPage (path: string) {
+      return {
+        path,
+        options: {},
+        $taroParams: { stamp: 'navigation-bar-test' },
+        onShow: jest.fn(),
+        onHide: jest.fn(),
+        onUnload: jest.fn()
+      } as unknown as PageInstance
+    }
+
+    function createContainer (page: PageInstance) {
+      const el = document.createElement('div')
+      el.id = page.path!
+      el.className = 'taro_page'
+      document.body.appendChild(el)
+      return el
+    }
+
+    function createPageHandler (pathname: string) {
+      const config: SpaRouterConfig = {
+        pages: ['pages/index/index', 'pages/detail/index', 'pages/another/index'],
+        routes: [{ path: '/pages/index/index' }, { path: OTHER_PAGE }, { path: '/pages/another/index' }],
+        router: { mode: 'browser', basename: '', pathname },
+        window: { navigationStyle: 'default' }
+      }
+      return new PageHandler(config, createBrowserHistory())
+    }
+
+    // PageHandler 通过运行时的 location 获取当前路由，这里直接模拟路由切换
+    let route = OTHER_PAGE
+    const setRoute = (pathname: string) => {
+      route = pathname
+    }
+
+    afterEach(() => {
+      route = OTHER_PAGE
+      document.body.innerHTML = ''
+    })
+
+    it('stays hidden after navigateTo and navigateBack, and resets on a relaunched instance', () => {
+      const handler = createPageHandler(OTHER_PAGE)
+      jest.spyOn(handler, 'currentPage', 'get').mockImplementation(() => route)
+      const page = createPage(OTHER_PAGE)
+      createContainer(page)
+      // 页面在 onShow 中调用，此时路由还未刷新导航栏
+      ;(page.onShow as jest.Mock).mockImplementation(() => hideNavigationBarHomeButton())
+
+      handler.load(page, {}, 'navigation-bar-test')
+      expect(getFnBtn()).toBe('none')
+
+      // navigateTo 另一个页面
+      const nextPage = createPage('/pages/another/index')
+      createContainer(nextPage)
+      handler.hide(page)
+      setRoute('/pages/another/index')
+      handler.load(nextPage, {}, 'navigation-bar-test')
+      expect(getFnBtn()).toBe('back')
+
+      // navigateBack 回到原页面
+      handler.unload(nextPage)
+      setRoute(OTHER_PAGE)
+      handler.show(page)
+      expect(getFnBtn()).toBe('none')
+
+      // reLaunch 到同一路由的新实例，且没有调用该接口
+      handler.unload(page)
+      setRoute(OTHER_PAGE)
+      const relaunched = createPage(OTHER_PAGE)
+      createContainer(relaunched)
+      handler.load(relaunched, {}, 'navigation-bar-test')
+      expect(getFnBtn()).toBe('home')
     })
   })
 

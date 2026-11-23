@@ -123,7 +123,7 @@ declare module '../../index' {
 
     /** 隐藏返回首页按钮。微信7.0.7版本起，当用户打开的小程序最底层页面是非首页时，默认展示“返回首页”按钮，开发者可在页面 onShow 中调用 hideHomeButton 进行隐藏。
      * @supported weapp, tt, h5, harmony
-     * @h5 隐藏当前页面 H5 导航栏中的返回首页按钮，不影响返回按钮
+     * @h5 隐藏当前页面实例 H5 导航栏中的返回首页按钮，不影响返回按钮；通过 reLaunch 等方式重新打开的页面不受影响
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideHomeButton.html
      */
     hideHomeButton(option?: hideHomeButton.Option): Promise<TaroGeneral.CallbackResult>

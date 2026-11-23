@@ -4,6 +4,7 @@ import { navigateBack, reLaunch } from '../api'
 import { isDingTalk } from '../utils'
 import stacks from './stack'
 
+import type { PageInstance } from '@tarojs/runtime'
 import type PageHandler from './page'
 
 interface NavigationBarCache {
@@ -12,7 +13,6 @@ interface NavigationBarCache {
   title?: string
   show?: boolean
   loading?: boolean
-  homeButtonHidden?: boolean
 }
 
 export default class NavigationBarHandler {
@@ -20,6 +20,8 @@ export default class NavigationBarHandler {
   navigationBarElement: HTMLElement
   cache: Record<string, NavigationBarCache>
   isLoadDdEntry = false
+  // 按页面实例记录已隐藏首页按钮的页面，页面实例销毁后状态随之失效
+  homeButtonHiddenPages = new WeakSet<PageInstance>()
 
   constructor (pageContext: PageHandler) {
     this.cache = {}
@@ -107,18 +109,23 @@ export default class NavigationBarHandler {
       this.fnBtnToggleToNone()
     } else if (stacks.length > 1) {
       this.fnBtnToggleToBack()
-    } else if (this.pageContext.homePage === currentRouter || this.cache[this.pageContext.originPathname]?.homeButtonHidden) {
+    } else if (this.pageContext.homePage === currentRouter || this.isHomeButtonHidden()) {
       this.fnBtnToggleToNone()
     } else {
       this.fnBtnToggleToHome()
     }
   }
 
+  private isHomeButtonHidden () {
+    const page = stacks.last
+    return !!page && this.homeButtonHiddenPages.has(page)
+  }
+
   hideHomeButton () {
-    // Note: 页面通常在 onShow 中调用，此时 load 尚未执行，需要先初始化缓存，确保 load 时不会重新展示首页按钮
-    // 与标题、颜色等导航栏状态一致，按路由路径缓存，同一路由的后续页面实例也会保持隐藏
-    this.setCacheValue()
-    this.cache[this.pageContext.originPathname].homeButtonHidden = true
+    // Note: 页面通常在 onShow 中调用，此时 load 尚未执行，但页面已入栈，直接记录在页面实例上，确保 load 时不会重新展示首页按钮
+    const page = stacks.last
+    if (!page) return
+    this.homeButtonHiddenPages.add(page)
     this.setFnBtnState()
   }
 
