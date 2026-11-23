@@ -321,13 +321,37 @@ fn get_template_destination_path(
 #[cfg(test)]
 mod tests {
   use super::*;
+  use std::time::{SystemTime, UNIX_EPOCH};
+
+  struct TestDirectory(PathBuf);
+
+  impl TestDirectory {
+    fn new() -> Self {
+      let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_nanos();
+      let path =
+        std::env::temp_dir().join(format!("taro-init-test-{}-{}", std::process::id(), nonce));
+      std::fs::create_dir_all(&path).unwrap();
+      Self(path)
+    }
+  }
+
+  impl Drop for TestDirectory {
+    fn drop(&mut self) {
+      let _ = std::fs::remove_dir_all(&self.0);
+    }
+  }
 
   #[test]
   fn underscore_template_file_maps_to_dotfile() {
     let creator = Creator::new("/tpl".to_string(), "/dest".to_string());
     let dest = creator.get_destination_path(&["_eslintrc.js"]);
     assert!(
-      dest.ends_with(".eslintrc.js") && !dest.ends_with("/eslintrc.js") && !dest.ends_with("\\eslintrc.js"),
+      dest.ends_with(".eslintrc.js")
+        && !dest.ends_with("/eslintrc.js")
+        && !dest.ends_with("\\eslintrc.js"),
       "expected a dotfile .eslintrc.js, got {}",
       dest
     );
@@ -359,6 +383,66 @@ mod tests {
       "expected generated TypeScript template to keep .eslintrc.js, got {}",
       dest
     );
+  }
+
+  #[tokio::test]
+  async fn typescript_create_files_keeps_underscore_eslint_config_as_js() {
+    let temp = TestDirectory::new();
+    let template_path = temp.0.join("templates").join("default");
+    let destination_path = temp.0.join("project");
+    let nested_template_path = template_path.join("nested");
+    std::fs::create_dir_all(&nested_template_path).unwrap();
+
+    let template_file = template_path.join("_eslintrc.js");
+    std::fs::write(&template_file, "module.exports = {};\n").unwrap();
+    let nested_template_file = nested_template_path.join("_eslintrc.js");
+    std::fs::write(&nested_template_file, "module.exports = {};\n").unwrap();
+
+    let creator = Creator::new(
+      temp.0.to_string_lossy().to_string(),
+      destination_path.to_string_lossy().to_string(),
+    );
+    let mut options = CreateOptions {
+      css: None,
+      css_ext: None,
+      framework: None,
+      description: None,
+      project_name: "test-project".to_string(),
+      version: None,
+      date: None,
+      typescript: Some(true),
+      build_es5: None,
+      template: "default".to_string(),
+      page_name: None,
+      compiler: None,
+      set_page_name: None,
+      sub_pkg: None,
+      page_dir: None,
+      set_sub_pkg_page_name: None,
+      change_ext: None,
+      is_custom_template: None,
+      plugin_type: None,
+      platforms: None,
+    };
+    let js_handlers = HashMap::new();
+    let template_path = template_path.to_string_lossy().to_string();
+    let template_file = template_file.to_string_lossy().to_string();
+    let nested_template_file = nested_template_file.to_string_lossy().to_string();
+
+    creator
+      .create_files(
+        &[&template_file, &nested_template_file],
+        &template_path,
+        &mut options,
+        &js_handlers,
+      )
+      .await
+      .unwrap();
+
+    assert!(destination_path.join(".eslintrc.js").is_file());
+    assert!(!destination_path.join(".eslintrc.ts").exists());
+    assert!(destination_path.join("nested/.eslintrc.js").is_file());
+    assert!(!destination_path.join("nested/.eslintrc.ts").exists());
   }
 
   #[test]
