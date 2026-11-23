@@ -246,7 +246,7 @@ impl Creator {
     let handler_options = options.clone();
     let is_typescript = options.typescript.unwrap_or(false);
     let has_sub_pkg = options.sub_pkg.is_some();
-    let mut created_destinations = Vec::new();
+    let mut created_destinations: Vec<String> = Vec::new();
     process_template_files(
       files_to_process,
       |file_relative_path| {
