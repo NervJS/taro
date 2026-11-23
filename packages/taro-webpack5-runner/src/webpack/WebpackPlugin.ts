@@ -1,6 +1,5 @@
-import path from 'node:path'
-
 import { REG_STYLE } from '@tarojs/helper'
+import { normalizeCopyPatterns } from '@tarojs/runner-utils'
 import webpack from 'webpack'
 
 import { TaroWebpackBarPlugin } from '../plugins/WebpackBarPlugin'
@@ -20,18 +19,7 @@ export default class WebpackPlugin {
   static getCopyWebpackPlugin (appPath: string, copy: ICopyOptions) {
     /** @doc https://webpack.js.org/plugins/copy-webpack-plugin */
     const CopyWebpackPlugin = require('copy-webpack-plugin')
-    const globalIgnores: string[] = copy.options?.ignore ?? []
-    const patterns = copy.patterns.map(({ from, to, ignore = [], ...extra }) => {
-      return {
-        from,
-        to: path.resolve(appPath, to),
-        context: appPath,
-        globOptions: {
-          ignore: ignore.concat(globalIgnores)
-        },
-        ...extra
-      }
-    })
+    const patterns = normalizeCopyPatterns(appPath, copy)
     const args = { patterns }
     return WebpackPlugin.getPlugin(CopyWebpackPlugin, [args])
   }

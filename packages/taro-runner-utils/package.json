@@ -26,10 +26,99 @@
   },
   "dependencies": {
     "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "lodash": "^4.17.21",
     "rollup": "^3.29.4",
     "scss-bundle": "^3.1.2"
   },
   "devDependencies": {
-    "@tarojs/taro": "workspace:*"
+    "@tarojs/taro": "workspace:*",
+    "@types/detect-port": "^1.3.5",
+    "@types/lodash": "^4.17.0",
+    "@types/sax": "^1.2.4",
+    "autoprefixer": "^10.4.19",
+    "detect-port": "^1.5.1",
+    "jsdom": "^24.0.0",
+    "loader-utils": "^3.2.1",
+    "miniprogram-simulate": "^1.6.1",
+    "ora": "^5.4.1",
+    "picomatch": "^4.0.2",
+    "postcss": "^8.4.38",
+    "postcss-html-transform": "workspace:*",
+    "postcss-import": "^16.1.0",
+    "postcss-plugin-constparse": "workspace:*",
+    "postcss-pxtransform": "workspace:*",
+    "postcss-url": "^10.1.3",
+    "sax": "1.2.4",
+    "vm2": "^3.9.19",
+    "webpack-format-messages": "^3.0.1"
+  },
+  "peerDependencies": {
+    "autoprefixer": "^10.4.19",
+    "detect-port": "^1.5.1",
+    "jsdom": "^24.0.0",
+    "loader-utils": "^3.2.1",
+    "miniprogram-simulate": "^1.6.1",
+    "ora": "^5.4.1",
+    "picomatch": "^4.0.2",
+    "postcss": "^8",
+    "postcss-html-transform": "workspace:*",
+    "postcss-import": "^16.1.0",
+    "postcss-plugin-constparse": "workspace:*",
+    "postcss-pxtransform": "workspace:*",
+    "postcss-url": "^10.1.3",
+    "sax": "1.2.4",
+    "vm2": "^3.9.19",
+    "webpack-format-messages": "^3.0.1"
+  },
+  "peerDependenciesMeta": {
+    "autoprefixer": {
+      "optional": true
+    },
+    "detect-port": {
+      "optional": true
+    },
+    "jsdom": {
+      "optional": true
+    },
+    "loader-utils": {
+      "optional": true
+    },
+    "miniprogram-simulate": {
+      "optional": true
+    },
+    "ora": {
+      "optional": true
+    },
+    "picomatch": {
+      "optional": true
+    },
+    "postcss": {
+      "optional": true
+    },
+    "postcss-html-transform": {
+      "optional": true
+    },
+    "postcss-import": {
+      "optional": true
+    },
+    "postcss-plugin-constparse": {
+      "optional": true
+    },
+    "postcss-pxtransform": {
+      "optional": true
+    },
+    "postcss-url": {
+      "optional": true
+    },
+    "sax": {
+      "optional": true
+    },
+    "vm2": {
+      "optional": true
+    },
+    "webpack-format-messages": {
+      "optional": true
+    }
   }
 }
