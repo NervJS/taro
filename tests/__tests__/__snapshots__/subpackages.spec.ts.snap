@@ -1844,7 +1844,6 @@ exports[`subpackages should process subpackages web 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {

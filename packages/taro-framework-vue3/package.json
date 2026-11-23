@@ -42,7 +42,7 @@
     "@tarojs/taro": "workspace:*",
     "@vue/compiler-core": "^3.4.25",
     "vite": "^4.2.0",
-    "webpack": "5.91.0",
+    "webpack": "5.104.1",
     "vue": "^3.4.25"
   },
   "peerDependencies": {

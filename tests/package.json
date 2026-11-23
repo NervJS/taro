@@ -38,7 +38,7 @@
     "acorn-walk": "^8.3.2",
     "vue-loader": "^17.0.0",
     "webpack-chain": "^6.5.1",
-    "webpack": "5.91.0",
+    "webpack": "5.104.1",
     "webpack-merge": "^5.10.0"
   }
 }

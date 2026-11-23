@@ -33,7 +33,7 @@ export default class TaroComponentsExportsPlugin {
       // react 的第三方组件支持
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (program) => {
-          walk.ancestor(program, {
+          walk.ancestor(program as unknown as acorn.Node, {
             CallExpression: (node, _ancestors) => {
               // @ts-ignore
               const callee = node.callee
