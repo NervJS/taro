@@ -49,6 +49,35 @@ describe('previewMedia', () => {
     expect(document.querySelector('.preview-media')).toBeNull()
   })
 
+  it('restores background focus only after the final preview closes', async () => {
+    const trigger = document.createElement('button')
+    const inertBackground = document.createElement('div')
+    trigger.inert = false
+    inertBackground.inert = true
+    document.body.append(trigger, inertBackground)
+    trigger.focus()
+
+    await Taro.previewMedia({ sources: [{ url: '/first.png' }] })
+    const reopen = jest.fn(() => Taro.previewMedia({ sources: [{ url: '/reopened.png' }] }))
+    trigger.addEventListener('focus', reopen, { once: true })
+    await Taro.previewMedia({ sources: [{ url: '/second.png' }] })
+
+    expect(reopen).not.toHaveBeenCalled()
+    expect(document.querySelectorAll('.preview-media')).toHaveLength(1)
+    expect(trigger.inert).toBe(true)
+
+    eventCenter.trigger('__taroRouterChange')
+    expect(reopen).toHaveBeenCalledTimes(1)
+    expect(document.querySelectorAll('.preview-media')).toHaveLength(1)
+    expect(document.querySelector('.preview-media img')?.getAttribute('src')).toBe('/reopened.png')
+
+    eventCenter.trigger('__taroRouterChange')
+    expect(document.querySelector('.preview-media')).toBeNull()
+    expect(document.activeElement).toBe(trigger)
+    expect(trigger.inert).toBe(false)
+    expect(inertBackground.inert).toBe(true)
+  })
+
   it('switches media with arrow keys and follows touch navigation', async () => {
     await Taro.previewMedia({
       sources: [{ url: '/first.png' }, { url: '/second.png' }, { url: '/third.png' }],
@@ -83,6 +112,18 @@ describe('previewMedia', () => {
 
     closeButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true }))
     expect(swiper.current).toBe(0)
+  })
+
+  it('uses the mounted media count for keyboard navigation', async () => {
+    const sources = [{ url: '/first.png' }, { url: '/second.png' }]
+    await Taro.previewMedia({ sources })
+    sources.length = 0
+
+    const preview = document.querySelector('.preview-media')!
+    const swiper = preview.querySelector('taro-swiper-core') as HTMLElement & { current: number }
+    preview.querySelector('button')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+
+    expect(swiper.current).toBe(1)
   })
 
   it('leaves arrow keys to the native video controls', async () => {
@@ -122,6 +163,26 @@ describe('previewMedia', () => {
     closeButton.dispatchEvent(videoTab)
     expect(videoTab.defaultPrevented).toBe(true)
     expect(document.activeElement).toBe(video)
+  })
+
+  it('moves focus off an inactive video so arrow navigation can continue', async () => {
+    await Taro.previewMedia({
+      sources: [{ url: '/first.png' }, { url: '/video.mp4', type: 'video' }],
+      current: 1,
+    })
+
+    const preview = document.querySelector('.preview-media')!
+    const swiper = preview.querySelector('taro-swiper-core') as HTMLElement & { current: number }
+    const video = preview.querySelector('video')!
+    const closeButton = preview.querySelector('button')!
+    video.focus()
+    expect(document.activeElement).toBe(video)
+
+    swiper.dispatchEvent(new CustomEvent('change', { detail: { current: 0 } }))
+    expect(document.activeElement).toBe(closeButton)
+
+    closeButton.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+    expect(swiper.current).toBe(1)
   })
 
   it('makes the background inert and traps Tab focus until close', async () => {

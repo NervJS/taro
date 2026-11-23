@@ -20,6 +20,7 @@ export class Swiper implements ComponentInterface {
   #source = 'autoplay'
   #swiperResetting = false
   #lastSwiperActiveIndex = 0
+  #lastChangeIndex = 0
   #pendingCurrentItemId: string | null = null
   #didLoad = false
   #container: HTMLElement | null = null
@@ -370,7 +371,8 @@ export class Swiper implements ComponentInterface {
           that.#source = 'touch'
         },
         slideChange(e) {
-          if(e !== that.swiper || that.#swiperResetting || that.#lastSwiperActiveIndex === this.realIndex) return
+          if(e !== that.swiper || that.#swiperResetting || that.#lastChangeIndex === this.realIndex) return
+          that.#lastChangeIndex = this.realIndex
           const currentItemId = that.getCurrentItemId(e)
           that.onChange.emit({
             current: this.realIndex,
@@ -421,6 +423,7 @@ export class Swiper implements ComponentInterface {
     if (!swiper.initialized) return
     this.swiper = swiper
     this.#lastSwiperActiveIndex = swiper.realIndex
+    this.#lastChangeIndex = swiper.realIndex
     this.getNeedFixLoop() && swiper.loopFix()
 
     // Note: 这里是拦截了 swiper 的 minTranslate 和 maxTranslate 方法，手动修复了 loop 模式下的 margin 问题
