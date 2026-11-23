@@ -215,6 +215,7 @@ impl Creator {
       .get(&options.css.unwrap_or(CSSType::None))
       .unwrap_or(&"css");
     options.css_ext = Some(current_style_ext.to_string());
+    let mut generated_files = Vec::new();
     for file in files {
       let file_relative_path = normalize_path_str(file.replace(template_path, "").as_str());
       let framework = options.framework;
@@ -276,15 +277,33 @@ impl Creator {
         let from_path: String = PathBuf::from(file_relative_path)
           .to_string_lossy()
           .to_string();
-        self
-          .tempate(from_path.as_str(), dest_path.as_str(), &options.clone())
-          .await?;
-        println!(
-          "{} {}",
-          style("✔").green(),
-          style("创建文件: ".to_owned() + dest_path.as_str()).color256(238)
+        generated_files.push((from_path, dest_path));
+      }
+    }
+
+    let mut destinations = HashMap::new();
+    for (from_path, dest_path) in &generated_files {
+      if let Some(previous_from_path) =
+        destinations.insert(PathBuf::from(dest_path), from_path)
+      {
+        anyhow::bail!(
+          "模板文件 {} 和 {} 都映射到相同目标路径 {}",
+          previous_from_path,
+          from_path,
+          dest_path
         );
       }
+    }
+
+    for (from_path, dest_path) in generated_files {
+      self
+        .tempate(from_path.as_str(), dest_path.as_str(), &options.clone())
+        .await?;
+      println!(
+        "{} {}",
+        style("✔").green(),
+        style("创建文件: ".to_owned() + dest_path.as_str()).color256(238)
+      );
     }
     Ok(())
   }
@@ -443,6 +462,65 @@ mod tests {
     assert!(!destination_path.join(".eslintrc.ts").exists());
     assert!(destination_path.join("nested/.eslintrc.js").is_file());
     assert!(!destination_path.join("nested/.eslintrc.ts").exists());
+  }
+
+  #[tokio::test]
+  async fn create_files_rejects_destination_collisions_before_writing_in_either_order() {
+    for order in [
+      ["_eslintrc.js", ".eslintrc.js"],
+      [".eslintrc.js", "_eslintrc.js"],
+    ] {
+      let temp = TestDirectory::new();
+      let template_root = temp.0.join("templates").join("default");
+      let destination_path = temp.0.join("project");
+      std::fs::create_dir_all(&template_root).unwrap();
+      std::fs::write(template_root.join("_eslintrc.js"), "underscore config\n").unwrap();
+      std::fs::write(template_root.join(".eslintrc.js"), "explicit dotfile config\n").unwrap();
+
+      let creator = Creator::new(
+        temp.0.to_string_lossy().to_string(),
+        destination_path.to_string_lossy().to_string(),
+      );
+      let mut options = CreateOptions {
+        css: None,
+        css_ext: None,
+        framework: None,
+        description: None,
+        project_name: "test-project".to_string(),
+        version: None,
+        date: None,
+        typescript: Some(false),
+        build_es5: None,
+        template: "default".to_string(),
+        page_name: None,
+        compiler: None,
+        set_page_name: None,
+        sub_pkg: None,
+        page_dir: None,
+        set_sub_pkg_page_name: None,
+        change_ext: None,
+        is_custom_template: None,
+        plugin_type: None,
+        platforms: None,
+      };
+      let js_handlers = HashMap::new();
+      let template_path = template_root.to_string_lossy().to_string();
+      let files = order.map(|name| template_root.join(name).to_string_lossy().to_string());
+      let file_refs = files.iter().map(String::as_str).collect::<Vec<_>>();
+
+      let error = creator
+        .create_files(
+          &file_refs,
+          &template_path,
+          &mut options,
+          &js_handlers,
+        )
+        .await
+        .expect_err("multiple templates must not overwrite the same destination");
+
+      assert!(error.to_string().contains("相同目标路径"));
+      assert!(!destination_path.join(".eslintrc.js").exists());
+    }
   }
 
   #[test]
