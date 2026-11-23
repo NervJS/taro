@@ -20,6 +20,8 @@ export default class NavigationBarHandler {
   navigationBarElement: HTMLElement
   cache: Record<string, NavigationBarCache>
   isLoadDdEntry = false
+  // 页面卸载中（已出栈）时，忽略对栈顶页面的首页按钮设置
+  isPageUnloading = false
   // 按页面实例记录已隐藏首页按钮的页面，页面实例销毁后状态随之失效
   homeButtonHiddenPages = new WeakSet<PageInstance>()
 
@@ -123,6 +125,7 @@ export default class NavigationBarHandler {
 
   hideHomeButton () {
     // Note: 页面通常在 onShow 中调用，此时 load 尚未执行，但页面已入栈，直接记录在页面实例上，确保 load 时不会重新展示首页按钮
+    if (this.isPageUnloading) return
     const page = stacks.last
     if (!page) return
     this.homeButtonHiddenPages.add(page)

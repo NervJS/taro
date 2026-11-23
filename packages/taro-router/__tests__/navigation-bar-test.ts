@@ -210,7 +210,7 @@ describe('NavigationBarHandler', () => {
       const page = createPage(OTHER_PAGE)
       createContainer(page)
       // 页面在 onShow 中调用，此时路由还未刷新导航栏
-      ;(page.onShow as jest.Mock).mockImplementation(() => hideNavigationBarHomeButton())
+      ;(page.onShow as jest.Mock).mockImplementationOnce(() => hideNavigationBarHomeButton())
 
       handler.load(page, {}, 'navigation-bar-test')
       expect(getFnBtn()).toBe('none')
@@ -236,6 +236,51 @@ describe('NavigationBarHandler', () => {
       createContainer(relaunched)
       handler.load(relaunched, {}, 'navigation-bar-test')
       expect(getFnBtn()).toBe('home')
+    })
+  })
+
+  describe('hideHomeButton called while a page is unloading', () => {
+    it('does not hide the home button of the page navigated back to', () => {
+      const config: SpaRouterConfig = {
+        pages: ['pages/index/index', 'pages/detail/index', 'pages/another/index'],
+        routes: [{ path: '/pages/index/index' }, { path: OTHER_PAGE }, { path: '/pages/another/index' }],
+        router: { mode: 'browser', basename: '', pathname: OTHER_PAGE },
+        window: { navigationStyle: 'default' }
+      }
+      const handler = new PageHandler(config, createBrowserHistory())
+      let route = OTHER_PAGE
+      jest.spyOn(handler, 'currentPage', 'get').mockImplementation(() => route)
+      const create = (path: string, onUnload?: () => void) => {
+        const el = document.createElement('div')
+        el.id = path
+        el.className = 'taro_page'
+        document.body.appendChild(el)
+        return {
+          path,
+          options: {},
+          $taroParams: { stamp: 'navigation-bar-test' },
+          onShow: jest.fn(),
+          onHide: jest.fn(),
+          onUnload: jest.fn(onUnload)
+        } as unknown as PageInstance
+      }
+
+      const pageA = create(OTHER_PAGE)
+      handler.load(pageA, {}, 'navigation-bar-test')
+      expect(getFnBtn()).toBe('home')
+
+      // B 在 onUnload 中调用该接口，此时 B 已出栈，栈顶是 A
+      const pageB = create('/pages/another/index', () => hideNavigationBarHomeButton())
+      handler.hide(pageA)
+      route = '/pages/another/index'
+      handler.load(pageB, {}, 'navigation-bar-test')
+      handler.unload(pageB)
+      route = OTHER_PAGE
+      handler.show(pageA)
+
+      expect(pageB.onUnload).toHaveBeenCalledTimes(1)
+      expect(getFnBtn()).toBe('home')
+      document.body.innerHTML = ''
     })
   })
 
