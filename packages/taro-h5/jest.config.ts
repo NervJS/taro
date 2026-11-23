@@ -19,7 +19,7 @@ const config: Config = {
       module: true
     }],
     '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
-    platform: '<rootDir>/__mocks__/platform.ts',
+    '^platform$': '<rootDir>/__mocks__/platform.ts',
   },
   preset: 'ts-jest',
   setupFiles: ['<rootDir>/__mocks__/setEnv.ts'],
