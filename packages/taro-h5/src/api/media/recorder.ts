@@ -15,6 +15,7 @@ interface Recording {
   timer?: ReturnType<typeof setTimeout>
   elapsed: number
   remaining: number
+  started?: boolean
   startedAt?: number
 }
 
@@ -95,11 +96,17 @@ class RecorderManager implements Taro.RecorderManager {
       recording.stream = stream
       const recorder = new MediaRecorder(stream, { mimeType, audioBitsPerSecond: encodeBitRate })
       recording.recorder = recorder
+      recording.remaining = duration
       const chunks: Blob[] = []
       recorder.addEventListener('dataavailable', ({ data }) => {
         if (data.size) chunks.push(data)
       })
-      recorder.addEventListener('start', () => this.startListeners.trigger({ errMsg: 'RecorderManager.start:ok' }))
+      recorder.addEventListener('start', () => {
+        if (this.recording !== recording || recorder.state === 'inactive') return
+        recording.started = true
+        if (recorder.state === 'recording') this.startTimer(recording, recording.remaining)
+        this.startListeners.trigger({ errMsg: 'RecorderManager.start:ok' })
+      })
       recorder.addEventListener('pause', () => this.pauseListeners.trigger({ errMsg: 'RecorderManager.pause:ok' }))
       recorder.addEventListener('resume', () => this.resumeListeners.trigger({ errMsg: 'RecorderManager.resume:ok' }))
       recorder.addEventListener('error', event => {
@@ -110,11 +117,12 @@ class RecorderManager implements Taro.RecorderManager {
       recorder.addEventListener('stop', () => {
         if (this.recording !== recording) return
         this.release(recording)
-        const file = new Blob(chunks, { type: recorder.mimeType || chunks[0]?.type })
-        if (!file.size) {
+        if (!chunks.length) {
           this.reportError('the recording did not produce audio')
           return
         }
+        if (!this.stopListeners.count()) return
+        const file = new Blob(chunks, { type: recorder.mimeType || chunks[0].type })
         this.stopListeners.trigger({
           duration: Math.round(recording.elapsed),
           fileSize: file.size,
@@ -123,7 +131,6 @@ class RecorderManager implements Taro.RecorderManager {
       })
 
       recorder.start()
-      this.startTimer(recording, duration)
     } catch (error) {
       if (this.recording !== recording) return
       this.release(recording)
@@ -142,7 +149,7 @@ class RecorderManager implements Taro.RecorderManager {
     const recording = this.recording
     if (recording?.recorder?.state !== 'paused') return
     recording.recorder.resume()
-    this.startTimer(recording, recording.remaining)
+    if (recording.started) this.startTimer(recording, recording.remaining)
   }
 
   stop () {

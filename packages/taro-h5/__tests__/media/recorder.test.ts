@@ -3,6 +3,7 @@ import { getRecorderManager } from '@tarojs/taro-h5'
 class FakeRecorder extends EventTarget {
   static isTypeSupported = (type: string) => type === 'audio/mp4;codecs=mp4a.40.2'
   static latest: FakeRecorder
+  static startDelay = 0
 
   readonly mimeType = 'audio/webm;codecs=opus'
   state: RecordingState = 'inactive'
@@ -14,23 +15,25 @@ class FakeRecorder extends EventTarget {
 
   start () {
     this.state = 'recording'
-    queueMicrotask(() => this.dispatchEvent(new Event('start')))
+    setTimeout(() => this.dispatchEvent(new Event('start')), FakeRecorder.startDelay)
   }
 
   pause () {
     this.state = 'paused'
-    this.dispatchEvent(new Event('pause'))
+    setTimeout(() => this.dispatchEvent(new Event('pause')))
   }
 
   resume () {
     this.state = 'recording'
-    this.dispatchEvent(new Event('resume'))
+    setTimeout(() => this.dispatchEvent(new Event('resume')))
   }
 
   stop () {
     this.state = 'inactive'
-    this.dispatchEvent(Object.assign(new Event('dataavailable'), { data: new Blob(['audio']) }))
-    this.dispatchEvent(new Event('stop'))
+    setTimeout(() => {
+      this.dispatchEvent(Object.assign(new Event('dataavailable'), { data: new Blob(['audio']) }))
+      this.dispatchEvent(new Event('stop'))
+    })
   }
 }
 
@@ -62,7 +65,8 @@ const originalCreateObjectURL = Object.getOwnPropertyDescriptor(URL, 'createObje
 
 beforeEach(() => {
   jest.clearAllMocks()
-  jest.useFakeTimers({ doNotFake: ['queueMicrotask'] })
+  jest.useFakeTimers()
+  FakeRecorder.startDelay = 0
   getUserMedia.mockReset().mockResolvedValue({ getTracks: () => [{ stop: stopTrack }] })
   createObjectURL.mockReturnValue('blob:recording')
   Object.defineProperty(navigator, 'mediaDevices', { configurable: true, value: { getUserMedia } })
@@ -72,6 +76,7 @@ beforeEach(() => {
 
 afterEach(() => {
   manager.stop()
+  jest.runOnlyPendingTimers()
   jest.useRealTimers()
   for (const [target, key, descriptor] of [
     [navigator, 'mediaDevices', originalMediaDevices],
@@ -87,6 +92,7 @@ it('keeps one manager and records the requested active duration across pause and
   expect(getRecorderManager()).toBe(manager)
   manager.start({ duration: 100 })
   await tick()
+  jest.advanceTimersByTime(0)
   expect(onStart).toHaveBeenCalledTimes(1)
   jest.advanceTimersByTime(40)
   manager.pause()
@@ -95,14 +101,90 @@ it('keeps one manager and records the requested active duration across pause and
   expect(onStop).not.toHaveBeenCalled()
 
   manager.resume()
+  jest.advanceTimersByTime(0)
   expect(onResume).toHaveBeenCalledTimes(1)
   jest.advanceTimersByTime(59)
   expect(onStop).not.toHaveBeenCalled()
   jest.advanceTimersByTime(1)
+  jest.advanceTimersToNextTimer()
 
   expect(stopTrack).toHaveBeenCalledTimes(1)
   expect(onStop).toHaveBeenCalledWith({ duration: 100, fileSize: 5, tempFilePath: 'blob:recording' })
   expect(createObjectURL.mock.calls[0][0].type).toBe('audio/webm;codecs=opus')
+})
+
+it('starts the duration limit when the browser confirms recording started', async () => {
+  FakeRecorder.startDelay = 80
+  manager.start({ duration: 100 })
+  await tick()
+
+  jest.advanceTimersByTime(79)
+  expect(onStart).not.toHaveBeenCalled()
+  jest.advanceTimersByTime(1)
+  expect(onStart).toHaveBeenCalledTimes(1)
+
+  jest.advanceTimersByTime(99)
+  expect(FakeRecorder.latest.state).toBe('recording')
+  jest.advanceTimersByTime(1)
+  expect(FakeRecorder.latest.state).toBe('inactive')
+  jest.advanceTimersToNextTimer()
+  expect(onStop).toHaveBeenCalledWith({ duration: 100, fileSize: 5, tempFilePath: 'blob:recording' })
+})
+
+it('ignores a delayed start event after stop without affecting the next session', async () => {
+  FakeRecorder.startDelay = 80
+  manager.start({ duration: 100 })
+  await tick()
+  manager.stop()
+  jest.advanceTimersByTime(0)
+  expect(stopTrack).toHaveBeenCalledTimes(1)
+
+  FakeRecorder.startDelay = 0
+  manager.start({ duration: 200 })
+  await tick()
+  jest.advanceTimersByTime(180)
+  expect(onStart).toHaveBeenCalledTimes(1)
+  expect(FakeRecorder.latest.state).toBe('recording')
+
+  jest.advanceTimersByTime(20)
+  expect(FakeRecorder.latest.state).toBe('inactive')
+  jest.advanceTimersToNextTimer()
+  expect(onStop).toHaveBeenLastCalledWith({ duration: 200, fileSize: 5, tempFilePath: 'blob:recording' })
+})
+
+it('preserves the full duration when paused before the start event', async () => {
+  FakeRecorder.startDelay = 80
+  manager.start({ duration: 100 })
+  await tick()
+  manager.pause()
+  jest.advanceTimersByTime(200)
+  expect(FakeRecorder.latest.state).toBe('paused')
+  expect(onStop).not.toHaveBeenCalled()
+
+  manager.resume()
+  jest.advanceTimersByTime(99)
+  expect(FakeRecorder.latest.state).toBe('recording')
+  jest.advanceTimersByTime(1)
+  jest.advanceTimersToNextTimer()
+  expect(onStop).toHaveBeenCalledWith({ duration: 100, fileSize: 5, tempFilePath: 'blob:recording' })
+})
+
+it('releases tracks on repeated stops without creating unclaimed Blob URLs', async () => {
+  await jest.isolateModulesAsync(async () => {
+    const { getRecorderManager } = await import('../../src/api/media/recorder')
+    const managerWithoutListeners = getRecorderManager()
+
+    for (let count = 0; count < 2; count++) {
+      managerWithoutListeners.start({})
+      await tick()
+      jest.advanceTimersByTime(0)
+      managerWithoutListeners.stop()
+      jest.advanceTimersByTime(0)
+    }
+
+    expect(stopTrack).toHaveBeenCalledTimes(2)
+    expect(createObjectURL).not.toHaveBeenCalled()
+  })
 })
 
 it('releases a late stream after stop and allows another recording', async () => {
@@ -115,11 +197,13 @@ it('releases a late stream after stop and allows another recording', async () =>
   const releaseLateStream = jest.fn()
   resolvePermission({ getTracks: () => [{ stop: releaseLateStream }] })
   await tick()
+  jest.advanceTimersByTime(0)
 
   expect(onStart).toHaveBeenCalledTimes(1)
   expect(releaseLateStream).toHaveBeenCalledTimes(1)
   expect(stopTrack).not.toHaveBeenCalled()
   manager.stop()
+  jest.advanceTimersByTime(0)
   expect(stopTrack).toHaveBeenCalledTimes(1)
   expect(onStop).toHaveBeenCalledTimes(1)
 })
@@ -141,6 +225,7 @@ it('releases the microphone once on a recording error', async () => {
   await tick()
   FakeRecorder.latest.dispatchEvent(new Event('error'))
   FakeRecorder.latest.stop()
+  jest.advanceTimersByTime(0)
 
   expect(stopTrack).toHaveBeenCalledTimes(1)
   expect(onError).toHaveBeenCalledWith({ errMsg: 'RecorderManager:fail browser recording failed' })
