@@ -9,11 +9,11 @@ type SwiperComponent = Omit<Swiper, never> & { swiper: SwiperJS }
 describe('Swiper lifecycle', () => {
   let page: SpecPage
 
-  const mount = async () => {
+  const mount = async (current = 0) => {
     page = await newSpecPage({
       components: [Swiper],
       template: () => (
-        <taro-swiper-core circular autoplay interval={400}>
+        <taro-swiper-core circular autoplay interval={400} current={current}>
           <taro-swiper-item-core class='swiper-slide' item-id='first' />
           <taro-swiper-item-core class='swiper-slide' item-id='second' />
           <taro-swiper-item-core class='swiper-slide' item-id='third' />
@@ -26,6 +26,20 @@ describe('Swiper lifecycle', () => {
   afterEach(() => {
     jest.useRealTimers()
     jest.restoreAllMocks()
+  })
+
+  it('emits change when moving from a nonzero initial slide to the first slide', async () => {
+    const component = await mount(1)
+    const listener = jest.fn()
+    page.root!.addEventListener('change', listener)
+    const instance = component.swiper
+    expect(instance.realIndex).toBe(1)
+
+    instance.realIndex = 0
+    instance.params.on?.slideChange?.call(instance, instance)
+
+    expect(listener).toHaveBeenCalledTimes(1)
+    expect(listener.mock.calls[0][0].detail.current).toBe(0)
   })
 
   it('stops autoplay and destroys the instance when disconnected', async () => {
