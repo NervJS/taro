@@ -1,4 +1,4 @@
-import { eventCenter } from '@tarojs/runtime'
+import { Current, eventCenter } from '@tarojs/runtime'
 
 import { navigateBack, reLaunch } from '../api'
 import { isDingTalk } from '../utils'
@@ -20,9 +20,8 @@ export default class NavigationBarHandler {
   navigationBarElement: HTMLElement
   cache: Record<string, NavigationBarCache>
   isLoadDdEntry = false
-  // 页面卸载中（已出栈）时，忽略对栈顶页面的首页按钮设置
+  // 页面在 onUnload 中（已出栈）时，忽略对栈顶页面的首页按钮设置
   isPageUnloading = false
-  unloadingCount = 0
   // 按页面实例记录已隐藏首页按钮的页面，页面实例销毁后状态随之失效
   homeButtonHiddenPages = new WeakSet<PageInstance>()
 
@@ -128,7 +127,8 @@ export default class NavigationBarHandler {
     // Note: 页面通常在 onShow 中调用，此时 load 尚未执行，但页面已入栈，直接记录在页面实例上，确保 load 时不会重新展示首页按钮
     if (this.isPageUnloading) return
     const page = stacks.last
-    if (!page) return
+    // Note: Current.page 是最近一次执行生命周期的页面。已出栈页面在 onUnload 中通过微任务延后的调用，会早于目标页面的 onShow，此时它不是栈顶页面
+    if (!page || Current.page !== page) return
     this.homeButtonHiddenPages.add(page)
     this.setFnBtnState()
   }

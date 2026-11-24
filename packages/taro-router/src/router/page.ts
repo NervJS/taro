@@ -182,7 +182,7 @@ export default class PageHandler {
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
       this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
       this.addAnimation(pageEl, pageNo === 0)
-      this.triggerShow(page)
+      page.onShow?.()
       this.navigationBarHandler.load()
       this.bindPageEvents(page, pageConfig)
       this.triggerRouterChange()
@@ -193,7 +193,7 @@ export default class PageHandler {
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
         this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
-        this.triggerShow(page)
+        page.onShow?.()
         this.navigationBarHandler.load()
         this.onReady(page, true)
         this.bindPageEvents(page, pageConfig)
@@ -202,31 +202,14 @@ export default class PageHandler {
     }
   }
 
-  // Note: 页面出栈后才会执行 onUnload，此时栈顶已是目标页面，需要避免已出栈页面的导航栏调用作用到目标页面
-  // 忽略范围包含 onUnload 中通过 Promise 等微任务延后的调用，因此在宏任务中才恢复
+  // Note: 页面出栈后才会执行 onUnload，此时栈顶已是目标页面，需要避免已出栈页面在 onUnload 中同步调用的导航栏方法作用到目标页面
   protected triggerUnload (page?: PageInstance | null) {
     const handler = this.navigationBarHandler
     handler.isPageUnloading = true
-    handler.unloadingCount++
     try {
       page?.onUnload?.()
     } finally {
-      setTimeout(() => {
-        handler.unloadingCount = Math.max(handler.unloadingCount - 1, 0)
-        if (handler.unloadingCount === 0) handler.isPageUnloading = false
-      }, 0)
-    }
-  }
-
-  // Note: 页面 onShow 中的调用属于新展示的页面，不应被卸载窗口忽略
-  protected triggerShow (page: PageInstance) {
-    const handler = this.navigationBarHandler
-    const isPageUnloading = handler.isPageUnloading
-    handler.isPageUnloading = false
-    try {
-      page.onShow?.()
-    } finally {
-      handler.isPageUnloading = isPageUnloading
+      handler.isPageUnloading = false
     }
   }
 
@@ -279,7 +262,7 @@ export default class PageHandler {
       }
       pageEl.classList.remove('taro_page_shade')
       this.addAnimation(pageEl, pageNo === 0)
-      this.triggerShow(page)
+      page.onShow?.()
       this.navigationBarHandler.load()
       this.bindPageEvents(page, pageConfig)
       this.triggerRouterChange()
@@ -287,7 +270,7 @@ export default class PageHandler {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.addAnimation(pageEl, pageNo === 0)
-        this.triggerShow(page)
+        page.onShow?.()
         this.navigationBarHandler.load()
         this.onReady(page, false)
         this.bindPageEvents(page, pageConfig)

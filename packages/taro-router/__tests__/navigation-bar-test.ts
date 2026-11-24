@@ -1,3 +1,4 @@
+import { Current, createPageConfig, document as taroDocument, injectPageInstance } from '@tarojs/runtime'
 import { createBrowserHistory } from 'history'
 
 import NavigationBarHandler from '../src/router/navigation-bar'
@@ -25,6 +26,12 @@ function createHandler (currentPage: string, options: {
     originPathname: currentPage,
     pageConfig: { navigationStyle: options.pageNavigationStyle },
   } as unknown as PageHandler)
+}
+
+// 页面的生命周期执行时，Current.page 指向该页面
+function hideAsCurrentPage () {
+  Current.page = stacks.last as any
+  hideNavigationBarHomeButton()
 }
 
 function setStackSize (size: number) {
@@ -88,7 +95,7 @@ describe('NavigationBarHandler', () => {
       handler.load()
       expect(getFnBtn()).toBe('home')
 
-      hideNavigationBarHomeButton()
+      hideAsCurrentPage()
 
       expect(getFnBtn()).toBe('none')
     })
@@ -98,7 +105,7 @@ describe('NavigationBarHandler', () => {
       const handler = createHandler(OTHER_PAGE)
 
       // 页面在 onShow 中调用时，导航栏还未根据当前页面刷新
-      hideNavigationBarHomeButton()
+      hideAsCurrentPage()
       handler.load()
 
       expect(getFnBtn()).toBe('none')
@@ -109,7 +116,7 @@ describe('NavigationBarHandler', () => {
       const handler = createHandler(OTHER_PAGE)
       handler.load()
 
-      hideNavigationBarHomeButton()
+      hideAsCurrentPage()
 
       expect(getFnBtn()).toBe('back')
     })
@@ -118,7 +125,7 @@ describe('NavigationBarHandler', () => {
       setStackSize(1)
       const handler = createHandler(OTHER_PAGE)
       handler.load()
-      hideNavigationBarHomeButton()
+      hideAsCurrentPage()
       expect(getFnBtn()).toBe('none')
 
       const anotherPage = '/pages/another/index'
@@ -132,7 +139,7 @@ describe('NavigationBarHandler', () => {
       setStackSize(1)
       const handler = createHandler(OTHER_PAGE)
       handler.load()
-      hideNavigationBarHomeButton()
+      hideAsCurrentPage()
 
       const anotherPage = '/pages/another/index'
       const original = stacks.last
@@ -152,7 +159,7 @@ describe('NavigationBarHandler', () => {
       setStackSize(1)
       const handler = createHandler(OTHER_PAGE)
       handler.load()
-      hideNavigationBarHomeButton()
+      hideAsCurrentPage()
       expect(getFnBtn()).toBe('none')
 
       // 例如 reLaunch 到同一路由：旧实例出栈，新实例入栈且没有调用该接口
@@ -163,214 +170,187 @@ describe('NavigationBarHandler', () => {
     })
   })
 
-  describe('hideHomeButton with the page handler', () => {
-    function createPage (path: string) {
-      return {
-        path,
-        options: {},
-        $taroParams: { stamp: 'navigation-bar-test' },
-        onShow: jest.fn(),
-        onHide: jest.fn(),
-        onUnload: jest.fn()
-      } as unknown as PageInstance
+  describe('hideHomeButton with the real page config', () => {
+    const ANOTHER_PAGE = '/pages/another/index'
+    const STAMP = 'navigation-bar-test'
+
+    type Lifecycles = Partial<Record<'onShow' | 'onUnload', () => void>>
+
+    let route = OTHER_PAGE
+    let handler: PageHandler
+
+    // 与 connect 一致：挂载页面时创建页面容器并注册页面实例，用户生命周期通过 safeExecute 在 hasLoaded 之后执行
+    function createPage (path: string, lifecycles: Lifecycles = {}) {
+      const component = { onShow: jest.fn(lifecycles.onShow), onUnload: jest.fn(lifecycles.onUnload) }
+      Current.app = {
+        mount: (_component, $taroPath, cb) => {
+          const el = document.createElement('div')
+          el.id = $taroPath
+          el.className = 'taro_page'
+          document.body.appendChild(el)
+          const root = taroDocument.createElement('root')
+          root.id = $taroPath
+          taroDocument.body.appendChild(root)
+          injectPageInstance(component as any, $taroPath)
+          cb()
+        },
+        unmount: (_$taroPath, cb) => cb()
+      } as any
+      const page = createPageConfig(component, path, {}, {}) as unknown as PageInstance
+      page.options = { stamp: STAMP }
+      return { page, component }
     }
 
-    function createContainer (page: PageInstance) {
-      const el = document.createElement('div')
-      el.id = page.path!
-      el.className = 'taro_page'
-      document.body.appendChild(el)
-      return el
+    function load (page: PageInstance, path: string) {
+      route = path
+      handler.load(page, {}, STAMP)
     }
 
-    function createPageHandler (pathname: string) {
+    function back (from: PageInstance, to: PageInstance, path: string) {
+      handler.unload(from, 1)
+      route = path
+      handler.show(to)
+    }
+
+    // 用户的 onShow 在 Promise 回调中执行，需要等待微任务
+    const flush = async () => {
+      for (let i = 0; i < 5; i++) await Promise.resolve()
+    }
+
+    // H5 端页面路径会写入页面配置，同时页面挂载后同步执行回调
+    const platform = process.env.TARO_PLATFORM
+    beforeAll(() => {
+      process.env.TARO_PLATFORM = 'web'
+    })
+
+    afterAll(() => {
+      process.env.TARO_PLATFORM = platform
+    })
+
+    beforeEach(() => {
+      route = OTHER_PAGE
       const config: SpaRouterConfig = {
         pages: ['pages/index/index', 'pages/detail/index', 'pages/another/index'],
-        routes: [{ path: '/pages/index/index' }, { path: OTHER_PAGE }, { path: '/pages/another/index' }],
-        router: { mode: 'browser', basename: '', pathname },
+        routes: [{ path: HOME_PAGE }, { path: OTHER_PAGE }, { path: ANOTHER_PAGE }],
+        router: { mode: 'browser', basename: '', pathname: OTHER_PAGE },
         window: { navigationStyle: 'default' }
       }
-      return new PageHandler(config, createBrowserHistory())
-    }
-
-    // PageHandler 通过运行时的 location 获取当前路由，这里直接模拟路由切换
-    let route = OTHER_PAGE
-    const setRoute = (pathname: string) => {
-      route = pathname
-    }
+      handler = new PageHandler(config, createBrowserHistory())
+      jest.spyOn(handler, 'currentPage', 'get').mockImplementation(() => route)
+    })
 
     afterEach(() => {
-      route = OTHER_PAGE
+      jest.useRealTimers()
+      Current.page = null
       document.body.innerHTML = ''
     })
 
-    it('stays hidden after navigateTo and navigateBack, and resets on a relaunched instance', () => {
-      const handler = createPageHandler(OTHER_PAGE)
-      jest.spyOn(handler, 'currentPage', 'get').mockImplementation(() => route)
-      const page = createPage(OTHER_PAGE)
-      createContainer(page)
-      // 页面在 onShow 中调用，此时路由还未刷新导航栏
-      ;(page.onShow as jest.Mock).mockImplementationOnce(() => hideNavigationBarHomeButton())
-
-      handler.load(page, {}, 'navigation-bar-test')
+    it('stays hidden after navigateTo and navigateBack, and resets on a relaunched instance', async () => {
+      const { page: pageA, component: a } = createPage(OTHER_PAGE)
+      // 只在第一次 onShow 中调用
+      a.onShow.mockImplementationOnce(() => hideNavigationBarHomeButton())
+      load(pageA, OTHER_PAGE)
+      await flush()
       expect(getFnBtn()).toBe('none')
 
-      // navigateTo 另一个页面
-      const nextPage = createPage('/pages/another/index')
-      createContainer(nextPage)
-      handler.hide(page)
-      setRoute('/pages/another/index')
-      handler.load(nextPage, {}, 'navigation-bar-test')
+      const { page: pageB } = createPage(ANOTHER_PAGE)
+      handler.hide(pageA)
+      load(pageB, ANOTHER_PAGE)
+      await flush()
       expect(getFnBtn()).toBe('back')
 
-      // navigateBack 回到原页面
-      handler.unload(nextPage)
-      setRoute(OTHER_PAGE)
-      handler.show(page)
+      back(pageB, pageA, OTHER_PAGE)
+      await flush()
+      expect(a.onShow).toHaveBeenCalledTimes(2)
       expect(getFnBtn()).toBe('none')
 
       // reLaunch 到同一路由的新实例，且没有调用该接口
-      handler.unload(page)
-      setRoute(OTHER_PAGE)
-      const relaunched = createPage(OTHER_PAGE)
-      createContainer(relaunched)
-      handler.load(relaunched, {}, 'navigation-bar-test')
-      expect(getFnBtn()).toBe('home')
-    })
-  })
-
-  describe('hideHomeButton called while a page is unloading', () => {
-    it('does not hide the home button of the page navigated back to', () => {
-      const config: SpaRouterConfig = {
-        pages: ['pages/index/index', 'pages/detail/index', 'pages/another/index'],
-        routes: [{ path: '/pages/index/index' }, { path: OTHER_PAGE }, { path: '/pages/another/index' }],
-        router: { mode: 'browser', basename: '', pathname: OTHER_PAGE },
-        window: { navigationStyle: 'default' }
-      }
-      const handler = new PageHandler(config, createBrowserHistory())
-      let route = OTHER_PAGE
-      jest.spyOn(handler, 'currentPage', 'get').mockImplementation(() => route)
-      const create = (path: string, onUnload?: () => void) => {
-        const el = document.createElement('div')
-        el.id = path
-        el.className = 'taro_page'
-        document.body.appendChild(el)
-        return {
-          path,
-          options: {},
-          $taroParams: { stamp: 'navigation-bar-test' },
-          onShow: jest.fn(),
-          onHide: jest.fn(),
-          onUnload: jest.fn(onUnload)
-        } as unknown as PageInstance
-      }
-
-      const pageA = create(OTHER_PAGE)
-      handler.load(pageA, {}, 'navigation-bar-test')
-      expect(getFnBtn()).toBe('home')
-
-      // B 在 onUnload 中调用该接口，此时 B 已出栈，栈顶是 A
-      const pageB = create('/pages/another/index', () => hideNavigationBarHomeButton())
-      handler.hide(pageA)
-      route = '/pages/another/index'
-      handler.load(pageB, {}, 'navigation-bar-test')
-      handler.unload(pageB)
-      route = OTHER_PAGE
-      handler.show(pageA)
-
-      expect(pageB.onUnload).toHaveBeenCalledTimes(1)
-      expect(getFnBtn()).toBe('home')
-      document.body.innerHTML = ''
-    })
-
-    it('ignores a call deferred by a microtask from the popped page', async () => {
-      const config: SpaRouterConfig = {
-        pages: ['pages/index/index', 'pages/detail/index', 'pages/another/index'],
-        routes: [{ path: '/pages/index/index' }, { path: OTHER_PAGE }, { path: '/pages/another/index' }],
-        router: { mode: 'browser', basename: '', pathname: OTHER_PAGE },
-        window: { navigationStyle: 'default' }
-      }
-      const handler = new PageHandler(config, createBrowserHistory())
-      let route = OTHER_PAGE
-      jest.spyOn(handler, 'currentPage', 'get').mockImplementation(() => route)
-      const create = (path: string, onUnload?: () => void) => {
-        const el = document.createElement('div')
-        el.id = path
-        el.className = 'taro_page'
-        document.body.appendChild(el)
-        return {
-          path,
-          options: {},
-          $taroParams: { stamp: 'navigation-bar-test' },
-          onShow: jest.fn(),
-          onHide: jest.fn(),
-          onUnload: jest.fn(onUnload)
-        } as unknown as PageInstance
-      }
-
-      const pageA = create(OTHER_PAGE)
-      handler.load(pageA, {}, 'navigation-bar-test')
-      expect(getFnBtn()).toBe('home')
-
-      // B 在 onUnload 中通过微任务延后调用该接口
-      let deferred: Promise<void> = Promise.resolve()
-      const pageB = create('/pages/another/index', () => {
-        deferred = Promise.resolve().then(() => hideNavigationBarHomeButton())
-      })
-      handler.hide(pageA)
-      route = '/pages/another/index'
-      handler.load(pageB, {}, 'navigation-bar-test')
-      handler.unload(pageB)
-      route = OTHER_PAGE
-      handler.show(pageA)
-      await deferred
-      await new Promise(resolve => setTimeout(resolve, 0))
-
-      expect(getFnBtn()).toBe('home')
-
-      // 卸载结束后，A 自己调用仍然生效
-      hideNavigationBarHomeButton()
-      expect(getFnBtn()).toBe('none')
-      document.body.innerHTML = ''
-    })
-
-    it('still applies a call made in onShow of the page shown right after the unload', () => {
-      const config: SpaRouterConfig = {
-        pages: ['pages/index/index', 'pages/detail/index', 'pages/another/index'],
-        routes: [{ path: '/pages/index/index' }, { path: OTHER_PAGE }, { path: '/pages/another/index' }],
-        router: { mode: 'browser', basename: '', pathname: OTHER_PAGE },
-        window: { navigationStyle: 'default' }
-      }
-      const handler = new PageHandler(config, createBrowserHistory())
-      let route = OTHER_PAGE
-      jest.spyOn(handler, 'currentPage', 'get').mockImplementation(() => route)
-      const create = (path: string) => {
-        const el = document.createElement('div')
-        el.id = path
-        el.className = 'taro_page'
-        document.body.appendChild(el)
-        return {
-          path,
-          options: {},
-          $taroParams: { stamp: 'navigation-bar-test' },
-          onShow: jest.fn(),
-          onHide: jest.fn(),
-          onUnload: jest.fn()
-        } as unknown as PageInstance
-      }
-
-      const pageA = create(OTHER_PAGE)
-      handler.load(pageA, {}, 'navigation-bar-test')
-
-      // reLaunch：旧页面卸载后立即加载新页面，新页面在 onShow 中隐藏首页按钮
-      const pageB = create('/pages/another/index')
-      ;(pageB.onShow as jest.Mock).mockImplementationOnce(() => hideNavigationBarHomeButton())
       handler.unload(pageA)
-      route = '/pages/another/index'
-      handler.load(pageB, {}, 'navigation-bar-test')
+      const { page: relaunched } = createPage(OTHER_PAGE)
+      load(relaunched, OTHER_PAGE)
+      await flush()
+      expect(getFnBtn()).toBe('home')
+    })
+
+    describe.each([
+      ['without animation', false],
+      ['with animation', true]
+    ])('on the page navigated back to %s', (_name, animated) => {
+      async function openAThenB (lifecyclesB: Lifecycles = {}, lifecyclesA: Lifecycles = {}) {
+        const a = createPage(OTHER_PAGE, lifecyclesA)
+        load(a.page, OTHER_PAGE)
+        await flush()
+        expect(getFnBtn()).toBe('home')
+
+        const b = createPage(ANOTHER_PAGE, lifecyclesB)
+        handler.hide(a.page)
+        load(b.page, ANOTHER_PAGE)
+        await flush()
+        return { a, b }
+      }
+
+      // 带动画时页面在动画结束后才卸载，之后再展示目标页面
+      async function goBack (from: PageInstance, to: PageInstance) {
+        if (animated) {
+          jest.useFakeTimers()
+          handler.unload(from, 1, true)
+          await jest.advanceTimersByTimeAsync(handler.animationDuration)
+          route = OTHER_PAGE
+          handler.show(to)
+        } else {
+          back(from, to, OTHER_PAGE)
+        }
+        await flush()
+      }
+
+      it('does not hide the home button when the popped page calls it synchronously in onUnload', async () => {
+        const { a, b } = await openAThenB({ onUnload: () => hideNavigationBarHomeButton() })
+
+        await goBack(b.page, a.page)
+
+        expect(b.component.onUnload).toHaveBeenCalledTimes(1)
+        expect(getFnBtn()).toBe('home')
+      })
+
+      it('does not hide the home button when the popped page calls it from a microtask in onUnload', async () => {
+        let deferred: Promise<void> = Promise.resolve()
+        const { a, b } = await openAThenB({
+          onUnload: () => {
+            deferred = Promise.resolve().then(() => hideNavigationBarHomeButton())
+          }
+        })
+
+        await goBack(b.page, a.page)
+        await deferred
+
+        expect(b.component.onUnload).toHaveBeenCalledTimes(1)
+        expect(getFnBtn()).toBe('home')
+      })
+
+      it('applies a call made in onShow when the page is shown again', async () => {
+        const { a, b } = await openAThenB()
+        // 只在返回后的第二次 onShow 中调用
+        a.component.onShow.mockImplementationOnce(() => hideNavigationBarHomeButton())
+
+        await goBack(b.page, a.page)
+
+        expect(a.component.onShow).toHaveBeenCalledTimes(2)
+        expect(getFnBtn()).toBe('none')
+      })
+    })
+
+    it('applies a call made in onShow of a page opened by reLaunch', async () => {
+      const { page: pageA } = createPage(OTHER_PAGE)
+      load(pageA, OTHER_PAGE)
+      await flush()
+      expect(getFnBtn()).toBe('home')
+
+      handler.unload(pageA)
+      const { page: relaunched } = createPage(ANOTHER_PAGE, { onShow: () => hideNavigationBarHomeButton() })
+      load(relaunched, ANOTHER_PAGE)
+      await flush()
 
       expect(getFnBtn()).toBe('none')
-      document.body.innerHTML = ''
     })
   })
 
