@@ -1,9 +1,11 @@
+import { temporarilyNotSupport } from '../utils'
+
 /**
  * 创建离屏 canvas 实例
  *
  * @canNotUse createOffscreenCanvas
  */
-export { createOffscreenCanvas } from '@tarojs/taro-h5'
+export const createOffscreenCanvas = /* @__PURE__ */ temporarilyNotSupport('createOffscreenCanvas')
 
 /** 创建 canvas 的绘图上下文 CanvasContext 对象 */
 export * from './createCanvasContext'

@@ -1824,9 +1824,9 @@ declare module '../../index' {
      */
     referrerPolicy: string
     /** 图片加载发生错误后触发的回调函数 */
-    onerror: ((...args: any[]) => any) | null
+    onerror: (...args: any[]) => any
     /** 图片加载完成后触发的回调函数 */
-    onload: ((...args: any[]) => any) | null
+    onload: (...args: any[]) => any
   }
 
   /** ImageData 对象
@@ -1864,7 +1864,7 @@ declare module '../../index' {
      * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.getContext.html
      */
-    getContext(contextType: 'webgl' | '2d'): RenderingContext | null
+    getContext(contextType: 'webgl' | '2d'): RenderingContext
   }
 
   /** Canvas 2D API 的接口 Path2D 用来声明路径，此路径稍后会被CanvasRenderingContext2D 对象使用。CanvasRenderingContext2D 接口的 路径方法 也存在于 Path2D 这个接口中，允许你在 canvas 中根据需要创建可以保留并重用的路径。
@@ -2014,19 +2014,24 @@ declare module '../../index' {
   interface TaroStatic {
     /** 创建离屏 canvas 实例
      * H5 在页面中调用，默认尺寸为 300×150，可用时使用浏览器 OffscreenCanvas。
+     * 从 `@tarojs/taro-h5` 导入同名函数可获得 H5 专用的绘图上下文和图片类型。
      * @supported weapp, tt, h5
      * @example
      * ```tsx
-     * // 创建离屏 2D canvas 实例
-     * const canvas = Taro.createOffscreenCanvas({type: '2d', width: 300, height: 150})
+     * // H5
+     * import { createOffscreenCanvas } from '@tarojs/taro-h5'
+     *
+     * const canvas = createOffscreenCanvas({type: '2d', width: 300, height: 150})
      * // 获取 context。注意这里必须要与创建时的 type 一致
      * const context = canvas.getContext('2d')
+     * if (!context) throw new Error('2D context is unavailable')
      *
      * // 创建一个图片
      * const image = canvas.createImage()
      * // 等待图片加载
-     * await new Promise(resolve => {
-     *   image.onload = resolve
+     * await new Promise<void>((resolve, reject) => {
+     *   image.onload = () => resolve()
+     *   image.onerror = reject
      *   image.src = IMAGE_URL // 要加载的图片 url
      * })
      *
