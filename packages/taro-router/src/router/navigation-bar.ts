@@ -22,6 +22,7 @@ export default class NavigationBarHandler {
   isLoadDdEntry = false
   // 页面卸载中（已出栈）时，忽略对栈顶页面的首页按钮设置
   isPageUnloading = false
+  unloadingCount = 0
   // 按页面实例记录已隐藏首页按钮的页面，页面实例销毁后状态随之失效
   homeButtonHiddenPages = new WeakSet<PageInstance>()
 
