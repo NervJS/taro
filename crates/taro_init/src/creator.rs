@@ -1,4 +1,10 @@
-use std::{collections::HashMap, future::Future, path::PathBuf};
+use std::{
+  collections::HashMap,
+  fs::OpenOptions,
+  future::Future,
+  path::PathBuf,
+  sync::atomic::{AtomicU64, Ordering},
+};
 
 use anyhow::Context;
 use console::style;
@@ -219,6 +225,7 @@ impl Creator {
     let current_style_ext = STYLE_EXT_MAP
       .get(&options.css.unwrap_or(CSSType::None))
       .unwrap_or(&"css");
+    let case_sensitive_fs = filesystem_is_case_sensitive(&self.destination_root)?;
     options.css_ext = Some(current_style_ext.to_string());
     let mut files_to_process = Vec::new();
     for file in files {
@@ -241,6 +248,7 @@ impl Creator {
       options,
       current_style_ext,
       js_handlers,
+      case_sensitive_fs,
     )?;
 
     let handler_options = options.clone();
@@ -297,7 +305,7 @@ impl Creator {
         );
         if let Some(previous_dest_path) = created_destinations
           .iter()
-          .find(|previous| destination_paths_conflict(previous, &dest_path))
+          .find(|previous| destination_paths_conflict(previous, &dest_path, case_sensitive_fs))
         {
           anyhow::bail!(
             "多个模板文件映射到冲突的目标路径 {} 和 {}",
@@ -351,9 +359,14 @@ fn dotfile_template_name(base_name: &str) -> Option<&str> {
   }
 }
 
-fn destination_paths_conflict(left: &str, right: &str) -> bool {
-  let left = normalize_path_str(left).to_lowercase();
-  let right = normalize_path_str(right).to_lowercase();
+fn destination_paths_conflict(left: &str, right: &str, case_sensitive_fs: bool) -> bool {
+  let left = normalize_path_str(left);
+  let right = normalize_path_str(right);
+  let (left, right) = if case_sensitive_fs {
+    (left, right)
+  } else {
+    (left.to_lowercase(), right.to_lowercase())
+  };
   left == right
     || left
       .strip_prefix(&right)
@@ -363,12 +376,47 @@ fn destination_paths_conflict(left: &str, right: &str) -> bool {
       .is_some_and(|suffix| suffix.starts_with('/'))
 }
 
+fn filesystem_is_case_sensitive(path: &str) -> anyhow::Result<bool> {
+  static PROBE_ID: AtomicU64 = AtomicU64::new(0);
+
+  let mut directory = PathBuf::from(path);
+  if !directory.is_absolute() {
+    directory = std::env::current_dir()?.join(directory);
+  }
+  while !directory.is_dir() {
+    if !directory.pop() {
+      anyhow::bail!("could not find an existing directory for destination path {path}");
+    }
+  }
+
+  for _ in 0..8 {
+    let id = PROBE_ID.fetch_add(1, Ordering::Relaxed);
+    let name = format!("codex-case-probe-{}-{id}-aA", std::process::id());
+    let probe = directory.join(&name);
+    let alternate = directory.join(format!("codex-case-probe-{}-{id}-Aa", std::process::id()));
+    let file = match OpenOptions::new().write(true).create_new(true).open(&probe) {
+      Ok(file) => file,
+      Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
+      Err(error) => {
+        return Err(error).with_context(|| format!("probing destination filesystem {directory:?}"))
+      }
+    };
+    drop(file);
+    let case_sensitive = !alternate.exists();
+    std::fs::remove_file(&probe).with_context(|| format!("removing filesystem probe {probe:?}"))?;
+    return Ok(case_sensitive);
+  }
+
+  anyhow::bail!("could not allocate a unique filesystem case-sensitivity probe in {directory:?}")
+}
+
 fn preflight_static_destinations(
   creator: &Creator,
   files: &[(String, String)],
   options: &CreateOptions,
   current_style_ext: &str,
   js_handlers: &HashMap<String, ThreadsafeFunction<CreateOptions>>,
+  case_sensitive_fs: bool,
 ) -> anyhow::Result<()> {
   let mut destinations: Vec<(&str, String)> = Vec::new();
   for (file_relative_path, source_path) in files {
@@ -385,9 +433,10 @@ fn preflight_static_destinations(
       true,
       current_style_ext,
     );
-    if let Some((previous_source, previous_dest)) = destinations
-      .iter()
-      .find(|(_, previous_dest)| destination_paths_conflict(previous_dest, &dest_path))
+    if let Some((previous_source, previous_dest)) =
+      destinations.iter().find(|(_, previous_dest)| {
+        destination_paths_conflict(previous_dest, &dest_path, case_sensitive_fs)
+      })
     {
       anyhow::bail!(
         "模板文件 {} 和 {} 映射到冲突的目标路径 {} 和 {}",
@@ -663,6 +712,9 @@ mod tests {
       [".config/settings.json", "_config"],
     ] {
       let temp = TestDirectory::new();
+      let case_sensitive_fs = filesystem_is_case_sensitive(&temp.0.to_string_lossy())
+        .expect("test filesystem should be writable");
+      let should_conflict = order[0].contains("config") || !case_sensitive_fs;
       let template_root = temp.0.join("templates").join("default");
       let destination_path = temp.0.join("project");
       std::fs::create_dir_all(&template_root).unwrap();
@@ -703,16 +755,22 @@ mod tests {
       let files = order.map(|name| template_root.join(name).to_string_lossy().to_string());
       let file_refs = files.iter().map(String::as_str).collect::<Vec<_>>();
 
-      let error = creator
+      let result = creator
         .create_files(&file_refs, &template_path, &mut options, &js_handlers)
-        .await
-        .expect_err("multiple templates must not overwrite the same destination");
+        .await;
 
-      assert!(error.to_string().contains("冲突的目标路径"));
-      assert!(
-        !destination_path.exists(),
-        "colliding templates must be rejected before any output is written"
-      );
+      if should_conflict {
+        let error = result.expect_err("multiple templates must not overwrite the same destination");
+        assert!(error.to_string().contains("冲突的目标路径"));
+        assert!(
+          !destination_path.exists(),
+          "colliding templates must be rejected before any output is written"
+        );
+      } else {
+        result.expect("case-distinct paths can coexist on a case-sensitive filesystem");
+        assert!(destination_path.join(".eslintrc.js").is_file());
+        assert!(destination_path.join(".ESLINTRC.js").is_file());
+      }
     }
   }
 
