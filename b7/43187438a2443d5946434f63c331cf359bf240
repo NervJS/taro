@@ -1,22 +1,21 @@
+packages/taro-components-react/src/components/picker/index.tsx
+  s_64294116851673::t_b820059ad6b812 224,229,996
+  s_64294116851673::t_8c3d79b1bf2e6d 20,225-228
+packages/taro-components-react/__tests__/picker-duo-layout.spec.ts
+  s_64294116851673::t_4e2460498ef8a5 10-84,104-122
+  s_4948df13c03bd5::t_96a437723c947b 123-143
+packages/taro-components-react/src/components/picker/duo-layout.ts
+  s_64294116851673::t_d8b0239b8b7e7d 1-55,60-69,78-98,228-270,272-295,297-319,123,134,172,179,189,191,198,222,325,342
+  s_4948df13c03bd5::t_13ab5c3e5c8953 320,346,56-59,70-77,100-104,106-108,110-111,113-122,124-133,135,138-140,143,145-151,154-158,160-165,168-171,175-178,180-188,190,192-197,201,203-221,225-226,271,296,321-324,326-340,343-344,361-363,373
+  s_64294116851673::t_6635e10d26e492 347-360,364-372,374-379,99,105,109,112,136-137,141-142,144,152-153,159,166-167,173-174,199-200,202,223-224,227,341,345
 packages/taro-components-react/__tests__/picker-duo-appearance.spec.tsx
   s_4948df13c03bd5::t_348c3f58f8caf2 1-267
-packages/taro-components-react/__tests__/picker-duo-layout.spec.ts
-  s_4948df13c03bd5::t_96a437723c947b 1-9,85-103,125-143
-packages/taro-components-react/src/components/picker/duo-layout.ts
-  s_4948df13c03bd5::t_13ab5c3e5c8953 56-59,70-77,99-227,271,296,321-345,361-363,373
-packages/taro-components-react/src/components/picker/index.tsx
-  s_64294116851673::t_8c3d79b1bf2e6d 20,225-228
 ---
 {
   "schema_version": "authorship/3.0.0",
-  "git_ai_version": "1.7.6",
+  "git_ai_version": "1.5.7",
   "base_commit_sha": "b743187438a2443d5946434f63c331cf359bf240",
   "prompts": {},
-  "humans": {
-    "h_ae6ef8e50926af": {
-      "author": "Muyouz <muyouz.233@gmail.com>"
-    }
-  },
   "sessions": {
     "s_4948df13c03bd5": {
       "agent_id": {
