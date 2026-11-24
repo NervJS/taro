@@ -25,7 +25,7 @@ function fixControlledValue (value?: string) {
   styleUrl: './style/index.scss'
 })
 export class Input implements ComponentInterface {
-  private inputRef: HTMLInputElement
+  private inputRef?: HTMLInputElement | null
   private isOnComposition = false
   private isOnPaste = false
   private onInputExcuted = false
@@ -47,7 +47,7 @@ export class Input implements ComponentInterface {
 
   @Method()
   async focus() {
-    this.inputRef.focus()
+    this.inputRef?.focus()
   }
 
   @Watch('autoFocus')
@@ -59,9 +59,13 @@ export class Input implements ComponentInterface {
 
   @Watch('value')
   watchValue (newValue: string) {
+    const input = this.inputRef
+    // The host can receive a value before its native input has rendered.
+    if (!input) return
+
     const value = fixControlledValue(newValue)
-    if (this.inputRef.value !== value) {
-      this.inputRef.value = value
+    if (input.value !== value) {
+      input.value = value
     }
   }
 
@@ -257,7 +261,7 @@ export class Input implements ComponentInterface {
     return (
       <input
         ref={input => {
-          this.inputRef = input!
+          this.inputRef = input
           if (autoFocus && input) input.focus()
         }}
         class='weui-input'

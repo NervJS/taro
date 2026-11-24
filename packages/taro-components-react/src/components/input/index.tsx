@@ -68,7 +68,7 @@ class Input extends React.Component<IProps, IState> {
     this.onInputExecuted = false
   }
 
-  inputRef: HTMLInputElement
+  inputRef?: HTMLInputElement | null
   isOnComposition: boolean
   onInputExecuted: boolean
 
@@ -87,7 +87,7 @@ class Input extends React.Component<IProps, IState> {
   componentWillUnmount () {
     // 修复无法选择文件
     if (this.props.type === 'file') {
-      this.inputRef.removeEventListener('change', this.handleInput)
+      this.inputRef?.removeEventListener('change', this.handleInput)
     } else {
       this.inputRef?.removeEventListener('textInput', this.handleBeforeInput)
     }
