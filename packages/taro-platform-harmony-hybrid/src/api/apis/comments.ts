@@ -1225,12 +1225,6 @@
  */
 
 /**
- * 为视图层预加载媒体资源文件
- *
- * @canNotUse preloadAssets
- */
-
-/**
  * 预加载下个页面所需要的 Skyline 运行环境
  *
  * @canNotUse preloadSkylineView

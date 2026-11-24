@@ -5,12 +5,12 @@ import { MethodHandler } from '../../utils/handler'
 
 type Asset = Taro.preloadAssets.AssetsObject
 
-const requests = new Map<string, Promise<void>>()
+const pendingRequests = new Map<string, Promise<void>>()
 
 function preload ({ type, src }: Asset) {
   const url = new URL(src, document.baseURI).href
   const key = `${type}:${url}`
-  const existing = requests.get(key)
+  const existing = pendingRequests.get(key)
   if (existing) return existing
 
   const link = document.createElement('link')
@@ -23,15 +23,13 @@ function preload ({ type, src }: Asset) {
     link.onload = () => resolve()
     link.onerror = () => reject(new Error(`failed to preload ${type}: ${url}`))
     document.head.appendChild(link)
-  }).catch(error => {
-    requests.delete(key)
-    link.remove()
-    throw error
   }).finally(() => {
+    pendingRequests.delete(key)
     link.onload = null
     link.onerror = null
+    link.remove()
   })
-  requests.set(key, request)
+  pendingRequests.set(key, request)
   return request
 }
 

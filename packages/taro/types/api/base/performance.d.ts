@@ -234,6 +234,7 @@ declare module '../../index' {
 
     /** 为视图层预加载媒体资源文件, 目前支持：font，image
      * H5 字体预加载采用匿名跨域请求。使用字体时仍需通过 CSS 声明字体。
+     * H5 会复用进行中的请求，并在完成后移除预加载节点。之后再次调用会交由浏览器处理缓存。
      * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadAssets.html
      */
