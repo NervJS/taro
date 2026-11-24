@@ -32,6 +32,37 @@ describe('tabbar', () => {
     const output = getOutput(stats, config)
     expect(output).toMatchSnapshot()
   })
+
+  test('should keep name_locale when converting the alipay tabbar', () => {
+    let modifyMiniConfigs
+    const program = new Alipay({ helper, modifyMiniConfigs: fn => { modifyMiniConfigs = fn } } as any, {})
+    program.modifyMiniConfigs()
+
+    const content = {
+      tabBar: {
+        color: '#999999',
+        list: [{
+          pagePath: 'pages/index/index',
+          text: '首页',
+          name_locale: { zh_CN: '首页', en_US: 'Home' },
+          iconPath: 'assets/home.png',
+          selectedIconPath: 'assets/home-active.png'
+        }]
+      }
+    }
+    modifyMiniConfigs({ configMap: { app: { content } } })
+
+    expect(content.tabBar).toEqual({
+      textColor: '#999999',
+      items: [{
+        pagePath: 'pages/index/index',
+        name: '首页',
+        name_locale: { zh_CN: '首页', en_US: 'Home' },
+        icon: 'assets/home.png',
+        activeIcon: 'assets/home-active.png'
+      }]
+    })
+  })
 })
 
 describe('custom tabbar', () => {
