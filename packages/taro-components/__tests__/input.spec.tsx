@@ -110,4 +110,49 @@ describe('Input', () => {
 
     expect(page.root).toMatchSnapshot()
   })
+
+  describe('native input ref lifecycle', () => {
+    beforeEach(async () => {
+      page = await newSpecPage({
+        components: [Input],
+        html: '<taro-input-core value="initial"></taro-input-core>'
+      })
+    })
+
+    it.each([undefined, null])('ignores value updates while the native ref is %s', ref => {
+      Reflect.set(page.rootInstance, 'inputRef', ref)
+
+      expect(() => page.rootInstance.watchValue('next')).not.toThrow()
+    })
+
+    it.each([undefined, null])('resolves focus while the native ref is %s', async ref => {
+      Reflect.set(page.rootInstance, 'inputRef', ref)
+
+      await expect(page.rootInstance.focus()).resolves.toBeUndefined()
+    })
+
+    it('renders the latest controlled value after the native ref becomes available', async () => {
+      Reflect.set(page.rootInstance, 'inputRef', undefined)
+
+      page.root!.value = 'updated before ref'
+      await page.waitForChanges()
+
+      expect(page.root!.querySelector('input')!.value).toBe('updated before ref')
+      page.root!.value = 'updated after ref'
+      await page.waitForChanges()
+      expect(page.root!.querySelector('input')!.value).toBe('updated after ref')
+    })
+
+    it('normalizes nullish values and focuses an available native input', async () => {
+      const input = page.root!.querySelector('input')!
+      const focus = jest.spyOn(input, 'focus')
+
+      page.rootInstance.watchValue(null)
+      expect(input.value).toBe('')
+      page.rootInstance.watchValue('non-empty')
+      expect(input.value).toBe('non-empty')
+      await page.rootInstance.focus()
+      expect(focus).toHaveBeenCalledTimes(1)
+    })
+  })
 })
