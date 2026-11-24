@@ -502,6 +502,70 @@ mod tests {
     );
   }
 
+  #[tokio::test]
+  async fn create_files_keeps_ordinary_underscore_module_import_working() {
+    let temp = TestDirectory::new();
+    let template_root = temp.0.join("templates").join("custom");
+    let destination_path = temp.0.join("project");
+    std::fs::create_dir_all(&template_root).unwrap();
+
+    let index_file = template_root.join("index.js");
+    let helper_file = template_root.join("_helper.js");
+    std::fs::write(&index_file, "module.exports = require('./helper');\n").unwrap();
+    std::fs::write(&helper_file, "module.exports = 'helper';\n").unwrap();
+
+    let creator = Creator::new(
+      temp.0.to_string_lossy().to_string(),
+      destination_path.to_string_lossy().to_string(),
+    );
+    let mut options = CreateOptions {
+      css: None,
+      css_ext: None,
+      framework: None,
+      description: None,
+      project_name: "test-project".to_string(),
+      version: None,
+      date: None,
+      typescript: Some(false),
+      build_es5: None,
+      template: "custom".to_string(),
+      page_name: None,
+      compiler: None,
+      set_sub_pkg_page_name: None,
+      sub_pkg: None,
+      page_dir: None,
+      set_page_name: None,
+      change_ext: None,
+      is_custom_template: None,
+      plugin_type: None,
+      platforms: None,
+    };
+    let js_handlers = HashMap::new();
+    let template_root = template_root.to_string_lossy().to_string();
+    let index_file = index_file.to_string_lossy().to_string();
+    let helper_file = helper_file.to_string_lossy().to_string();
+
+    creator
+      .create_files(
+        &[&index_file, &helper_file],
+        &template_root,
+        &mut options,
+        &js_handlers,
+      )
+      .await
+      .unwrap();
+
+    assert_eq!(
+      std::fs::read_to_string(destination_path.join("index.js")).unwrap(),
+      "module.exports = require('./helper');\n"
+    );
+    assert_eq!(
+      std::fs::read_to_string(destination_path.join("helper.js")).unwrap(),
+      "module.exports = 'helper';\n"
+    );
+    assert!(!destination_path.join(".helper.js").exists());
+  }
+
   #[test]
   fn sass_partial_template_files_keep_their_underscore_prefix() {
     let creator = Creator::new("/tpl".to_string(), "/dest".to_string());
