@@ -1,7 +1,6 @@
 export {
   bindDevLogger,
   bindProdLogger,
-  extractStatsMessages,
   getServeSpinner,
   printBuildError,
   printCompiling,

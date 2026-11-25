@@ -1,15 +1,23 @@
 import { recursiveMerge } from '@tarojs/helper'
 
 import postcssAlias from './postcss-alias'
+import { createGetPostcssPlugins } from './postcss-plugins'
 
 import type { Func, IHtmlTransformOption, IPostcssOption } from '@tarojs/taro/types/compile'
 
-export { getPostcssPlugins } from './postcss-plugins'
-
+const platform = process.env.TARO_ENV
 const defaultAutoprefixerOption = {
   enable: true,
   config: {
     flexbox: 'no-2009'
+  }
+}
+const defaultPxtransformOption: {
+  [key: string]: any
+} = {
+  enable: true,
+  config: {
+    platform
   }
 }
 
@@ -22,40 +30,33 @@ const defaultUrlOption: {
   }
 }
 
+const defaultHtmltransformOption: IHtmlTransformOption = {
+  enable: false,
+  config: {
+    platform,
+    removeCursorStyle: true
+  }
+}
+
 export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
   postcssOption = {} as IPostcssOption<'mini'>,
   alias = {}
 }): [string, any, Func?][] {
-  const platform = process.env.TARO_ENV
   const { autoprefixer, pxtransform, htmltransform, ...options } = postcssOption
 
-  const basePxOption: Record<string, any> = {
-    enable: true,
-    config: {
-      platform
-    }
-  }
-  const baseHtmlOption: IHtmlTransformOption = {
-    enable: false,
-    config: {
-      platform,
-      removeCursorStyle: true
-    }
-  }
-
   if (designWidth) {
-    basePxOption.config.designWidth = designWidth
+    defaultPxtransformOption.config.designWidth = designWidth
   }
 
   if (deviceRatio) {
-    basePxOption.config.deviceRatio = deviceRatio
+    defaultPxtransformOption.config.deviceRatio = deviceRatio
   }
 
   const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, autoprefixer)
-  const pxtransformOption = recursiveMerge({}, basePxOption, pxtransform)
-  const htmltransformOption: IHtmlTransformOption = recursiveMerge({}, baseHtmlOption, htmltransform)
+  const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, pxtransform)
+  const htmltransformOption: IHtmlTransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
 
   return [
     ['postcss-import', {}, require('postcss-import')],
@@ -67,3 +68,5 @@ export const getDefaultPostcssConfig = function ({
     ...Object.entries(options)
   ]
 }
+
+export const getPostcssPlugins = createGetPostcssPlugins(pluginName => `缺少postcss插件${pluginName}, 已忽略`)

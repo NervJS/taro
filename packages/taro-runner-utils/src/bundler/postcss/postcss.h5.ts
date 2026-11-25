@@ -1,10 +1,11 @@
 import { recursiveMerge } from '@tarojs/helper'
 
 import postcssAlias from './postcss-alias'
+import { createGetPostcssPlugins } from './postcss-plugins'
 
 import type { Func, IHtmlTransformOption, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
-export { getPostcssPlugins } from './postcss-plugins'
+export const getPostcssPlugins = createGetPostcssPlugins()
 
 const platform = 'h5'
 const defaultAutoprefixerOption = {
@@ -53,16 +54,15 @@ export const getDefaultPostcssConfig = function ({
   alias = {}
 }): [string, any, Func?][] {
   const { autoprefixer, pxtransform, htmltransform, url, ...options } = option
-  const basePxOption = recursiveMerge({}, defaultPxtransformOption)
   if (designWidth) {
-    basePxOption.config.designWidth = designWidth
+    defaultPxtransformOption.config.designWidth = designWidth
   }
 
   if (deviceRatio) {
-    basePxOption.config.deviceRatio = deviceRatio
+    defaultPxtransformOption.config.deviceRatio = deviceRatio
   }
   const autoprefixerOption = recursiveMerge<TogglableOptions>({}, defaultAutoprefixerOption, autoprefixer)
-  const pxtransformOption = recursiveMerge<TogglableOptions>({}, basePxOption, pxtransform)
+  const pxtransformOption = recursiveMerge<TogglableOptions>({}, defaultPxtransformOption, pxtransform)
   const htmltransformOption: IHtmlTransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
   const urlOption = recursiveMerge({}, defaultUrlOption, url)
 

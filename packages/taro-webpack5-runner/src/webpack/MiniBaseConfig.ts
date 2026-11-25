@@ -1,12 +1,12 @@
 import { defaultMainFields, resolveSync } from '@tarojs/helper'
-import { DEFAULT_MINI_TERSER_OPTIONS } from '@tarojs/runner-utils'
+import { getDefaultMiniTerserOptions } from '@tarojs/runner-utils'
 
 import { BaseConfig } from './BaseConfig'
 
 import type { IMiniBuildConfig } from '../utils/types'
 
 export class MiniBaseConfig extends BaseConfig {
-  defaultTerserOptions = DEFAULT_MINI_TERSER_OPTIONS
+  defaultTerserOptions = getDefaultMiniTerserOptions()
 
   constructor(appPath: string, config: Partial<IMiniBuildConfig>) {
     super(appPath, config)

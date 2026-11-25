@@ -219,54 +219,58 @@ export function normalizeCopyPatterns (appPath: string, copy: ICopyOptions) {
   }))
 }
 
-export const DEFAULT_MINI_TERSER_OPTIONS = {
-  parse: {
-    ecma: 8
-  },
-  compress: {
-    ecma: 5,
-    warnings: false,
-    arrows: false,
-    collapse_vars: false,
-    comparisons: false,
-    computed_props: false,
-    hoist_funs: false,
-    hoist_props: false,
-    hoist_vars: false,
-    inline: false,
-    loops: false,
-    negate_iife: false,
-    properties: false,
-    reduce_funcs: false,
-    reduce_vars: false,
-    switches: false,
-    toplevel: false,
-    typeofs: false,
-    booleans: true,
-    if_return: true,
-    sequences: true,
-    unused: true,
-    conditionals: true,
-    dead_code: true,
-    directives: false,
-    evaluate: true
-  },
-  output: {
-    ecma: 5,
-    comments: false,
-    ascii_only: true
+export function getDefaultMiniTerserOptions () {
+  return {
+    parse: {
+      ecma: 8
+    },
+    compress: {
+      ecma: 5,
+      warnings: false,
+      arrows: false,
+      collapse_vars: false,
+      comparisons: false,
+      computed_props: false,
+      hoist_funs: false,
+      hoist_props: false,
+      hoist_vars: false,
+      inline: false,
+      loops: false,
+      negate_iife: false,
+      properties: false,
+      reduce_funcs: false,
+      reduce_vars: false,
+      switches: false,
+      toplevel: false,
+      typeofs: false,
+      booleans: true,
+      if_return: true,
+      sequences: true,
+      unused: true,
+      conditionals: true,
+      dead_code: true,
+      directives: false,
+      evaluate: true
+    },
+    output: {
+      ecma: 5,
+      comments: false,
+      ascii_only: true
+    }
   }
 }
 
-export const DEFAULT_H5_TERSER_OPTIONS = {
-  keep_fnames: true,
-  output: {
-    comments: false,
-    keep_quoted_props: true,
-    quote_keys: true,
-    beautify: false
-  },
-  warnings: false
+export function getDefaultH5TerserOptions () {
+  return {
+    keep_fnames: true,
+    output: {
+      comments: false,
+      keep_quoted_props: true,
+      quote_keys: true,
+      beautify: false
+    },
+    warnings: false
+  }
 }
 
 export function getDefaultMiniProviderGlobals (): Record<string, string[]> {
@@ -366,10 +370,8 @@ export function getH5HtmlPluginArgs (
   const baseFontSize = pxTransformOptions?.baseFontSize || (min > 1 ? min : 20)
   const designWidth = (input => typeof pxTransformOptions.designWidth === 'function'
     ? pxTransformOptions.designWidth(input)
-    : (pxTransformOptions.designWidth || 750))(baseFontSize)
-  const ratioMap = pxTransformOptions.deviceRatio || { 640: 2.34 / 2, 750: 1, 828: 1.81 / 2 }
-  const ratio = ratioMap[designWidth!] || 1
-  const rootValue = baseFontSize / ratio * 2
+    : pxTransformOptions.designWidth)(baseFontSize)
+  const rootValue = baseFontSize / pxTransformOptions.deviceRatio![designWidth!] * 2
   let htmlScript = ''
   if ((pxTransformOptions?.targetUnit ?? 'rem') === 'rem') {
     htmlScript = `!function(n){function f(){var e=n.document.documentElement,r=e.getBoundingClientRect(),width=r.width,height=r.height,arr=[width,height].filter(function(value){return Boolean(value)}),w=Math.min.apply(Math,arr),x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}; n.addEventListener("resize",(function(){f();setTimeout(f,500)})),f()}(window);`

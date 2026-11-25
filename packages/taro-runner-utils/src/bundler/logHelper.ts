@@ -109,23 +109,11 @@ const printWhenFirstDone = (devUrl: string, compiler) => {
   return compiler
 }
 
-export function extractStatsMessages (stats: any) {
-  try {
-    return formatMessages(stats)
-  } catch {
-    const json = stats?.toJson?.({ errors: true, warnings: true }) || {}
-    return {
-      errors: (json.errors || []).map((e: any) => e?.message || String(e)),
-      warnings: (json.warnings || []).map((w: any) => w?.message || String(w))
-    }
-  }
-}
-
 const _printWhenDone = ({
   verbose = false
 }, compiler) => {
   compiler.hooks.done.tap('taroDone', stats => {
-    const { errors, warnings } = extractStatsMessages(stats)
+    const { errors, warnings } = formatMessages(stats)
 
     if (!stats.hasErrors() && !stats.hasWarnings()) {
       printSuccess()

@@ -66,14 +66,14 @@ export async function getH5DevServerOptions<T = Record<string, any>> (
     const bypass = (req: any) => {
       if (req.headers.accept?.indexOf('html') !== -1) {
         const pagePath = stripTrailingSlash(stripBasename(req.path, routerBasename))
-        const getBypassUrl = (url: string) => addHtmlSuffix(addLeadingSlash(url))
+        const getBypassUrl = (url?: string) => addHtmlSuffix(addLeadingSlash(url))
         if (pagePath === '') {
-          return getBypassUrl(appConfig.entryPagePath || appConfig.pages?.[0] || 'index')
+          return getBypassUrl(appConfig.entryPagePath || appConfig.pages?.[0])
         }
 
         const pageIdx = (appConfig.pages ?? []).findIndex(e => addLeadingSlash(e) === pagePath)
         if (pageIdx > -1) {
-          return getBypassUrl(appConfig.pages?.[pageIdx] || '')
+          return getBypassUrl(appConfig.pages?.[pageIdx])
         }
 
         const customRoutesConf = getEntriesRoutes(customRoutes)

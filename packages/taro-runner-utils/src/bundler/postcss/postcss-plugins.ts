@@ -4,33 +4,39 @@ import { isNpmPkg, resolveSync } from '@tarojs/helper'
 
 import type { Func, TogglableOptions } from '@tarojs/taro/types/compile'
 
-export const getPostcssPlugins = function (
-  appPath: string,
-  option: [string, TogglableOptions<Record<string, unknown>>, Func?][] = []
+export function createGetPostcssPlugins (
+  formatNotFoundMessage = (pluginName: string) => `缺少 postcss 插件 "${pluginName}", 已忽略`
 ) {
   const plugins: any[] = []
-  option.forEach(([pluginName, pluginOption, pluginPkg]) => {
-    if (!pluginOption || ['cssModules', 'url'].includes(pluginName)) return
-    if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
 
-    if (pluginPkg) {
-      plugins.push(pluginPkg(pluginOption.config || {}))
-      return
-    }
+  return function getPostcssPlugins (
+    appPath: string,
+    option: [string, TogglableOptions<Record<string, unknown>>, Func?][] = []
+  ) {
+    option.forEach(([pluginName, pluginOption, pluginPkg]) => {
+      if (!pluginOption || ['cssModules', 'url'].includes(pluginName)) return
+      if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
 
-    if (!isNpmPkg(pluginName)) {
-      pluginName = path.isAbsolute(pluginName) ? pluginName : path.join(appPath, pluginName)
-    }
+      if (pluginPkg) {
+        plugins.push(pluginPkg(pluginOption.config || {}))
+        return
+      }
 
-    try {
-      const pluginPath = resolveSync(pluginName, { basedir: appPath }) || ''
-      plugins.push(require(pluginPath)(pluginOption.config || {}))
-    } catch (e) {
-      const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少 postcss 插件 "${pluginName}", 已忽略` : e
-      // eslint-disable-next-line no-console
-      console.log(msg)
-    }
-  })
+      if (!isNpmPkg(pluginName)) {
+        // local plugin
+        pluginName = path.isAbsolute(pluginName) ? pluginName : path.join(appPath, pluginName)
+      }
 
-  return plugins
+      try {
+        const pluginPath = resolveSync(pluginName, { basedir: appPath }) || ''
+        plugins.push(require(pluginPath)(pluginOption.config || {}))
+      } catch (e) {
+        const msg = e.code === 'MODULE_NOT_FOUND' ? formatNotFoundMessage(pluginName) : e
+        // eslint-disable-next-line no-console
+        console.log(msg)
+      }
+    })
+
+    return plugins
+  }
 }
