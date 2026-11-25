@@ -1553,7 +1553,6 @@ require("./runtime");
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -3494,7 +3493,6 @@ exports[`config should build from origin and pipe to output web 2`] = `
 /** filePath: output/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -5199,7 +5197,6 @@ I m irrelevant.
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -8320,7 +8317,6 @@ require("./runtime");
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {

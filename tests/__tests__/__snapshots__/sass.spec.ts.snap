@@ -1640,7 +1640,6 @@ exports[`sass should build app with sass web 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -3326,7 +3325,6 @@ exports[`sass should build app with scss web 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -5023,7 +5021,6 @@ exports[`sass should set global sass content with data web 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -6720,7 +6717,6 @@ exports[`sass should set global sass content with source & dir web 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
@@ -8417,7 +8413,6 @@ exports[`sass should set global sass content with source web 2`] = `
 /** filePath: dist/js/app.js **/
 (function() {
     "use strict";
-    var __webpack_exports__ = {};
     const react_Component = {};
     var react = "react-mock";
     var App = null && function(_Component) {
