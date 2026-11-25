@@ -20,11 +20,17 @@ const printCompiling = () => {
 }
 
 const printBuildError = (err: Error): void => {
-  const message = err.message
-  const stack = err.stack
-  if (stack && message?.indexOf(stack) >= 0) {
-    const msg = message.replace(stack, '')
-    console.log((msg.trim() ? msg : message) + '\n')
+  const message = err?.message
+  const stack = err?.stack
+  if (stack && message?.includes('from UglifyJs')) {
+    const matched = /(.+)\[(.+):(.+),(.+)\]\[.+\]/.exec(stack)
+    if (matched) {
+      const [, , problemPath, line, column] = matched
+      const location = column !== '0' ? `${problemPath}:${line}:${column}` : `${problemPath}:${line}`
+      console.log('Failed to minify the code from this file: \n\n', chalk.yellow(`\t${location}`), '\n')
+    } else {
+      console.log('Failed to minify the bundle.', err)
+    }
   } else {
     console.log((message || err) + '\n')
   }
