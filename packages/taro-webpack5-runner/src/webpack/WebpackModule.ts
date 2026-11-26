@@ -1,17 +1,18 @@
-import path from 'node:path'
-
 import {
-  fs,
   recursiveMerge,
   REG_FONT,
   REG_IMAGE,
   REG_MEDIA,
   REG_SCRIPTS
 } from '@tarojs/helper'
-import { FONT_LIMIT, IMAGE_LIMIT, MEDIA_LIMIT, } from '@tarojs/runner-utils'
-import { isFunction } from '@tarojs/shared'
-
-import { getAssetsMaxSize } from '../utils/webpack'
+import {
+  FONT_LIMIT,
+  getAssetRule,
+  getBaseSassOptions,
+  getCssModuleOptions,
+  IMAGE_LIMIT,
+  MEDIA_LIMIT,
+} from '@tarojs/runner-utils'
 
 import type { PostcssOption } from '@tarojs/taro/types/compile'
 
@@ -57,29 +58,7 @@ export class WebpackModule {
   }
 
   static getCSSLoaderWithModule (cssModuleOptions: CssModuleOptionConfig, cssLoaderOption) {
-    const { namingPattern, generateScopedName } = cssModuleOptions
-    const defaultOptions = Object.assign(
-      {
-        importLoaders: 1,
-        modules: {
-          mode: namingPattern === 'module' ? 'local' : 'global',
-          namedExport: false,
-          exportLocalsConvention: 'as-is',
-        }
-      },
-      {
-        modules: isFunction(generateScopedName)
-          ? { getLocalIdent: (context, _, localName) => generateScopedName(localName, context.resourcePath) }
-          : { localIdentName: generateScopedName }
-      }
-    )
-
-    // 更改 namedExport 默认值，以统一旧版本行为
-    // https://github.com/webpack-contrib/css-loader/releases/tag/v7.0.0
-    defaultOptions.modules.namedExport = false
-    defaultOptions.modules.exportLocalsConvention = 'as-is'
-
-    const options = recursiveMerge({}, defaultOptions, cssLoaderOption)
+    const options = getCssModuleOptions(cssModuleOptions, cssLoaderOption)
     return WebpackModule.getLoader('css-loader', options)
   }
 
@@ -99,40 +78,7 @@ export class WebpackModule {
   }
 
   static getBaseSassOptions () {
-    return {
-      sourceMap: true,
-      implementation: require('sass'),
-      sassOptions: {
-        outputStyle: 'expanded',
-        // https://github.com/sass/dart-sass/blob/main/CHANGELOG.md#js-api
-        silenceDeprecations: ['legacy-js-api'],
-        importer (url, prev, done) {
-          // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
-          const extname = path.extname(url)
-          // fix: @import 文件可以不带scss/sass缀，如: @import "define";
-          if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
-            return null
-          } else {
-            const filePath = path.resolve(path.dirname(prev), url)
-            fs.access(filePath, fs.constants.F_OK, (err) => {
-              if (err) {
-                console.log(err)
-                return null
-              } else {
-                fs.readFile(filePath)
-                  .then(res => {
-                    done({ contents: res.toString() })
-                  })
-                  .catch(err => {
-                    console.log(err)
-                    return null
-                  })
-              }
-            })
-          }
-        }
-      }
-    }
+    return getBaseSassOptions(require('sass'))
   }
 
   static getSassLoader (sassLoaderOption) {
@@ -173,68 +119,14 @@ export class WebpackModule {
   }
 
   static getMediaRule (sourceRoot: string, options) {
-    const maxSize = getAssetsMaxSize(options, MEDIA_LIMIT)
-    return {
-      test: REG_MEDIA,
-      type: 'asset',
-      parser: {
-        dataUrlCondition: {
-          maxSize,
-        }
-      },
-      generator: {
-        emit: options.emitFile || options.emit,
-        outputPath: options.outputPath,
-        publicPath: options.publicPath,
-        filename ({ filename }) {
-          if (isFunction(options.name)) return options.name(filename)
-          return options.name || filename.replace(sourceRoot + '/', '')
-        }
-      }
-    }
+    return getAssetRule(REG_MEDIA, MEDIA_LIMIT, sourceRoot, options)
   }
 
   static getFontRule (sourceRoot: string, options) {
-    const maxSize = getAssetsMaxSize(options, FONT_LIMIT)
-    return {
-      test: REG_FONT,
-      type: 'asset',
-      parser: {
-        dataUrlCondition: {
-          maxSize,
-        }
-      },
-      generator: {
-        emit: options.emitFile || options.emit,
-        outputPath: options.outputPath,
-        publicPath: options.publicPath,
-        filename ({ filename }) {
-          if (isFunction(options.name)) return options.name(filename)
-          return options.name || filename.replace(sourceRoot + '/', '')
-        }
-      }
-    }
+    return getAssetRule(REG_FONT, FONT_LIMIT, sourceRoot, options)
   }
 
   static getImageRule (sourceRoot: string, options) {
-    const maxSize = getAssetsMaxSize(options, IMAGE_LIMIT)
-    return {
-      test: REG_IMAGE,
-      type: 'asset',
-      parser: {
-        dataUrlCondition: {
-          maxSize,
-        }
-      },
-      generator: {
-        emit: options.emitFile || options.emit,
-        outputPath: options.outputPath,
-        publicPath: options.publicPath,
-        filename ({ filename }) {
-          if (isFunction(options.name)) return options.name(filename)
-          return options.name || filename.replace(sourceRoot + '/', '')
-        }
-      }
-    }
+    return getAssetRule(REG_IMAGE, IMAGE_LIMIT, sourceRoot, options)
   }
 }
