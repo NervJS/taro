@@ -192,6 +192,7 @@ export const UPDATE_PACKAGE_LIST = [
   '@tarojs/webpack5-runner',
   '@tarojs/webpack5-prebundle',
   '@tarojs/vite-runner',
+  '@tarojs/rspack-runner',
   '@tarojs/create-app',
   '@tarojs/cli-convertor',
   '@tarojs/transformer-wx',

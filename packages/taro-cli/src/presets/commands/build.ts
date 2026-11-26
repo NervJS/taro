@@ -222,6 +222,25 @@ export default (ctx: IPluginContext) => {
 }
 
 async function checkConfig ({ projectConfig, helper }) {
-  const result = await validateConfig(projectConfig, helper)
+  let normalizedConfig = projectConfig
+  if (projectConfig?.compiler === 'rspack') {
+    normalizedConfig = {
+      ...projectConfig,
+      compiler: 'webpack5',
+    }
+  } else if (
+    projectConfig?.compiler &&
+    typeof projectConfig.compiler === 'object' &&
+    projectConfig.compiler.type === 'rspack'
+  ) {
+    normalizedConfig = {
+      ...projectConfig,
+      compiler: {
+        ...projectConfig.compiler,
+        type: 'webpack5',
+      },
+    }
+  }
+  const result = await validateConfig(normalizedConfig, helper)
   return result
 }

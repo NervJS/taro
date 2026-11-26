@@ -285,8 +285,8 @@ export default class Kernel extends EventEmitter {
     }
     this.debugger('applyPlugins')
     this.debugger(`applyPlugins:name:${name}`)
-    this.debugger(`applyPlugins:initialVal:${initialVal}`)
-    this.debugger(`applyPlugins:opts:${opts}`)
+    this.debugger('applyPlugins:initialVal:%o', initialVal)
+    this.debugger('applyPlugins:opts:%o', opts)
     if (typeof name !== 'string') {
       throw new Error('调用失败，未传入正确的名称！')
     }

@@ -426,8 +426,8 @@ async function collectToolchainFacts(root: string, dependencies: IDependencyFact
       ...(dependencies.packageManagerVersion ? { version: dependencies.packageManagerVersion } : {}),
     },
     ...await readInstalledTool(root, '@tarojs/cli', 'taroCli'),
-    compiler: await firstInstalledTool(root, ['@tarojs/vite-runner', '@tarojs/webpack5-runner']),
-    runner: await firstInstalledTool(root, ['@tarojs/vite-runner', '@tarojs/webpack5-runner']),
+    compiler: await firstInstalledTool(root, ['@tarojs/vite-runner', '@tarojs/rspack-runner', '@tarojs/webpack5-runner']),
+    runner: await firstInstalledTool(root, ['@tarojs/vite-runner', '@tarojs/rspack-runner', '@tarojs/webpack5-runner']),
     platformPlugins: await collectPlatformPluginVersions(root, dependencies),
     operatingSystem: {
       platform: process.platform,
