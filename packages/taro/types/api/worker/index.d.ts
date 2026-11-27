@@ -12,7 +12,7 @@ declare module '../../index' {
   }
   interface Worker {
     /** 监听主线程/Worker 线程向当前线程发送的消息的事件。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.onMessage.html
      */
     onMessage(
@@ -28,7 +28,7 @@ declare module '../../index' {
       callback: Worker.OnMessageCallback,
     ): void
     /** 向主线程/Worker 线程发送的消息。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * worker 线程中
      *
@@ -53,7 +53,7 @@ declare module '../../index' {
       message: TaroGeneral.IAnyObject,
     ): void
     /** 结束当前 Worker 线程。仅限在主线程 worker 对象上调用。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/worker/Worker.terminate.html
      */
     terminate(): void
@@ -61,7 +61,8 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建一个 Worker 线程。目前限制最多只能创建一个 Worker，创建下一个 Worker 前请先调用 [Worker.terminate](/docs/apis/worker/#terminate)
-     * @supported weapp
+     * H5 接收浏览器可访问的 classic Worker 脚本 URL，例如部署后的同源静态文件。onProcessKilled 仅在小程序端可用。
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const worker = Taro.createWorker('workers/request/index.js') // 文件名指定 worker 的入口文件路径，绝对路径
