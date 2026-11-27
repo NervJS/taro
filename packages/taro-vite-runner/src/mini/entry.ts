@@ -1,6 +1,6 @@
 import path from 'node:path'
 
-import { fs, isEmptyObject, removePathPrefix } from '@tarojs/helper'
+import { fs, isEmptyObject, removePathPrefix, resolveMainFilePath } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 
 import { appendVirtualModulePrefix, escapePath, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
@@ -76,6 +76,34 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             implicitlyLoadedAfterOneOf: [rawId]
           })
         })
+
+        // custom-tab-bar - emit chunk to trigger tabbar.ts compilation, plus wxml/json/assets
+        if (appConfig.tabBar?.custom) {
+          const { sourceDir } = viteCompilerContext
+          const isAlipay = process.env.TARO_ENV === 'alipay'
+          const tabBarDir = isAlipay ? 'customize-tab-bar' : 'custom-tab-bar'
+          const customTabBarPath = path.join(sourceDir, tabBarDir)
+          const scriptPath = resolveMainFilePath(customTabBarPath, taroConfig.frameworkExts)
+          if (scriptPath && fs.existsSync(scriptPath)) {
+            // emit chunk entry - will be intercepted by tabbar.ts resolveId to add virtual module suffix
+            this.emitFile({
+              type: 'chunk',
+              id: scriptPath,
+              fileName: `${tabBarDir}/index.js`,
+              implicitlyLoadedAfterOneOf: [rawId]
+            })
+            this.addWatchFile(scriptPath)
+
+            // emit wxml template - use page template since custom-tab-bar is a full React component
+            const baseTemplatePath = '../base' + viteCompilerContext.fileType.templ
+            const templateContent = taroConfig.template.buildPageTemplate(baseTemplatePath)
+            this.emitFile({
+              type: 'asset',
+              fileName: `${tabBarDir}/index${viteCompilerContext.fileType.templ}`,
+              source: templateContent
+            })
+          }
+        }
 
         // native components
         for (const comp of viteCompilerContext.nativeComponents.values()) {
