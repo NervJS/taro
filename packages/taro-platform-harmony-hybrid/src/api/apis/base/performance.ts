@@ -1,5 +1,7 @@
 import Taro from '@tarojs/taro'
 
+import { temporarilyNotSupport } from '../utils'
+
 /**
  * 程序测速上报
  *
@@ -26,7 +28,7 @@ export { preloadSkylineView } from '@tarojs/taro-h5'
  *
  * @canNotUse preloadAssets
  */
-export { preloadAssets } from '@tarojs/taro-h5'
+export const preloadAssets = /* @__PURE__ */ temporarilyNotSupport('preloadAssets')
 
 /**
  * 程序测速上报
