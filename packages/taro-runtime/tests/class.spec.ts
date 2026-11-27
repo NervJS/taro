@@ -90,6 +90,24 @@ describe('Class', () => {
       expect(div.className).toBe('test3 test2')
     })
 
+    test('replace with an existing class', () => {
+      const div = document.createElement('div')
+      div.className = 'test1 test2 test3'
+      div.classList.replace('test1', 'test3')
+      expect(div.className).toBe('test3 test2')
+      div.classList.replace('test2', 'test3')
+      expect(div.className).toBe('test3')
+      div.classList.remove('test3')
+      expect(div.className).toBe('')
+    })
+
+    test('replace a token with itself keeps the list unchanged', () => {
+      const div = document.createElement('div')
+      div.className = 'x a x'
+      div.classList.replace('x', 'x')
+      expect(div.className).toBe('x a x')
+    })
+
     test('trigger contains function', () => {
       const div = document.createElement('div')
       div.classList.add('test1')
