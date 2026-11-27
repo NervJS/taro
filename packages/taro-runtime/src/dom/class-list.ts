@@ -19,6 +19,8 @@ export class ClassList {
   }
 
   add () {
+    if (arguments.length === 0) return
+
     let index = 0
     let updated = false
 
@@ -42,6 +44,8 @@ export class ClassList {
   }
 
   remove () {
+    if (arguments.length === 0) return
+
     let i = 0
     let updated = false
 
