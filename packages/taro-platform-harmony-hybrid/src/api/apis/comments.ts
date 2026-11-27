@@ -1291,12 +1291,6 @@
  */
 
 /**
- * 保存文件系统的文件到用户磁盘，仅在 PC 端支持
- *
- * @canNotUse saveFileToDisk
- */
-
-/**
  * 控制音乐播放进度
  *
  * @canNotUse seekBackgroundAudio
