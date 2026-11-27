@@ -72,6 +72,28 @@ describe('Class', () => {
       expect(div.className).toBe('')
     })
 
+    describe.each(['add', 'remove'] as const)('%s without tokens', (method) => {
+      test.each(['', 'kept', 'kept undefined'])('preserves the class list %j', (className) => {
+        const div = document.createElement('div')
+        div.className = className
+        const classList = div.classList
+        const length = classList.length
+        const tokens: string[] = []
+
+        classList[method](...tokens)
+
+        expect(div.className).toBe(className)
+        expect(classList.value).toBe(className)
+        expect(classList.length).toBe(length)
+
+        classList[method]()
+
+        expect(div.className).toBe(className)
+        expect(classList.value).toBe(className)
+        expect(classList.length).toBe(length)
+      })
+    })
+
     test('trigger toggle function', () => {
       const div = document.createElement('div')
       div.classList.toggle('test')
