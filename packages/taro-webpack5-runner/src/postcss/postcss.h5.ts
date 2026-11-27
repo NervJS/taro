@@ -1,1 +1,1 @@
-export { getDefaultPostcssConfig, getPostcssPlugins } from '@tarojs/runner-utils/dist/bundler/postcss/postcss.h5'
+export { getDefaultPostcssConfig, getPostcssPlugins } from '@tarojs/runner-utils/bundler/postcss/postcss.h5'

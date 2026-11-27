@@ -1,1 +1,1 @@
-export { default } from '@tarojs/runner-utils/dist/bundler/app'
+export { default } from '@tarojs/runner-utils/bundler/app'

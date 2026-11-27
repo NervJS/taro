@@ -4,7 +4,8 @@ import path from 'node:path'
 import { chalk, fs, PLATFORMS, recursiveMerge, resolveMainFilePath } from '@tarojs/helper'
 import { isArray, isBoolean, isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 
-import type { ICopyOptions, IMiniFilesConfig } from '@tarojs/taro/types/compile'
+import type { ICopyOptions, IMiniFilesConfig, PostcssOption } from '@tarojs/taro/types/compile'
+import type { IComponentConfig as ITaroComponentConfig } from '@tarojs/taro/types/compile/hooks'
 
 export const emptyTogglableObj = {
   enable: false,
@@ -450,20 +451,31 @@ export function parseNativePluginConfig (sourceDir: string): {
   }
 }
 
-export interface IComponentConfig {
-  includes: Set<string>
-  exclude: Set<string>
-  includeAll: boolean
-  thirdPartyComponents: Map<string, Set<string>>
-  customRoutes: Set<string>
-}
+export type IComponentConfig = ITaroComponentConfig
 
 export function createComponentConfig (): IComponentConfig {
   return {
-    includes: new Set(['view', 'catch-view', 'static-view', 'pure-view', 'scroll-view', 'image', 'static-image', 'text', 'static-text']),
+    includes: new Set(['view', 'catch-view', 'static-view', 'pure-view', 'click-view', 'scroll-view', 'image', 'static-image', 'text', 'static-text']),
     exclude: new Set(),
-    includeAll: false,
     thirdPartyComponents: new Map(),
-    customRoutes: new Set()
+    includeAll: false,
+    scopedIncludes: new Map()
+  }
+}
+
+export function parsePostCSSOptions (postcssOption: Record<string, any> = {}) {
+  const defaultCssModuleOption: PostcssOption.cssModules = {
+    enable: false,
+    config: {
+      namingPattern: 'global',
+      generateScopedName: '[name]__[local]___[hash:base64:5]'
+    }
+  }
+
+  const cssModuleOption: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
+
+  return {
+    postcssOption,
+    cssModuleOption
   }
 }

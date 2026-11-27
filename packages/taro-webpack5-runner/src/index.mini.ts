@@ -1,13 +1,11 @@
 import { chalk } from '@tarojs/helper'
+import { runMiniBuild } from '@tarojs/runner-utils/bundler/runner'
 import Prebundle from '@tarojs/webpack5-prebundle'
-import { isEmpty } from 'lodash'
 import webpack from 'webpack'
 
-import { Prerender } from './prerender/prerender'
-import { errorHandling } from './utils/webpack'
 import { MiniCombination } from './webpack/MiniCombination'
 
-import type { Stats } from 'webpack'
+import type { Configuration, Stats } from 'webpack'
 import type { IMiniBuildConfig } from './utils/types'
 
 export default async function build (appPath: string, rawConfig: IMiniBuildConfig): Promise<Stats | void> {
@@ -35,59 +33,9 @@ export default async function build (appPath: string, rawConfig: IMiniBuildConfi
     console.warn(chalk.yellow('依赖预编译失败，已经为您跳过预编译步骤，但是编译速度可能会受到影响。'))
   }
 
-  const webpackConfig = combination.chain.toConfig()
-  const config = combination.config
-
-  return new Promise<Stats | void>((resolve, reject) => {
-    if (config.withoutBuild) return
-
-    const compiler = webpack(webpackConfig)
-    const onBuildFinish = config.onBuildFinish
-    let prerender: Prerender
-
-    const onFinish = function (error: Error | null, stats: Stats | null) {
-      if (typeof onBuildFinish !== 'function') return
-
-      onBuildFinish({
-        error,
-        stats,
-        isWatch: config.isWatch
-      })
-    }
-
-    const callback = async (err: Error, stats: Stats) => {
-      const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
-      if (err || stats.hasErrors()) {
-        const error = err ?? stats.toJson().errors
-        onFinish(error, null)
-        reject(error)
-        errorHandling(errorLevel, stats)
-        return
-      }
-
-      if (!isEmpty(config.prerender)) {
-        prerender = prerender ?? new Prerender(config, webpackConfig, stats, config.template)
-        await prerender.render()
-      }
-
-      // const res = stats.toString({
-      //   logging: 'verbose'
-      // })
-      // console.log('res: ', res)
-
-      onFinish(null, stats)
-      resolve(stats)
-    }
-
-    if (config.isWatch) {
-      compiler.watch({
-        aggregateTimeout: 300,
-        poll: undefined
-      }, callback)
-    } else {
-      compiler.run((err: Error, stats: Stats) => {
-        compiler.close(err2 => callback(err || err2, stats))
-      })
-    }
+  return runMiniBuild<Stats, Configuration>({
+    config: combination.config,
+    bundlerConfig: combination.chain.toConfig(),
+    createCompiler: cfg => webpack(cfg)
   })
 }

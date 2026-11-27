@@ -1,60 +1,27 @@
+import { taroJsComponents } from '@tarojs/helper'
 import {
-  META_TYPE,
-  taroJsComponents
-} from '@tarojs/helper'
+  BaseLoadChunksPlugin,
+  transformEntryChunkSource
+} from '@tarojs/runner-utils/bundler/loadChunks'
 import { toDashed } from '@tarojs/shared'
-import { AppConfig } from '@tarojs/taro'
-import { sources } from 'webpack'
 
 import { componentConfig } from '../utils/component'
-import { addRequireToSource, chunkHasJs, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
+import { chunkHasJs, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 
-import type { Chunk, Compilation, Compiler } from 'webpack'
-import type { AddPageChunks, IComponent } from '../utils/types'
+import type { Chunk, Compilation, Compiler, sources } from 'webpack'
 import type TaroNormalModule from './TaroNormalModule'
 
 const PLUGIN_NAME = 'TaroLoadChunksPlugin'
-const { ConcatSource } = sources
 
-interface IOptions {
-  commonChunks: string[]
-  isBuildPlugin: boolean
-  framework: string
-  addChunkPages?: AddPageChunks
-  pages: Set<IComponent>
-  needAddCommon?: string[]
-  isIndependentPackages?: boolean
-  appConfig?: AppConfig
-}
-
-export default class TaroLoadChunksPlugin {
-  commonChunks: string[]
-  isBuildPlugin: boolean
-  framework: string
-  addChunkPages?: AddPageChunks
-  pages: Set<IComponent>
+export default class TaroLoadChunksPlugin extends BaseLoadChunksPlugin {
   isCompDepsFound: boolean
-  needAddCommon: string[]
-  isIndependentPackages: boolean
-  appConfig: AppConfig | undefined
-
-  constructor (options: IOptions) {
-    this.commonChunks = options.commonChunks
-    this.isBuildPlugin = options.isBuildPlugin
-    this.framework = options.framework
-    this.addChunkPages = options.addChunkPages
-    this.pages = options.pages
-    this.needAddCommon = options.needAddCommon || []
-    this.isIndependentPackages = options.isIndependentPackages || false
-    this.appConfig = options.appConfig
-  }
 
   apply (compiler: Compiler) {
-    const pagesList = this.pages
     const addChunkPagesList = new Map<string, string[]>()
+    const { ConcatSource } = compiler.webpack.sources
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, (compilation: Compilation) => {
-      let commonChunks
-      const fileChunks = new Map<string, { name: string }[]>()
+      let commonChunks: Chunk[] = []
+      let fileChunks = new Map<string, { name: string }[]>()
 
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, (chunks: Chunk[]) => {
         const chunksArray = Array.from(chunks)
@@ -80,84 +47,34 @@ export default class TaroLoadChunksPlugin {
         /**
          * 收集开发者在 addChunkPages 中配置的页面及其需要引用的公共文件
          */
-        if (typeof this.addChunkPages === 'function') {
-          this.addChunkPages(addChunkPagesList, Array.from(pagesList).map(item => item.name))
-          chunksArray.forEach(chunk => {
-            const id = getChunkIdOrName(chunk)
-            addChunkPagesList.forEach((deps, pageName) => {
-              if (pageName === id) {
-                const depChunks = deps.map(dep => ({ name: dep }))
-                fileChunks.set(id, depChunks)
-              }
-            })
-          })
-        }
-      })
-
-      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: sources.ConcatSource, { chunk }) => {
-        const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
-        if (chunkEntryModule) {
-          const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
-          if (entryModule.miniType === META_TYPE.EXPORTS) {
-            const source = new ConcatSource()
-            source.add('module.exports=')
-            source.add(modules)
-            return source
-          } else {
-            return modules
-          }
-        } else {
-          return modules
-        }
+        fileChunks = this.collectAddChunkPagesDeps(
+          chunksArray,
+          getChunkIdOrName,
+          addChunkPagesList
+        )
       })
 
       /**
-       * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 require 语句
+       * 在每个 chunk 文本刚生成后，按判断条件在文本头部插入 module.exports / require 语句
        */
       compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules: sources.ConcatSource, { chunk }) => {
         const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
-        if (chunkEntryModule) {
-          if (this.isBuildPlugin) {
-            return addRequireToSource(getChunkIdOrName(chunk), modules, commonChunks)
-          }
+        if (!chunkEntryModule) { return modules }
 
-          const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
-          const { miniType, isNativePage } = entryModule
-
-          if (this.needAddCommon.length) {
-            for (const item of this.needAddCommon) {
-              if (getChunkIdOrName(chunk) === item) {
-                return addRequireToSource(item, modules, commonChunks)
-              }
-            }
-          }
-
-          if (miniType === META_TYPE.ENTRY) {
-            return addRequireToSource(getChunkIdOrName(chunk), modules, commonChunks, this.appConfig)
-          }
-
-          if (this.isIndependentPackages &&
-            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT || isNativePage)
-          ) {
-            return addRequireToSource(getChunkIdOrName(chunk), modules, commonChunks)
-          }
-
-          // addChunkPages
-          if (fileChunks.size &&
-            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
-          ) {
-            let source
-            const id = getChunkIdOrName(chunk)
-            fileChunks.forEach((v, k) => {
-              if (k === id) {
-                source = addRequireToSource(id, modules, v)
-              }
-            })
-            return source
-          }
-        } else {
-          return modules
-        }
+        const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
+        return transformEntryChunkSource({
+          chunkName: getChunkIdOrName(chunk),
+          miniType: entryModule.miniType,
+          isNativePage: entryModule.isNativePage,
+          source: modules,
+          commonChunks,
+          fileChunks,
+          isBuildPlugin: this.isBuildPlugin,
+          needAddCommon: this.needAddCommon,
+          isIndependentPackages: this.isIndependentPackages,
+          appConfig: this.appConfig,
+          ConcatSource
+        })
       })
     })
   }
