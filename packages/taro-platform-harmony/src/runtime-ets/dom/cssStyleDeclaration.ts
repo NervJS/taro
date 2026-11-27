@@ -77,7 +77,8 @@ class CSSStyleDeclaration {
     prop = prop.includes('-') ? toCamelCase(prop) : prop
     const node = this.el
     const value = node._st[prop]
-    return value === undefined ? '' : value
+    // 兼容原型链上的取值
+    return value === undefined ? this[prop] ?? '' : value
   }
 
   public removeProperty (prop: string): string | number {
