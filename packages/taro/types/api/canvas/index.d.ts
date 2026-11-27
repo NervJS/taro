@@ -1843,7 +1843,7 @@ declare module '../../index' {
   }
 
   /** 离屏 canvas 实例，可通过 Taro.createOffscreenCanvas 创建。
-   * @supported weapp
+   * @supported weapp, h5
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.html
    */
   interface OffscreenCanvas {
@@ -1854,14 +1854,14 @@ declare module '../../index' {
     /** 创建一个图片对象。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法
      *
      * > 注意不允许混用 webgl 和 2d 画布创建的图片对象，使用时请注意尽量使用 canvas 自身的 createImage 创建图片对象。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.createImage.html
      */
     createImage(): Image
     /** 该方法返回 OffscreenCanvas 的绘图上下文
      *
-     * > 当前仅支持获取 WebGL 绘图上下文
-     * @supported weapp, tt
+     * H5 返回浏览器的绘图上下文，无法创建时返回 null。
+     * @supported weapp, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.getContext.html
      */
     getContext(contextType: 'webgl' | '2d'): RenderingContext
@@ -2013,19 +2013,25 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建离屏 canvas 实例
-     * @supported weapp, tt
+     * H5 在页面中调用，默认尺寸为 300×150，可用时使用浏览器 OffscreenCanvas。
+     * 从 `@tarojs/taro-h5` 导入同名函数可获得 H5 专用的绘图上下文和图片类型。
+     * @supported weapp, tt, h5
      * @example
      * ```tsx
-     * // 创建离屏 2D canvas 实例
-     * const canvas = Taro.createOffscreenCanvas({type: '2d', width: 300, height: 150})
+     * // H5
+     * import { createOffscreenCanvas } from '@tarojs/taro-h5'
+     *
+     * const canvas = createOffscreenCanvas({type: '2d', width: 300, height: 150})
      * // 获取 context。注意这里必须要与创建时的 type 一致
      * const context = canvas.getContext('2d')
+     * if (!context) throw new Error('2D context is unavailable')
      *
      * // 创建一个图片
      * const image = canvas.createImage()
      * // 等待图片加载
-     * await new Promise(resolve => {
-     *   image.onload = resolve
+     * await new Promise<void>((resolve, reject) => {
+     *   image.onload = () => resolve()
+     *   image.onerror = reject
      *   image.src = IMAGE_URL // 要加载的图片 url
      * })
      *

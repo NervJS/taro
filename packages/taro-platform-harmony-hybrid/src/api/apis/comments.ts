@@ -548,12 +548,6 @@
  */
 
 /**
- * 创建离屏 canvas 实例
- *
- * @canNotUse createOffscreenCanvas
- */
-
-/**
  * 创建激励视频广告组件
  *
  * @canNotUse createRewardedVideoAd
