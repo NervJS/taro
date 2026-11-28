@@ -1,3 +1,4 @@
+import { TaroElement } from '../dom/element'
 import { HydratedData } from './index'
 
 export type UpdatePayloadValue = string | boolean | HydratedData
@@ -5,4 +6,5 @@ export type DataTree = Record<string, UpdatePayloadValue | ReturnType<HydratedDa
 export interface UpdatePayload {
   path: string
   value: UpdatePayloadValue
+  customWrapperNodes?: TaroElement[]
 }
