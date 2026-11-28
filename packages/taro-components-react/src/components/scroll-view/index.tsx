@@ -1,6 +1,6 @@
 import './style/index.scss'
 
-import { isFunction } from '@tarojs/shared'
+import { isFunction, scrollIntoViewWithOffset } from '@tarojs/shared'
 import classNames from 'classnames'
 
 import { ScrollElementContext } from '../../contexts/ScrollElementContext'
@@ -39,8 +39,23 @@ function scrollIntoView (
   animated = true,
   scrollX = false,
   scrollY = false,
-  scrollIntoViewAlignment?: ScrollLogicalPosition
+  scrollIntoViewAlignment?: ScrollLogicalPosition,
+  container?: HTMLElement | null,
+  offset?: number
 ) {
+  if (container && offset !== undefined) {
+    const target = Array.from(container.querySelectorAll<HTMLElement>('[id]')).find(node => node.id === id)
+    if (target) {
+      scrollIntoViewWithOffset(container, target, {
+        offset: Number.isFinite(offset) ? offset : 0,
+        scrollX,
+        scrollY,
+        alignment: scrollIntoViewAlignment,
+        behavior: animated ? 'smooth' : 'auto',
+      })
+    }
+    return
+  }
   document.querySelector(`#${id}`)?.scrollIntoView({
     behavior: animated ? 'smooth' : 'auto',
     block: scrollY ? (scrollIntoViewAlignment || 'center') : 'nearest',
@@ -79,6 +94,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   scrollLeft: number
   scrollIntoView?: string
   scrollIntoViewAlignment?: ScrollLogicalPosition
+  scrollIntoViewOffset?: number
   scrollWithAnimation: boolean
   enableBackToTop?: boolean
   forwardedRef?: React.MutableRefObject<HTMLDivElement>
@@ -135,7 +151,7 @@ function ScrollView (props: IProps) {
       typeof props.scrollIntoView === 'string' &&
       document &&
       document.querySelector &&
-      document.querySelector(`#${props.scrollIntoView}`)
+      (props.scrollIntoViewOffset !== undefined || document.querySelector(`#${props.scrollIntoView}`))
     ) {
       if (isInit) {
         setTimeout(
@@ -145,7 +161,9 @@ function ScrollView (props: IProps) {
               props.scrollWithAnimation,
               !!props.scrollX,
               !!props.scrollY,
-              props.scrollIntoViewAlignment
+              props.scrollIntoViewAlignment,
+              container.current,
+              props.scrollIntoViewOffset
             ),
           500
         )
@@ -155,7 +173,9 @@ function ScrollView (props: IProps) {
           props.scrollWithAnimation,
           !!props.scrollX,
           !!props.scrollY,
-          props.scrollIntoViewAlignment
+          props.scrollIntoViewAlignment,
+          container.current,
+          props.scrollIntoViewOffset
         )
       }
     } else {
@@ -178,17 +198,19 @@ function ScrollView (props: IProps) {
       typeof sitv === 'string' &&
       document &&
       document.querySelector &&
-      document.querySelector(`#${sitv}`)
+      (props.scrollIntoViewOffset !== undefined || document.querySelector(`#${sitv}`))
     )
 
     if (sitvOk) {
-      if (sitv !== lastAppliedScrollIntoViewIdRef.current) {
+      if (sitv !== lastAppliedScrollIntoViewIdRef.current || props.scrollIntoViewOffset !== undefined) {
         scrollIntoView(
           sitv,
           props.scrollWithAnimation,
           !!props.scrollX,
           !!props.scrollY,
-          props.scrollIntoViewAlignment
+          props.scrollIntoViewAlignment,
+          container.current,
+          props.scrollIntoViewOffset
         )
         lastAppliedScrollIntoViewIdRef.current = typeof sitv === 'string' ? sitv : null
       } else {
@@ -203,6 +225,7 @@ function ScrollView (props: IProps) {
     props.scrollLeft,
     props.scrollIntoView,
     props.scrollIntoViewAlignment,
+    props.scrollIntoViewOffset,
     props.scrollWithAnimation,
     props.scrollX,
     props.scrollY

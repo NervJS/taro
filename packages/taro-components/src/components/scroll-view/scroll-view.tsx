@@ -1,5 +1,6 @@
 import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Listen, Method, Prop, Watch, h } from '@stencil/core'
 import classNames from 'classnames'
+import { scrollIntoViewWithOffset } from '@tarojs/shared'
 
 import { debounce, handleStencilNodes } from '../../utils'
 
@@ -49,6 +50,7 @@ export class ScrollView implements ComponentInterface {
   @Prop({ attribute: 'scroll-left', reflect: true }) mpScrollLeft: number | string
   @Prop({ attribute: 'scroll-into-view', reflect: true }) mpScrollIntoView: string
   @Prop({ attribute: 'scroll-into-view-alignment' }) mpScrollIntoViewAlignment: 'start' | 'center' | 'end' | 'nearest'
+  @Prop({ attribute: 'scroll-into-view-offset' }) mpScrollIntoViewOffset?: number
   @Prop({ attribute: 'scroll-with-animation' }) animated = false
   @Prop() enhanced = false
   @Prop() showScrollbar = true
@@ -95,6 +97,11 @@ export class ScrollView implements ComponentInterface {
   @Watch('mpScrollIntoView')
   watchScrollIntoView (newVal) {
     this.mpScrollIntoViewMethod(newVal)
+  }
+
+  @Watch('mpScrollIntoViewOffset')
+  watchScrollIntoViewOffset () {
+    this.mpScrollIntoViewMethod(this.mpScrollIntoView)
   }
 
   @Listen('scroll')
@@ -156,6 +163,19 @@ export class ScrollView implements ComponentInterface {
   @Method()
   async mpScrollIntoViewMethod(selector: string) {
     if (typeof selector === 'string' && selector) {
+      if (this.mpScrollIntoViewOffset !== undefined) {
+        const target = Array.from(this.el.querySelectorAll<HTMLElement>('[id]')).find(node => node.id === selector)
+        if (target) {
+          scrollIntoViewWithOffset(this.el, target, {
+            offset: Number.isFinite(this.mpScrollIntoViewOffset) ? this.mpScrollIntoViewOffset : 0,
+            scrollX: this.scrollX,
+            scrollY: this.scrollY,
+            alignment: this.mpScrollIntoViewAlignment,
+            behavior: this.animated ? 'smooth' : 'auto',
+          })
+        }
+        return
+      }
       // 未开启的滚动轴使用 nearest 避免原生 scrollIntoView 沿该轴滚动整页
       document.querySelector(`#${selector}`)?.scrollIntoView({
         behavior: this.animated ? 'smooth' : 'auto',
@@ -173,6 +193,7 @@ export class ScrollView implements ComponentInterface {
     this.mpScrollToMethod({
       top, left, animated
     })
+    if (this.mpScrollIntoViewOffset !== undefined) this.mpScrollIntoViewMethod(this.mpScrollIntoView)
   }
 
   upperAndLower = debounce(() => {
