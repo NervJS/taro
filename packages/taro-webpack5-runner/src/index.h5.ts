@@ -1,20 +1,18 @@
-import path from 'node:path'
 import { format as formatUrl } from 'node:url'
 
-import { chalk, recursiveMerge, SOURCE_DIR } from '@tarojs/helper'
+import { chalk, recursiveMerge } from '@tarojs/helper'
+import { getH5DevServerOptions } from '@tarojs/runner-utils/dist/bundler/devServer'
 import { isFunction } from '@tarojs/shared'
 import Prebundle from '@tarojs/webpack5-prebundle'
-import detectPort from 'detect-port'
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
-import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
-import AppHelper from './utils/app'
+import { formatOpenHost } from './utils'
 import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
 import { errorHandling } from './utils/webpack'
 import { H5Combination } from './webpack/H5Combination'
 
-import type { EntryNormalized, EntryObject, Stats } from 'webpack'
+import type { EntryObject, Stats } from 'webpack'
 import type { IH5BuildConfig } from './utils/types'
 
 export default async function build (appPath: string, rawConfig: IH5BuildConfig): Promise<Stats | void> {
@@ -90,7 +88,7 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
       const routerConfig = config.router || {}
       const routerMode = routerConfig.mode || 'hash'
       const routerBasename = routerConfig.basename || '/'
-      webpackConfig.devServer = await getDevServerOptions(appPath, config)
+      webpackConfig.devServer = await getH5DevServerOptions<WebpackDevServer.Configuration>(appPath, config as any)
 
       const firstEntry = Object.keys(entry as EntryObject)[0]
       const pathname = combination.isBuildNativeComp ? `/${firstEntry}.html` : '/'
@@ -153,135 +151,4 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
     console.error(err)
     !config.isWatch && process.exit(1)
   }
-}
-
-async function getDevServerOptions (appPath: string, config: IH5BuildConfig): Promise<WebpackDevServer.Configuration> {
-  const publicPath = parsePublicPath(config.publicPath)
-  const outputPath = path.join(appPath, config.outputRoot || 'dist')
-  const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
-  const routerConfig = config.router || {}
-  const routerMode = routerConfig.mode || 'hash'
-  const isMultiRouterMode = routerMode === 'multi'
-  const proxy: WebpackDevServer.Configuration['proxy'] = []
-  if (isMultiRouterMode) {
-    const app = new AppHelper(config.entry as EntryNormalized, {
-      sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
-      frameworkExts: config.frameworkExts,
-      entryFileName: config.entryFileName,
-      alias: config.alias,
-      defineConstants: config.defineConstants,
-    })
-    const appConfig = app.appConfig
-    const customRoutes = routerConfig.customRoutes || {}
-    const routerBasename = routerConfig.basename || '/'
-    const getEntriesRoutes = (customRoutes: Record<string, string | string[]> = {}) => {
-      const conf: string[][] = []
-      for (let key in customRoutes) {
-        const path = customRoutes[key]
-        key = addLeadingSlash(key)
-        if (typeof path === 'string') {
-          conf.push([key, addLeadingSlash(path)])
-        } else if (path?.length > 0) {
-          conf.push(...path.map(p => [key, addLeadingSlash(p)]))
-        }
-      }
-      return conf
-    }
-    const bypass: WebpackDevServer.ByPass = req => {
-      if (req.headers.accept?.indexOf('html') !== -1) {
-        const pagePath = stripTrailingSlash(stripBasename(req.path, routerBasename))
-        // console.log('bypass:' + req.path, pagePath)
-        const getBypassUrl = url => addHtmlSuffix(addLeadingSlash(url))
-        if (pagePath === '') {
-          return getBypassUrl(appConfig.entryPagePath || appConfig.pages?.[0])
-        }
-
-        const pageIdx = (appConfig.pages ?? []).findIndex(e => addLeadingSlash(e) === pagePath)
-        if (pageIdx > -1) {
-          return getBypassUrl(appConfig.pages?.[pageIdx])
-        }
-
-        const customRoutesConf = getEntriesRoutes(customRoutes)
-        const idx = getEntriesRoutes(customRoutes).findIndex(list => list[1] === pagePath)
-        if (idx > -1) {
-          // NOTE: 自定义路由
-          return getBypassUrl(customRoutesConf[idx][0])
-        }
-      }
-    }
-    proxy.push({
-      context: [routerBasename],
-      bypass
-    })
-  }
-
-  if (!(customProxy instanceof Array)) {
-    proxy.push(...Object.entries(customProxy).map(([url, options = {}]) => {
-      const item: WebpackDevServer.ProxyConfigArrayItem = {
-        context: [url]
-      }
-      if (typeof options === 'string') {
-        item.target = options
-      } else {
-        Object.assign(item, options)
-      }
-      return item
-    }))
-  } else {
-    proxy.push(...customProxy)
-  }
-
-  const chunkFilename = config.output?.chunkFilename as string ?? `${config.chunkDirectory || 'chunk'}/[name].js`
-  const devServerOptions: WebpackDevServer.Configuration = recursiveMerge<any>(
-    {
-      allowedHosts: 'all',
-      devMiddleware: {
-        publicPath,
-      },
-      static: [{
-        directory: outputPath, // webpack4: devServerOptions.contentBase
-        publicPath,
-        watch: true // webpack4: devServerOptions.watchContentBase
-      }],
-      compress: true,
-      // disableHostCheck: true, // the disableHostCheck and allowedHosts options were removed in favor of the firewall option
-      host: '0.0.0.0',
-      // useLocalIp: true, @breaking: move in favor { host: 'local-ip' } (https://github.com/webpack/webpack-dev-server/releases?page=2)
-      hot: config.isBuildNativeComp ? true : 'only',
-      https: false,
-      // inline: true, // the inline option (iframe live mode) was removed
-      client: {
-        overlay: true
-      },
-      port: 10086,
-      // quiet: true, // the log, logLevel, logTime, noInfo, quiet, reporter and warn options were removed in favor of built-in webpack logger, please read this to enable and setup logging output
-      historyApiFallback: {
-        disableDotRule: true,
-        rewrites: [{
-          from: /\.hot-update\.(js|json)$/,
-          to: function (context) {
-            const pathname = chunkFilename.replace('[name]', path.basename(context.parsedUrl.pathname).replace(/\.[^.]*.hot-update\.(js|json)/, ''))
-            return (['', 'auto'].includes(publicPath) ? '' : publicPath) + pathname
-          }
-        }]
-      },
-      proxy
-    },
-    customDevServerOption,
-    {
-      historyApiFallback: {
-        rewrites: [{ from: /./, to: publicPath }]
-      }
-    }
-  )
-
-  const originalPort = Number(devServerOptions.port)
-  const availablePort = await detectPort(originalPort)
-
-  if (availablePort !== originalPort) {
-    console.log(`ℹ 预览端口 ${originalPort} 被占用, 自动切换到空闲端口 ${availablePort}`)
-    devServerOptions.port = availablePort
-  }
-
-  return devServerOptions
 }

@@ -1,22 +1,14 @@
 import path from 'node:path'
 
 import { defaultMainFields, resolveSync } from '@tarojs/helper'
+import { getDefaultH5TerserOptions } from '@tarojs/runner-utils'
 
 import { BaseConfig } from './BaseConfig'
 
 import type { IH5BuildConfig } from '../utils/types'
 
 export class H5BaseConfig extends BaseConfig {
-  defaultTerserOptions = {
-    keep_fnames: true,
-    output: {
-      comments: false,
-      keep_quoted_props: true,
-      quote_keys: true,
-      beautify: false,
-    },
-    warnings: false,
-  }
+  defaultTerserOptions = getDefaultH5TerserOptions()
 
   constructor(appPath: string, config: Partial<IH5BuildConfig>) {
     super(appPath, config)
