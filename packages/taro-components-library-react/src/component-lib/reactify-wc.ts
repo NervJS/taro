@@ -93,6 +93,10 @@ function updateProp (ctx, comp, propKey, prevProps, props) {
       dom.mpScrollLeft = val
       return
     }
+    if (propKey === 'scrollIntoViewOffset') {
+      dom.mpScrollIntoViewOffset = val
+      return
+    }
     if (propKey === 'scrollIntoView') {
       dom.mpScrollIntoView = val
       return
