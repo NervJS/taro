@@ -202,6 +202,17 @@ export default class PageHandler {
     }
   }
 
+  // Note: 页面出栈后才会执行 onUnload，此时栈顶已是目标页面，需要避免已出栈页面在 onUnload 中同步调用的导航栏方法作用到目标页面
+  protected triggerUnload (page?: PageInstance | null) {
+    const handler = this.navigationBarHandler
+    handler.isPageUnloading = true
+    try {
+      page?.onUnload?.()
+    } finally {
+      handler.isPageUnloading = false
+    }
+  }
+
   unload (page?: PageInstance | null, delta = 1, top = false) {
     if (!page) return
 
@@ -210,7 +221,7 @@ export default class PageHandler {
     if (this.animation && top) {
       if (this.unloadTimer) {
         clearTimeout(this.unloadTimer)
-        this.lastUnloadPage?.onUnload?.()
+        this.triggerUnload(this.lastUnloadPage)
         this.unloadTimer = null
       }
       this.lastUnloadPage = page
@@ -223,14 +234,14 @@ export default class PageHandler {
 
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
-        this.lastUnloadPage?.onUnload?.()
+        this.triggerUnload(this.lastUnloadPage)
         eventCenter.trigger('__taroPageOnShowAfterDestroyed')
       }, this.animationDuration)
     } else {
       const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
-      page?.onUnload?.()
+      this.triggerUnload(page)
       setTimeout(() => {
         eventCenter.trigger('__taroPageOnShowAfterDestroyed')
       }, 0)

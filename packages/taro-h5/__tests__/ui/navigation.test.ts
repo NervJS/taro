@@ -1,3 +1,4 @@
+import { eventCenter } from '@tarojs/runtime'
 import * as Taro from '@tarojs/taro-h5'
 
 import { buildApp } from '../utils'
@@ -94,6 +95,28 @@ describe('navigation', () => {
           done()
         })
       })
+    })
+  })
+  describe('hideHomeButton', () => {
+    test('should ask the navigation bar to hide the home button', async () => {
+      const listener = jest.fn()
+      const success = jest.fn()
+      const fail = jest.fn()
+      const complete = jest.fn()
+      const expectRes = { errMsg: 'hideHomeButton:ok' }
+      eventCenter.on('__taroH5HideHomeButton', listener)
+
+      try {
+        await expect(Taro.hideHomeButton({ success, fail, complete })).resolves.toEqual(expectRes)
+        await expect(Taro.hideHomeButton()).resolves.toEqual(expectRes)
+      } finally {
+        eventCenter.off('__taroH5HideHomeButton', listener)
+      }
+
+      expect(listener).toHaveBeenCalledTimes(2)
+      expect(success.mock.calls).toEqual([[expectRes]])
+      expect(complete.mock.calls).toEqual([[expectRes]])
+      expect(fail).not.toHaveBeenCalled()
     })
   })
 })
