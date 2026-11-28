@@ -1,41 +1,25 @@
-import path from 'node:path'
-
-import { promoteRelativePath } from '@tarojs/helper'
-import { AppConfig } from '@tarojs/taro'
+import {
+  addRequireToSourceWith,
+  errorHandling,
+  getChunkEntryModuleFromCompilation
+} from '@tarojs/runner-utils/bundler/loadChunks'
 import { sources } from 'webpack'
 
-import type { Chunk, ChunkGraph, Compilation, Stats } from 'webpack'
+import type { AppConfig } from '@tarojs/taro'
+import type { Chunk, ChunkGraph, Compilation } from 'webpack'
 
 export { getAssetsMaxSize } from '@tarojs/runner-utils'
-
-const { ConcatSource } = sources
+export { errorHandling }
 
 /**
  * 在文本头部加入一些 require 语句
  */
 export function addRequireToSource (id: string, modules: sources.Source, commonChunks: (Chunk | { name: string })[], appConfig?: AppConfig) {
-  const source = new ConcatSource()
-  if (process.env.TARO_ENV === 'tt' && appConfig) {
-    source.add(`
-if (typeof tt !== 'undefined') {
-  tt.__$enableTTDom$__ = ${appConfig.enableTTDom};
-}\n`)
-  }
-  commonChunks.forEach(chunkItem => {
-    source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name!)))});\n`)
-  })
-  source.add('\n')
-  source.add(modules)
-  source.add(';')
-  return source
+  return addRequireToSourceWith(sources.ConcatSource, id, modules, commonChunks, appConfig)
 }
 
 export function getChunkEntryModule (compilation: Compilation, chunk: Chunk) {
-  const chunkGraph = compilation.chunkGraph
-  const entryModules = Array.from(chunkGraph.getChunkEntryModulesIterable(chunk))
-  if (entryModules.length) {
-    return entryModules[0]
-  }
+  return getChunkEntryModuleFromCompilation(compilation, chunk)
 }
 
 export function getChunkIdOrName (chunk: Chunk) {
@@ -50,10 +34,4 @@ export function chunkHasJs (chunk: Chunk, chunkGraph: ChunkGraph) {
   if (chunkGraph.getNumberOfEntryModules(chunk) > 0) return true
 
   return Boolean(chunkGraph.getChunkModulesIterableBySourceType(chunk, 'javascript'))
-}
-
-export function errorHandling (errorLevel?: number, stats?: Stats) {
-  if (errorLevel === 1 && stats?.hasErrors()) {
-    process.exit(1)
-  }
 }

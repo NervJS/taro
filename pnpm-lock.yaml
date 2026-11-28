@@ -2556,6 +2556,9 @@ importers:
       detect-port:
         specifier: ^1.5.1
         version: 1.6.1
+      html-minifier:
+        specifier: ^4.0.0
+        version: 4.0.0
       jsdom:
         specifier: ^24.0.0
         version: 24.1.3
@@ -2592,6 +2595,9 @@ importers:
       sax:
         specifier: 1.2.4
         version: 1.2.4
+      tapable:
+        specifier: ^2.2.1
+        version: 2.3.4
       vm2:
         specifier: ^3.9.19
         version: 3.9.19
@@ -3242,6 +3248,9 @@ importers:
       memfs:
         specifier: ^4.9.1
         version: 4.17.0
+      tapable:
+        specifier: ^2.2.1
+        version: 2.3.4
       vue-loader:
         specifier: ^17.0.0
         version: 17.4.2(webpack@5.104.1(@swc/core@1.3.96)(lightningcss@1.29.3)(postcss@8.5.6))
@@ -24303,7 +24312,7 @@ snapshots:
   enhanced-resolve@5.18.1:
     dependencies:
       graceful-fs: 4.2.11
-      tapable: 2.2.1
+      tapable: 2.3.4
 
   entities@2.2.0: {}
 
@@ -28908,7 +28917,7 @@ snapshots:
   mini-css-extract-plugin@2.9.2(webpack@5.104.1(@swc/core@1.3.96)(esbuild@0.21.5)(lightningcss@1.29.3)(postcss@8.5.6)):
     dependencies:
       schema-utils: 4.3.0
-      tapable: 2.2.1
+      tapable: 2.3.4
       webpack: 5.104.1(@swc/core@1.3.96)(esbuild@0.21.5)(lightningcss@1.29.3)(postcss@8.5.6)
 
   miniapp-types@1.6.0: {}

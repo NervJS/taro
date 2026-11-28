@@ -1,20 +1,14 @@
-import path from 'node:path'
-
+import { addRequireToSourceWith } from '@tarojs/runner-utils/bundler/loadChunks'
 import {
-  isEmptyObject,
-  printLog,
-  processTypeEnum,
-  REG_STYLE,
-  resolveMainFilePath,
-} from '@tarojs/helper'
-import { urlToRequest } from 'loader-utils'
+  collectBuildNativePages,
+  injectNativeComponentCommonStyles
+} from '@tarojs/runner-utils/bundler/miniPlugin'
 
-import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
+import { getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import MiniPlugin from './MiniPlugin'
 
 import type { Config } from '@tarojs/taro'
 import type { Compilation, Compiler } from 'webpack'
-import type { IComponent } from '../utils/types'
 
 const PLUGIN_NAME = 'BuildNativePlugin'
 
@@ -36,40 +30,7 @@ export default class BuildNativePlugin extends MiniPlugin {
   }
 
   getPages () {
-    if (isEmptyObject(this.appConfig)) {
-      throw new Error('缺少 app 全局配置，请检查！')
-    }
-    const appPages = this.appConfig.components
-    if (!appPages || !appPages.length) {
-      throw new Error('全局配置缺少 components 字段，请检查！')
-    }
-
-    if (!this.isWatch) {
-      printLog(processTypeEnum.COMPILE, '发现入口', this.getShowPath(this.appEntry))
-    }
-
-    const { frameworkExts, newBlended } = this.options
-    this.prerenderPages = new Set()
-
-    const componentPages = appPages.map<IComponent>(item => {
-      const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
-
-      return {
-        name: item,
-        path: pagePath,
-        isNative: false
-      }
-    })
-
-    this.pages = new Set(componentPages)
-
-    // newBlended 与平台无关：native-components 构建在所有端都需要登记本地化组件，
-    // 平台隔离只应限制微信分包混合（SubPackageIndiePlugin）的注册，见 applySubPackageIndiePlugin。
-    if (newBlended) {
-      componentPages.forEach(component => {
-        this.nativeComponents.set(component.name, component)
-      })
-    }
+    collectBuildNativePages(this)
   }
 
   // entry 删除 app.js
@@ -111,13 +72,12 @@ export default class BuildNativePlugin extends MiniPlugin {
       compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules, { chunk }) => {
         if (!getChunkEntryModule(compilation, chunk)) return modules
 
-        // addChunkPages
         if (fileChunks.size) {
           let source
           const id = getChunkIdOrName(chunk)
           fileChunks.forEach((v, k) => {
             if (k === id) {
-              source = addRequireToSource(id, modules, v)
+              source = addRequireToSourceWith(this.getSources(compiler).ConcatSource, id, modules, v)
             }
           })
           return source
@@ -152,33 +112,12 @@ export default class BuildNativePlugin extends MiniPlugin {
    * 各组件的样式文件中引入 common chunks 中的公共样式文件
    */
   injectCommonStyles ({ assets }: Compilation, { webpack }: Compiler) {
-    const { ConcatSource } = webpack.sources
-    const styleExt = this.options.fileType.style
-    const REG_STYLE_EXT = new RegExp(`\\.(${styleExt.replace('.', '')})(\\?.*)?$`)
-
-    const commons: string[] = []
-
-    Object.keys(assets).forEach(assetName => {
-      const fileName = path.basename(assetName, path.extname(assetName))
-      if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
-        commons.push(assetName)
-      }
+    injectNativeComponentCommonStyles({
+      assets,
+      sources: webpack.sources,
+      pages: this.pages,
+      commonChunks: this.options.commonChunks,
+      styleExt: this.options.fileType.style
     })
-
-    if (commons.length > 0) {
-      this.pages.forEach(page => {
-        if (page.isNative) return
-        const pageStyle = `${page.name}${styleExt}`
-        if (pageStyle in assets) {
-          const source = new ConcatSource('')
-          const originSource = assets[pageStyle]
-          commons.forEach(item => {
-            source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), item)))};\n`)
-          })
-          source.add(originSource)
-          assets[pageStyle] = source
-        }
-      })
-    }
   }
 }

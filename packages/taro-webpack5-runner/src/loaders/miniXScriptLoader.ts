@@ -1,1 +1,1 @@
-export { default } from '@tarojs/runner-utils/dist/bundler/loaders/miniXScriptLoader'
+export { default } from '@tarojs/runner-utils/bundler/loaders/miniXScriptLoader'

@@ -6,4 +6,4 @@ export {
   printCompiling,
   printPrerenderFail,
   printPrerenderSuccess
-} from '@tarojs/runner-utils/dist/bundler/logHelper'
+} from '@tarojs/runner-utils/bundler/logHelper'
