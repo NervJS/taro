@@ -15,7 +15,7 @@ export * from './getVideoInfo'
 export const createVideoContext: typeof Taro.createVideoContext = (id, inst) => {
   const el = findDOM(inst) as HTMLVideoElement
   // TODO HTMLVideoElement to VideoContext
-  return el?.querySelector(`taro-video-core[id=${id}]`) as unknown as Taro.VideoContext
+  return Array.from(el?.querySelectorAll('taro-video-core[id]') || []).find(video => video.id === id) as unknown as Taro.VideoContext
 }
 
 export const compressVideo = /* @__PURE__ */ temporarilyNotSupport('compressVideo')
