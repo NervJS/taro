@@ -13,7 +13,9 @@ it('reports elapsed playback time separately from duration', async () => {
   audio.currentTime = 12
   const listener = jest.fn()
   page.root!.addEventListener('timeupdate', listener)
-  audio.dispatchEvent(new Event('timeupdate'))
+  const event = new Event('timeupdate')
+  Object.defineProperty(event, 'srcElement', { value: audio })
+  audio.dispatchEvent(event)
 
   expect(listener.mock.calls[0][0].detail).toEqual({ currentTime: 12, duration: 120 })
 })
