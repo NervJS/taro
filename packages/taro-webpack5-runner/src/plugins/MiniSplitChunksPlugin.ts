@@ -494,14 +494,29 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     }
   }
 
+  /**
+   * 根据 webpack entry 配置获取入口文件路径
+   */
+  getAppEntry (compiler: Compiler) {
+    return extractMiniAppEntryPath(compiler.options.entry)
+  }
+
+  /**
+   * 获取分包配置
+   */
   getSubpackageConfig (compiler: Compiler): SubPackage[] {
-    const appEntry = extractMiniAppEntryPath(compiler.options.entry)
-    if (!appEntry) {
-      return []
-    }
-    const appConfigPath = resolveMainFilePath(`${appEntry.replace(path.extname(appEntry), '')}.config`)
+    const appEntry = this.getAppEntry(compiler)
+    const appConfigPath = this.getConfigFilePath(appEntry)
     const appConfig: AppConfig = readConfig(appConfigPath, this.combination.config)
-    return appConfig?.subPackages || appConfig?.subpackages || []
+
+    return appConfig.subPackages || appConfig.subpackages || []
+  }
+
+  /**
+   * 根据 app、页面、组件的路径获取对应的 config 配置文件的路径
+   */
+  getConfigFilePath (filePath: string): string {
+    return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
   }
 
   isExcludeModule (module: any): boolean {

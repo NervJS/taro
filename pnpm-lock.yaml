@@ -3248,6 +3248,9 @@ importers:
       memfs:
         specifier: ^4.9.1
         version: 4.17.0
+      tapable:
+        specifier: ^2.2.1
+        version: 2.3.4
       vue-loader:
         specifier: ^17.0.0
         version: 17.4.2(webpack@5.104.1(@swc/core@1.3.96)(lightningcss@1.29.3)(postcss@8.5.6))

@@ -167,4 +167,63 @@ describe('shared bundler compatibility', () => {
       superApplySpy.mockRestore()
     }
   })
+
+  test('MiniSplitChunksPlugin honors subclass getAppEntry and getConfigFilePath overrides', () => {
+    withTempDir('taro-mini-split-chunks-hooks-', tmpDir => {
+      const customEntry = path.join(tmpDir, 'custom-app.ts')
+      const customEntryConfig = path.join(tmpDir, 'custom-app.config.js')
+      const customConfigPath = path.join(tmpDir, 'override.config.json')
+
+      fs.writeFileSync(customEntryConfig, `module.exports = ${JSON.stringify({
+        subPackages: [
+          { root: 'pkgFromEntry/', pages: ['a/index'] },
+          { root: 'pkgIndie', pages: ['index'], independent: true },
+        ],
+      })}`)
+      fs.writeFileSync(customConfigPath, JSON.stringify({
+        subpackages: [
+          { root: 'pkgFromConfig/', pages: ['b/index'] },
+        ],
+      }))
+
+      class CustomEntryPlugin extends MiniSplitChunksPlugin {
+        getAppEntry () {
+          return customEntry
+        }
+      }
+
+      class CustomConfigPathPlugin extends MiniSplitChunksPlugin {
+        getConfigFilePath () {
+          return customConfigPath
+        }
+      }
+
+      const fileType = { style: '.wxss', config: '.json', script: '.js', templ: '.wxml', xs: '.wxs' }
+      const entryPlugin = new CustomEntryPlugin({ combination: { config: {} } as any, fileType })
+      const configPlugin = new CustomConfigPathPlugin({ combination: { config: {} } as any, fileType })
+      const superApplySpy = jest
+        .spyOn(Object.getPrototypeOf(MiniSplitChunksPlugin.prototype), 'apply')
+        .mockImplementation(() => {})
+
+      try {
+        entryPlugin.apply({
+          webpack,
+          context: tmpDir,
+          options: { entry: {}, output: { path: path.join(tmpDir, 'dist') }, mode: 'production', optimization: {} },
+          hooks: { thisCompilation: new SyncHook(['compilation']) },
+        } as any)
+        expect(entryPlugin.subRoots).toEqual(['pkgFromEntry'])
+
+        configPlugin.apply({
+          webpack,
+          context: tmpDir,
+          options: { entry: () => ({}), output: { path: path.join(tmpDir, 'dist') }, mode: 'production', optimization: {} },
+          hooks: { thisCompilation: new SyncHook(['compilation']) },
+        } as any)
+        expect(configPlugin.subRoots).toEqual(['pkgFromConfig'])
+      } finally {
+        superApplySpy.mockRestore()
+      }
+    })
+  })
 })
