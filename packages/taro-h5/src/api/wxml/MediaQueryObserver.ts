@@ -8,7 +8,7 @@ function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) 
   for (const item of descriptorMenu) {
     if (
       item !== 'orientation' &&
-      descriptor[item] &&
+      (descriptor[item] || descriptor[item] === 0) &&
       Number(descriptor[item]) >= 0
     ) {
       mediaQueryArr.push(`(${(toKebabCase(item))}: ${Number(descriptor[item])}px)`)

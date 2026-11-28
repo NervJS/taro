@@ -53,6 +53,12 @@ describe.each(['modern', 'legacy'])('MediaQueryObserver with %s listeners', mode
     else Reflect.deleteProperty(window, 'matchMedia')
   })
 
+  test.each(['width', 'minWidth', 'maxWidth', 'height', 'minHeight', 'maxHeight'])('retains an explicit zero for %s', key => {
+    observer.observe({ [key]: 0 }, jest.fn())
+    const cssName = key.replace(/[A-Z]/g, letter => '-' + letter.toLowerCase())
+    expect(window.matchMedia).toHaveBeenCalledWith(`(${cssName}: 0px)`)
+  })
+
   test('reports the initial state and changes until disconnected', () => {
     const callback = jest.fn()
     observer.observe(narrow, callback)
