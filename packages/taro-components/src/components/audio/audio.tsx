@@ -39,7 +39,7 @@ export class Audio implements ComponentInterface {
     this.audio.addEventListener('timeupdate', (e: TaroEvent<HTMLAudioElement>) => {
       this.onTimeUpdate.emit({
         duration: e.srcElement!.duration,
-        currentTime: e.srcElement!.duration
+        currentTime: e.srcElement!.currentTime
       })
     })
 
