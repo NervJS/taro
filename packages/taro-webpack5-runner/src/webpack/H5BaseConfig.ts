@@ -1,7 +1,5 @@
-import path from 'node:path'
-
-import { defaultMainFields, resolveSync } from '@tarojs/helper'
 import { getDefaultH5TerserOptions } from '@tarojs/runner-utils'
+import { getH5ResolveConfig } from '@tarojs/runner-utils/bundler/config/H5BaseConfig'
 
 import { BaseConfig } from './BaseConfig'
 
@@ -10,38 +8,11 @@ import type { IH5BuildConfig } from '../utils/types'
 export class H5BaseConfig extends BaseConfig {
   defaultTerserOptions = getDefaultH5TerserOptions()
 
-  constructor(appPath: string, config: Partial<IH5BuildConfig>) {
+  constructor (appPath: string, config: Partial<IH5BuildConfig>) {
     super(appPath, config)
-    const mainFields = [...defaultMainFields]
-    if (config.mode !== 'production') {
-      mainFields.unshift('main:h5')
-    }
-    const resolveOptions: Parameters<typeof resolveSync>[1] = {
-      basedir: appPath,
-      packageFilter: (pkg, pkgFile) => {
-        for (let i = 0; i < mainFields.length; i++) {
-          try {
-            const mainFile = pkg[mainFields[i]] as string
-            if (mainFile && resolveSync(path.resolve(pkgFile, mainFile))) {
-              pkg.main = mainFile
-              break
-            }
-          } catch (e) {} // eslint-disable-line no-empty
-        }
-        return pkg
-      },
-    }
     this.chain.merge({
-      resolve: {
-        mainFields,
-        alias: {
-          // Note: link 本地依赖调试，runtime 包需要指向本地 node_modules 顶层的 runtime，保证闭包值 Current 一致，shared 也一样
-          '@tarojs/runtime': resolveSync('@tarojs/runtime', resolveOptions),
-          '@tarojs/shared': resolveSync('@tarojs/shared', resolveOptions),
-        },
-      },
+      resolve: getH5ResolveConfig(appPath, config.mode)
     })
-
     this.setMinimizer(config, this.defaultTerserOptions)
   }
 }

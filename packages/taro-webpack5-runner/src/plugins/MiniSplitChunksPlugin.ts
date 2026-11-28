@@ -1,7 +1,18 @@
 import path from 'node:path'
 
-import { normalizePath, promoteRelativePath, readConfig, resolveMainFilePath } from '@tarojs/helper'
-import { isArray, isFunction, isString } from '@tarojs/shared'
+import { normalizePath, readConfig, resolveMainFilePath } from '@tarojs/helper'
+import {
+  type ISubCommonDepInfo,
+  collectExistingSubCommonDeps,
+  extractMiniAppEntryPath,
+  formatSubRoot,
+  hasMainPackageChunk,
+  isExcludeSplitModule,
+  isMultiSubPackageDep,
+  processSubPackageSplitAssets,
+  SUB_COMMON_DIR,
+  SUB_VENDORS_NAME
+} from '@tarojs/runner-utils/bundler/splitChunks'
 import md5 from 'md5'
 import SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 
@@ -11,15 +22,6 @@ import type { IFileType } from '../utils/types'
 import type { MiniCombination } from '../webpack/MiniCombination'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin' // 插件名
-const SUB_COMMON_DIR = 'sub-common' // 分包公共依赖目录
-const SUB_VENDORS_NAME = 'sub-vendors' // 分包 vendors 文件名
-
-const FileExtsMap = {
-  JS: '.js',
-  JS_MAP: '.js.map',
-  STYLE: '.wxss',
-  TEMPLATE: '.wxml'
-} // 默认支持的文件扩展名
 
 // 插件 options
 interface MiniSplitChunksPluginOption {
@@ -34,12 +36,7 @@ interface ExcludeFunctionItem {
 }
 
 // 依赖信息
-interface DepInfo {
-  identifier: string
-  rawIdentifier: string
-  resource: string
-  chunks: Set<string>
-}
+type DepInfo = ISubCommonDepInfo
 
 const INITIAL_CHUNK_FILTER = chunk => chunk.canBeInitial()
 const ASYNC_CHUNK_FILTER = chunk => !chunk.canBeInitial()
@@ -324,22 +321,18 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       xs: '.wxs'
     }
     this.combination = options.combination
-    FileExtsMap.STYLE = this.fileType.style
-    FileExtsMap.TEMPLATE = this.fileType.templ
   }
 
   apply (compiler: Compiler) {
     const { webpack, context, options } = compiler
     const { util, Compilation, sources } = webpack
-    const { ConcatSource, RawSource } = sources
 
     this.context = context
     this.subPackages = this.getSubpackageConfig(compiler)
-      // 过滤掉独立分包
       .filter((subPackage: SubPackage) => !subPackage.independent)
       .map((subPackage: SubPackage) => ({
         ...subPackage,
-        root: this.formatSubRoot(subPackage.root)
+        root: formatSubRoot(subPackage.root)
       }))
     if (this.subPackages.length === 0) {
       return
@@ -400,7 +393,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
               return
             }
 
-            if (this.hasExclude() && this.isExcludeModule(module)) {
+            if (this.isExcludeModule(module)) {
               return
             }
 
@@ -409,7 +402,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
             /**
              * 找出没有被主包引用，且被多个分包引用的module，并记录在subCommonDeps中
              */
-            if (!this.hasMainChunk(chunkNames) && this.isSubsDep(chunkNames)) {
+            if (!hasMainPackageChunk(chunkNames, this.subRootRegExps) && isMultiSubPackageDep(chunkNames, this.subRoots)) {
               const { resource, _identifier: identifier } = module as any
               const depName = md5(resource ?? identifier)
               if (!this.subCommonDeps.has(depName)) {
@@ -449,28 +442,14 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
        * 收集分包下的sub-vendors和sub-common下的公共模块信息
        */
       compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, chunks => {
-        const existSubCommonDeps = new Map()
-
-        for (const chunk of chunks) {
-          const chunkName = chunk.name!
-
-          if (this.matchSubVendors(chunk)) {
-            const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(chunkName)) as string
-
-            this.subPackagesVendors.set(subRoot, chunk)
-          }
-
-          if (this.matchSubCommon(chunk)) {
-            const depName = chunkName.replace(new RegExp(`^${SUB_COMMON_DIR}\\/(.*)`), '$1')
-
-            if (this.subCommonDeps.has(depName)) {
-              existSubCommonDeps.set(depName, this.subCommonDeps.get(depName))
-            }
-          }
-        }
-
-        this.setChunkSubCommons(existSubCommonDeps)
+        const { subPackagesVendors, existSubCommonDeps, subCommonChunks } = collectExistingSubCommonDeps(
+          chunks,
+          this.subRoots,
+          this.subCommonDeps
+        )
+        this.subPackagesVendors = subPackagesVendors
         this.subCommonDeps = existSubCommonDeps
+        this.subCommonChunks = subCommonChunks
       })
 
       /**
@@ -480,101 +459,25 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
         name: PLUGIN_NAME,
         stage: Compilation.PROCESS_ASSETS_STAGE_ANALYSE // 对分包文件进行处理，放在内部处理 assets 的最后阶段，该 stage 是倒数第二个顺序
       }, this.tryAsync((assets: { [pathname: string]: sources.Source }) => {
-        for (const entryName of compilation.entries.keys()) {
-          if (this.isSubEntry(entryName)) {
-            // 一些已经存在拓展名的 entry，不做处理，否则当分包是原生小程序时会出现 index.wxss.wxss 等情况
-            if (path.extname(entryName)) continue
-
-            const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(entryName)) as string
-            const subCommon = [...(this.subCommonChunks.get(entryName) || [])]
-            for (const key in FileExtsMap) {
-              const ext = FileExtsMap[key]
-              if (ext === FileExtsMap.JS || ext === FileExtsMap.STYLE || ext === FileExtsMap.TEMPLATE) {
-                const source = new ConcatSource()
-                const chunkName = `${entryName}${ext}`
-                const chunkAbsolutePath = path.resolve(this.distPath, chunkName)
-                const subVendorsPath = path.join(subRoot, `${SUB_VENDORS_NAME}${ext}`)
-                // 将子包下的 common 模块替换为父包下的 common 模块
-                subCommon.forEach(moduleName => {
-                  const moduleFileName = `${moduleName}${ext}`
-                  const moduleFilePath = path.join(SUB_COMMON_DIR, moduleFileName)
-                  const subRootModuleFilePath = path.join(subRoot, moduleFilePath)
-                  const assetSource = assets[normalizePath(moduleFilePath)]
-                  if (assetSource) {
-                    const moduleAbsolutePath = path.resolve(this.distPath, subRootModuleFilePath)
-                    const chunkRelativePath = this.getRealRelativePath(path.resolve(this.distPath, chunkName), moduleAbsolutePath)
-                    assets[normalizePath(subRootModuleFilePath)] = {
-                      size: () => assetSource.size(),
-                      source: () => assetSource.source(),
-                      updateHash: () => assetSource.updateHash,
-                      buffer: () => assetSource.buffer(),
-                      map: () => assetSource.map(),
-                      sourceAndMap: () => assetSource.sourceAndMap()
-                    }
-                    const originSourceMapPath = path.join(SUB_COMMON_DIR, `${moduleName}${FileExtsMap.JS_MAP}`)
-                    const originSourceMap = assets[originSourceMapPath]
-                    // 输出 source map
-                    if (ext === FileExtsMap.JS && originSourceMap) {
-                      const subRootSourceMapFilePath = path.join(subRoot, originSourceMapPath)
-                      assets[normalizePath(subRootSourceMapFilePath)] = {
-                        size: () => originSourceMap.size(),
-                        source: () => originSourceMap.source(),
-                        updateHash: () => originSourceMap.updateHash,
-                        buffer: () => originSourceMap.buffer(),
-                        map: () => originSourceMap.map(),
-                        sourceAndMap: () => originSourceMap.sourceAndMap()
-                      }
-                    }
-                    if (ext === FileExtsMap.STYLE) {
-                      source.add(`@import ${JSON.stringify(`${chunkRelativePath}`)};`)
-                    }
-                    if (ext === FileExtsMap.JS) {
-                      source.add(`require(${JSON.stringify(`${chunkRelativePath}`)});`)
-                    }
-                  }
-                })
-                // 将子包 vendors 插入到 entry 中
-                if (assets[normalizePath(subVendorsPath)]) {
-                  const subVendorsAbsolutePath = path.resolve(this.distPath, subVendorsPath)
-                  const vendorsRelativePath = this.getRealRelativePath(chunkAbsolutePath, subVendorsAbsolutePath)
-                  if (ext === FileExtsMap.STYLE) {
-                    source.add(`@import ${JSON.stringify(`${vendorsRelativePath}`)};`)
-                  }
-                  if (ext === FileExtsMap.JS) {
-                    source.add(`require(${JSON.stringify(`${vendorsRelativePath}`)});`)
-                  }
-                }
-                if (assets[chunkName]) {
-                  const originSource = assets[chunkName].source()
-                  if (ext === FileExtsMap.STYLE && typeof originSource === 'string') {
-                    if (originSource.indexOf('@charset') > -1) {
-                      assets[chunkName] = new RawSource(`@charset "UTF-8";${source.source()}${originSource.replace('@charset "UTF-8";', '')}`)
-                    } else {
-                      assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
-                    }
-                  }
-                  if (ext === FileExtsMap.JS && typeof originSource === 'string') {
-                    if (originSource.indexOf('use strict') > -1) {
-                      assets[chunkName] = new RawSource(`"use strict";${source.source()}${originSource.replace('"use strict";', '')}`)
-                    } else {
-                      assets[chunkName] = new RawSource(`${source.source()}${originSource}`)
-                    }
-                  }
-                } else {
-                  assets[chunkName] = new RawSource(`${source.source()}`)
-                }
-              }
-            }
-          }
-        }
-        /**
-         * 根目录下的sub-common资源删掉不输出
-         */
-        for (const assetPath in assets) {
-          if (new RegExp(`^${SUB_COMMON_DIR}\\/.*`).test(assetPath)) {
-            delete assets[assetPath]
-          }
-        }
+        processSubPackageSplitAssets({
+          assets,
+          entryNames: compilation.entries.keys(),
+          distPath: this.distPath,
+          subRoots: this.subRoots,
+          subRootRegExps: this.subRootRegExps,
+          subCommonChunks: this.subCommonChunks,
+          styleExt: this.fileType.style,
+          extraExts: [this.fileType.templ],
+          sources,
+          copyAsset: assetSource => ({
+            size: () => assetSource.size(),
+            source: () => assetSource.source(),
+            updateHash: () => assetSource.updateHash,
+            buffer: () => assetSource.buffer(),
+            map: () => assetSource.map(),
+            sourceAndMap: () => assetSource.sourceAndMap()
+          })
+        })
       }))
     })
   }
@@ -595,20 +498,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    * 根据 webpack entry 配置获取入口文件路径
    */
   getAppEntry (compiler: Compiler) {
-    const { entry } = compiler.options
-    if (isFunction(entry)) {
-      return ''
-    }
-    function getEntryPath (entry) {
-      const app = entry.app
-      if (Array.isArray(app)) {
-        return app[0]
-      } else if (Array.isArray(app.import)) {
-        return app.import[0]
-      }
-      return app
-    }
-    return getEntryPath(entry)
+    return extractMiniAppEntryPath(compiler.options.entry)
   }
 
   /**
@@ -629,72 +519,12 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
   }
 
-  /**
-   * 去掉尾部的/
-   */
-  formatSubRoot (subRoot: string): string {
-    const lastApl = subRoot[subRoot.length - 1]
-
-    if (lastApl === '/') {
-      subRoot = subRoot.slice(0, subRoot.length - 1)
-    }
-    return subRoot
+  isExcludeModule (module: any): boolean {
+    return isExcludeSplitModule(module, this.exclude)
   }
 
   isSubChunk (chunk: Chunk): boolean {
-    const isSubChunk = this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunk.name!))
-
-    return !!isSubChunk
-  }
-
-  /**
-   * 判断是否是子 entry & 排除.config entry
-   */
-  isSubEntry (entry: string): boolean {
-    return !!this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(entry)) && entry.indexOf('.config') === -1
-  }
-
-  /**
-   * match *\/sub-vendors
-   */
-  matchSubVendors (chunk: Chunk): boolean {
-    const subVendorsRegExps = this.subRoots.map(subRoot => new RegExp(`^${normalizePath(path.join(subRoot, SUB_VENDORS_NAME))}$`))
-    const isSubVendors = subVendorsRegExps.find(subVendorsRegExp => subVendorsRegExp.test(chunk.name!))
-
-    return !!isSubVendors
-  }
-
-  /**
-   * match sub-common\/*
-   */
-  matchSubCommon (chunk: Chunk): boolean {
-    return new RegExp(`^${SUB_COMMON_DIR}\\/`).test(chunk.name!)
-  }
-
-  /**
-   * 判断module有没被主包引用
-   */
-  hasMainChunk (chunkNames: string[]): boolean {
-    /**
-     * 遍历chunk，如果其中有一个chunk，无法匹配分包root，则视为非分包的chunk
-     */
-    return !!chunkNames.find((chunkName) => !(this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunkName))))
-  }
-
-  /**
-   * 判断该module有没被多个分包引用
-   */
-  isSubsDep (chunkNames: string[]): boolean {
-    const chunkSubRoots: Set<string> = new Set()
-
-    chunkNames.forEach((chunkName: string) => {
-      this.subRoots.forEach((subRoot: string) => {
-        if (new RegExp(`^${subRoot}\\/`).test(chunkName)) {
-          chunkSubRoots.add(subRoot)
-        }
-      })
-    })
-    return chunkSubRoots.size > 1
+    return Boolean(this.subRootRegExps.find(subRootRegExp => subRootRegExp.test(chunk.name!)))
   }
 
   /**
@@ -706,7 +536,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     this.subRoots.forEach(subRoot => {
       subPackageVendorsCacheGroup[subRoot] = {
         test: (module, { chunkGraph }: { chunkGraph: ChunkGraph }) => {
-          if (this.hasExclude() && this.isExcludeModule(module)) {
+          if (this.isExcludeModule(module)) {
             return false
           }
           const chunks: any = Array.from(chunkGraph.getModuleChunksIterable(module))
@@ -743,56 +573,6 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     return subCommonCacheGroup
   }
 
-  hasExclude (): boolean {
-    return isArray(this.exclude) && this.exclude.length > 0
-  }
-
-  isExcludeModule (module: any): boolean {
-    const moduleResource = module.resource
-
-    for (let i = 0; i < this.exclude.length; i++) {
-      const excludeItem = this.exclude[i]
-
-      if (isString(excludeItem) && excludeItem === moduleResource) {
-        return true
-      }
-
-      if (isFunction(excludeItem) && excludeItem(module)) {
-        return true
-      }
-    }
-    return false
-  }
-
-  setChunkSubCommons (subCommonDeps: Map<string, DepInfo>) {
-    const subCommonChunks: Map<string, Set<string>> = new Map()
-
-    subCommonDeps.forEach((depInfo: DepInfo, depName: string) => {
-      const chunks: string[] = [...depInfo.chunks]
-      if (depInfo.rawIdentifier.startsWith('xml/compile-mode')) {
-        depName += '-templates'
-      }
-      chunks.forEach(chunk => {
-        if (subCommonChunks.has(chunk)) {
-          const chunkSubCommon = subCommonChunks.get(chunk) as Set<string>
-
-          chunkSubCommon.add(depName)
-          subCommonChunks.set(chunk, chunkSubCommon)
-        } else {
-          subCommonChunks.set(chunk, new Set([depName]))
-        }
-      })
-    })
-    this.subCommonChunks = subCommonChunks
-  }
-
-  /**
-   * 获取page相对于公共模块的路径
-   */
-  getRealRelativePath (from: string, to: string): string {
-    return promoteRelativePath(path.relative(from, to))
-  }
-
   /**
    * 判断module为external module
    */
@@ -804,14 +584,6 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
    * 判断是否存在resource和_identifier
    */
   hasModuleId (module: any) {
-    if (module.resource) {
-      return true
-    }
-
-    if (module._identifier) {
-      return true
-    }
-
-    return false
+    return Boolean(module.resource || module._identifier)
   }
 }

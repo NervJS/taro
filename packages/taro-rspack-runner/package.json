@@ -1,0 +1,110 @@
+{
+  "name": "@tarojs/rspack-runner",
+  "version": "4.3.3",
+  "description": "Taro app Rspack runner",
+  "author": "O2Team",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "prod": "pnpm run build",
+    "prebuild": "pnpm run clean",
+    "build": "tsc",
+    "dev": "tsc -w",
+    "clean": "rimraf dist",
+    "test:ci": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "keywords": [
+    "taro",
+    "rspack"
+  ],
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "dependencies": {
+    "@rspack/core": "^2.3.4",
+    "@rspack/dev-server": "^2.2.2",
+    "@rspack/plugin-react-refresh": "^2.0.3",
+    "@swc/helpers": "^0.5.23",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro-loader": "workspace:*",
+    "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.2",
+    "autoprefixer": "^10.4.19",
+    "babel-loader": "8.2.1",
+    "css-loader": "^7.1.1",
+    "detect-port": "^1.5.1",
+    "html-minifier": "^4.0.0",
+    "html-webpack-plugin": "^5.6.0",
+    "jsdom": "^24.0.0",
+    "less-loader": "^12.2.0",
+    "loader-utils": "^3.2.1",
+    "lodash": "^4.17.21",
+    "md5": "^2.3.0",
+    "miniprogram-simulate": "^1.6.1",
+    "ora": "^5.4.1",
+    "picomatch": "^4.0.2",
+    "postcss-html-transform": "workspace:*",
+    "postcss-import": "^16.1.0",
+    "postcss-loader": "^8.1.1",
+    "postcss-plugin-constparse": "workspace:*",
+    "postcss-pxtransform": "workspace:*",
+    "postcss-url": "^10.1.3",
+    "regenerator-runtime": "0.11",
+    "resolve-url-loader": "^5.0.0",
+    "rspack-chain": "^2.3.3",
+    "sass-loader": "^14.2.1",
+    "sax": "1.2.4",
+    "style-loader": "^3.3.4",
+    "stylus-loader": "^8.1.0",
+    "tapable": "^2.2.1",
+    "vm2": "^3.9.19",
+    "webpack-format-messages": "^3.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@tarojs/plugin-platform-weapp": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "@types/detect-port": "^1.3.5",
+    "@types/lodash": "^4.17.0",
+    "@types/md5": "^2.3.5",
+    "@types/sax": "^1.2.4",
+    "less": "^4.2.0",
+    "sass": "^1.75.0",
+    "stylus": "^0.63.0",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.12.0",
+    "@tarojs/runtime": "workspace:*",
+    "less": "^4",
+    "postcss": "^8",
+    "sass": "^1.3.0",
+    "stylus": ">=0.52.4"
+  },
+  "peerDependenciesMeta": {
+    "less": {
+      "optional": true
+    },
+    "sass": {
+      "optional": true
+    },
+    "stylus": {
+      "optional": true
+    }
+  }
+}

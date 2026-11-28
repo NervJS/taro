@@ -1,5 +1,5 @@
-import { defaultMainFields, resolveSync } from '@tarojs/helper'
 import { getDefaultMiniTerserOptions } from '@tarojs/runner-utils'
+import { getMiniBaseConfigMerge } from '@tarojs/runner-utils/bundler/config/MiniBaseConfig'
 
 import { BaseConfig } from './BaseConfig'
 
@@ -8,40 +8,9 @@ import type { IMiniBuildConfig } from '../utils/types'
 export class MiniBaseConfig extends BaseConfig {
   defaultTerserOptions = getDefaultMiniTerserOptions()
 
-  constructor(appPath: string, config: Partial<IMiniBuildConfig>) {
+  constructor (appPath: string, config: Partial<IMiniBuildConfig>) {
     super(appPath, config)
-    const mainFields = [...defaultMainFields]
-    // Note: mini 端统一优先读取 main:mini 入口
-    mainFields.unshift('main:mini')
-    const resolveOptions = {
-      basedir: appPath,
-      mainFields,
-    }
-    this.chain.merge({
-      resolve: {
-        mainFields,
-        alias: {
-          // 小程序使用 regenerator-runtime@0.11
-          'regenerator-runtime': require.resolve('regenerator-runtime'),
-          // 开发组件库时 link 到本地调试，runtime 包需要指向本地 node_modules 顶层的 runtime，保证闭包值 Current 一致，shared 也一样
-          '@tarojs/runtime': resolveSync('@tarojs/runtime', resolveOptions),
-          '@tarojs/shared': resolveSync('@tarojs/shared', resolveOptions),
-        },
-        // [Webpack 4] config.node: { fs: false, path: false }
-        // [Webpack 5] config.resolve.fallback
-        fallback: {
-          fs: false,
-          path: false,
-        },
-      },
-      optimization: {
-        sideEffects: true,
-      },
-      performance: {
-        maxEntrypointSize: 2 * 1000 * 1000,
-      },
-    })
-
+    this.chain.merge(getMiniBaseConfigMerge(appPath, require.resolve('regenerator-runtime')))
     this.setMinimizer(config, this.defaultTerserOptions)
   }
 }

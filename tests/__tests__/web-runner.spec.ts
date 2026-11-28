@@ -63,6 +63,7 @@ describe.each([
   test.each([
     ['webpack5', '@tarojs/webpack5-runner'],
     ['vite', '@tarojs/vite-runner'],
+    ['rspack', '@tarojs/rspack-runner'],
   ] as const)('uses the default runner for %s', async (compiler, expectedRunner) => {
     const { getNpmPkg, platform } = createPlatform(compiler, Platform)
 

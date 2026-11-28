@@ -8,7 +8,7 @@ interface IWrapper {
   close? (): void
 }
 
-const VALID_COMPILER = ['webpack5', 'vite']
+const VALID_COMPILER = ['webpack5', 'vite', 'rspack']
 const DEFAULT_COMPILER = 'webpack5'
 
 export class Transaction<T = TaroPlatform> {

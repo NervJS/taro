@@ -168,6 +168,39 @@ const bindProdLogger = compiler => {
   return compiler
 }
 
+export function reportBuildStats (
+  stats: any,
+  config: { isWatch?: boolean, mode?: string, logger?: { stats?: boolean } }
+) {
+  const { warnings, errors } = formatMessages(stats)
+
+  if (stats.hasWarnings()) {
+    console.log(chalk.bgKeyword('orange')('⚠️ Warnings: \n'))
+    warnings.forEach(w => console.log(w + '\n'))
+  }
+
+  if (stats.hasErrors()) {
+    console.log(chalk.bgRed('✖ Errors: \n'))
+    errors.forEach(e => console.log(e + '\n'))
+    !config.isWatch && process.exit(1)
+  }
+
+  if (config.isWatch) {
+    console.log(chalk.gray(`→ Watching... [${new Date().toLocaleString()}]\n`))
+  }
+
+  if (config.logger?.stats === true && config.mode === 'production') {
+    console.log(chalk.bgBlue('ℹ Stats: \n'))
+    console.log(stats.toString({
+      colors: true,
+      modules: false,
+      children: false,
+      chunks: false,
+      chunkModules: false
+    }))
+  }
+}
+
 export {
   bindDevLogger,
   bindProdLogger,

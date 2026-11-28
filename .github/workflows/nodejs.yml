@@ -115,8 +115,14 @@ jobs:
       #TODO: 需要优化测试流程，目前 macos 无法正常执行测试，暂时跳过，等待后续优化
         shell: bash
         run: |
+          EXTRA_TEST_FILTERS=""
+          if [ "${{ matrix.node-version }}" = "18.x" ]; then
+            EXTRA_TEST_FILTERS="--filter=!@tarojs/rspack-runner"
+          fi
           if [ "${{ matrix.host }}" = "macos-latest" ]; then
-            pnpm -r --aggregate-output --filter=./packages/* --filter=./tests --filter=!@tarojs/components test:ci
+            pnpm --if-present -r --aggregate-output --filter=./packages/* --filter=./tests --filter=!@tarojs/components $EXTRA_TEST_FILTERS test:ci
+          elif [ -n "$EXTRA_TEST_FILTERS" ]; then
+            pnpm --if-present -r --aggregate-output --filter=./packages/* --filter=./tests $EXTRA_TEST_FILTERS test:ci
           else
             pnpm test
           fi
